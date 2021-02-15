@@ -5,7 +5,7 @@
     "build": "rollup --config rollup.config.js",
     "deploy": "npm run build && npm run publish",
     "dev": "rollup --config rollup.config.js --watch",
-    "publish": "rm -r dist/* && cp -a public/* dist/ && ./scripts/deploy --config-file ./scripts/deploy.config",
+    "publish": "rm -r dist/* && cp -a public/* dist/ && ./scripts/deploy --config ./scripts/deploy.config --message 'deploy site'",
     "start": "sirv public"
   },
   "devDependencies": {
