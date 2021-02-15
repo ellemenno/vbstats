@@ -5,15 +5,15 @@ https://ellemenno.github.io/vbstats/
 
 ## publishing
 
-this site is hosted via GitHub Pages from the [`gh-pages`] branch, tracked as a separate [git worktree], as modeled by [X1011/git-directory-deploy][X1011] (see [`scripts/deploy`](scripts/deploy)).
+this site is hosted via GitHub Pages from the [`gh-pages`][gh-pages] branch, tracked as a separate [git worktree], as modeled by [X1011/git-directory-deploy][X1011] (see [`scripts/deploy`](scripts/deploy)).
 
 to set up for publishing:
 1. create a new Personal Access Token on GitHub ([instructions][pat howto])
-  - you only need to grant the `public_repo` privilege
+   - you only need to grant the `public_repo` privilege
 1. create a config file in this directory (`/app/.env`), replacing `uuu` and `ttt` with your username and personal access token:
-  - `$ printf "DEPLOY_USER=uuu\nDEPLOY_TOKEN=ttt" > .env`
+   - `$ printf "DEPLOY_USER=uuu\nDEPLOY_TOKEN=ttt" > .env`
 1. you should be set.
-  - try `npm run deploy` to build and publish.
+   - try `npm run deploy` to build and publish.
 
 
 
