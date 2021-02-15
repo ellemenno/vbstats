@@ -1,5 +1,5 @@
 .DS_Store
-.vbstats.pat
+.env
 build/
 dist/
 node_modules/

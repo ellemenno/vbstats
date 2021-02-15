@@ -39,6 +39,9 @@ file specified by the '--config-file' option."
 
 parse_args() {
 	# Set args from a local environment file.
+	# Consider entries like DEPLOY_USER=xxx, and DEPLOY_TOKEN=xxxxxxxxxx
+	# then, in the config file, use them to provide credentials in deploy repo url:
+	# GIT_DEPLOY_REPO="https://<DEPLOY_USER>:${DEPLOY_TOKEN}@github.com/<owner>/<repo>.git"
 	if [ -e ".env" ]; then
 		source .env
 	fi
