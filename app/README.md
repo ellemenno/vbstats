@@ -9,11 +9,12 @@ this site is hosted via GitHub Pages from the [`gh-pages`][gh-pages] branch, tra
 
 to set up for publishing:
 1. create a new Personal Access Token on GitHub ([instructions][pat howto])
-   - you only need to grant the `public_repo` privilege
-1. create a config file in this directory (`/app/.env`), replacing `uuu` and `ttt` with your username and personal access token:
+   - _you only need to grant the `public_repo` privilege_
+1. add an untracked config file to this directory (`/app/.env`):
    - `$ printf "DEPLOY_USER=uuu\nDEPLOY_TOKEN=ttt" > .env`
+   - _(replace `uuu` and `ttt` with your username and personal access token)_
 1. you should be set.
-   - try `npm run deploy` to build and publish.
+   - _try `npm run deploy` to build and publish._
 
 
 
