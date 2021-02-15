@@ -5,7 +5,7 @@ https://ellemenno.github.io/vbstats/
 
 ## publishing
 
-this site is hosted via GitHub Pages from the [`gh-pages`][gh-pages] branch, tracked as a separate [git worktree], as modeled by [X1011/git-directory-deploy][X1011] (see [`scripts/deploy`](scripts/deploy)).
+this site is hosted via GitHub Pages from the [`gh-pages`][gh-pages] branch, tracked as a separate [git worktree] rooted at this directory, as modeled by [X1011/git-directory-deploy][X1011] (see [`scripts/deploy`](scripts/deploy)).
 
 to set up for publishing:
 1. create a new Personal Access Token on GitHub ([instructions][pat howto])
