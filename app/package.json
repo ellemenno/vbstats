@@ -3,7 +3,9 @@
   "version": "0.0.1",
   "scripts": {
     "build": "rollup --config rollup.config.js",
+    "deploy": "npm run build && npm run publish",
     "dev": "rollup --config rollup.config.js --watch",
+    "publish": "rm -r dist/* && cp -a public/* dist/ && ./scripts/deploy --config-file ./scripts/deploy.config",
     "start": "sirv public"
   },
   "devDependencies": {
