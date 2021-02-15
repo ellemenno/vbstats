@@ -91,12 +91,14 @@ parse_args() {
 main() {
 	parse_args "$@"
 
-	echo "deploy_directory: $deploy_directory"
-	echo "deploy_branch: $deploy_branch"
-	echo "deploy repo: $repo"
-	echo "default_username: $default_username"
-	echo "default_email: $default_email"
-	return 0
+	if [ $verbose ]; then
+		echo "Configuration"
+		echo "  deploy_directory: $deploy_directory"
+		echo "  deploy_branch: $deploy_branch"
+		echo "  deploy repo: $repo"
+		echo "  default_username: $default_username"
+		echo "  default_email: $default_email"
+	fi
 
 	enable_expanded_output
 
