@@ -1,6 +1,7 @@
 # vbstats
 
-fast and simple stat recorder for volleyball games
+fast and simple stat recorder for volleyball games <br>
+https://ellemenno.github.io/vbstats/
 
 ## quick overview
 
