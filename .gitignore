@@ -1,4 +1,5 @@
 .DS_Store
+.vbstats.pat
 build/
 dist/
 node_modules/

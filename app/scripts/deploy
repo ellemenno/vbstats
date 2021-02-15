@@ -1,6 +1,9 @@
 #!/bin/bash
 
 # from: https://github.com/X1011/git-directory-deploy
+# if using an https repo url, be sure to set up a Personal Access Token (PAT)
+#  https://docs.github.com/en/github/using-git/why-is-git-always-asking-for-my-password
+#  https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token
 
 
 set -o errexit #abort if any command fails
