@@ -2,7 +2,7 @@
   "name": "vbstats",
   "version": "0.0.1",
   "scripts": {
-    "build": "rollup --config rollup.config.js",
+    "build": "rollup --failAfterWarnings --config rollup.config.js",
     "build:dev": "BUILD_FOR_DEV=true npm run build",
     "deploy": "npm run build && npm run publish",
     "publish": "rm -r dist/* && cp -a public/* dist/ && ./scripts/deploy --config ./scripts/deploy.config --message 'deploy site'",
