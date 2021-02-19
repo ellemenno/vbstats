@@ -3,6 +3,14 @@
 https://ellemenno.github.io/vbstats/
 
 
+## development
+
+to build and serve the site locally for development:
+
+```console
+$ npm run build:dev && npm run serve`
+```
+
 ## publishing
 
 this site is hosted via GitHub Pages from the [`gh-pages`][gh-pages] branch, tracked as a separate [git worktree] rooted at this directory.
@@ -15,7 +23,7 @@ to set up for publishing:
    - _(replace `uuu` and `ttt` with your username and personal access token)_
    - _`.env` should be kept out of source control to protect your secrets_
 1. you should be set.
-   - _try `npm run deploy` to build and publish the site._
+   - _try `npm run deploy` to build and publish the site into production._
 
 
 
