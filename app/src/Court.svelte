@@ -9,11 +9,12 @@
 
   const on_click = (e) => {
     const loc = screen_to_svg(svg, e.clientX, e.clientY);
-    // console.log(`clicked ${e.target.getAttribute('id')} at [${loc.x}, ${loc.y}]`);
     dispatch('contact', {
-      object: e.target.getAttribute('id'),
-      court_x: loc.x,
-      court_y: loc.y,
+      area_id: e.target.getAttribute('id'),
+      court_x: Math.round(loc.x * 1000), // mm
+      court_y: Math.round(loc.y * 1000),
+      screen_x: e.clientX,               // px
+      screen_y: e.clientY,
     });
   }
 
@@ -34,7 +35,6 @@
   onMount(async () => {
     svg = document.getElementById('play-area');
     contact = document.getElementById('contact');
-    console.log('contact is: ', contact);
   });
 </script>
 
@@ -90,7 +90,7 @@
   }
 </style>
 
-<svg id="play-area" on:click={on_click} on:mousemove={on_move} viewBox="3 1.5 24 12"> <!-- zoom in on court; full image is 30 x 15 -->
+<svg id="play-area" on:click={on_click} on:mousemove={on_move} viewBox="3 1.5 24 12"> <!-- zoom in on court; full dimensions are 30 x 15 m -->
   <rect class="free" width="30" height="15" rx="1" />
   <rect class="court" width="18" height="9" x="6" y="3" />
 
@@ -98,7 +98,7 @@
 
   <g>
     <rect   id="free-top-area" class="area" width="30" height="3" x="0" y="0" />
-    <circle id="free-top-post" class="post" cx="15" cy="2" r="0.1012"/> <!-- 3" (7.62cm) post w/ 1.25cm padding around it, set 1m outside court -->
+    <circle id="free-top-post" class="post" cx="15" cy="2" r="0.1012"/> <!-- 3" (7.62 cm) post w/ 1.25 cm padding around it, set 1 m outside court -->
     <line   id="free-top-extA" class="boundary extension" x1="12" y1="3" x2="12" y2="1.25" />
     <line   id="free-top-extB" class="boundary extension" x1="18" y1="3" x2="18" y2="1.25" />
   </g>
