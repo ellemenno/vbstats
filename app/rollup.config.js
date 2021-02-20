@@ -31,6 +31,5 @@ export default [
     input: `src/main.js`,
     output: std_output('main'),
     plugins: get_plugins('main'),
-    watch: { clearScreen: false },
   },
 ];
