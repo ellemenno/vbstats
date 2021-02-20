@@ -1,1 +1,1 @@
-<h1>visualize stats</h1>
+<h2>visualize stats</h2>

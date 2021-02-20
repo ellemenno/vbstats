@@ -116,6 +116,6 @@
 <style>
 </style>
 
-<h1>record a match</h1>
+<h2>record a match</h2>
 
 <Court on:contact={on_contact}/>
