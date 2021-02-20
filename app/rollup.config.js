@@ -8,7 +8,7 @@ const build_for_prod = !build_for_dev;
 console.log(`building a ${build_for_dev ? 'dev' : 'prod'} release`);
 
 const std_output = (module_name) => ({
-  file: `public/build/${module_name}.js`,
+  file: `public/${module_name}.js`,
   format: 'iife', // self-executing function, i.e. bundle format; see https://rollupjs.org/guide/en/#outputformat
   name: module_name,
   sourcemap: true,
@@ -29,7 +29,7 @@ const get_plugins = (module_name) => {
 export default [
   {
     input: `src/main.js`,
-    output: std_output('main'),
-    plugins: get_plugins('main'),
+    output: std_output('bundle'),
+    plugins: get_plugins('bundle'),
   },
 ];
