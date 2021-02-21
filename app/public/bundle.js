@@ -2,6 +2,7 @@ var bundle = (function () {
     'use strict';
 
     function noop() { }
+    const identity = x => x;
     function assign(tar, src) {
         // @ts-ignore
         for (const k in src)
@@ -81,6 +82,41 @@ var bundle = (function () {
         return action_result && is_function(action_result.destroy) ? action_result.destroy : noop;
     }
 
+    const is_client = typeof window !== 'undefined';
+    let now = is_client
+        ? () => window.performance.now()
+        : () => Date.now();
+    let raf = is_client ? cb => requestAnimationFrame(cb) : noop;
+
+    const tasks = new Set();
+    function run_tasks(now) {
+        tasks.forEach(task => {
+            if (!task.c(now)) {
+                tasks.delete(task);
+                task.f();
+            }
+        });
+        if (tasks.size !== 0)
+            raf(run_tasks);
+    }
+    /**
+     * Creates a new task that runs on each raf frame
+     * until it returns a falsy value or is aborted
+     */
+    function loop(callback) {
+        let task;
+        if (tasks.size === 0)
+            raf(run_tasks);
+        return {
+            promise: new Promise(fulfill => {
+                tasks.add(task = { c: callback, f: fulfill });
+            }),
+            abort() {
+                tasks.delete(task);
+            }
+        };
+    }
+
     function append(target, node) {
         target.appendChild(node);
     }
@@ -101,6 +137,9 @@ var bundle = (function () {
     }
     function space() {
         return text(' ');
+    }
+    function empty() {
+        return text('');
     }
     function listen(node, event, handler, options) {
         node.addEventListener(event, handler, options);
@@ -141,6 +180,59 @@ var bundle = (function () {
         if (text.wholeText !== data)
             text.data = data;
     }
+    // unfortunately this can't be a constant as that wouldn't be tree-shakeable
+    // so we cache the result instead
+    let crossorigin;
+    function is_crossorigin() {
+        if (crossorigin === undefined) {
+            crossorigin = false;
+            try {
+                if (typeof window !== 'undefined' && window.parent) {
+                    void window.parent.document;
+                }
+            }
+            catch (error) {
+                crossorigin = true;
+            }
+        }
+        return crossorigin;
+    }
+    function add_resize_listener(node, fn) {
+        const computed_style = getComputedStyle(node);
+        if (computed_style.position === 'static') {
+            node.style.position = 'relative';
+        }
+        const iframe = element('iframe');
+        iframe.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; width: 100%; height: 100%; ' +
+            'overflow: hidden; border: 0; opacity: 0; pointer-events: none; z-index: -1;');
+        iframe.setAttribute('aria-hidden', 'true');
+        iframe.tabIndex = -1;
+        const crossorigin = is_crossorigin();
+        let unsubscribe;
+        if (crossorigin) {
+            iframe.src = "data:text/html,<script>onresize=function(){parent.postMessage(0,'*')}</script>";
+            unsubscribe = listen(window, 'message', (event) => {
+                if (event.source === iframe.contentWindow)
+                    fn();
+            });
+        }
+        else {
+            iframe.src = 'about:blank';
+            iframe.onload = () => {
+                unsubscribe = listen(iframe.contentWindow, 'resize', fn);
+            };
+        }
+        append(node, iframe);
+        return () => {
+            if (crossorigin) {
+                unsubscribe();
+            }
+            else if (unsubscribe && iframe.contentWindow) {
+                unsubscribe();
+            }
+            detach(iframe);
+        };
+    }
     function toggle_class(element, name, toggle) {
         element.classList[toggle ? 'add' : 'remove'](name);
     }
@@ -148,6 +240,67 @@ var bundle = (function () {
         const e = document.createEvent('CustomEvent');
         e.initCustomEvent(type, false, false, detail);
         return e;
+    }
+
+    const active_docs = new Set();
+    let active = 0;
+    // https://github.com/darkskyapp/string-hash/blob/master/index.js
+    function hash(str) {
+        let hash = 5381;
+        let i = str.length;
+        while (i--)
+            hash = ((hash << 5) - hash) ^ str.charCodeAt(i);
+        return hash >>> 0;
+    }
+    function create_rule(node, a, b, duration, delay, ease, fn, uid = 0) {
+        const step = 16.666 / duration;
+        let keyframes = '{\n';
+        for (let p = 0; p <= 1; p += step) {
+            const t = a + (b - a) * ease(p);
+            keyframes += p * 100 + `%{${fn(t, 1 - t)}}\n`;
+        }
+        const rule = keyframes + `100% {${fn(b, 1 - b)}}\n}`;
+        const name = `__svelte_${hash(rule)}_${uid}`;
+        const doc = node.ownerDocument;
+        active_docs.add(doc);
+        const stylesheet = doc.__svelte_stylesheet || (doc.__svelte_stylesheet = doc.head.appendChild(element('style')).sheet);
+        const current_rules = doc.__svelte_rules || (doc.__svelte_rules = {});
+        if (!current_rules[name]) {
+            current_rules[name] = true;
+            stylesheet.insertRule(`@keyframes ${name} ${rule}`, stylesheet.cssRules.length);
+        }
+        const animation = node.style.animation || '';
+        node.style.animation = `${animation ? `${animation}, ` : ''}${name} ${duration}ms linear ${delay}ms 1 both`;
+        active += 1;
+        return name;
+    }
+    function delete_rule(node, name) {
+        const previous = (node.style.animation || '').split(', ');
+        const next = previous.filter(name
+            ? anim => anim.indexOf(name) < 0 // remove specific animation
+            : anim => anim.indexOf('__svelte') === -1 // remove all Svelte animations
+        );
+        const deleted = previous.length - next.length;
+        if (deleted) {
+            node.style.animation = next.join(', ');
+            active -= deleted;
+            if (!active)
+                clear_rules();
+        }
+    }
+    function clear_rules() {
+        raf(() => {
+            if (active)
+                return;
+            active_docs.forEach(doc => {
+                const stylesheet = doc.__svelte_stylesheet;
+                let i = stylesheet.cssRules.length;
+                while (i--)
+                    stylesheet.deleteRule(i);
+                doc.__svelte_rules = {};
+            });
+            active_docs.clear();
+        });
     }
 
     let current_component;
@@ -211,6 +364,9 @@ var bundle = (function () {
     function add_render_callback(fn) {
         render_callbacks.push(fn);
     }
+    function add_flush_callback(fn) {
+        flush_callbacks.push(fn);
+    }
     let flushing = false;
     const seen_callbacks = new Set();
     function flush() {
@@ -259,6 +415,20 @@ var bundle = (function () {
             $$.after_update.forEach(add_render_callback);
         }
     }
+
+    let promise;
+    function wait() {
+        if (!promise) {
+            promise = Promise.resolve();
+            promise.then(() => {
+                promise = null;
+            });
+        }
+        return promise;
+    }
+    function dispatch(node, direction, kind) {
+        node.dispatchEvent(custom_event(`${direction ? 'intro' : 'outro'}${kind}`));
+    }
     const outroing = new Set();
     let outros;
     function group_outros() {
@@ -295,6 +465,125 @@ var bundle = (function () {
             });
             block.o(local);
         }
+    }
+    const null_transition = { duration: 0 };
+    function create_in_transition(node, fn, params) {
+        let config = fn(node, params);
+        let running = false;
+        let animation_name;
+        let task;
+        let uid = 0;
+        function cleanup() {
+            if (animation_name)
+                delete_rule(node, animation_name);
+        }
+        function go() {
+            const { delay = 0, duration = 300, easing = identity, tick = noop, css } = config || null_transition;
+            if (css)
+                animation_name = create_rule(node, 0, 1, duration, delay, easing, css, uid++);
+            tick(0, 1);
+            const start_time = now() + delay;
+            const end_time = start_time + duration;
+            if (task)
+                task.abort();
+            running = true;
+            add_render_callback(() => dispatch(node, true, 'start'));
+            task = loop(now => {
+                if (running) {
+                    if (now >= end_time) {
+                        tick(1, 0);
+                        dispatch(node, true, 'end');
+                        cleanup();
+                        return running = false;
+                    }
+                    if (now >= start_time) {
+                        const t = easing((now - start_time) / duration);
+                        tick(t, 1 - t);
+                    }
+                }
+                return running;
+            });
+        }
+        let started = false;
+        return {
+            start() {
+                if (started)
+                    return;
+                delete_rule(node);
+                if (is_function(config)) {
+                    config = config();
+                    wait().then(go);
+                }
+                else {
+                    go();
+                }
+            },
+            invalidate() {
+                started = false;
+            },
+            end() {
+                if (running) {
+                    cleanup();
+                    running = false;
+                }
+            }
+        };
+    }
+    function create_out_transition(node, fn, params) {
+        let config = fn(node, params);
+        let running = true;
+        let animation_name;
+        const group = outros;
+        group.r += 1;
+        function go() {
+            const { delay = 0, duration = 300, easing = identity, tick = noop, css } = config || null_transition;
+            if (css)
+                animation_name = create_rule(node, 1, 0, duration, delay, easing, css);
+            const start_time = now() + delay;
+            const end_time = start_time + duration;
+            add_render_callback(() => dispatch(node, false, 'start'));
+            loop(now => {
+                if (running) {
+                    if (now >= end_time) {
+                        tick(0, 1);
+                        dispatch(node, false, 'end');
+                        if (!--group.r) {
+                            // this will result in `end()` being called,
+                            // so we don't need to clean up here
+                            run_all(group.c);
+                        }
+                        return false;
+                    }
+                    if (now >= start_time) {
+                        const t = easing((now - start_time) / duration);
+                        tick(1 - t, t);
+                    }
+                }
+                return running;
+            });
+        }
+        if (is_function(config)) {
+            wait().then(() => {
+                // @ts-ignore
+                config = config();
+                go();
+            });
+        }
+        else {
+            go();
+        }
+        return {
+            end(reset) {
+                if (reset && config.tick) {
+                    config.tick(1, 0);
+                }
+                if (running) {
+                    if (animation_name)
+                        delete_rule(node, animation_name);
+                    running = false;
+                }
+            }
+        };
     }
 
     const globals = (typeof window !== 'undefined'
@@ -415,6 +704,17 @@ var bundle = (function () {
                 update[key] = undefined;
         }
         return update;
+    }
+    function get_spread_object(spread_props) {
+        return typeof spread_props === 'object' && spread_props !== null ? spread_props : {};
+    }
+
+    function bind(component, name, callback) {
+        const index = component.$$.props[name];
+        if (index !== undefined) {
+            component.$$.bound[index] = callback;
+            callback(component.$$.ctx[index]);
+        }
     }
     function create_component(block) {
         block && block.c();
@@ -609,7 +909,7 @@ var bundle = (function () {
         $inject_state() { }
     }
 
-    function oe(n){return l=>{const o=Object.keys(n.$$.callbacks),i=[];return o.forEach(o=>i.push(listen(l,o,e=>bubble(n,e)))),{destroy:()=>{i.forEach(e=>e());}}}}function ie(){return "undefined"!=typeof window&&!(window.CSS&&window.CSS.supports&&window.CSS.supports("(--foo: red)"))}function se(e){var t;return "r"===e.charAt(0)?e=(t=(t=e).match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i))&&4===t.length?"#"+("0"+parseInt(t[1],10).toString(16)).slice(-2)+("0"+parseInt(t[2],10).toString(16)).slice(-2)+("0"+parseInt(t[3],10).toString(16)).slice(-2):"":"transparent"===e.toLowerCase()&&(e="#00000000"),e}const{document:re}=globals;function ae(e){let t;return {c(){t=element("div"),attr(t,"class","ripple svelte-po4fcb");},m(n,l){insert(n,t,l),e[4](t);},p:noop,i:noop,o:noop,d(n){n&&detach(t),e[4](null);}}}function ce(e,t){e.style.transform=t,e.style.webkitTransform=t;}function de(e,t){e.style.opacity=t.toString();}const ue=function(e,t){const n=["touchcancel","mouseleave","dragstart"];let l=t.currentTarget||t.target;if(l&&!l.classList.contains("ripple")&&(l=l.querySelector(".ripple")),!l)return;const o=l.dataset.event;if(o&&o!==e)return;l.dataset.event=e;const i=document.createElement("span"),{radius:s,scale:r,x:a,y:c,centerX:d,centerY:u}=((e,t)=>{const n=t.getBoundingClientRect(),l=function(e){return "TouchEvent"===e.constructor.name}(e)?e.touches[e.touches.length-1]:e,o=l.clientX-n.left,i=l.clientY-n.top;let s=0,r=.3;const a=t.dataset.center;t.dataset.circle?(r=.15,s=t.clientWidth/2,s=a?s:s+Math.sqrt((o-s)**2+(i-s)**2)/4):s=Math.sqrt(t.clientWidth**2+t.clientHeight**2)/2;const c=(t.clientWidth-2*s)/2+"px",d=(t.clientHeight-2*s)/2+"px";return {radius:s,scale:r,x:a?c:o-s+"px",y:a?d:i-s+"px",centerX:c,centerY:d}})(t,l),p=l.dataset.color,f=2*s+"px";i.className="animation",i.style.width=f,i.style.height=f,i.style.background=p,i.classList.add("animation--enter"),i.classList.add("animation--visible"),ce(i,`translate(${a}, ${c}) scale3d(${r},${r},${r})`),de(i,0),i.dataset.activated=String(performance.now()),l.appendChild(i),setTimeout(()=>{i.classList.remove("animation--enter"),i.classList.add("animation--in"),ce(i,`translate(${d}, ${u}) scale3d(1,1,1)`),de(i,.25);},0);const v="mousedown"===e?"mouseup":"touchend",h=function(){document.removeEventListener(v,h),n.forEach(e=>{document.removeEventListener(e,h);});const e=performance.now()-Number(i.dataset.activated),t=Math.max(250-e,0);setTimeout(()=>{i.classList.remove("animation--in"),i.classList.add("animation--out"),de(i,0),setTimeout(()=>{i&&l.removeChild(i),0===l.children.length&&delete l.dataset.event;},300);},t);};document.addEventListener(v,h),n.forEach(e=>{document.addEventListener(e,h,{passive:!0});});},pe=function(e){0===e.button&&ue(e.type,e);},fe=function(e){if(e.changedTouches)for(let t=0;t<e.changedTouches.length;++t)ue(e.type,e.changedTouches[t]);};function ve(e,t,n){let l,o,{center:i=!1}=t,{circle:s=!1}=t,{color:r="currentColor"}=t;return onMount(async()=>{await tick();try{i&&n(0,l.dataset.center="true",l),s&&n(0,l.dataset.circle="true",l),n(0,l.dataset.color=r,l),o=l.parentElement;}catch(e){}if(!o)return void console.error("Ripple: Trigger element not found.");let e=window.getComputedStyle(o);0!==e.position.length&&"static"!==e.position||(o.style.position="relative"),o.addEventListener("touchstart",fe,{passive:!0}),o.addEventListener("mousedown",pe,{passive:!0});}),onDestroy(()=>{o&&(o.removeEventListener("mousedown",pe),o.removeEventListener("touchstart",fe));}),e.$$set=e=>{"center"in e&&n(1,i=e.center),"circle"in e&&n(2,s=e.circle),"color"in e&&n(3,r=e.color);},[l,i,s,r,function(e){binding_callbacks[e?"unshift":"push"](()=>{l=e,n(0,l);});}]}class he extends SvelteComponent{constructor(e){var t;super(),re.getElementById("svelte-po4fcb-style")||((t=element("style")).id="svelte-po4fcb-style",t.textContent=".ripple.svelte-po4fcb{display:block;position:absolute;top:0;left:0;right:0;bottom:0;overflow:hidden;border-radius:inherit;color:inherit;pointer-events:none;z-index:0;contain:strict}.ripple.svelte-po4fcb .animation{color:inherit;position:absolute;top:0;left:0;border-radius:50%;opacity:0;pointer-events:none;overflow:hidden;will-change:transform, opacity}.ripple.svelte-po4fcb .animation--enter{transition:none}.ripple.svelte-po4fcb .animation--in{transition:opacity 0.1s cubic-bezier(0.4, 0, 0.2, 1);transition:transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),\r\n\t\t\topacity 0.1s cubic-bezier(0.4, 0, 0.2, 1)}.ripple.svelte-po4fcb .animation--out{transition:opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)}",append(re.head,t)),init(this,e,ve,ae,safe_not_equal,{center:1,circle:2,color:3});}}function me(e){let t,n;return t=new he({props:{center:e[3],circle:e[3]}}),{c(){create_component(t.$$.fragment);},m(e,l){mount_component(t,e,l),n=!0;},p(e,n){const l={};8&n&&(l.center=e[3]),8&n&&(l.circle=e[3]),t.$set(l);},i(e){n||(transition_in(t.$$.fragment,e),n=!0);},o(e){transition_out(t.$$.fragment,e),n=!1;},d(e){destroy_component(t,e);}}}function ge(t){let n,l,i,a,d;const p=t[19].default,v=create_slot(p,t,t[18],null);let h=t[10]&&me(t),b=[{class:t[1]},{style:t[2]},t[14]],L={};for(let e=0;e<b.length;e+=1)L=assign(L,b[e]);return {c(){n=element("button"),v&&v.c(),l=space(),h&&h.c(),set_attributes(n,L),toggle_class(n,"raised",t[6]),toggle_class(n,"outlined",t[8]&&!(t[6]||t[7])),toggle_class(n,"shaped",t[9]&&!t[3]),toggle_class(n,"dense",t[5]),toggle_class(n,"fab",t[4]&&t[3]),toggle_class(n,"icon-button",t[3]),toggle_class(n,"toggle",t[11]),toggle_class(n,"active",t[11]&&t[0]),toggle_class(n,"full-width",t[12]&&!t[3]),toggle_class(n,"svelte-6bcb3a",!0);},m(s,u){insert(s,n,u),v&&v.m(n,null),append(n,l),h&&h.m(n,null),t[20](n),i=!0,a||(d=[listen(n,"click",t[16]),action_destroyer(t[15].call(null,n))],a=!0);},p(e,[t]){v&&v.p&&262144&t&&update_slot(v,p,e,e[18],t,null,null),e[10]?h?(h.p(e,t),1024&t&&transition_in(h,1)):(h=me(e),h.c(),transition_in(h,1),h.m(n,null)):h&&(group_outros(),transition_out(h,1,1,()=>{h=null;}),check_outros()),set_attributes(n,L=get_spread_update(b,[(!i||2&t)&&{class:e[1]},(!i||4&t)&&{style:e[2]},16384&t&&e[14]])),toggle_class(n,"raised",e[6]),toggle_class(n,"outlined",e[8]&&!(e[6]||e[7])),toggle_class(n,"shaped",e[9]&&!e[3]),toggle_class(n,"dense",e[5]),toggle_class(n,"fab",e[4]&&e[3]),toggle_class(n,"icon-button",e[3]),toggle_class(n,"toggle",e[11]),toggle_class(n,"active",e[11]&&e[0]),toggle_class(n,"full-width",e[12]&&!e[3]),toggle_class(n,"svelte-6bcb3a",!0);},i(e){i||(transition_in(v,e),transition_in(h),i=!0);},o(e){transition_out(v,e),transition_out(h),i=!1;},d(e){e&&detach(n),v&&v.d(e),h&&h.d(),t[20](null),a=!1,run_all(d);}}}function be(e,t,n){let l,{$$slots:o={},$$scope:i}=t;const s=createEventDispatcher(),r=oe(current_component);let a,{class:c=""}=t,{style:d=null}=t,{icon:u=!1}=t,{fab:f=!1}=t,{dense:v=!1}=t,{raised:h=!1}=t,{unelevated:m=!1}=t,{outlined:g=!1}=t,{shaped:b=!1}=t,{color:x=null}=t,{ripple:w=!0}=t,{toggle:$=!1}=t,{active:z=!1}=t,{fullWidth:k=!1}=t,D={};return beforeUpdate(()=>{if(!a)return;let e=a.getElementsByTagName("svg"),t=e.length;for(let n=0;n<t;n++)e[n].setAttribute("width",l+($&&!u?2:0)),e[n].setAttribute("height",l+($&&!u?2:0));n(13,a.style.backgroundColor=h||m?x:"transparent",a);let o=getComputedStyle(a).getPropertyValue("background-color");n(13,a.style.color=h||m?function(e="#ffffff"){let t,n,l,o,i,s;if(0===e.length&&(e="#ffffff"),e=se(e),e=String(e).replace(/[^0-9a-f]/gi,""),!new RegExp(/^(?:[0-9a-f]{3}){1,2}$/i).test(e))throw new Error("Invalid HEX color!");e.length<6&&(e=e[0]+e[0]+e[1]+e[1]+e[2]+e[2]);const r=/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(e);return t=parseInt(r[1],16)/255,n=parseInt(r[2],16)/255,l=parseInt(r[3],16)/255,o=t<=.03928?t/12.92:Math.pow((t+.055)/1.055,2.4),i=n<=.03928?n/12.92:Math.pow((n+.055)/1.055,2.4),s=l<=.03928?l/12.92:Math.pow((l+.055)/1.055,2.4),.2126*o+.7152*i+.0722*s}(o)>.5?"#000":"#fff":x,a);}),e.$$set=e=>{n(23,t=assign(assign({},t),exclude_internal_props(e))),"class"in e&&n(1,c=e.class),"style"in e&&n(2,d=e.style),"icon"in e&&n(3,u=e.icon),"fab"in e&&n(4,f=e.fab),"dense"in e&&n(5,v=e.dense),"raised"in e&&n(6,h=e.raised),"unelevated"in e&&n(7,m=e.unelevated),"outlined"in e&&n(8,g=e.outlined),"shaped"in e&&n(9,b=e.shaped),"color"in e&&n(17,x=e.color),"ripple"in e&&n(10,w=e.ripple),"toggle"in e&&n(11,$=e.toggle),"active"in e&&n(0,z=e.active),"fullWidth"in e&&n(12,k=e.fullWidth),"$$scope"in e&&n(18,i=e.$$scope);},e.$$.update=()=>{{const{style:e,icon:l,fab:o,dense:i,raised:s,unelevated:r,outlined:a,shaped:c,color:d,ripple:u,toggle:p,active:f,fullWidth:v,...h}=t;!h.disabled&&delete h.disabled,delete h.class,n(14,D=h);}56&e.$$.dirty&&(l=u?f?24:v?20:24:v?16:18),139264&e.$$.dirty&&("primary"===x?n(17,x=ie()?"#1976d2":"var(--primary, #1976d2)"):"accent"==x?n(17,x=ie()?"#f50057":"var(--accent, #f50057)"):!x&&a&&n(17,x=a.style.color||a.parentElement.style.color||(ie()?"#333":"var(--color, #333)")));},t=exclude_internal_props(t),[z,c,d,u,f,v,h,m,g,b,w,$,k,a,D,r,function(e){$&&(n(0,z=!z),s("change",z));},x,i,o,function(e){binding_callbacks[e?"unshift":"push"](()=>{a=e,n(13,a);});}]}class ye extends SvelteComponent{constructor(e){var t;super(),document.getElementById("svelte-6bcb3a-style")||((t=element("style")).id="svelte-6bcb3a-style",t.textContent="button.svelte-6bcb3a:disabled{cursor:default}button.svelte-6bcb3a{cursor:pointer;font-family:Roboto, Helvetica, sans-serif;font-family:var(--button-font-family, Roboto, Helvetica, sans-serif);font-size:0.875rem;font-weight:500;letter-spacing:0.75px;text-decoration:none;text-transform:uppercase;will-change:transform, opacity;margin:0;padding:0 16px;display:-ms-inline-flexbox;display:inline-flex;position:relative;align-items:center;justify-content:center;box-sizing:border-box;height:36px;border:none;outline:none;line-height:inherit;user-select:none;overflow:hidden;vertical-align:middle;border-radius:4px}button.svelte-6bcb3a::-moz-focus-inner{border:0}button.svelte-6bcb3a:-moz-focusring{outline:none}button.svelte-6bcb3a:before{box-sizing:inherit;border-radius:inherit;color:inherit;bottom:0;content:'';left:0;opacity:0;pointer-events:none;position:absolute;right:0;top:0;transition:0.2s cubic-bezier(0.25, 0.8, 0.5, 1);will-change:background-color, opacity}.toggle.svelte-6bcb3a:before{box-sizing:content-box}.active.svelte-6bcb3a:before{background-color:currentColor;opacity:0.3}.raised.svelte-6bcb3a{box-shadow:0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),\r\n\t\t\t0 1px 5px 0 rgba(0, 0, 0, 0.12)}.outlined.svelte-6bcb3a{padding:0 14px;border-style:solid;border-width:2px}.shaped.svelte-6bcb3a{border-radius:18px}.dense.svelte-6bcb3a{height:32px}.icon-button.svelte-6bcb3a{line-height:0.5;border-radius:50%;padding:8px;width:40px;height:40px;vertical-align:middle}.icon-button.outlined.svelte-6bcb3a{padding:6px}.icon-button.fab.svelte-6bcb3a{border:none;width:56px;height:56px;box-shadow:0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14),\r\n\t\t\t0 1px 18px 0 rgba(0, 0, 0, 0.12)}.icon-button.dense.svelte-6bcb3a{width:36px;height:36px}.icon-button.fab.dense.svelte-6bcb3a{width:40px;height:40px}.outlined.svelte-6bcb3a:not(.shaped) .ripple{border-radius:0 !important}.full-width.svelte-6bcb3a{width:100%}@media(hover: hover){button.svelte-6bcb3a:hover:not(.toggle):not([disabled]):not(.disabled):before{background-color:currentColor;opacity:0.15}button.focus-visible.svelte-6bcb3a:focus:not(.toggle):not([disabled]):not(.disabled):before{background-color:currentColor;opacity:0.3}button.focus-visible.toggle.svelte-6bcb3a:focus:not(.active):not([disabled]):not(.disabled):before{background-color:currentColor;opacity:0.15}}",append(document.head,t)),init(this,e,be,ge,safe_not_equal,{class:1,style:2,icon:3,fab:4,dense:5,raised:6,unelevated:7,outlined:8,shaped:9,color:17,ripple:10,toggle:11,active:0,fullWidth:12});}}function ze(e){let t;const n=e[12].default,l=create_slot(n,e,e[11],null);return {c(){l&&l.c();},m(e,n){l&&l.m(e,n),t=!0;},p(e,t){l&&l.p&&2048&t&&update_slot(l,n,e,e[11],t,null,null);},i(e){t||(transition_in(l,e),t=!0);},o(e){transition_out(l,e),t=!1;},d(e){l&&l.d(e);}}}function ke(e){let t,n;return {c(){t=svg_element("svg"),n=svg_element("path"),attr(n,"d",e[1]),attr(t,"xmlns","http://www.w3.org/2000/svg"),attr(t,"viewBox",e[2]),attr(t,"class","svelte-h2unzw");},m(e,l){insert(e,t,l),append(t,n);},p(e,l){2&l&&attr(n,"d",e[1]),4&l&&attr(t,"viewBox",e[2]);},i:noop,o:noop,d(e){e&&detach(t);}}}function De(e){let t,n,l,o,r,a,d;const p=[ke,ze],f=[];function v(e,t){return "string"==typeof e[1]?0:1}n=v(e),l=f[n]=p[n](e);let h=[{class:o="icon "+e[0]},e[7]],b={};for(let e=0;e<h.length;e+=1)b=assign(b,h[e]);return {c(){t=element("i"),l.c(),set_attributes(t,b),toggle_class(t,"flip",e[3]&&"boolean"==typeof e[3]),toggle_class(t,"flip-h","h"===e[3]),toggle_class(t,"flip-v","v"===e[3]),toggle_class(t,"spin",e[4]),toggle_class(t,"pulse",e[5]&&!e[4]),toggle_class(t,"svelte-h2unzw",!0);},m(l,o){insert(l,t,o),f[n].m(t,null),e[13](t),r=!0,a||(d=action_destroyer(e[8].call(null,t)),a=!0);},p(e,[i]){let s=n;n=v(e),n===s?f[n].p(e,i):(group_outros(),transition_out(f[s],1,1,()=>{f[s]=null;}),check_outros(),l=f[n],l?l.p(e,i):(l=f[n]=p[n](e),l.c()),transition_in(l,1),l.m(t,null)),set_attributes(t,b=get_spread_update(h,[(!r||1&i&&o!==(o="icon "+e[0]))&&{class:o},128&i&&e[7]])),toggle_class(t,"flip",e[3]&&"boolean"==typeof e[3]),toggle_class(t,"flip-h","h"===e[3]),toggle_class(t,"flip-v","v"===e[3]),toggle_class(t,"spin",e[4]),toggle_class(t,"pulse",e[5]&&!e[4]),toggle_class(t,"svelte-h2unzw",!0);},i(e){r||(transition_in(l),r=!0);},o(e){transition_out(l),r=!1;},d(l){l&&detach(t),f[n].d(),e[13](null),a=!1,d();}}}function Ce(e,t,n){let{$$slots:l={},$$scope:o}=t;const i=oe(current_component);let s,{class:r=""}=t,{path:a=null}=t,{size:c=24}=t,{viewBox:d="0 0 24 24"}=t,{color:u="currentColor"}=t,{flip:f=!1}=t,{spin:v=!1}=t,{pulse:h=!1}=t,m={};return e.$$set=e=>{n(14,t=assign(assign({},t),exclude_internal_props(e))),"class"in e&&n(0,r=e.class),"path"in e&&n(1,a=e.path),"size"in e&&n(9,c=e.size),"viewBox"in e&&n(2,d=e.viewBox),"color"in e&&n(10,u=e.color),"flip"in e&&n(3,f=e.flip),"spin"in e&&n(4,v=e.spin),"pulse"in e&&n(5,h=e.pulse),"$$scope"in e&&n(11,o=e.$$scope);},e.$$.update=()=>{{const{path:e,size:l,viewBox:o,color:i,flip:s,spin:r,pulse:a,...c}=t;delete c.class,n(7,m=c);}1600&e.$$.dirty&&s&&(s.firstChild.setAttribute("width",c),s.firstChild.setAttribute("height",c),u&&s.firstChild.setAttribute("fill",u));},t=exclude_internal_props(t),[r,a,d,f,v,h,s,m,i,c,u,o,l,function(e){binding_callbacks[e?"unshift":"push"](()=>{s=e,n(6,s);});}]}class je extends SvelteComponent{constructor(e){var t;super(),document.getElementById("svelte-h2unzw-style")||((t=element("style")).id="svelte-h2unzw-style",t.textContent=".icon.svelte-h2unzw.svelte-h2unzw{display:inline-block;position:relative;vertical-align:middle;line-height:0.5}.icon.svelte-h2unzw>svg.svelte-h2unzw{display:inline-block}.flip.svelte-h2unzw.svelte-h2unzw{transform:scale(-1, -1)}.flip-h.svelte-h2unzw.svelte-h2unzw{transform:scale(-1, 1)}.flip-v.svelte-h2unzw.svelte-h2unzw{transform:scale(1, -1)}.spin.svelte-h2unzw.svelte-h2unzw{animation:svelte-h2unzw-spin 1s 0s infinite linear}.pulse.svelte-h2unzw.svelte-h2unzw{animation:svelte-h2unzw-spin 1s infinite steps(8)}@keyframes svelte-h2unzw-spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}",append(document.head,t)),init(this,e,Ce,De,safe_not_equal,{class:0,path:1,size:9,viewBox:2,color:10,flip:3,spin:4,pulse:5});}}function Ee(e){let t,n;return t=new he({props:{center:!0,circle:!0}}),{c(){create_component(t.$$.fragment);},m(e,l){mount_component(t,e,l),n=!0;},i(e){n||(transition_in(t.$$.fragment,e),n=!0);},o(e){transition_out(t.$$.fragment,e),n=!1;},d(e){destroy_component(t,e);}}}function Le(t){let n,l,i,d,p,L,M,Y,N,I,B,S,q,F=[{type:"checkbox"},{__value:t[9]},t[10]],_={};for(let e=0;e<F.length;e+=1)_=assign(_,F[e]);p=new je({props:{path:t[2]?Ae:t[0]?Me:Ye}});let H=t[7]&&Ee();const O=t[15].default,W=create_slot(O,t,t[14],null);return {c(){n=element("label"),l=element("input"),i=space(),d=element("div"),create_component(p.$$.fragment),L=space(),H&&H.c(),Y=space(),N=element("div"),W&&W.c(),set_attributes(l,_),void 0!==t[0]&&void 0!==t[2]||add_render_callback(()=>t[16].call(l)),toggle_class(l,"svelte-1idh7xl",!0),attr(d,"class","mark svelte-1idh7xl"),attr(d,"style",M="color: "+(t[2]||t[0]?t[1]:"#9a9a9a")),attr(N,"class","label-text svelte-1idh7xl"),attr(n,"class",I=null_to_empty(t[3])+" svelte-1idh7xl"),attr(n,"style",t[4]),attr(n,"title",t[8]),toggle_class(n,"right",t[6]),toggle_class(n,"disabled",t[5]);},m(s,a){insert(s,n,a),append(n,l),l.checked=t[0],l.indeterminate=t[2],append(n,i),append(n,d),mount_component(p,d,null),append(d,L),H&&H.m(d,null),append(n,Y),append(n,N),W&&W.m(N,null),B=!0,S||(q=[listen(l,"change",t[16]),listen(l,"change",t[12]),action_destroyer(t[11].call(null,l))],S=!0);},p(e,[t]){set_attributes(l,_=get_spread_update(F,[{type:"checkbox"},(!B||512&t)&&{__value:e[9]},1024&t&&e[10]])),1&t&&(l.checked=e[0]),4&t&&(l.indeterminate=e[2]),toggle_class(l,"svelte-1idh7xl",!0);const o={};5&t&&(o.path=e[2]?Ae:e[0]?Me:Ye),p.$set(o),e[7]?H?128&t&&transition_in(H,1):(H=Ee(),H.c(),transition_in(H,1),H.m(d,null)):H&&(group_outros(),transition_out(H,1,1,()=>{H=null;}),check_outros()),(!B||7&t&&M!==(M="color: "+(e[2]||e[0]?e[1]:"#9a9a9a")))&&attr(d,"style",M),W&&W.p&&16384&t&&update_slot(W,O,e,e[14],t,null,null),(!B||8&t&&I!==(I=null_to_empty(e[3])+" svelte-1idh7xl"))&&attr(n,"class",I),(!B||16&t)&&attr(n,"style",e[4]),(!B||256&t)&&attr(n,"title",e[8]),72&t&&toggle_class(n,"right",e[6]),40&t&&toggle_class(n,"disabled",e[5]);},i(e){B||(transition_in(p.$$.fragment,e),transition_in(H),transition_in(W,e),B=!0);},o(e){transition_out(p.$$.fragment,e),transition_out(H),transition_out(W,e),B=!1;},d(e){e&&detach(n),destroy_component(p),H&&H.d(),W&&W.d(e),S=!1,run_all(q);}}}let Me="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z",Ye="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z",Ae="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10H7v-2h10v2z";function Te(e,t,n){let{$$slots:l={},$$scope:o}=t;const i=oe(current_component);let{checked:s=!1}=t,{class:r=""}=t,{style:a=null}=t,{color:c="primary"}=t,{disabled:d=!1}=t,{group:u=null}=t,{indeterminate:p=!1}=t,{right:f=!1}=t,{ripple:v=!0}=t,{title:h=null}=t,{value:m="on"}=t,g={};return e.$$set=e=>{n(18,t=assign(assign({},t),exclude_internal_props(e))),"checked"in e&&n(0,s=e.checked),"class"in e&&n(3,r=e.class),"style"in e&&n(4,a=e.style),"color"in e&&n(1,c=e.color),"disabled"in e&&n(5,d=e.disabled),"group"in e&&n(13,u=e.group),"indeterminate"in e&&n(2,p=e.indeterminate),"right"in e&&n(6,f=e.right),"ripple"in e&&n(7,v=e.ripple),"title"in e&&n(8,h=e.title),"value"in e&&n(9,m=e.value),"$$scope"in e&&n(14,o=e.$$scope);},e.$$.update=()=>{{const{checked:e,style:l,color:o,group:i,indeterminate:s,right:r,ripple:a,title:c,value:d,...u}=t;!u.disabled&&delete u.disabled,delete u.class,n(10,g=u);}8192&e.$$.dirty&&null!==u&&setTimeout(()=>{n(0,s=u.indexOf(m)>=0);},0),2&e.$$.dirty&&("primary"!==c&&c?"accent"===c&&n(1,c=ie()?"#f50057":"var(--accent, #f50057)"):n(1,c=ie()?"#1976d2":"var(--primary, #1976d2)"));},t=exclude_internal_props(t),[s,c,p,r,a,d,f,v,h,m,g,i,function(){if(null!==u){let e=u.indexOf(m);s?e<0&&u.push(m):e>=0&&u.splice(e,1),n(13,u);}},u,o,l,function(){s=this.checked,p=this.indeterminate,n(0,s),n(2,p);}]}class Ne extends SvelteComponent{constructor(e){var t;super(),document.getElementById("svelte-1idh7xl-style")||((t=element("style")).id="svelte-1idh7xl-style",t.textContent="label.svelte-1idh7xl.svelte-1idh7xl{width:100%;align-items:center;display:flex;margin:0;position:relative;cursor:pointer;line-height:40px;user-select:none}input.svelte-1idh7xl.svelte-1idh7xl{cursor:inherit;width:100%;height:100%;position:absolute;top:0;left:0;margin:0;padding:0;opacity:0 !important}.mark.svelte-1idh7xl.svelte-1idh7xl{display:flex;position:relative;justify-content:center;align-items:center;border-radius:50%;width:40px;height:40px}.mark.svelte-1idh7xl.svelte-1idh7xl:before{background-color:currentColor;border-radius:inherit;bottom:0;color:inherit;content:'';left:0;opacity:0;pointer-events:none;position:absolute;right:0;top:0;transition:0.3s cubic-bezier(0.25, 0.8, 0.5, 1)}@media not all and (min-resolution: 0.001dpcm){@supports (-webkit-appearance: none) and (stroke-color: transparent){.mark.svelte-1idh7xl.svelte-1idh7xl:before{transition:none}}}.label-text.svelte-1idh7xl.svelte-1idh7xl{margin-left:4px;white-space:nowrap;overflow:hidden}.right.svelte-1idh7xl .label-text.svelte-1idh7xl{margin-left:0;margin-right:auto;order:-1}@media(hover: hover){label.svelte-1idh7xl:hover:not([disabled]):not(.disabled) .mark.svelte-1idh7xl:before{opacity:0.15}.focus-visible:focus:not([disabled]):not(.disabled)~.mark.svelte-1idh7xl.svelte-1idh7xl:before{opacity:0.3}}",append(document.head,t)),init(this,e,Te,Le,safe_not_equal,{checked:0,class:3,style:4,color:1,disabled:5,group:13,indeterminate:2,right:6,ripple:7,title:8,value:9});}}const{document:Kn}=globals;function Jn(e,t,n){const l=e.slice();return l[17]=t[n],l[19]=n,l}function Qn(t,n){let l,o,i,d,p,f,y,w,$=n[17]+"";function z(...e){return n[12](n[19],...e)}return d=new he({props:{center:!0}}),{key:t,first:null,c(){l=element("button"),o=text($),i=space(),create_component(d.$$.fragment),attr(l,"class",p="tabbutton "+(n[0]==n[19]?"tabbuttonactive":"")+" svelte-4jfme"),this.first=l;},m(t,n){insert(t,l,n),append(l,o),append(l,i),mount_component(d,l,null),f=!0,y||(w=listen(l,"click",z),y=!0);},p(e,t){n=e,(!f||8&t)&&$!==($=n[17]+"")&&set_data(o,$),(!f||9&t&&p!==(p="tabbutton "+(n[0]==n[19]?"tabbuttonactive":"")+" svelte-4jfme"))&&attr(l,"class",p);},i(e){f||(transition_in(d.$$.fragment,e),f=!0);},o(e){transition_out(d.$$.fragment,e),f=!1;},d(e){e&&detach(l),destroy_component(d),y=!1,w();}}}function el(e){let t,n,l,o,i,d,p,v,h,E,L,M,Y=[],A=new Map,T=e[3];const N=e=>e[17];for(let t=0;t<T.length;t+=1){let n=Jn(e,T,t),l=N(n);A.set(l,Y[t]=Qn(l,n));}const I=e[11].default,B=create_slot(I,e,e[10],null);let S=[{class:h="tabbar "+e[1]},{style:e[2]},e[5]],q={};for(let e=0;e<S.length;e+=1)q=assign(q,S[e]);return {c(){t=element("div"),n=element("div");for(let e=0;e<Y.length;e+=1)Y[e].c();l=space(),o=element("span"),d=space(),p=element("div"),v=element("div"),B&&B.c(),attr(o,"class","tabindicator svelte-4jfme"),attr(o,"style",i=e[7]+"; background-color:var(--primary);"),attr(n,"class","tabbar-wrap svelte-4jfme"),attr(v,"class","tabcontent svelte-4jfme"),attr(v,"style",e[6]),attr(p,"class","tabcontent-wrap svelte-4jfme"),set_attributes(t,q),toggle_class(t,"svelte-4jfme",!0);},m(i,s){insert(i,t,s),append(t,n);for(let e=0;e<Y.length;e+=1)Y[e].m(n,null);append(n,l),append(n,o),append(t,d),append(t,p),append(p,v),B&&B.m(v,null),e[13](t),E=!0,L||(M=action_destroyer(e[8].call(null,t)),L=!0);},p(e,[s]){521&s&&(T=e[3],group_outros(),Y=update_keyed_each(Y,s,N,1,e,T,A,n,outro_and_destroy_block,Qn,l,Jn),check_outros()),(!E||128&s&&i!==(i=e[7]+"; background-color:var(--primary);"))&&attr(o,"style",i),B&&B.p&&1024&s&&update_slot(B,I,e,e[10],s,null,null),(!E||64&s)&&attr(v,"style",e[6]),set_attributes(t,q=get_spread_update(S,[(!E||2&s&&h!==(h="tabbar "+e[1]))&&{class:h},(!E||4&s)&&{style:e[2]},32&s&&e[5]])),toggle_class(t,"svelte-4jfme",!0);},i(e){if(!E){for(let e=0;e<T.length;e+=1)transition_in(Y[e]);transition_in(B,e),E=!0;}},o(e){for(let e=0;e<Y.length;e+=1)transition_out(Y[e]);transition_out(B,e),E=!1;},d(n){n&&detach(t);for(let e=0;e<Y.length;e+=1)Y[e].d();B&&B.d(n),e[13](null),L=!1,M();}}}function tl(e,t,n){let{$$slots:l={},$$scope:o}=t;const i=createEventDispatcher(),s=oe(current_component);let r,{class:a=""}=t,{style:c=null}=t,d={},u="transform:translate3d(0%, 0px, 0px);",f="",{tabNames:v=[]}=t,{activeTab:h=0}=t;async function m(){await tick;let e=r.querySelectorAll(".tabbutton");if(e&&e.length>0){let t={};return h>=e.length&&(h>e.length?n(0,h=e.length-1):n(0,h--,h)),t.target=e[h],g(t,h),!0}return !1}function g(e,t){let l=e.target;n(6,u="transform:translate3d(-"+100*t+"%, 0px, 0px);"),n(7,f="left:"+l.offsetLeft+"px; width:"+l.offsetWidth+"px;"),n(0,h=t),i("change",{activeTab:h});}onMount(()=>{m()&&function(e,t){let n=0,l=0;function o(t){e.style.userSelect="none",l=t.touches?t.touches[0].clientX:t.clientX,document.addEventListener("mouseup",s),document.addEventListener("mousemove",i),document.addEventListener("touchmove",i,!1),document.addEventListener("touchend",s,!1);}function i(o){e.style.pointerEvents="none";const i=o.touches?o.touches[0].clientX:o.clientX;n=l-i,l=i;const s=parseInt(e.style.left)-n;e.style.left=(s>0?0:s+e.scrollWidth<=t.clientWidth?t.clientWidth-e.scrollWidth:s)+"px";}function s(){document.removeEventListener("mouseup",s),document.removeEventListener("mousemove",i),document.removeEventListener("touchmove",i),document.removeEventListener("touchend",i),e.style.pointerEvents="all",e.style.userSelect="all";}e.addEventListener("mousedown",o),e.addEventListener("touchstart",o,!1),""==e.style.left&&(e.style.left="0px");}(r.querySelector(".tabbar-wrap"),r);});return e.$$set=e=>{n(16,t=assign(assign({},t),exclude_internal_props(e))),"class"in e&&n(1,a=e.class),"style"in e&&n(2,c=e.style),"tabNames"in e&&n(3,v=e.tabNames),"activeTab"in e&&n(0,h=e.activeTab),"$$scope"in e&&n(10,o=e.$$scope);},e.$$.update=()=>{{const{style:e,tabNames:l,activeTab:o,...i}=t;n(5,d=i);}9&e.$$.dirty&&(n(0,h=Math.abs(parseInt(h))),Number.isInteger(h)||n(0,h=0),m());},t=exclude_internal_props(t),[h,a,c,v,r,d,u,f,s,g,o,l,(e,t)=>{g(t,e);},function(e){binding_callbacks[e?"unshift":"push"](()=>{r=e,n(4,r);});}]}class nl extends SvelteComponent{constructor(e){var t;super(),Kn.getElementById("svelte-4jfme-style")||((t=element("style")).id="svelte-4jfme-style",t.textContent=".tabbar.svelte-4jfme{width:100%;overflow:hidden}.tabbar-wrap.svelte-4jfme{display:flex;position:relative;transition:left 150ms}.tabbutton.svelte-4jfme{color:var(--color);min-width:70px;font-family:Roboto,sans-serif;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;font-size:.875rem;font-weight:500;letter-spacing:.08929em;text-decoration:none;text-transform:uppercase;position:relative;display:flex;flex:1 0 auto;justify-content:center;align-items:center;box-sizing:border-box;height:48px;margin:0 !important;padding:0 24px;border:none;outline:none;background:none;text-align:center;white-space:nowrap;cursor:pointer;-webkit-appearance:none;z-index:1}.tabbutton.svelte-4jfme:before{bottom:0;content:'';left:0;opacity:0;pointer-events:none;position:absolute;right:0;top:0;transition:0.2s cubic-bezier(0.25, 0.8, 0.5, 1);will-change:background-color, opacity}.tabbutton.svelte-4jfme:hover:before{background-color:currentColor;opacity:0.15}.tabbuttonactive.svelte-4jfme{color:var(--primary)}.tabcontent-wrap.svelte-4jfme{overflow:hidden;transition:none}.tabcontent.svelte-4jfme{display:flex;align-items:flex-start;flex-wrap:nowrap;transform:translate3d(0%, 0px, 0px);transition:transform .35s cubic-bezier(.4,0,.2,1);will-change:transform}.tabindicator.svelte-4jfme{height:2px;position:absolute;left:0;bottom:0;transition:left .2s cubic-bezier(.4,0,.2,1);background-color:var(--primary)}",append(Kn.head,t)),init(this,e,tl,el,safe_not_equal,{class:1,style:2,tabNames:3,activeTab:0});}}function ll(e){let t,n,o,i,r;const a=e[5].default,d=create_slot(a,e,e[4],null);let p=[{class:n="tabcontent-page "+e[0]},{style:e[1]},e[2]],v={};for(let e=0;e<p.length;e+=1)v=assign(v,p[e]);return {c(){t=element("div"),d&&d.c(),set_attributes(t,v),toggle_class(t,"svelte-1cy2yx5",!0);},m(n,s){insert(n,t,s),d&&d.m(t,null),o=!0,i||(r=action_destroyer(e[3].call(null,t)),i=!0);},p(e,[l]){d&&d.p&&16&l&&update_slot(d,a,e,e[4],l,null,null),set_attributes(t,v=get_spread_update(p,[(!o||1&l&&n!==(n="tabcontent-page "+e[0]))&&{class:n},(!o||2&l)&&{style:e[1]},4&l&&e[2]])),toggle_class(t,"svelte-1cy2yx5",!0);},i(e){o||(transition_in(d,e),o=!0);},o(e){transition_out(d,e),o=!1;},d(e){e&&detach(t),d&&d.d(e),i=!1,r();}}}function ol(e,t,n){let{$$slots:l={},$$scope:o}=t;const i=oe(current_component);let{class:s=""}=t,{style:r=null}=t,a={};return e.$$set=e=>{n(6,t=assign(assign({},t),exclude_internal_props(e))),"class"in e&&n(0,s=e.class),"style"in e&&n(1,r=e.style),"$$scope"in e&&n(4,o=e.$$scope);},e.$$.update=()=>{{const{style:e,...l}=t;n(2,a=l);}},t=exclude_internal_props(t),[s,r,a,i,o,l]}class il extends SvelteComponent{constructor(e){var t;super(),document.getElementById("svelte-1cy2yx5-style")||((t=element("style")).id="svelte-1cy2yx5-style",t.textContent=".tabcontent-page.svelte-1cy2yx5{width:100%;flex:1 0 100%}",append(document.head,t)),init(this,e,ol,ll,safe_not_equal,{class:0,style:1});}}
+    function oe(n){return l=>{const o=Object.keys(n.$$.callbacks),i=[];return o.forEach(o=>i.push(listen(l,o,e=>bubble(n,e)))),{destroy:()=>{i.forEach(e=>e());}}}}const{document:re}=globals;function ae(e){let t;return {c(){t=element("div"),attr(t,"class","ripple svelte-po4fcb");},m(n,l){insert(n,t,l),e[4](t);},p:noop,i:noop,o:noop,d(n){n&&detach(t),e[4](null);}}}function ce(e,t){e.style.transform=t,e.style.webkitTransform=t;}function de(e,t){e.style.opacity=t.toString();}const ue=function(e,t){const n=["touchcancel","mouseleave","dragstart"];let l=t.currentTarget||t.target;if(l&&!l.classList.contains("ripple")&&(l=l.querySelector(".ripple")),!l)return;const o=l.dataset.event;if(o&&o!==e)return;l.dataset.event=e;const i=document.createElement("span"),{radius:s,scale:r,x:a,y:c,centerX:d,centerY:u}=((e,t)=>{const n=t.getBoundingClientRect(),l=function(e){return "TouchEvent"===e.constructor.name}(e)?e.touches[e.touches.length-1]:e,o=l.clientX-n.left,i=l.clientY-n.top;let s=0,r=.3;const a=t.dataset.center;t.dataset.circle?(r=.15,s=t.clientWidth/2,s=a?s:s+Math.sqrt((o-s)**2+(i-s)**2)/4):s=Math.sqrt(t.clientWidth**2+t.clientHeight**2)/2;const c=(t.clientWidth-2*s)/2+"px",d=(t.clientHeight-2*s)/2+"px";return {radius:s,scale:r,x:a?c:o-s+"px",y:a?d:i-s+"px",centerX:c,centerY:d}})(t,l),p=l.dataset.color,f=2*s+"px";i.className="animation",i.style.width=f,i.style.height=f,i.style.background=p,i.classList.add("animation--enter"),i.classList.add("animation--visible"),ce(i,`translate(${a}, ${c}) scale3d(${r},${r},${r})`),de(i,0),i.dataset.activated=String(performance.now()),l.appendChild(i),setTimeout(()=>{i.classList.remove("animation--enter"),i.classList.add("animation--in"),ce(i,`translate(${d}, ${u}) scale3d(1,1,1)`),de(i,.25);},0);const v="mousedown"===e?"mouseup":"touchend",h=function(){document.removeEventListener(v,h),n.forEach(e=>{document.removeEventListener(e,h);});const e=performance.now()-Number(i.dataset.activated),t=Math.max(250-e,0);setTimeout(()=>{i.classList.remove("animation--in"),i.classList.add("animation--out"),de(i,0),setTimeout(()=>{i&&l.removeChild(i),0===l.children.length&&delete l.dataset.event;},300);},t);};document.addEventListener(v,h),n.forEach(e=>{document.addEventListener(e,h,{passive:!0});});},pe=function(e){0===e.button&&ue(e.type,e);},fe=function(e){if(e.changedTouches)for(let t=0;t<e.changedTouches.length;++t)ue(e.type,e.changedTouches[t]);};function ve(e,t,n){let l,o,{center:i=!1}=t,{circle:s=!1}=t,{color:r="currentColor"}=t;return onMount(async()=>{await tick();try{i&&n(0,l.dataset.center="true",l),s&&n(0,l.dataset.circle="true",l),n(0,l.dataset.color=r,l),o=l.parentElement;}catch(e){}if(!o)return void console.error("Ripple: Trigger element not found.");let e=window.getComputedStyle(o);0!==e.position.length&&"static"!==e.position||(o.style.position="relative"),o.addEventListener("touchstart",fe,{passive:!0}),o.addEventListener("mousedown",pe,{passive:!0});}),onDestroy(()=>{o&&(o.removeEventListener("mousedown",pe),o.removeEventListener("touchstart",fe));}),e.$$set=e=>{"center"in e&&n(1,i=e.center),"circle"in e&&n(2,s=e.circle),"color"in e&&n(3,r=e.color);},[l,i,s,r,function(e){binding_callbacks[e?"unshift":"push"](()=>{l=e,n(0,l);});}]}class he extends SvelteComponent{constructor(e){var t;super(),re.getElementById("svelte-po4fcb-style")||((t=element("style")).id="svelte-po4fcb-style",t.textContent=".ripple.svelte-po4fcb{display:block;position:absolute;top:0;left:0;right:0;bottom:0;overflow:hidden;border-radius:inherit;color:inherit;pointer-events:none;z-index:0;contain:strict}.ripple.svelte-po4fcb .animation{color:inherit;position:absolute;top:0;left:0;border-radius:50%;opacity:0;pointer-events:none;overflow:hidden;will-change:transform, opacity}.ripple.svelte-po4fcb .animation--enter{transition:none}.ripple.svelte-po4fcb .animation--in{transition:opacity 0.1s cubic-bezier(0.4, 0, 0.2, 1);transition:transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),\r\n\t\t\topacity 0.1s cubic-bezier(0.4, 0, 0.2, 1)}.ripple.svelte-po4fcb .animation--out{transition:opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)}",append(re.head,t)),init(this,e,ve,ae,safe_not_equal,{center:1,circle:2,color:3});}}function Re(e,t){if("Tab"!==e.key&&9!==e.keyCode)return;let n=function(e=document){return Array.prototype.slice.call(e.querySelectorAll('button, [href], select, textarea, input:not([type="hidden"]), [tabindex]:not([tabindex="-1"])')).filter((function(e){const t=window.getComputedStyle(e);return !e.disabled&&!e.getAttribute("disabled")&&!e.classList.contains("disabled")&&"none"!==t.display&&"hidden"!==t.visibility&&t.opacity>0}))}(t);if(0===n.length)return void e.preventDefault();let l=document.activeElement,o=n.indexOf(l);e.shiftKey?o<=0&&(n[n.length-1].focus(),e.preventDefault()):o>=n.length-1&&(n[0].focus(),e.preventDefault());}const{window:Ze}=globals;function Ue(t){let n,l,i,r,d,p,v;const h=t[17].default,b=create_slot(h,t,t[16],null);return {c(){n=element("div"),b&&b.c(),attr(n,"class",l=null_to_empty("popover "+t[1])+" svelte-5k22n0"),attr(n,"style",t[2]),attr(n,"tabindex","-1");},m(l,i){insert(l,n,i),b&&b.m(n,null),t[20](n),d=!0,p||(v=[listen(n,"introstart",t[18]),listen(n,"introend",t[19]),action_destroyer(t[4].call(null,n))],p=!0);},p(e,t){b&&b.p&&65536&t&&update_slot(b,h,e,e[16],t,null,null),(!d||2&t&&l!==(l=null_to_empty("popover "+e[1])+" svelte-5k22n0"))&&attr(n,"class",l),(!d||4&t)&&attr(n,"style",e[2]);},i(e){d||(transition_in(b,e),add_render_callback(()=>{r&&r.end(1),i||(i=create_in_transition(n,t[5],{})),i.start();}),d=!0);},o(e){transition_out(b,e),i&&i.invalidate(),r=create_out_transition(n,t[6],{}),d=!1;},d(e){e&&detach(n),b&&b.d(e),t[20](null),e&&r&&r.end(),p=!1,run_all(v);}}}function Ge(t){let n,l,o,i,s=t[0]&&Ue(t);return {c(){s&&s.c(),n=empty();},m(r,a){s&&s.m(r,a),insert(r,n,a),l=!0,o||(i=[listen(Ze,"scroll",t[8],{passive:!0}),listen(Ze,"resize",t[9],{passive:!0}),listen(Ze,"keydown",t[10],!0),listen(Ze,"click",t[11],!0)],o=!0);},p(e,[t]){e[0]?s?(s.p(e,t),1&t&&transition_in(s,1)):(s=Ue(e),s.c(),transition_in(s,1),s.m(n.parentNode,n)):s&&(group_outros(),transition_out(s,1,1,()=>{s=null;}),check_outros());},i(e){l||(transition_in(s),l=!0);},o(e){transition_out(s),l=!1;},d(e){s&&s.d(e),e&&detach(n),o=!1,run_all(i);}}}function Ke(e,t,n){let{$$slots:l={},$$scope:o}=t;const i=oe(current_component),s=createEventDispatcher();let r,a,{class:c=""}=t,{style:d=null}=t,{origin:u="top left"}=t,{dx:f=0}=t,{dy:v=0}=t,{visible:h=!1}=t,{duration:m=300}=t;async function g({target:e}){setTimeout(()=>{e.style.transitionDuration=m+"ms",e.style.transitionProperty="opacity, transform",e.style.transform="scale(1)",e.style.opacity=null;},0);}function b(){if(!h||!r||!a)return;const e=a.getBoundingClientRect();e.top<-e.height||e.top>window.innerHeight?y("overflow"):(n(3,r.style.top=function(e,t){let l=0;n(13,v=+v);const o=window.innerHeight-8-e;return l=l=u.indexOf("top")>=0?t.top+v:t.top+t.height-e-v,l=Math.min(o,l),l=Math.max(8,l),l}(r.offsetHeight,e)+"px",r),n(3,r.style.left=function(e,t){let l=0;n(12,f=+f);const o=window.innerWidth-8-e;return l=l=u.indexOf("left")>=0?t.left+f:t.left+t.width-e-f,l=Math.min(o,l),l=Math.max(8,l),l}(r.offsetWidth,e)+"px",r));}function y(e){s("close",e),n(0,h=!1);}beforeUpdate(()=>{a=r?r.parentElement:null,a&&b();});return e.$$set=e=>{"class"in e&&n(1,c=e.class),"style"in e&&n(2,d=e.style),"origin"in e&&n(14,u=e.origin),"dx"in e&&n(12,f=e.dx),"dy"in e&&n(13,v=e.dy),"visible"in e&&n(0,h=e.visible),"duration"in e&&n(15,m=e.duration),"$$scope"in e&&n(16,o=e.$$scope);},[h,c,d,r,i,function(e){return e.style.transformOrigin=u,e.style.transform="scale(0.6)",e.style.opacity="0",{duration:+m}},function(e){return e.style.transformOrigin=u,e.style.transitionDuration=m+"ms",e.style.transitionProperty="opacity, transform",e.style.transform="scale(0.6)",e.style.opacity="0",{duration:+m}},g,function(){b();},function(){b();},function(e){h&&(27===e.keyCode&&(e.stopPropagation(),y("escape")),Re(e,r));},function(e){h&&a&&!a.contains(e.target)&&(e.stopPropagation(),y("clickOutside"));},f,v,u,m,o,l,e=>g(e),e=>function({target:e}){e.style.transformOrigin=null,e.style.transitionDuration=null,e.style.transitionProperty=null,e.style.transform=null,e.focus();}(e),function(e){binding_callbacks[e?"unshift":"push"](()=>{r=e,n(3,r);});}]}class Je extends SvelteComponent{constructor(e){var t;super(),document.getElementById("svelte-5k22n0-style")||((t=element("style")).id="svelte-5k22n0-style",t.textContent=".popover.svelte-5k22n0{color:#333;color:var(--color, #333);background:#fff;background:var(--bg-popover, #fff);backface-visibility:hidden;position:fixed;border-radius:2px;max-height:100%;max-width:80%;overflow:auto;outline:none;box-shadow:0 3px 3px -2px rgba(0, 0, 0, 0.2), 0 3px 4px 0 rgba(0, 0, 0, 0.14),\r\n\t\t\t0 1px 8px 0 rgba(0, 0, 0, 0.12);z-index:50}",append(document.head,t)),init(this,e,Ke,Ge,safe_not_equal,{class:1,style:2,origin:14,dx:12,dy:13,visible:0,duration:15});}}const yn=e=>({}),xn=e=>({});function wn(e){let t,n,l;const o=e[11].default,i=create_slot(o,e,e[14],null);return {c(){t=element("ul"),i&&i.c(),attr(t,"style",n=`min-width: ${e[5]}px`),attr(t,"class","svelte-1vc5q8h");},m(e,n){insert(e,t,n),i&&i.m(t,null),l=!0;},p(e,s){i&&i.p&&16384&s&&update_slot(i,o,e,e[14],s,null,null),(!l||32&s&&n!==(n=`min-width: ${e[5]}px`))&&attr(t,"style",n);},i(e){l||(transition_in(i,e),l=!0);},o(e){transition_out(i,e),l=!1;},d(e){e&&detach(t),i&&i.d(e);}}}function $n(t){let n,l,o,i,y,w,$;const D=t[11].activator,C=create_slot(D,t,t[14],xn),j=C||function(e){let t;return {c(){t=element("span");},m(e,n){insert(e,t,n);},d(e){e&&detach(t);}}}();function L(e){t[12](e);}let M={class:t[0],style:t[1],origin:t[4],dx:t[2],dy:t[3],$$slots:{default:[wn]},$$scope:{ctx:t}};return void 0!==t[6]&&(M.visible=t[6]),o=new Je({props:M}),binding_callbacks.push(()=>bind(o,"visible",L)),o.$on("click",t[10]),{c(){n=element("div"),j&&j.c(),l=space(),create_component(o.$$.fragment),attr(n,"class","menu svelte-1vc5q8h");},m(i,s){insert(i,n,s),j&&j.m(n,null),append(n,l),mount_component(o,n,null),t[13](n),y=!0,w||($=[listen(n,"click",t[9]),action_destroyer(t[8].call(null,n))],w=!0);},p(e,[t]){C&&C.p&&16384&t&&update_slot(C,D,e,e[14],t,yn,xn);const n={};1&t&&(n.class=e[0]),2&t&&(n.style=e[1]),16&t&&(n.origin=e[4]),4&t&&(n.dx=e[2]),8&t&&(n.dy=e[3]),16416&t&&(n.$$scope={dirty:t,ctx:e}),!i&&64&t&&(i=!0,n.visible=e[6],add_flush_callback(()=>i=!1)),o.$set(n);},i(e){y||(transition_in(j,e),transition_in(o.$$.fragment,e),y=!0);},o(e){transition_out(j,e),transition_out(o.$$.fragment,e),y=!1;},d(e){e&&detach(n),j&&j.d(e),destroy_component(o),t[13](null),w=!1,run_all($);}}}function zn(e,t,n){let{$$slots:l={},$$scope:o}=t;const i=oe(current_component);let s,{class:r=""}=t,{style:a=null}=t,{dx:c=0}=t,{dy:d=0}=t,{origin:u="top left"}=t,{width:f=112}=t,v=!1;return e.$$set=e=>{"class"in e&&n(0,r=e.class),"style"in e&&n(1,a=e.style),"dx"in e&&n(2,c=e.dx),"dy"in e&&n(3,d=e.dy),"origin"in e&&n(4,u=e.origin),"width"in e&&n(5,f=e.width),"$$scope"in e&&n(14,o=e.$$scope);},[r,a,c,d,u,f,v,s,i,function(e){try{s.childNodes[0].contains(e.target)?n(6,v=!v):e.target===s&&n(6,v=!1);}catch(e){console.error(e);}},function(e){e.target.classList.contains("menu-item")&&n(6,v=!1);},l,function(e){v=e,n(6,v);},function(e){binding_callbacks[e?"unshift":"push"](()=>{s=e,n(7,s);});},o]}class kn extends SvelteComponent{constructor(e){var t;super(),document.getElementById("svelte-1vc5q8h-style")||((t=element("style")).id="svelte-1vc5q8h-style",t.textContent="@supports (-webkit-overflow-scrolling: touch){html{cursor:pointer}}.menu.svelte-1vc5q8h{position:relative;display:inline-block;vertical-align:middle}ul.svelte-1vc5q8h{margin:0;padding:8px 0;width:100%;position:relative;overflow-x:hidden;overflow-y:visible}",append(document.head,t)),init(this,e,zn,$n,safe_not_equal,{class:0,style:1,dx:2,dy:3,origin:4,width:5});}}function Dn(t){let n,l,o,i,d,p,v;const h=t[9].default,b=create_slot(h,t,t[8],null);let L=t[1]&&jn(),M=[{class:o="menu-item "+t[0]},{tabindex:i=t[2]?"-1":"0"},t[4]],Y={};for(let e=0;e<M.length;e+=1)Y=assign(Y,M[e]);return {c(){n=element("li"),b&&b.c(),l=space(),L&&L.c(),set_attributes(n,Y),toggle_class(n,"svelte-mmrniu",!0);},m(o,i){insert(o,n,i),b&&b.m(n,null),append(n,l),L&&L.m(n,null),t[11](n),d=!0,p||(v=[listen(n,"keydown",t[7]),action_destroyer(t[6].call(null,n))],p=!0);},p(e,t){b&&b.p&&256&t&&update_slot(b,h,e,e[8],t,null,null),e[1]?L?2&t&&transition_in(L,1):(L=jn(),L.c(),transition_in(L,1),L.m(n,null)):L&&(group_outros(),transition_out(L,1,1,()=>{L=null;}),check_outros()),set_attributes(n,Y=get_spread_update(M,[(!d||1&t&&o!==(o="menu-item "+e[0]))&&{class:o},(!d||4&t&&i!==(i=e[2]?"-1":"0"))&&{tabindex:i},16&t&&e[4]])),toggle_class(n,"svelte-mmrniu",!0);},i(e){d||(transition_in(b,e),transition_in(L),d=!0);},o(e){transition_out(b,e),transition_out(L),d=!1;},d(e){e&&detach(n),b&&b.d(e),L&&L.d(),t[11](null),p=!1,run_all(v);}}}function Cn(t){let n,l,o,i,d,v,h,b;const L=t[9].default,M=create_slot(L,t,t[8],null);let Y=t[1]&&En(),A=[{class:i="menu-item "+t[0]},{href:t[3]},{tabindex:d=t[2]?"-1":"0"},t[4]],T={};for(let e=0;e<A.length;e+=1)T=assign(T,A[e]);return {c(){n=element("li"),l=element("a"),M&&M.c(),o=space(),Y&&Y.c(),set_attributes(l,T),toggle_class(l,"svelte-mmrniu",!0),attr(n,"class","svelte-mmrniu");},m(i,s){insert(i,n,s),append(n,l),M&&M.m(l,null),append(l,o),Y&&Y.m(l,null),t[10](l),v=!0,h||(b=[listen(l,"keydown",t[7]),action_destroyer(t[6].call(null,l))],h=!0);},p(e,t){M&&M.p&&256&t&&update_slot(M,L,e,e[8],t,null,null),e[1]?Y?2&t&&transition_in(Y,1):(Y=En(),Y.c(),transition_in(Y,1),Y.m(l,null)):Y&&(group_outros(),transition_out(Y,1,1,()=>{Y=null;}),check_outros()),set_attributes(l,T=get_spread_update(A,[(!v||1&t&&i!==(i="menu-item "+e[0]))&&{class:i},(!v||8&t)&&{href:e[3]},(!v||4&t&&d!==(d=e[2]?"-1":"0"))&&{tabindex:d},16&t&&e[4]])),toggle_class(l,"svelte-mmrniu",!0);},i(e){v||(transition_in(M,e),transition_in(Y),v=!0);},o(e){transition_out(M,e),transition_out(Y),v=!1;},d(e){e&&detach(n),M&&M.d(e),Y&&Y.d(),t[10](null),h=!1,run_all(b);}}}function jn(e){let t,n;return t=new he({}),{c(){create_component(t.$$.fragment);},m(e,l){mount_component(t,e,l),n=!0;},i(e){n||(transition_in(t.$$.fragment,e),n=!0);},o(e){transition_out(t.$$.fragment,e),n=!1;},d(e){destroy_component(t,e);}}}function En(e){let t,n;return t=new he({}),{c(){create_component(t.$$.fragment);},m(e,l){mount_component(t,e,l),n=!0;},i(e){n||(transition_in(t.$$.fragment,e),n=!0);},o(e){transition_out(t.$$.fragment,e),n=!1;},d(e){destroy_component(t,e);}}}function Ln(e){let t,n,l,o;const i=[Cn,Dn],s=[];function r(e,t){return e[3]?0:1}return t=r(e),n=s[t]=i[t](e),{c(){n.c(),l=empty();},m(e,n){s[t].m(e,n),insert(e,l,n),o=!0;},p(e,[o]){let a=t;t=r(e),t===a?s[t].p(e,o):(group_outros(),transition_out(s[a],1,1,()=>{s[a]=null;}),check_outros(),n=s[t],n?n.p(e,o):(n=s[t]=i[t](e),n.c()),transition_in(n,1),n.m(l.parentNode,l));},i(e){o||(transition_in(n),o=!0);},o(e){transition_out(n),o=!1;},d(e){s[t].d(e),e&&detach(l);}}}function Mn(e,t,n){let{$$slots:l={},$$scope:o}=t;const i=oe(current_component);let s,{class:r=""}=t,{ripple:a=!0}=t,c=!1,d=null,u={};return e.$$set=e=>{n(12,t=assign(assign({},t),exclude_internal_props(e))),"class"in e&&n(0,r=e.class),"ripple"in e&&n(1,a=e.ripple),"$$scope"in e&&n(8,o=e.$$scope);},e.$$.update=()=>{{const{href:e,ripple:l,...o}=t;delete o.class,!1===o.disabled&&delete o.disabled,n(2,c=!!o.disabled),n(3,d=e&&!c?e:null),n(4,u=o);}},t=exclude_internal_props(t),[r,a,c,d,u,s,i,function(e){if(13===e.keyCode||32===e.keyCode){e.stopPropagation(),e.preventDefault();const t=new MouseEvent("click",{bubbles:!0,cancelable:!0});s.dispatchEvent(t),s.blur();}},o,l,function(e){binding_callbacks[e?"unshift":"push"](()=>{s=e,n(5,s);});},function(e){binding_callbacks[e?"unshift":"push"](()=>{s=e,n(5,s);});}]}class Yn extends SvelteComponent{constructor(e){var t;super(),document.getElementById("svelte-mmrniu-style")||((t=element("style")).id="svelte-mmrniu-style",t.textContent="li.svelte-mmrniu{display:block}a.svelte-mmrniu,a.svelte-mmrniu:hover{text-decoration:none}.menu-item.svelte-mmrniu{position:relative;color:inherit;cursor:pointer;height:44px;user-select:none;display:flex;align-items:center;padding:0 16px;white-space:nowrap}.menu-item.svelte-mmrniu:focus{outline:none}.menu-item.svelte-mmrniu::-moz-focus-inner{border:0}.menu-item.svelte-mmrniu:-moz-focusring{outline:none}.menu-item.svelte-mmrniu:before{background-color:currentColor;color:inherit;bottom:0;content:'';left:0;opacity:0;pointer-events:none;position:absolute;right:0;top:0;transition:0.3s cubic-bezier(0.25, 0.8, 0.5, 1)}@media(hover: hover){.menu-item.svelte-mmrniu:hover:not([disabled]):not(.disabled):before{opacity:0.15}.focus-visible.menu-item:focus:not([disabled]):not(.disabled):before{opacity:0.3}}",append(document.head,t)),init(this,e,Mn,Ln,safe_not_equal,{class:0,ripple:1});}}const{document:Kn}=globals;function Jn(e,t,n){const l=e.slice();return l[17]=t[n],l[19]=n,l}function Qn(t,n){let l,o,i,d,p,f,y,w,$=n[17]+"";function z(...e){return n[12](n[19],...e)}return d=new he({props:{center:!0}}),{key:t,first:null,c(){l=element("button"),o=text($),i=space(),create_component(d.$$.fragment),attr(l,"class",p="tabbutton "+(n[0]==n[19]?"tabbuttonactive":"")+" svelte-4jfme"),this.first=l;},m(t,n){insert(t,l,n),append(l,o),append(l,i),mount_component(d,l,null),f=!0,y||(w=listen(l,"click",z),y=!0);},p(e,t){n=e,(!f||8&t)&&$!==($=n[17]+"")&&set_data(o,$),(!f||9&t&&p!==(p="tabbutton "+(n[0]==n[19]?"tabbuttonactive":"")+" svelte-4jfme"))&&attr(l,"class",p);},i(e){f||(transition_in(d.$$.fragment,e),f=!0);},o(e){transition_out(d.$$.fragment,e),f=!1;},d(e){e&&detach(l),destroy_component(d),y=!1,w();}}}function el(e){let t,n,l,o,i,d,p,v,h,E,L,M,Y=[],A=new Map,T=e[3];const N=e=>e[17];for(let t=0;t<T.length;t+=1){let n=Jn(e,T,t),l=N(n);A.set(l,Y[t]=Qn(l,n));}const I=e[11].default,B=create_slot(I,e,e[10],null);let S=[{class:h="tabbar "+e[1]},{style:e[2]},e[5]],q={};for(let e=0;e<S.length;e+=1)q=assign(q,S[e]);return {c(){t=element("div"),n=element("div");for(let e=0;e<Y.length;e+=1)Y[e].c();l=space(),o=element("span"),d=space(),p=element("div"),v=element("div"),B&&B.c(),attr(o,"class","tabindicator svelte-4jfme"),attr(o,"style",i=e[7]+"; background-color:var(--primary);"),attr(n,"class","tabbar-wrap svelte-4jfme"),attr(v,"class","tabcontent svelte-4jfme"),attr(v,"style",e[6]),attr(p,"class","tabcontent-wrap svelte-4jfme"),set_attributes(t,q),toggle_class(t,"svelte-4jfme",!0);},m(i,s){insert(i,t,s),append(t,n);for(let e=0;e<Y.length;e+=1)Y[e].m(n,null);append(n,l),append(n,o),append(t,d),append(t,p),append(p,v),B&&B.m(v,null),e[13](t),E=!0,L||(M=action_destroyer(e[8].call(null,t)),L=!0);},p(e,[s]){521&s&&(T=e[3],group_outros(),Y=update_keyed_each(Y,s,N,1,e,T,A,n,outro_and_destroy_block,Qn,l,Jn),check_outros()),(!E||128&s&&i!==(i=e[7]+"; background-color:var(--primary);"))&&attr(o,"style",i),B&&B.p&&1024&s&&update_slot(B,I,e,e[10],s,null,null),(!E||64&s)&&attr(v,"style",e[6]),set_attributes(t,q=get_spread_update(S,[(!E||2&s&&h!==(h="tabbar "+e[1]))&&{class:h},(!E||4&s)&&{style:e[2]},32&s&&e[5]])),toggle_class(t,"svelte-4jfme",!0);},i(e){if(!E){for(let e=0;e<T.length;e+=1)transition_in(Y[e]);transition_in(B,e),E=!0;}},o(e){for(let e=0;e<Y.length;e+=1)transition_out(Y[e]);transition_out(B,e),E=!1;},d(n){n&&detach(t);for(let e=0;e<Y.length;e+=1)Y[e].d();B&&B.d(n),e[13](null),L=!1,M();}}}function tl(e,t,n){let{$$slots:l={},$$scope:o}=t;const i=createEventDispatcher(),s=oe(current_component);let r,{class:a=""}=t,{style:c=null}=t,d={},u="transform:translate3d(0%, 0px, 0px);",f="",{tabNames:v=[]}=t,{activeTab:h=0}=t;async function m(){await tick;let e=r.querySelectorAll(".tabbutton");if(e&&e.length>0){let t={};return h>=e.length&&(h>e.length?n(0,h=e.length-1):n(0,h--,h)),t.target=e[h],g(t,h),!0}return !1}function g(e,t){let l=e.target;n(6,u="transform:translate3d(-"+100*t+"%, 0px, 0px);"),n(7,f="left:"+l.offsetLeft+"px; width:"+l.offsetWidth+"px;"),n(0,h=t),i("change",{activeTab:h});}onMount(()=>{m()&&function(e,t){let n=0,l=0;function o(t){e.style.userSelect="none",l=t.touches?t.touches[0].clientX:t.clientX,document.addEventListener("mouseup",s),document.addEventListener("mousemove",i),document.addEventListener("touchmove",i,!1),document.addEventListener("touchend",s,!1);}function i(o){e.style.pointerEvents="none";const i=o.touches?o.touches[0].clientX:o.clientX;n=l-i,l=i;const s=parseInt(e.style.left)-n;e.style.left=(s>0?0:s+e.scrollWidth<=t.clientWidth?t.clientWidth-e.scrollWidth:s)+"px";}function s(){document.removeEventListener("mouseup",s),document.removeEventListener("mousemove",i),document.removeEventListener("touchmove",i),document.removeEventListener("touchend",i),e.style.pointerEvents="all",e.style.userSelect="all";}e.addEventListener("mousedown",o),e.addEventListener("touchstart",o,!1),""==e.style.left&&(e.style.left="0px");}(r.querySelector(".tabbar-wrap"),r);});return e.$$set=e=>{n(16,t=assign(assign({},t),exclude_internal_props(e))),"class"in e&&n(1,a=e.class),"style"in e&&n(2,c=e.style),"tabNames"in e&&n(3,v=e.tabNames),"activeTab"in e&&n(0,h=e.activeTab),"$$scope"in e&&n(10,o=e.$$scope);},e.$$.update=()=>{{const{style:e,tabNames:l,activeTab:o,...i}=t;n(5,d=i);}9&e.$$.dirty&&(n(0,h=Math.abs(parseInt(h))),Number.isInteger(h)||n(0,h=0),m());},t=exclude_internal_props(t),[h,a,c,v,r,d,u,f,s,g,o,l,(e,t)=>{g(t,e);},function(e){binding_callbacks[e?"unshift":"push"](()=>{r=e,n(4,r);});}]}class nl extends SvelteComponent{constructor(e){var t;super(),Kn.getElementById("svelte-4jfme-style")||((t=element("style")).id="svelte-4jfme-style",t.textContent=".tabbar.svelte-4jfme{width:100%;overflow:hidden}.tabbar-wrap.svelte-4jfme{display:flex;position:relative;transition:left 150ms}.tabbutton.svelte-4jfme{color:var(--color);min-width:70px;font-family:Roboto,sans-serif;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;font-size:.875rem;font-weight:500;letter-spacing:.08929em;text-decoration:none;text-transform:uppercase;position:relative;display:flex;flex:1 0 auto;justify-content:center;align-items:center;box-sizing:border-box;height:48px;margin:0 !important;padding:0 24px;border:none;outline:none;background:none;text-align:center;white-space:nowrap;cursor:pointer;-webkit-appearance:none;z-index:1}.tabbutton.svelte-4jfme:before{bottom:0;content:'';left:0;opacity:0;pointer-events:none;position:absolute;right:0;top:0;transition:0.2s cubic-bezier(0.25, 0.8, 0.5, 1);will-change:background-color, opacity}.tabbutton.svelte-4jfme:hover:before{background-color:currentColor;opacity:0.15}.tabbuttonactive.svelte-4jfme{color:var(--primary)}.tabcontent-wrap.svelte-4jfme{overflow:hidden;transition:none}.tabcontent.svelte-4jfme{display:flex;align-items:flex-start;flex-wrap:nowrap;transform:translate3d(0%, 0px, 0px);transition:transform .35s cubic-bezier(.4,0,.2,1);will-change:transform}.tabindicator.svelte-4jfme{height:2px;position:absolute;left:0;bottom:0;transition:left .2s cubic-bezier(.4,0,.2,1);background-color:var(--primary)}",append(Kn.head,t)),init(this,e,tl,el,safe_not_equal,{class:1,style:2,tabNames:3,activeTab:0});}}function ll(e){let t,n,o,i,r;const a=e[5].default,d=create_slot(a,e,e[4],null);let p=[{class:n="tabcontent-page "+e[0]},{style:e[1]},e[2]],v={};for(let e=0;e<p.length;e+=1)v=assign(v,p[e]);return {c(){t=element("div"),d&&d.c(),set_attributes(t,v),toggle_class(t,"svelte-1cy2yx5",!0);},m(n,s){insert(n,t,s),d&&d.m(t,null),o=!0,i||(r=action_destroyer(e[3].call(null,t)),i=!0);},p(e,[l]){d&&d.p&&16&l&&update_slot(d,a,e,e[4],l,null,null),set_attributes(t,v=get_spread_update(p,[(!o||1&l&&n!==(n="tabcontent-page "+e[0]))&&{class:n},(!o||2&l)&&{style:e[1]},4&l&&e[2]])),toggle_class(t,"svelte-1cy2yx5",!0);},i(e){o||(transition_in(d,e),o=!0);},o(e){transition_out(d,e),o=!1;},d(e){e&&detach(t),d&&d.d(e),i=!1,r();}}}function ol(e,t,n){let{$$slots:l={},$$scope:o}=t;const i=oe(current_component);let{class:s=""}=t,{style:r=null}=t,a={};return e.$$set=e=>{n(6,t=assign(assign({},t),exclude_internal_props(e))),"class"in e&&n(0,s=e.class),"style"in e&&n(1,r=e.style),"$$scope"in e&&n(4,o=e.$$scope);},e.$$.update=()=>{{const{style:e,...l}=t;n(2,a=l);}},t=exclude_internal_props(t),[s,r,a,i,o,l]}class il extends SvelteComponent{constructor(e){var t;super(),document.getElementById("svelte-1cy2yx5-style")||((t=element("style")).id="svelte-1cy2yx5-style",t.textContent=".tabcontent-page.svelte-1cy2yx5{width:100%;flex:1 0 100%}",append(document.head,t)),init(this,e,ol,ll,safe_not_equal,{class:0,style:1});}}
 
     /* src/HeaderBar.svelte generated by Svelte v3.32.3 */
 
@@ -799,231 +1099,231 @@ var bundle = (function () {
     			attr_dev(rect0, "width", "30");
     			attr_dev(rect0, "height", "15");
     			attr_dev(rect0, "rx", "1");
-    			add_location(rect0, file$1, 93, 2, 2020);
+    			add_location(rect0, file$1, 94, 2, 2154);
     			attr_dev(rect1, "class", "court svelte-1073xl5");
     			attr_dev(rect1, "width", "18");
     			attr_dev(rect1, "height", "9");
     			attr_dev(rect1, "x", "6");
     			attr_dev(rect1, "y", "3");
-    			add_location(rect1, file$1, 94, 2, 2074);
+    			add_location(rect1, file$1, 95, 2, 2208);
     			attr_dev(circle0, "id", "contact");
     			attr_dev(circle0, "class", "contact svelte-1073xl5");
     			attr_dev(circle0, "cx", "15");
     			attr_dev(circle0, "cy", "7.5");
     			attr_dev(circle0, "r", "0.105");
-    			add_location(circle0, file$1, 96, 2, 2134);
+    			add_location(circle0, file$1, 97, 2, 2268);
     			attr_dev(rect2, "id", "free-top-area");
     			attr_dev(rect2, "class", "area svelte-1073xl5");
     			attr_dev(rect2, "width", "30");
     			attr_dev(rect2, "height", "3");
     			attr_dev(rect2, "x", "0");
     			attr_dev(rect2, "y", "0");
-    			add_location(rect2, file$1, 99, 4, 2268);
+    			add_location(rect2, file$1, 100, 4, 2402);
     			attr_dev(circle1, "id", "free-top-post");
     			attr_dev(circle1, "class", "post svelte-1073xl5");
     			attr_dev(circle1, "cx", "15");
     			attr_dev(circle1, "cy", "2");
     			attr_dev(circle1, "r", "0.1012");
-    			add_location(circle1, file$1, 100, 4, 2349);
+    			add_location(circle1, file$1, 101, 4, 2483);
     			attr_dev(line0, "id", "free-top-extA");
     			attr_dev(line0, "class", "boundary extension svelte-1073xl5");
     			attr_dev(line0, "x1", "12");
     			attr_dev(line0, "y1", "3");
     			attr_dev(line0, "x2", "12");
     			attr_dev(line0, "y2", "1.25");
-    			add_location(line0, file$1, 101, 4, 2500);
+    			add_location(line0, file$1, 102, 4, 2634);
     			attr_dev(line1, "id", "free-top-extB");
     			attr_dev(line1, "class", "boundary extension svelte-1073xl5");
     			attr_dev(line1, "x1", "18");
     			attr_dev(line1, "y1", "3");
     			attr_dev(line1, "x2", "18");
     			attr_dev(line1, "y2", "1.25");
-    			add_location(line1, file$1, 102, 4, 2594);
+    			add_location(line1, file$1, 103, 4, 2728);
     			attr_dev(g0, "class", "svelte-1073xl5");
-    			add_location(g0, file$1, 98, 2, 2260);
+    			add_location(g0, file$1, 99, 2, 2394);
     			attr_dev(rect3, "id", "free-home-area");
     			attr_dev(rect3, "class", "area svelte-1073xl5");
     			attr_dev(rect3, "width", "6");
     			attr_dev(rect3, "height", "9");
     			attr_dev(rect3, "x", "0");
     			attr_dev(rect3, "y", "3");
-    			add_location(rect3, file$1, 105, 4, 2701);
+    			add_location(rect3, file$1, 106, 4, 2835);
     			attr_dev(line2, "id", "free-home-extA");
     			attr_dev(line2, "class", "boundary extension svelte-1073xl5");
     			attr_dev(line2, "x1", "6");
     			attr_dev(line2, "y1", "3");
     			attr_dev(line2, "x2", "4.25");
     			attr_dev(line2, "y2", "3");
-    			add_location(line2, file$1, 106, 4, 2780);
+    			add_location(line2, file$1, 107, 4, 2914);
     			attr_dev(line3, "id", "free-home-extB");
     			attr_dev(line3, "class", "boundary extension svelte-1073xl5");
     			attr_dev(line3, "x1", "6");
     			attr_dev(line3, "y1", "12");
     			attr_dev(line3, "x2", "4.25");
     			attr_dev(line3, "y2", "12");
-    			add_location(line3, file$1, 107, 4, 2871);
+    			add_location(line3, file$1, 108, 4, 3005);
     			attr_dev(g1, "class", "svelte-1073xl5");
-    			add_location(g1, file$1, 104, 2, 2693);
+    			add_location(g1, file$1, 105, 2, 2827);
     			attr_dev(rect4, "id", "court-home-area");
     			attr_dev(rect4, "class", "area svelte-1073xl5");
     			attr_dev(rect4, "width", "7.8");
     			attr_dev(rect4, "height", "9");
     			attr_dev(rect4, "x", "6");
     			attr_dev(rect4, "y", "3");
-    			add_location(rect4, file$1, 110, 4, 2977);
+    			add_location(rect4, file$1, 111, 4, 3111);
     			attr_dev(line4, "id", "court-home-tapeA");
     			attr_dev(line4, "class", "court boundary svelte-1073xl5");
     			attr_dev(line4, "x1", "15");
     			attr_dev(line4, "y1", "12");
     			attr_dev(line4, "x2", "6");
     			attr_dev(line4, "y2", "12");
-    			add_location(line4, file$1, 111, 4, 3060);
+    			add_location(line4, file$1, 112, 4, 3194);
     			attr_dev(line5, "id", "court-home-tapeB");
     			attr_dev(line5, "class", "court boundary svelte-1073xl5");
     			attr_dev(line5, "x1", "6");
     			attr_dev(line5, "y1", "12");
     			attr_dev(line5, "x2", "6");
     			attr_dev(line5, "y2", "3");
-    			add_location(line5, file$1, 112, 4, 3149);
+    			add_location(line5, file$1, 113, 4, 3283);
     			attr_dev(line6, "id", "court-home-tapeC");
     			attr_dev(line6, "class", "court boundary svelte-1073xl5");
     			attr_dev(line6, "x1", "6");
     			attr_dev(line6, "y1", "3");
     			attr_dev(line6, "x2", "15");
     			attr_dev(line6, "y2", "3");
-    			add_location(line6, file$1, 113, 4, 3236);
+    			add_location(line6, file$1, 114, 4, 3370);
     			attr_dev(line7, "id", "court-home-tapeD");
     			attr_dev(line7, "class", "court boundary svelte-1073xl5");
     			attr_dev(line7, "x1", "12");
     			attr_dev(line7, "y1", "3");
     			attr_dev(line7, "x2", "12");
     			attr_dev(line7, "y2", "12");
-    			add_location(line7, file$1, 114, 4, 3323);
+    			add_location(line7, file$1, 115, 4, 3457);
     			attr_dev(g2, "class", "svelte-1073xl5");
-    			add_location(g2, file$1, 109, 2, 2969);
+    			add_location(g2, file$1, 110, 2, 3103);
     			attr_dev(rect5, "id", "block-home-area");
     			attr_dev(rect5, "class", "block area svelte-1073xl5");
     			attr_dev(rect5, "width", "0.8");
     			attr_dev(rect5, "height", "9");
     			attr_dev(rect5, "x", "13.8");
     			attr_dev(rect5, "y", "3");
-    			add_location(rect5, file$1, 116, 2, 3417);
+    			add_location(rect5, file$1, 117, 2, 3551);
     			attr_dev(rect6, "id", "net-area");
     			attr_dev(rect6, "class", "net area svelte-1073xl5");
     			attr_dev(rect6, "width", "0.8");
     			attr_dev(rect6, "height", "9");
     			attr_dev(rect6, "x", "14.6");
     			attr_dev(rect6, "y", "3");
-    			add_location(rect6, file$1, 118, 4, 3514);
+    			add_location(rect6, file$1, 119, 4, 3648);
     			attr_dev(line8, "id", "net-tape");
     			attr_dev(line8, "class", "court boundary svelte-1073xl5");
     			attr_dev(line8, "x1", "15");
     			attr_dev(line8, "y1", "3");
     			attr_dev(line8, "x2", "15");
     			attr_dev(line8, "y2", "12");
-    			add_location(line8, file$1, 119, 4, 3596);
+    			add_location(line8, file$1, 120, 4, 3730);
     			attr_dev(g3, "class", "svelte-1073xl5");
-    			add_location(g3, file$1, 117, 2, 3506);
+    			add_location(g3, file$1, 118, 2, 3640);
     			attr_dev(rect7, "id", "block-away-area");
     			attr_dev(rect7, "class", "block area svelte-1073xl5");
     			attr_dev(rect7, "width", "0.8");
     			attr_dev(rect7, "height", "9");
     			attr_dev(rect7, "x", "15.4");
     			attr_dev(rect7, "y", "3");
-    			add_location(rect7, file$1, 121, 2, 3682);
+    			add_location(rect7, file$1, 122, 2, 3816);
     			attr_dev(rect8, "id", "court-away-area");
     			attr_dev(rect8, "class", "area svelte-1073xl5");
     			attr_dev(rect8, "width", "7.8");
     			attr_dev(rect8, "height", "9");
     			attr_dev(rect8, "x", "16.2");
     			attr_dev(rect8, "y", "3");
-    			add_location(rect8, file$1, 123, 4, 3779);
+    			add_location(rect8, file$1, 124, 4, 3913);
     			attr_dev(line9, "id", "court-away-tapeA");
     			attr_dev(line9, "class", "court boundary svelte-1073xl5");
     			attr_dev(line9, "x1", "15");
     			attr_dev(line9, "y1", "3");
     			attr_dev(line9, "x2", "24");
     			attr_dev(line9, "y2", "3");
-    			add_location(line9, file$1, 124, 4, 3865);
+    			add_location(line9, file$1, 125, 4, 3999);
     			attr_dev(line10, "id", "court-away-tapeB");
     			attr_dev(line10, "class", "court boundary svelte-1073xl5");
     			attr_dev(line10, "x1", "24");
     			attr_dev(line10, "y1", "3");
     			attr_dev(line10, "x2", "24");
     			attr_dev(line10, "y2", "12");
-    			add_location(line10, file$1, 125, 4, 3953);
+    			add_location(line10, file$1, 126, 4, 4087);
     			attr_dev(line11, "id", "court-away-tapeC");
     			attr_dev(line11, "class", "court boundary svelte-1073xl5");
     			attr_dev(line11, "x1", "24");
     			attr_dev(line11, "y1", "12");
     			attr_dev(line11, "x2", "15");
     			attr_dev(line11, "y2", "12");
-    			add_location(line11, file$1, 126, 4, 4042);
+    			add_location(line11, file$1, 127, 4, 4176);
     			attr_dev(line12, "id", "court-away-tapeD");
     			attr_dev(line12, "class", "court boundary svelte-1073xl5");
     			attr_dev(line12, "x1", "18");
     			attr_dev(line12, "y1", "3");
     			attr_dev(line12, "x2", "18");
     			attr_dev(line12, "y2", "12");
-    			add_location(line12, file$1, 127, 4, 4132);
+    			add_location(line12, file$1, 128, 4, 4266);
     			attr_dev(g4, "class", "svelte-1073xl5");
-    			add_location(g4, file$1, 122, 2, 3771);
+    			add_location(g4, file$1, 123, 2, 3905);
     			attr_dev(rect9, "id", "free-away-area");
     			attr_dev(rect9, "class", "area svelte-1073xl5");
     			attr_dev(rect9, "width", "6");
     			attr_dev(rect9, "height", "9");
     			attr_dev(rect9, "x", "24");
     			attr_dev(rect9, "y", "3");
-    			add_location(rect9, file$1, 130, 4, 4234);
+    			add_location(rect9, file$1, 131, 4, 4368);
     			attr_dev(line13, "id", "free-away-extA");
     			attr_dev(line13, "class", "boundary extension svelte-1073xl5");
     			attr_dev(line13, "x1", "24");
     			attr_dev(line13, "y1", "3");
     			attr_dev(line13, "x2", "25.75");
     			attr_dev(line13, "y2", "3");
-    			add_location(line13, file$1, 131, 4, 4314);
+    			add_location(line13, file$1, 132, 4, 4448);
     			attr_dev(line14, "id", "free-away-extB");
     			attr_dev(line14, "class", "boundary extension svelte-1073xl5");
     			attr_dev(line14, "x1", "24");
     			attr_dev(line14, "y1", "12");
     			attr_dev(line14, "x2", "25.75");
     			attr_dev(line14, "y2", "12");
-    			add_location(line14, file$1, 132, 4, 4407);
+    			add_location(line14, file$1, 133, 4, 4541);
     			attr_dev(g5, "class", "svelte-1073xl5");
-    			add_location(g5, file$1, 129, 2, 4226);
+    			add_location(g5, file$1, 130, 2, 4360);
     			attr_dev(rect10, "id", "free-bottom-area");
     			attr_dev(rect10, "class", "area svelte-1073xl5");
     			attr_dev(rect10, "width", "30");
     			attr_dev(rect10, "height", "3");
     			attr_dev(rect10, "x", "0");
     			attr_dev(rect10, "y", "12");
-    			add_location(rect10, file$1, 135, 4, 4515);
+    			add_location(rect10, file$1, 136, 4, 4649);
     			attr_dev(circle2, "id", "free-bottom-post");
     			attr_dev(circle2, "class", "post svelte-1073xl5");
     			attr_dev(circle2, "cx", "15");
     			attr_dev(circle2, "cy", "13");
     			attr_dev(circle2, "r", "0.1012");
-    			add_location(circle2, file$1, 136, 4, 4600);
+    			add_location(circle2, file$1, 137, 4, 4734);
     			attr_dev(line15, "id", "free-bottom-extA");
     			attr_dev(line15, "class", "boundary extension svelte-1073xl5");
     			attr_dev(line15, "x1", "12");
     			attr_dev(line15, "y1", "12");
     			attr_dev(line15, "x2", "12");
     			attr_dev(line15, "y2", "13.75");
-    			add_location(line15, file$1, 137, 4, 4676);
+    			add_location(line15, file$1, 138, 4, 4810);
     			attr_dev(line16, "id", "free-bottom-extB");
     			attr_dev(line16, "class", "boundary extension svelte-1073xl5");
     			attr_dev(line16, "x1", "18");
     			attr_dev(line16, "y1", "12");
     			attr_dev(line16, "x2", "18");
     			attr_dev(line16, "y2", "13.75");
-    			add_location(line16, file$1, 138, 4, 4775);
+    			add_location(line16, file$1, 139, 4, 4909);
     			attr_dev(g6, "class", "svelte-1073xl5");
-    			add_location(g6, file$1, 134, 2, 4507);
+    			add_location(g6, file$1, 135, 2, 4641);
     			attr_dev(svg_1, "id", "play-area");
     			attr_dev(svg_1, "viewBox", "3 1.5 24 12");
     			attr_dev(svg_1, "class", "svelte-1073xl5");
-    			add_location(svg_1, file$1, 92, 0, 1875);
+    			add_location(svg_1, file$1, 93, 0, 2009);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1106,20 +1406,21 @@ var bundle = (function () {
     	let svg;
     	let contact;
 
-    	const on_click = e => {
-    		const loc = screen_to_svg(svg, e.clientX, e.clientY);
+    	const on_click = mouse_event => {
+    		const loc = screen_to_svg(svg, mouse_event.clientX, mouse_event.clientY);
 
     		dispatch("contact", {
-    			area_id: e.target.getAttribute("id"),
+    			area_id: mouse_event.target.getAttribute("id"),
     			court_x: Math.round(loc.x * 1000), // mm
     			court_y: Math.round(loc.y * 1000),
-    			screen_x: e.clientX, // px
-    			screen_y: e.clientY
+    			el_x: mouse_event.offsetX, // px
+    			el_y: mouse_event.offsetY,
+    			el_rect: svg.parentElement.getBoundingClientRect()
     		});
     	};
 
-    	const on_move = e => {
-    		const loc = screen_to_svg(svg, e.clientX, e.clientY);
+    	const on_move = mouse_event => {
+    		const loc = screen_to_svg(svg, mouse_event.clientX, mouse_event.clientY);
     		contact.setAttributeNS(null, "cx", loc.x);
     		contact.setAttributeNS(null, "cy", loc.y);
     	};
@@ -1186,29 +1487,24 @@ var bundle = (function () {
     const { console: console_1 } = globals;
     const file$2 = "src/Recorder.svelte";
 
-    function create_fragment$2(ctx) {
-    	let h2;
-    	let t1;
+    // (148:2) <div slot="activator">
+    function create_activator_slot(ctx) {
+    	let div;
     	let court;
     	let current;
     	court = new Court({ $$inline: true });
-    	court.$on("contact", /*on_contact*/ ctx[0]);
+    	court.$on("contact", /*on_contact*/ ctx[5]);
 
     	const block = {
     		c: function create() {
-    			h2 = element("h2");
-    			h2.textContent = "record a match";
-    			t1 = space();
+    			div = element("div");
     			create_component(court.$$.fragment);
-    			add_location(h2, file$2, 118, 0, 3684);
-    		},
-    		l: function claim(nodes) {
-    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    			attr_dev(div, "slot", "activator");
+    			add_location(div, file$2, 147, 2, 4862);
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, h2, anchor);
-    			insert_dev(target, t1, anchor);
-    			mount_component(court, target, anchor);
+    			insert_dev(target, div, anchor);
+    			mount_component(court, div, null);
     			current = true;
     		},
     		p: noop,
@@ -1222,9 +1518,356 @@ var bundle = (function () {
     			current = false;
     		},
     		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div);
+    			destroy_component(court);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_activator_slot.name,
+    		type: "slot",
+    		source: "(148:2) <div slot=\\\"activator\\\">",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (152:2) <Menuitem on:click={()=>specify(CONTACT.PLAYER, 2)}>
+    function create_default_slot_4(ctx) {
+    	let t;
+
+    	const block = {
+    		c: function create() {
+    			t = text("Jersey #2");
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, t, anchor);
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(t);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_default_slot_4.name,
+    		type: "slot",
+    		source: "(152:2) <Menuitem on:click={()=>specify(CONTACT.PLAYER, 2)}>",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (153:2) <Menuitem on:click={()=>specify(CONTACT.PLAYER, 3)}>
+    function create_default_slot_3(ctx) {
+    	let t;
+
+    	const block = {
+    		c: function create() {
+    			t = text("Jersey #3");
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, t, anchor);
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(t);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_default_slot_3.name,
+    		type: "slot",
+    		source: "(153:2) <Menuitem on:click={()=>specify(CONTACT.PLAYER, 3)}>",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (154:2) <Menuitem on:click={()=>specify(CONTACT.PLAYER, 4)}>
+    function create_default_slot_2(ctx) {
+    	let t;
+
+    	const block = {
+    		c: function create() {
+    			t = text("Jersey #4");
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, t, anchor);
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(t);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_default_slot_2.name,
+    		type: "slot",
+    		source: "(154:2) <Menuitem on:click={()=>specify(CONTACT.PLAYER, 4)}>",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (156:2) <Menuitem on:click={()=>specify(CONTACT.FLOOR)}>
+    function create_default_slot_1(ctx) {
+    	let t;
+
+    	const block = {
+    		c: function create() {
+    			t = text("Floor");
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, t, anchor);
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(t);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_default_slot_1.name,
+    		type: "slot",
+    		source: "(156:2) <Menuitem on:click={()=>specify(CONTACT.FLOOR)}>",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (147:0) <Menu origin={menu_origin} {...menu_offset}>
+    function create_default_slot(ctx) {
+    	let t0;
+    	let menuitem0;
+    	let t1;
+    	let menuitem1;
+    	let t2;
+    	let menuitem2;
+    	let t3;
+    	let hr;
+    	let t4;
+    	let menuitem3;
+    	let current;
+
+    	menuitem0 = new Yn({
+    			props: {
+    				$$slots: { default: [create_default_slot_4] },
+    				$$scope: { ctx }
+    			},
+    			$$inline: true
+    		});
+
+    	menuitem0.$on("click", /*click_handler*/ ctx[7]);
+
+    	menuitem1 = new Yn({
+    			props: {
+    				$$slots: { default: [create_default_slot_3] },
+    				$$scope: { ctx }
+    			},
+    			$$inline: true
+    		});
+
+    	menuitem1.$on("click", /*click_handler_1*/ ctx[8]);
+
+    	menuitem2 = new Yn({
+    			props: {
+    				$$slots: { default: [create_default_slot_2] },
+    				$$scope: { ctx }
+    			},
+    			$$inline: true
+    		});
+
+    	menuitem2.$on("click", /*click_handler_2*/ ctx[9]);
+
+    	menuitem3 = new Yn({
+    			props: {
+    				$$slots: { default: [create_default_slot_1] },
+    				$$scope: { ctx }
+    			},
+    			$$inline: true
+    		});
+
+    	menuitem3.$on("click", /*click_handler_3*/ ctx[10]);
+
+    	const block = {
+    		c: function create() {
+    			t0 = space();
+    			create_component(menuitem0.$$.fragment);
+    			t1 = space();
+    			create_component(menuitem1.$$.fragment);
+    			t2 = space();
+    			create_component(menuitem2.$$.fragment);
+    			t3 = space();
+    			hr = element("hr");
+    			t4 = space();
+    			create_component(menuitem3.$$.fragment);
+    			add_location(hr, file$2, 154, 2, 5159);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, t0, anchor);
+    			mount_component(menuitem0, target, anchor);
+    			insert_dev(target, t1, anchor);
+    			mount_component(menuitem1, target, anchor);
+    			insert_dev(target, t2, anchor);
+    			mount_component(menuitem2, target, anchor);
+    			insert_dev(target, t3, anchor);
+    			insert_dev(target, hr, anchor);
+    			insert_dev(target, t4, anchor);
+    			mount_component(menuitem3, target, anchor);
+    			current = true;
+    		},
+    		p: function update(ctx, dirty) {
+    			const menuitem0_changes = {};
+
+    			if (dirty[1] & /*$$scope*/ 4) {
+    				menuitem0_changes.$$scope = { dirty, ctx };
+    			}
+
+    			menuitem0.$set(menuitem0_changes);
+    			const menuitem1_changes = {};
+
+    			if (dirty[1] & /*$$scope*/ 4) {
+    				menuitem1_changes.$$scope = { dirty, ctx };
+    			}
+
+    			menuitem1.$set(menuitem1_changes);
+    			const menuitem2_changes = {};
+
+    			if (dirty[1] & /*$$scope*/ 4) {
+    				menuitem2_changes.$$scope = { dirty, ctx };
+    			}
+
+    			menuitem2.$set(menuitem2_changes);
+    			const menuitem3_changes = {};
+
+    			if (dirty[1] & /*$$scope*/ 4) {
+    				menuitem3_changes.$$scope = { dirty, ctx };
+    			}
+
+    			menuitem3.$set(menuitem3_changes);
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(menuitem0.$$.fragment, local);
+    			transition_in(menuitem1.$$.fragment, local);
+    			transition_in(menuitem2.$$.fragment, local);
+    			transition_in(menuitem3.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(menuitem0.$$.fragment, local);
+    			transition_out(menuitem1.$$.fragment, local);
+    			transition_out(menuitem2.$$.fragment, local);
+    			transition_out(menuitem3.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(t0);
+    			destroy_component(menuitem0, detaching);
+    			if (detaching) detach_dev(t1);
+    			destroy_component(menuitem1, detaching);
+    			if (detaching) detach_dev(t2);
+    			destroy_component(menuitem2, detaching);
+    			if (detaching) detach_dev(t3);
+    			if (detaching) detach_dev(hr);
+    			if (detaching) detach_dev(t4);
+    			destroy_component(menuitem3, detaching);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_default_slot.name,
+    		type: "slot",
+    		source: "(147:0) <Menu origin={menu_origin} {...menu_offset}>",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function create_fragment$2(ctx) {
+    	let h2;
+    	let t1;
+    	let div;
+    	let menu;
+    	let div_resize_listener;
+    	let current;
+    	const menu_spread_levels = [{ origin: /*menu_origin*/ ctx[3] }, /*menu_offset*/ ctx[2]];
+
+    	let menu_props = {
+    		$$slots: {
+    			default: [create_default_slot],
+    			activator: [create_activator_slot]
+    		},
+    		$$scope: { ctx }
+    	};
+
+    	for (let i = 0; i < menu_spread_levels.length; i += 1) {
+    		menu_props = assign(menu_props, menu_spread_levels[i]);
+    	}
+
+    	menu = new kn({ props: menu_props, $$inline: true });
+
+    	const block = {
+    		c: function create() {
+    			h2 = element("h2");
+    			h2.textContent = "record a match";
+    			t1 = space();
+    			div = element("div");
+    			create_component(menu.$$.fragment);
+    			add_location(h2, file$2, 143, 0, 4706);
+    			attr_dev(div, "class", "widener svelte-1pn1iis");
+    			add_render_callback(() => /*div_elementresize_handler*/ ctx[11].call(div));
+    			add_location(div, file$2, 145, 0, 4731);
+    		},
+    		l: function claim(nodes) {
+    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, h2, anchor);
+    			insert_dev(target, t1, anchor);
+    			insert_dev(target, div, anchor);
+    			mount_component(menu, div, null);
+    			div_resize_listener = add_resize_listener(div, /*div_elementresize_handler*/ ctx[11].bind(div));
+    			current = true;
+    		},
+    		p: function update(ctx, dirty) {
+    			const menu_changes = (dirty[0] & /*menu_origin, menu_offset*/ 12)
+    			? get_spread_update(menu_spread_levels, [
+    					dirty[0] & /*menu_origin*/ 8 && { origin: /*menu_origin*/ ctx[3] },
+    					dirty[0] & /*menu_offset*/ 4 && get_spread_object(/*menu_offset*/ ctx[2])
+    				])
+    			: {};
+
+    			if (dirty[1] & /*$$scope*/ 4) {
+    				menu_changes.$$scope = { dirty, ctx };
+    			}
+
+    			menu.$set(menu_changes);
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(menu.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(menu.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
     			if (detaching) detach_dev(h2);
     			if (detaching) detach_dev(t1);
-    			destroy_component(court, detaching);
+    			if (detaching) detach_dev(div);
+    			destroy_component(menu);
+    			div_resize_listener();
     		}
     	};
 
@@ -1250,6 +1893,8 @@ var bundle = (function () {
     		BLOCKING: "blocking"
     	};
 
+    	const CONTACT = { PLAYER: "player", FLOOR: "floor" };
+
     	const ACTION = {
     		SERVE: "serve",
     		ACE: "ace",
@@ -1266,31 +1911,13 @@ var bundle = (function () {
     		VIOLATION: "violation"
     	};
 
-    	const CONTACT = {
-    		PLAYER_HOME: "player_home",
-    		PLAYER_AWAY: "player_away",
-    		FLOOR_COURT_HOME: "floor_court_home",
-    		FLOOR_COURT_AWAY: "floor_court_away",
-    		FLOOR_OUT: "floor_out",
-    		NET: "net"
-    	};
-
-    	const match = {
-    		score: { home: 0, away: 0 },
-    		sets: [[], [], []]
-    	};
-
-    	let set_index = -1;
-    	let recording = false;
-    	let rally;
-
     	const on_new_match = serving => {
     		reset_match(match);
     		console.log("starting new match:", match);
     		recording = true;
-    		rally = new_rally(serving);
+    		current.rally = new_rally(serving);
     		console.log(`starting new rally, ${serving} team serving..`);
-    		console.log("rally:", rally);
+    		console.log("rally:", current.rally);
     	};
 
     	const reset_match = m => {
@@ -1305,6 +1932,18 @@ var bundle = (function () {
     		contacts: []
     	});
 
+    	const needs_specifier = contact => true;
+
+    	const set_menu_props = ({ el_x: x, el_y: y, el_rect }) => {
+    		const k = 80; // FIXME: where is this offset coming from?
+    		const { width: w, height: h } = el_rect;
+    		const tb = y < h / 2 ? "top" : "bottom";
+    		const lr = x < w / 2 ? "left" : "right";
+    		$$invalidate(3, menu_origin = `${tb} ${lr}`);
+    		$$invalidate(2, menu_offset.dx = lr === "left" ? x : w - x, menu_offset);
+    		$$invalidate(2, menu_offset.dy = tb === "top" ? y - k : h - y + k, menu_offset);
+    	};
+
     	const is_out = area => area.startsWith(`free-top`) || area.startsWith(`free-bottom`);
     	const is_net_area = area => area.startsWith("net-");
     	const is_blocking_area = (area, team) => area.startsWith(`block-${team}`);
@@ -1314,13 +1953,13 @@ var bundle = (function () {
     	const attacking_team = rally => rally.attacking_team;
     	const defending_team = rally => other_team(rally.attacking_team);
 
-    	const process_contact = (contact, rally, match) => {
+    	const process_contact = ({ contact, rally, match }) => {
     		console.log(`processing contact with ${contact.area_id}`);
 
     		// if contact is valid, record to rally: rally.contacts.push(contact);
     		// determine action
     		// if rally complete..
-    		//   add rally to set: match.sets[set_index].push(rally)
+    		//   add rally to set: match.sets[current.set_index].push(current.rally)
     		//   update score
     		//   start new rally with correct server
     		// if set complete..
@@ -1351,23 +1990,54 @@ var bundle = (function () {
     	};
 
     	const on_contact = e => {
+    		if (specifying) {
+    			specifying = false;
+    			console.log("specify cancelled");
+    			return;
+    		}
+
     		if (!recording) {
     			console.log("not in recording mode");
     			return;
     		}
 
-    		e.detail;
+    		const { area_id, court_x, court_y, screen_x, screen_y } = e.detail;
+    		console.log(`contact with ${area_id} at [${e.detail.el_x}, ${e.detail.el_y}]`);
+    		current.contact = e.detail;
 
-    		// console.log(`contact with ${area_id} at:\ncourt [${court_x}, ${court_y}]\nscreen [${screen_x}, ${screen_y}]`);
-    		const contact = e.detail;
-
-    		process_contact(contact, rally);
+    		if (needs_specifier(current.contact)) {
+    			specifying = true;
+    			set_menu_props(current.contact);
+    		}
     	};
+
+    	let recording = false;
+    	let specifying = false;
+
+    	let match = {
+    		score: { home: 0, away: 0 },
+    		sets: [[], [], []]
+    	};
+
+    	let current = {
+    		set_index: -1,
+    		rally: null,
+    		contact: null
+    	};
+
+    	let menu_width, menu_height; // read-only
+    	let menu_offset = { dx: 0, dy: 0 };
+    	let menu_origin = "top left";
 
     	onMount(async () => {
     		// TODO: move this to a `New Match` button that prompts for serving team
     		on_new_match(TEAM.HOME);
     	});
+
+    	const specify = (type, jersey = null) => {
+    		specifying = false;
+    		console.log(`specifying a ${type} contact${jersey ? ` (Jersey #${jersey})` : ""}`);
+    	};
 
     	const writable_props = [];
 
@@ -1375,20 +2045,32 @@ var bundle = (function () {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console_1.warn(`<Recorder> was created with unknown prop '${key}'`);
     	});
 
+    	const click_handler = () => specify(CONTACT.PLAYER, 2);
+    	const click_handler_1 = () => specify(CONTACT.PLAYER, 3);
+    	const click_handler_2 = () => specify(CONTACT.PLAYER, 4);
+    	const click_handler_3 = () => specify(CONTACT.FLOOR);
+
+    	function div_elementresize_handler() {
+    		menu_width = this.clientWidth;
+    		menu_height = this.clientHeight;
+    		$$invalidate(0, menu_width);
+    		$$invalidate(1, menu_height);
+    	}
+
     	$$self.$capture_state = () => ({
-    		Court,
     		onMount,
+    		Menu: kn,
+    		Menuitem: Yn,
+    		Court,
     		TEAM,
     		RALLY_STATE,
-    		ACTION,
     		CONTACT,
-    		match,
-    		set_index,
-    		recording,
-    		rally,
+    		ACTION,
     		on_new_match,
     		reset_match,
     		new_rally,
+    		needs_specifier,
+    		set_menu_props,
     		is_out,
     		is_net_area,
     		is_blocking_area,
@@ -1398,26 +2080,53 @@ var bundle = (function () {
     		attacking_team,
     		defending_team,
     		process_contact,
-    		on_contact
+    		on_contact,
+    		recording,
+    		specifying,
+    		match,
+    		current,
+    		menu_width,
+    		menu_height,
+    		menu_offset,
+    		menu_origin,
+    		specify
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ("set_index" in $$props) set_index = $$props.set_index;
     		if ("recording" in $$props) recording = $$props.recording;
-    		if ("rally" in $$props) rally = $$props.rally;
+    		if ("specifying" in $$props) specifying = $$props.specifying;
+    		if ("match" in $$props) match = $$props.match;
+    		if ("current" in $$props) current = $$props.current;
+    		if ("menu_width" in $$props) $$invalidate(0, menu_width = $$props.menu_width);
+    		if ("menu_height" in $$props) $$invalidate(1, menu_height = $$props.menu_height);
+    		if ("menu_offset" in $$props) $$invalidate(2, menu_offset = $$props.menu_offset);
+    		if ("menu_origin" in $$props) $$invalidate(3, menu_origin = $$props.menu_origin);
     	};
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [on_contact];
+    	return [
+    		menu_width,
+    		menu_height,
+    		menu_offset,
+    		menu_origin,
+    		CONTACT,
+    		on_contact,
+    		specify,
+    		click_handler,
+    		click_handler_1,
+    		click_handler_2,
+    		click_handler_3,
+    		div_elementresize_handler
+    	];
     }
 
     class Recorder extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$2, create_fragment$2, safe_not_equal, {});
+    		init(this, options, instance$2, create_fragment$2, safe_not_equal, {}, [-1, -1]);
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -1497,8 +2206,8 @@ var bundle = (function () {
     const { Object: Object_1 } = globals;
     const file$4 = "src/App.svelte";
 
-    // (42:2) <Tab>
-    function create_default_slot_2(ctx) {
+    // (41:2) <Tab>
+    function create_default_slot_2$1(ctx) {
     	let recorder;
     	let current;
     	recorder = new Recorder({ $$inline: true });
@@ -1527,17 +2236,17 @@ var bundle = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_default_slot_2.name,
+    		id: create_default_slot_2$1.name,
     		type: "slot",
-    		source: "(42:2) <Tab>",
+    		source: "(41:2) <Tab>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (43:2) <Tab>
-    function create_default_slot_1(ctx) {
+    // (42:2) <Tab>
+    function create_default_slot_1$1(ctx) {
     	let visualizer;
     	let current;
     	visualizer = new Visualizer({ $$inline: true });
@@ -1566,17 +2275,17 @@ var bundle = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_default_slot_1.name,
+    		id: create_default_slot_1$1.name,
     		type: "slot",
-    		source: "(43:2) <Tab>",
+    		source: "(42:2) <Tab>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (41:0) <Tabs tabNames={['record', 'visualize']}>
-    function create_default_slot(ctx) {
+    // (40:0) <Tabs tabNames={['record', 'visualize']}>
+    function create_default_slot$1(ctx) {
     	let tab0;
     	let t;
     	let tab1;
@@ -1584,7 +2293,7 @@ var bundle = (function () {
 
     	tab0 = new il({
     			props: {
-    				$$slots: { default: [create_default_slot_2] },
+    				$$slots: { default: [create_default_slot_2$1] },
     				$$scope: { ctx }
     			},
     			$$inline: true
@@ -1592,7 +2301,7 @@ var bundle = (function () {
 
     	tab1 = new il({
     			props: {
-    				$$slots: { default: [create_default_slot_1] },
+    				$$slots: { default: [create_default_slot_1$1] },
     				$$scope: { ctx }
     			},
     			$$inline: true
@@ -1646,9 +2355,9 @@ var bundle = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_default_slot.name,
+    		id: create_default_slot$1.name,
     		type: "slot",
-    		source: "(41:0) <Tabs tabNames={['record', 'visualize']}>",
+    		source: "(40:0) <Tabs tabNames={['record', 'visualize']}>",
     		ctx
     	});
 
@@ -1671,7 +2380,7 @@ var bundle = (function () {
     	tabs = new nl({
     			props: {
     				tabNames: ["record", "visualize"],
-    				$$slots: { default: [create_default_slot] },
+    				$$slots: { default: [create_default_slot$1] },
     				$$scope: { ctx }
     			},
     			$$inline: true
@@ -1684,8 +2393,8 @@ var bundle = (function () {
     			br1 = element("br");
     			t = space();
     			create_component(tabs.$$.fragment);
-    			add_location(br0, file$4, 38, 28, 1294);
-    			add_location(br1, file$4, 38, 33, 1299);
+    			add_location(br0, file$4, 37, 28, 1234);
+    			add_location(br1, file$4, 37, 33, 1239);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1741,7 +2450,7 @@ var bundle = (function () {
     function instance$4($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots("App", slots, []);
-    	const likes_it_dark = () => window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    	const prefers_dark = () => window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
 
     	const toggle_theme = palette => {
     		const d = document.documentElement;
@@ -1770,7 +2479,7 @@ var bundle = (function () {
     	};
 
     	onMount(async () => {
-    		if (likes_it_dark()) {
+    		if (prefers_dark()) {
     			toggle_theme(dark_theme);
     		}
     	});
@@ -1783,14 +2492,12 @@ var bundle = (function () {
 
     	$$self.$capture_state = () => ({
     		onMount,
-    		Button: ye,
-    		Checkbox: Ne,
     		Tab: il,
     		Tabs: nl,
     		HeaderBar,
     		Recorder,
     		Visualizer,
-    		likes_it_dark,
+    		prefers_dark,
     		toggle_theme,
     		dark_theme
     	});

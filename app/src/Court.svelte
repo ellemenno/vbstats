@@ -7,19 +7,20 @@
   let svg;
   let contact;
 
-  const on_click = (e) => {
-    const loc = screen_to_svg(svg, e.clientX, e.clientY);
+  const on_click = (mouse_event) => {
+    const loc = screen_to_svg(svg, mouse_event.clientX, mouse_event.clientY);
     dispatch('contact', {
-      area_id: e.target.getAttribute('id'),
+      area_id: mouse_event.target.getAttribute('id'),
       court_x: Math.round(loc.x * 1000), // mm
       court_y: Math.round(loc.y * 1000),
-      screen_x: e.clientX,               // px
-      screen_y: e.clientY,
+      el_x: mouse_event.offsetX,         // px
+      el_y: mouse_event.offsetY,
+      el_rect: svg.parentElement.getBoundingClientRect(),
     });
   }
 
-  const on_move = (e) => {
-    const loc = screen_to_svg(svg, e.clientX, e.clientY);
+  const on_move = (mouse_event) => {
+    const loc = screen_to_svg(svg, mouse_event.clientX, mouse_event.clientY);
     contact.setAttributeNS(null, 'cx', loc.x);
     contact.setAttributeNS(null, 'cy', loc.y);
   }
