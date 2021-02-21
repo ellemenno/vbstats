@@ -1,12 +1,11 @@
 <script>
   import { onMount } from 'svelte';
-  import { Button, Checkbox, Tab, Tabs } from 'svelte-mui';
+  import { Tab, Tabs } from 'svelte-mui';
   import HeaderBar from "./HeaderBar.svelte";
   import Recorder from "./Recorder.svelte";
   import Visualizer from "./Visualizer.svelte";
-  // import Tabs from "./Tabs.svelte";
 
-  const likes_it_dark = () => (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  const prefers_dark = () => (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
 
   const toggle_theme = (palette) => {
     const d = document.documentElement;
@@ -31,7 +30,7 @@
   };
 
   onMount(async () => {
-    if (likes_it_dark()) { toggle_theme(dark_theme) }
+    if (prefers_dark()) { toggle_theme(dark_theme) }
   });
 </script>
 
