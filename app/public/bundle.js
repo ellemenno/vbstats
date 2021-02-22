@@ -1033,39 +1033,41 @@ var bundle = (function () {
     	let circle0;
     	let g0;
     	let rect2;
-    	let circle1;
     	let line0;
+    	let rect3;
     	let line1;
     	let g1;
-    	let rect3;
+    	let rect4;
     	let line2;
     	let line3;
     	let g2;
-    	let rect4;
+    	let rect5;
     	let line4;
     	let line5;
     	let line6;
     	let line7;
-    	let rect5;
-    	let g3;
     	let rect6;
-    	let line8;
     	let rect7;
-    	let g4;
+    	let g3;
     	let rect8;
+    	let line8;
     	let line9;
     	let line10;
     	let line11;
-    	let line12;
-    	let g5;
+    	let g4;
     	let rect9;
+    	let line12;
     	let line13;
-    	let line14;
-    	let g6;
+    	let g5;
     	let rect10;
-    	let circle2;
+    	let line14;
+    	let rect11;
     	let line15;
+    	let g6;
+    	let circle1;
+    	let rect12;
     	let line16;
+    	let circle2;
     	let mounted;
     	let dispose;
 
@@ -1077,39 +1079,41 @@ var bundle = (function () {
     			circle0 = svg_element("circle");
     			g0 = svg_element("g");
     			rect2 = svg_element("rect");
-    			circle1 = svg_element("circle");
     			line0 = svg_element("line");
+    			rect3 = svg_element("rect");
     			line1 = svg_element("line");
     			g1 = svg_element("g");
-    			rect3 = svg_element("rect");
+    			rect4 = svg_element("rect");
     			line2 = svg_element("line");
     			line3 = svg_element("line");
     			g2 = svg_element("g");
-    			rect4 = svg_element("rect");
+    			rect5 = svg_element("rect");
     			line4 = svg_element("line");
     			line5 = svg_element("line");
     			line6 = svg_element("line");
     			line7 = svg_element("line");
-    			rect5 = svg_element("rect");
-    			g3 = svg_element("g");
     			rect6 = svg_element("rect");
-    			line8 = svg_element("line");
     			rect7 = svg_element("rect");
-    			g4 = svg_element("g");
+    			g3 = svg_element("g");
     			rect8 = svg_element("rect");
+    			line8 = svg_element("line");
     			line9 = svg_element("line");
     			line10 = svg_element("line");
     			line11 = svg_element("line");
-    			line12 = svg_element("line");
-    			g5 = svg_element("g");
+    			g4 = svg_element("g");
     			rect9 = svg_element("rect");
+    			line12 = svg_element("line");
     			line13 = svg_element("line");
-    			line14 = svg_element("line");
-    			g6 = svg_element("g");
+    			g5 = svg_element("g");
     			rect10 = svg_element("rect");
-    			circle2 = svg_element("circle");
+    			line14 = svg_element("line");
+    			rect11 = svg_element("rect");
     			line15 = svg_element("line");
+    			g6 = svg_element("g");
+    			circle1 = svg_element("circle");
+    			rect12 = svg_element("rect");
     			line16 = svg_element("line");
+    			circle2 = svg_element("circle");
     			attr_dev(rect0, "class", "free svelte-1073xl5");
     			attr_dev(rect0, "width", "30");
     			attr_dev(rect0, "height", "15");
@@ -1127,214 +1131,228 @@ var bundle = (function () {
     			attr_dev(circle0, "cy", "7.5");
     			attr_dev(circle0, "r", "0.105");
     			add_location(circle0, file$1, 98, 2, 2301);
-    			attr_dev(rect2, "id", "free-top-area");
+    			attr_dev(rect2, "id", "free-home-top-area");
     			attr_dev(rect2, "class", "area svelte-1073xl5");
-    			attr_dev(rect2, "width", "30");
+    			attr_dev(rect2, "width", "15");
     			attr_dev(rect2, "height", "3");
     			attr_dev(rect2, "x", "0");
     			attr_dev(rect2, "y", "0");
     			add_location(rect2, file$1, 101, 4, 2435);
-    			attr_dev(circle1, "id", "free-top-post");
-    			attr_dev(circle1, "class", "post svelte-1073xl5");
-    			attr_dev(circle1, "cx", "15");
-    			attr_dev(circle1, "cy", "2");
-    			attr_dev(circle1, "r", "0.1012");
-    			add_location(circle1, file$1, 102, 4, 2516);
-    			attr_dev(line0, "id", "free-top-extA");
+    			attr_dev(line0, "id", "free-home-top-ext");
     			attr_dev(line0, "class", "boundary extension svelte-1073xl5");
     			attr_dev(line0, "x1", "12");
     			attr_dev(line0, "y1", "3");
     			attr_dev(line0, "x2", "12");
     			attr_dev(line0, "y2", "1.25");
-    			add_location(line0, file$1, 103, 4, 2667);
-    			attr_dev(line1, "id", "free-top-extB");
+    			add_location(line0, file$1, 102, 4, 2519);
+    			attr_dev(rect3, "id", "free-away-top-area");
+    			attr_dev(rect3, "class", "area svelte-1073xl5");
+    			attr_dev(rect3, "width", "15");
+    			attr_dev(rect3, "height", "3");
+    			attr_dev(rect3, "x", "15");
+    			attr_dev(rect3, "y", "0");
+    			add_location(rect3, file$1, 103, 4, 2615);
+    			attr_dev(line1, "id", "free-away-top-ext");
     			attr_dev(line1, "class", "boundary extension svelte-1073xl5");
     			attr_dev(line1, "x1", "18");
     			attr_dev(line1, "y1", "3");
     			attr_dev(line1, "x2", "18");
     			attr_dev(line1, "y2", "1.25");
-    			add_location(line1, file$1, 104, 4, 2761);
+    			add_location(line1, file$1, 104, 4, 2700);
     			attr_dev(g0, "class", "svelte-1073xl5");
     			add_location(g0, file$1, 100, 2, 2427);
-    			attr_dev(rect3, "id", "free-home-area");
-    			attr_dev(rect3, "class", "area svelte-1073xl5");
-    			attr_dev(rect3, "width", "6");
-    			attr_dev(rect3, "height", "9");
-    			attr_dev(rect3, "x", "0");
-    			attr_dev(rect3, "y", "3");
-    			add_location(rect3, file$1, 107, 4, 2868);
-    			attr_dev(line2, "id", "free-home-extA");
+    			attr_dev(rect4, "id", "free-home-service-area");
+    			attr_dev(rect4, "class", "area svelte-1073xl5");
+    			attr_dev(rect4, "width", "6");
+    			attr_dev(rect4, "height", "9");
+    			attr_dev(rect4, "x", "0");
+    			attr_dev(rect4, "y", "3");
+    			add_location(rect4, file$1, 107, 4, 2809);
+    			attr_dev(line2, "id", "free-home-service-extA");
     			attr_dev(line2, "class", "boundary extension svelte-1073xl5");
     			attr_dev(line2, "x1", "6");
     			attr_dev(line2, "y1", "3");
     			attr_dev(line2, "x2", "4.25");
     			attr_dev(line2, "y2", "3");
-    			add_location(line2, file$1, 108, 4, 2947);
-    			attr_dev(line3, "id", "free-home-extB");
+    			add_location(line2, file$1, 108, 4, 2896);
+    			attr_dev(line3, "id", "free-home-service-extB");
     			attr_dev(line3, "class", "boundary extension svelte-1073xl5");
     			attr_dev(line3, "x1", "6");
     			attr_dev(line3, "y1", "12");
     			attr_dev(line3, "x2", "4.25");
     			attr_dev(line3, "y2", "12");
-    			add_location(line3, file$1, 109, 4, 3038);
+    			add_location(line3, file$1, 109, 4, 2995);
     			attr_dev(g1, "class", "svelte-1073xl5");
-    			add_location(g1, file$1, 106, 2, 2860);
-    			attr_dev(rect4, "id", "court-home-area");
-    			attr_dev(rect4, "class", "area svelte-1073xl5");
-    			attr_dev(rect4, "width", "7.8");
-    			attr_dev(rect4, "height", "9");
-    			attr_dev(rect4, "x", "6");
-    			attr_dev(rect4, "y", "3");
-    			add_location(rect4, file$1, 112, 4, 3144);
+    			add_location(g1, file$1, 106, 2, 2801);
+    			attr_dev(rect5, "id", "court-home-area");
+    			attr_dev(rect5, "class", "area svelte-1073xl5");
+    			attr_dev(rect5, "width", "7.8");
+    			attr_dev(rect5, "height", "9");
+    			attr_dev(rect5, "x", "6");
+    			attr_dev(rect5, "y", "3");
+    			add_location(rect5, file$1, 112, 4, 3109);
     			attr_dev(line4, "id", "court-home-tapeA");
     			attr_dev(line4, "class", "court boundary svelte-1073xl5");
     			attr_dev(line4, "x1", "15");
     			attr_dev(line4, "y1", "12");
     			attr_dev(line4, "x2", "6");
     			attr_dev(line4, "y2", "12");
-    			add_location(line4, file$1, 113, 4, 3227);
+    			add_location(line4, file$1, 113, 4, 3192);
     			attr_dev(line5, "id", "court-home-tapeB");
     			attr_dev(line5, "class", "court boundary svelte-1073xl5");
     			attr_dev(line5, "x1", "6");
     			attr_dev(line5, "y1", "12");
     			attr_dev(line5, "x2", "6");
     			attr_dev(line5, "y2", "3");
-    			add_location(line5, file$1, 114, 4, 3316);
+    			add_location(line5, file$1, 114, 4, 3281);
     			attr_dev(line6, "id", "court-home-tapeC");
     			attr_dev(line6, "class", "court boundary svelte-1073xl5");
     			attr_dev(line6, "x1", "6");
     			attr_dev(line6, "y1", "3");
     			attr_dev(line6, "x2", "15");
     			attr_dev(line6, "y2", "3");
-    			add_location(line6, file$1, 115, 4, 3403);
+    			add_location(line6, file$1, 115, 4, 3368);
     			attr_dev(line7, "id", "court-home-tapeD");
     			attr_dev(line7, "class", "court boundary svelte-1073xl5");
     			attr_dev(line7, "x1", "12");
     			attr_dev(line7, "y1", "3");
     			attr_dev(line7, "x2", "12");
     			attr_dev(line7, "y2", "12");
-    			add_location(line7, file$1, 116, 4, 3490);
+    			add_location(line7, file$1, 116, 4, 3455);
     			attr_dev(g2, "class", "svelte-1073xl5");
-    			add_location(g2, file$1, 111, 2, 3136);
-    			attr_dev(rect5, "id", "block-home-area");
-    			attr_dev(rect5, "class", "block area svelte-1073xl5");
-    			attr_dev(rect5, "width", "0.8");
-    			attr_dev(rect5, "height", "9");
-    			attr_dev(rect5, "x", "13.8");
-    			attr_dev(rect5, "y", "3");
-    			add_location(rect5, file$1, 118, 2, 3584);
-    			attr_dev(rect6, "id", "net-area");
-    			attr_dev(rect6, "class", "net area svelte-1073xl5");
+    			add_location(g2, file$1, 111, 2, 3101);
+    			attr_dev(rect6, "id", "block-home-area");
+    			attr_dev(rect6, "class", "block area svelte-1073xl5");
     			attr_dev(rect6, "width", "0.8");
     			attr_dev(rect6, "height", "9");
-    			attr_dev(rect6, "x", "14.6");
+    			attr_dev(rect6, "x", "13.8");
     			attr_dev(rect6, "y", "3");
-    			add_location(rect6, file$1, 120, 4, 3681);
-    			attr_dev(line8, "id", "net-tape");
-    			attr_dev(line8, "class", "court boundary svelte-1073xl5");
-    			attr_dev(line8, "x1", "15");
-    			attr_dev(line8, "y1", "3");
-    			attr_dev(line8, "x2", "15");
-    			attr_dev(line8, "y2", "12");
-    			add_location(line8, file$1, 121, 4, 3763);
-    			attr_dev(g3, "class", "svelte-1073xl5");
-    			add_location(g3, file$1, 119, 2, 3673);
+    			add_location(rect6, file$1, 118, 2, 3549);
     			attr_dev(rect7, "id", "block-away-area");
     			attr_dev(rect7, "class", "block area svelte-1073xl5");
     			attr_dev(rect7, "width", "0.8");
     			attr_dev(rect7, "height", "9");
     			attr_dev(rect7, "x", "15.4");
     			attr_dev(rect7, "y", "3");
-    			add_location(rect7, file$1, 123, 2, 3849);
+    			add_location(rect7, file$1, 119, 2, 3638);
     			attr_dev(rect8, "id", "court-away-area");
     			attr_dev(rect8, "class", "area svelte-1073xl5");
     			attr_dev(rect8, "width", "7.8");
     			attr_dev(rect8, "height", "9");
     			attr_dev(rect8, "x", "16.2");
     			attr_dev(rect8, "y", "3");
-    			add_location(rect8, file$1, 125, 4, 3946);
-    			attr_dev(line9, "id", "court-away-tapeA");
+    			add_location(rect8, file$1, 121, 4, 3735);
+    			attr_dev(line8, "id", "court-away-tapeA");
+    			attr_dev(line8, "class", "court boundary svelte-1073xl5");
+    			attr_dev(line8, "x1", "15");
+    			attr_dev(line8, "y1", "3");
+    			attr_dev(line8, "x2", "24");
+    			attr_dev(line8, "y2", "3");
+    			add_location(line8, file$1, 122, 4, 3821);
+    			attr_dev(line9, "id", "court-away-tapeB");
     			attr_dev(line9, "class", "court boundary svelte-1073xl5");
-    			attr_dev(line9, "x1", "15");
+    			attr_dev(line9, "x1", "24");
     			attr_dev(line9, "y1", "3");
     			attr_dev(line9, "x2", "24");
-    			attr_dev(line9, "y2", "3");
-    			add_location(line9, file$1, 126, 4, 4032);
-    			attr_dev(line10, "id", "court-away-tapeB");
+    			attr_dev(line9, "y2", "12");
+    			add_location(line9, file$1, 123, 4, 3909);
+    			attr_dev(line10, "id", "court-away-tapeC");
     			attr_dev(line10, "class", "court boundary svelte-1073xl5");
     			attr_dev(line10, "x1", "24");
-    			attr_dev(line10, "y1", "3");
-    			attr_dev(line10, "x2", "24");
+    			attr_dev(line10, "y1", "12");
+    			attr_dev(line10, "x2", "15");
     			attr_dev(line10, "y2", "12");
-    			add_location(line10, file$1, 127, 4, 4120);
-    			attr_dev(line11, "id", "court-away-tapeC");
+    			add_location(line10, file$1, 124, 4, 3998);
+    			attr_dev(line11, "id", "court-away-tapeD");
     			attr_dev(line11, "class", "court boundary svelte-1073xl5");
-    			attr_dev(line11, "x1", "24");
-    			attr_dev(line11, "y1", "12");
-    			attr_dev(line11, "x2", "15");
+    			attr_dev(line11, "x1", "18");
+    			attr_dev(line11, "y1", "3");
+    			attr_dev(line11, "x2", "18");
     			attr_dev(line11, "y2", "12");
-    			add_location(line11, file$1, 128, 4, 4209);
-    			attr_dev(line12, "id", "court-away-tapeD");
-    			attr_dev(line12, "class", "court boundary svelte-1073xl5");
-    			attr_dev(line12, "x1", "18");
-    			attr_dev(line12, "y1", "3");
-    			attr_dev(line12, "x2", "18");
-    			attr_dev(line12, "y2", "12");
-    			add_location(line12, file$1, 129, 4, 4299);
-    			attr_dev(g4, "class", "svelte-1073xl5");
-    			add_location(g4, file$1, 124, 2, 3938);
-    			attr_dev(rect9, "id", "free-away-area");
+    			add_location(line11, file$1, 125, 4, 4088);
+    			attr_dev(g3, "class", "svelte-1073xl5");
+    			add_location(g3, file$1, 120, 2, 3727);
+    			attr_dev(rect9, "id", "free-away-service-area");
     			attr_dev(rect9, "class", "area svelte-1073xl5");
     			attr_dev(rect9, "width", "6");
     			attr_dev(rect9, "height", "9");
     			attr_dev(rect9, "x", "24");
     			attr_dev(rect9, "y", "3");
-    			add_location(rect9, file$1, 132, 4, 4401);
-    			attr_dev(line13, "id", "free-away-extA");
+    			add_location(rect9, file$1, 128, 4, 4190);
+    			attr_dev(line12, "id", "free-away-service-extA");
+    			attr_dev(line12, "class", "boundary extension svelte-1073xl5");
+    			attr_dev(line12, "x1", "24");
+    			attr_dev(line12, "y1", "3");
+    			attr_dev(line12, "x2", "25.75");
+    			attr_dev(line12, "y2", "3");
+    			add_location(line12, file$1, 129, 4, 4278);
+    			attr_dev(line13, "id", "free-away-service-extB");
     			attr_dev(line13, "class", "boundary extension svelte-1073xl5");
     			attr_dev(line13, "x1", "24");
-    			attr_dev(line13, "y1", "3");
+    			attr_dev(line13, "y1", "12");
     			attr_dev(line13, "x2", "25.75");
-    			attr_dev(line13, "y2", "3");
-    			add_location(line13, file$1, 133, 4, 4481);
-    			attr_dev(line14, "id", "free-away-extB");
-    			attr_dev(line14, "class", "boundary extension svelte-1073xl5");
-    			attr_dev(line14, "x1", "24");
-    			attr_dev(line14, "y1", "12");
-    			attr_dev(line14, "x2", "25.75");
-    			attr_dev(line14, "y2", "12");
-    			add_location(line14, file$1, 134, 4, 4574);
-    			attr_dev(g5, "class", "svelte-1073xl5");
-    			add_location(g5, file$1, 131, 2, 4393);
-    			attr_dev(rect10, "id", "free-bottom-area");
+    			attr_dev(line13, "y2", "12");
+    			add_location(line13, file$1, 130, 4, 4379);
+    			attr_dev(g4, "class", "svelte-1073xl5");
+    			add_location(g4, file$1, 127, 2, 4182);
+    			attr_dev(rect10, "id", "free-away-bottom-area");
     			attr_dev(rect10, "class", "area svelte-1073xl5");
-    			attr_dev(rect10, "width", "30");
+    			attr_dev(rect10, "width", "15");
     			attr_dev(rect10, "height", "3");
-    			attr_dev(rect10, "x", "0");
+    			attr_dev(rect10, "x", "15");
     			attr_dev(rect10, "y", "12");
-    			add_location(rect10, file$1, 137, 4, 4682);
-    			attr_dev(circle2, "id", "free-bottom-post");
+    			add_location(rect10, file$1, 133, 4, 4495);
+    			attr_dev(line14, "id", "free-away-bottom-ext");
+    			attr_dev(line14, "class", "boundary extension svelte-1073xl5");
+    			attr_dev(line14, "x1", "12");
+    			attr_dev(line14, "y1", "12");
+    			attr_dev(line14, "x2", "12");
+    			attr_dev(line14, "y2", "13.75");
+    			add_location(line14, file$1, 134, 4, 4584);
+    			attr_dev(rect11, "id", "free-home-bottom-area");
+    			attr_dev(rect11, "class", "area svelte-1073xl5");
+    			attr_dev(rect11, "width", "15");
+    			attr_dev(rect11, "height", "3");
+    			attr_dev(rect11, "x", "0");
+    			attr_dev(rect11, "y", "12");
+    			add_location(rect11, file$1, 135, 4, 4685);
+    			attr_dev(line15, "id", "free-home-bottom-ext");
+    			attr_dev(line15, "class", "boundary extension svelte-1073xl5");
+    			attr_dev(line15, "x1", "18");
+    			attr_dev(line15, "y1", "12");
+    			attr_dev(line15, "x2", "18");
+    			attr_dev(line15, "y2", "13.75");
+    			add_location(line15, file$1, 136, 4, 4773);
+    			attr_dev(g5, "class", "svelte-1073xl5");
+    			add_location(g5, file$1, 132, 2, 4487);
+    			attr_dev(circle1, "id", "net-post-top");
+    			attr_dev(circle1, "class", "post svelte-1073xl5");
+    			attr_dev(circle1, "cx", "15");
+    			attr_dev(circle1, "cy", "2");
+    			attr_dev(circle1, "r", "0.1012");
+    			add_location(circle1, file$1, 140, 4, 4888);
+    			attr_dev(rect12, "id", "net-area");
+    			attr_dev(rect12, "class", "net area svelte-1073xl5");
+    			attr_dev(rect12, "width", "0.8");
+    			attr_dev(rect12, "height", "9");
+    			attr_dev(rect12, "x", "14.6");
+    			attr_dev(rect12, "y", "3");
+    			add_location(rect12, file$1, 141, 4, 5038);
+    			attr_dev(line16, "id", "net-tape");
+    			attr_dev(line16, "class", "court boundary svelte-1073xl5");
+    			attr_dev(line16, "x1", "15");
+    			attr_dev(line16, "y1", "3");
+    			attr_dev(line16, "x2", "15");
+    			attr_dev(line16, "y2", "12");
+    			add_location(line16, file$1, 142, 4, 5122);
+    			attr_dev(circle2, "id", "net-post-bottom");
     			attr_dev(circle2, "class", "post svelte-1073xl5");
     			attr_dev(circle2, "cx", "15");
     			attr_dev(circle2, "cy", "13");
     			attr_dev(circle2, "r", "0.1012");
-    			add_location(circle2, file$1, 138, 4, 4767);
-    			attr_dev(line15, "id", "free-bottom-extA");
-    			attr_dev(line15, "class", "boundary extension svelte-1073xl5");
-    			attr_dev(line15, "x1", "12");
-    			attr_dev(line15, "y1", "12");
-    			attr_dev(line15, "x2", "12");
-    			attr_dev(line15, "y2", "13.75");
-    			add_location(line15, file$1, 139, 4, 4843);
-    			attr_dev(line16, "id", "free-bottom-extB");
-    			attr_dev(line16, "class", "boundary extension svelte-1073xl5");
-    			attr_dev(line16, "x1", "18");
-    			attr_dev(line16, "y1", "12");
-    			attr_dev(line16, "x2", "18");
-    			attr_dev(line16, "y2", "13.75");
-    			add_location(line16, file$1, 140, 4, 4942);
+    			add_location(circle2, file$1, 143, 4, 5205);
     			attr_dev(g6, "class", "svelte-1073xl5");
-    			add_location(g6, file$1, 136, 2, 4674);
+    			add_location(g6, file$1, 139, 2, 4880);
     			attr_dev(svg_1, "id", "play-area");
     			attr_dev(svg_1, "viewBox", "3 1.5 24 12");
     			attr_dev(svg_1, "class", "svelte-1073xl5");
@@ -1350,39 +1368,41 @@ var bundle = (function () {
     			append_dev(svg_1, circle0);
     			append_dev(svg_1, g0);
     			append_dev(g0, rect2);
-    			append_dev(g0, circle1);
     			append_dev(g0, line0);
+    			append_dev(g0, rect3);
     			append_dev(g0, line1);
     			append_dev(svg_1, g1);
-    			append_dev(g1, rect3);
+    			append_dev(g1, rect4);
     			append_dev(g1, line2);
     			append_dev(g1, line3);
     			append_dev(svg_1, g2);
-    			append_dev(g2, rect4);
+    			append_dev(g2, rect5);
     			append_dev(g2, line4);
     			append_dev(g2, line5);
     			append_dev(g2, line6);
     			append_dev(g2, line7);
-    			append_dev(svg_1, rect5);
-    			append_dev(svg_1, g3);
-    			append_dev(g3, rect6);
-    			append_dev(g3, line8);
+    			append_dev(svg_1, rect6);
     			append_dev(svg_1, rect7);
+    			append_dev(svg_1, g3);
+    			append_dev(g3, rect8);
+    			append_dev(g3, line8);
+    			append_dev(g3, line9);
+    			append_dev(g3, line10);
+    			append_dev(g3, line11);
     			append_dev(svg_1, g4);
-    			append_dev(g4, rect8);
-    			append_dev(g4, line9);
-    			append_dev(g4, line10);
-    			append_dev(g4, line11);
+    			append_dev(g4, rect9);
     			append_dev(g4, line12);
+    			append_dev(g4, line13);
     			append_dev(svg_1, g5);
-    			append_dev(g5, rect9);
-    			append_dev(g5, line13);
+    			append_dev(g5, rect10);
     			append_dev(g5, line14);
+    			append_dev(g5, rect11);
+    			append_dev(g5, line15);
     			append_dev(svg_1, g6);
-    			append_dev(g6, rect10);
-    			append_dev(g6, circle2);
-    			append_dev(g6, line15);
+    			append_dev(g6, circle1);
+    			append_dev(g6, rect12);
     			append_dev(g6, line16);
+    			append_dev(g6, circle2);
 
     			if (!mounted) {
     				dispose = [
@@ -1505,23 +1525,23 @@ var bundle = (function () {
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[33] = list[i];
+    	child_ctx[34] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[36] = list[i];
+    	child_ctx[37] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[33] = list[i];
+    	child_ctx[34] = list[i];
     	return child_ctx;
     }
 
-    // (275:2) <div slot="activator">
+    // (280:2) <div slot="activator">
     function create_activator_slot(ctx) {
     	let div;
     	let court;
@@ -1534,7 +1554,7 @@ var bundle = (function () {
     			div = element("div");
     			create_component(court.$$.fragment);
     			attr_dev(div, "slot", "activator");
-    			add_location(div, file$2, 274, 2, 9946);
+    			add_location(div, file$2, 279, 2, 10108);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1561,17 +1581,17 @@ var bundle = (function () {
     		block,
     		id: create_activator_slot.name,
     		type: "slot",
-    		source: "(275:2) <div slot=\\\"activator\\\">",
+    		source: "(280:2) <div slot=\\\"activator\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (282:4) <Button class='menu-item' on:click={()=>specify(s.type, s.value)}>
+    // (287:4) <Button class='menu-item' on:click={()=>specify(s.type, s.value)}>
     function create_default_slot_3(ctx) {
     	let t0;
-    	let t1_value = /*s*/ ctx[33].value + "";
+    	let t1_value = /*s*/ ctx[34].value + "";
     	let t1;
 
     	const block = {
@@ -1584,7 +1604,7 @@ var bundle = (function () {
     			insert_dev(target, t1, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*current*/ 1 && t1_value !== (t1_value = /*s*/ ctx[33].value + "")) set_data_dev(t1, t1_value);
+    			if (dirty[0] & /*current*/ 1 && t1_value !== (t1_value = /*s*/ ctx[34].value + "")) set_data_dev(t1, t1_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(t0);
@@ -1596,20 +1616,20 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_3.name,
     		type: "slot",
-    		source: "(282:4) <Button class='menu-item' on:click={()=>specify(s.type, s.value)}>",
+    		source: "(287:4) <Button class='menu-item' on:click={()=>specify(s.type, s.value)}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (281:2) {#each g as s}
+    // (286:2) {#each g as s}
     function create_each_block_2(ctx) {
     	let button;
     	let current;
 
     	function click_handler() {
-    		return /*click_handler*/ ctx[8](/*s*/ ctx[33]);
+    		return /*click_handler*/ ctx[8](/*s*/ ctx[34]);
     	}
 
     	button = new ye({
@@ -1635,7 +1655,7 @@ var bundle = (function () {
     			ctx = new_ctx;
     			const button_changes = {};
 
-    			if (dirty[0] & /*current*/ 1 | dirty[1] & /*$$scope*/ 1024) {
+    			if (dirty[0] & /*current*/ 1 | dirty[1] & /*$$scope*/ 2048) {
     				button_changes.$$scope = { dirty, ctx };
     			}
 
@@ -1659,18 +1679,18 @@ var bundle = (function () {
     		block,
     		id: create_each_block_2.name,
     		type: "each",
-    		source: "(281:2) {#each g as s}",
+    		source: "(286:2) {#each g as s}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (280:6) <ButtonGroup>
+    // (285:6) <ButtonGroup>
     function create_default_slot_2(ctx) {
     	let each_1_anchor;
     	let current;
-    	let each_value_2 = /*g*/ ctx[36];
+    	let each_value_2 = /*g*/ ctx[37];
     	validate_each_argument(each_value_2);
     	let each_blocks = [];
 
@@ -1700,7 +1720,7 @@ var bundle = (function () {
     		},
     		p: function update(ctx, dirty) {
     			if (dirty[0] & /*specify, current*/ 33) {
-    				each_value_2 = /*g*/ ctx[36];
+    				each_value_2 = /*g*/ ctx[37];
     				validate_each_argument(each_value_2);
     				let i;
 
@@ -1755,14 +1775,14 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_2.name,
     		type: "slot",
-    		source: "(280:6) <ButtonGroup>",
+    		source: "(285:6) <ButtonGroup>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (279:2) {#each current.specifiers.groups as g}
+    // (284:2) {#each current.specifiers.groups as g}
     function create_each_block_1(ctx) {
     	let li;
     	let buttongroup;
@@ -1780,7 +1800,7 @@ var bundle = (function () {
     		c: function create() {
     			li = element("li");
     			create_component(buttongroup.$$.fragment);
-    			add_location(li, file$2, 279, 2, 10059);
+    			add_location(li, file$2, 284, 2, 10221);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -1790,7 +1810,7 @@ var bundle = (function () {
     		p: function update(ctx, dirty) {
     			const buttongroup_changes = {};
 
-    			if (dirty[0] & /*current*/ 1 | dirty[1] & /*$$scope*/ 1024) {
+    			if (dirty[0] & /*current*/ 1 | dirty[1] & /*$$scope*/ 2048) {
     				buttongroup_changes.$$scope = { dirty, ctx };
     			}
 
@@ -1815,16 +1835,16 @@ var bundle = (function () {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(279:2) {#each current.specifiers.groups as g}",
+    		source: "(284:2) {#each current.specifiers.groups as g}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (288:2) <Menuitem on:click={()=>specify(s.type, s.value)}>
+    // (293:2) <Menuitem on:click={()=>specify(s.type, s.value)}>
     function create_default_slot_1(ctx) {
-    	let t_value = /*s*/ ctx[33].value + "";
+    	let t_value = /*s*/ ctx[34].value + "";
     	let t;
 
     	const block = {
@@ -1844,20 +1864,20 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_1.name,
     		type: "slot",
-    		source: "(288:2) <Menuitem on:click={()=>specify(s.type, s.value)}>",
+    		source: "(293:2) <Menuitem on:click={()=>specify(s.type, s.value)}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (287:2) {#each specifiers.both as s}
+    // (292:2) {#each specifiers.both as s}
     function create_each_block(ctx) {
     	let menuitem;
     	let current;
 
     	function click_handler_1() {
-    		return /*click_handler_1*/ ctx[9](/*s*/ ctx[33]);
+    		return /*click_handler_1*/ ctx[9](/*s*/ ctx[34]);
     	}
 
     	menuitem = new Yn({
@@ -1882,7 +1902,7 @@ var bundle = (function () {
     			ctx = new_ctx;
     			const menuitem_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 1024) {
+    			if (dirty[1] & /*$$scope*/ 2048) {
     				menuitem_changes.$$scope = { dirty, ctx };
     			}
 
@@ -1906,14 +1926,14 @@ var bundle = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(287:2) {#each specifiers.both as s}",
+    		source: "(292:2) {#each specifiers.both as s}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (274:0) <Menu origin={menu_origin} {...menu_offset}>
+    // (279:0) <Menu origin={menu_origin} {...menu_offset}>
     function create_default_slot(ctx) {
     	let t0;
     	let t1;
@@ -1962,7 +1982,7 @@ var bundle = (function () {
     			}
 
     			each1_anchor = empty();
-    			add_location(hr, file$2, 285, 2, 10228);
+    			add_location(hr, file$2, 290, 2, 10390);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, t0, anchor);
@@ -2082,7 +2102,7 @@ var bundle = (function () {
     		block,
     		id: create_default_slot.name,
     		type: "slot",
-    		source: "(274:0) <Menu origin={menu_origin} {...menu_offset}>",
+    		source: "(279:0) <Menu origin={menu_origin} {...menu_offset}>",
     		ctx
     	});
 
@@ -2119,10 +2139,10 @@ var bundle = (function () {
     			t1 = space();
     			div = element("div");
     			create_component(menu.$$.fragment);
-    			add_location(h2, file$2, 270, 0, 9790);
-    			attr_dev(div, "class", "widener svelte-1pn1iis");
+    			add_location(h2, file$2, 275, 0, 9952);
+    			attr_dev(div, "class", "widener svelte-l2w7th");
     			add_render_callback(() => /*div_elementresize_handler*/ ctx[10].call(div));
-    			add_location(div, file$2, 272, 0, 9815);
+    			add_location(div, file$2, 277, 0, 9977);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2143,7 +2163,7 @@ var bundle = (function () {
     				])
     			: {};
 
-    			if (dirty[0] & /*current*/ 1 | dirty[1] & /*$$scope*/ 1024) {
+    			if (dirty[0] & /*current*/ 1 | dirty[1] & /*$$scope*/ 2048) {
     				menu_changes.$$scope = { dirty, ctx };
     			}
 
@@ -2249,21 +2269,12 @@ var bundle = (function () {
     		process_contact(current);
     	};
 
-    	const set_menu_props = ({ el_x: x, el_y: y, el_rect }) => {
-    		const { width: w, height: h } = el_rect;
-    		const tb = y < h / 2 ? "top" : "bottom";
-    		const lr = x < w / 2 ? "left" : "right";
-    		const k = 80; // FIXME: where is this vertical offset coming from?
-    		$$invalidate(4, menu_origin = `${tb} ${lr}`);
-    		$$invalidate(3, menu_offset.dx = lr === "left" ? x : w - x, menu_offset);
-    		$$invalidate(3, menu_offset.dy = tb === "top" ? y - k : h - y + k, menu_offset);
-    	};
-
-    	const is_out = area => area.startsWith(`free-top`) || area.startsWith(`free-bottom`);
+    	const is_out = area => area.startsWith(`free-`) || area.startsWith(`net-`);
     	const is_net_area = area => area.startsWith("net-");
     	const is_blocking_area = (area, team) => area.startsWith(`block-${team}`);
-    	const is_service_area = (area, team) => area.startsWith(`free-${team}`);
+    	const is_service_area = (area, team) => area.startsWith(`free-${team}-service`);
     	const is_court_area = (area, team) => area.startsWith(`court-${team}`);
+    	const team_from_area = area => area.split("-")[1];
     	const other_team = team => team === TEAM.HOME ? TEAM.AWAY : TEAM.HOME;
     	const attacking_team = rally => rally.attacking_team;
     	const defending_team = rally => other_team(rally.attacking_team);
@@ -2381,7 +2392,6 @@ var bundle = (function () {
     			}
 
     			rally.contacts.push(contact);
-    			$$invalidate(0, current.specifiers = specifiers[next_team], current);
 
     			if (rally_ends) {
     				console.log("rally ends");
@@ -2395,6 +2405,21 @@ var bundle = (function () {
     			// match ends?
     			console.log("rally:", current.rally);
     		}
+    	};
+
+    	const set_menu_props = ({ el_x: x, el_y: y, el_rect, area_id }) => {
+    		// position menu to open near contact and grow towards center of court
+    		const { width: w, height: h } = el_rect;
+
+    		const tb = y < h / 2 ? "top" : "bottom";
+    		const lr = x < w / 2 ? "left" : "right";
+    		const k = 80; // FIXME: where is this vertical offset coming from?
+    		$$invalidate(4, menu_origin = `${tb} ${lr}`);
+    		$$invalidate(3, menu_offset.dx = lr === "left" ? x : w - x, menu_offset);
+    		$$invalidate(3, menu_offset.dy = tb === "top" ? y - k : h - y + k, menu_offset);
+
+    		// set specifiers appropriate to contact location
+    		$$invalidate(0, current.specifiers = specifiers[team_from_area(area_id)], current);
     	};
 
     	const on_contact = e => {
@@ -2446,21 +2471,23 @@ var bundle = (function () {
     	let specifiers = {
     		"home": {
     			"groups": [
+    				// TODO: set these via UI
     				[
+    					{ type: CONTACT.PLAYER, value: "01" },
     					{ type: CONTACT.PLAYER, value: "02" },
     					{ type: CONTACT.PLAYER, value: "03" },
-    					{ type: CONTACT.PLAYER, value: "04" },
-    					{ type: CONTACT.PLAYER, value: "06" }
+    					{ type: CONTACT.PLAYER, value: "04" }
     				],
     				[
-    					{ type: CONTACT.PLAYER, value: "08" },
+    					{ type: CONTACT.PLAYER, value: "05" },
+    					{ type: CONTACT.PLAYER, value: "06" },
+    					{ type: CONTACT.PLAYER, value: "07" },
+    					{ type: CONTACT.PLAYER, value: "08" }
+    				],
+    				[
     					{ type: CONTACT.PLAYER, value: "09" },
     					{ type: CONTACT.PLAYER, value: "10" },
     					{ type: CONTACT.PLAYER, value: "11" }
-    				],
-    				[
-    					{ type: CONTACT.PLAYER, value: "12" },
-    					{ type: CONTACT.PLAYER, value: "27" }
     				]
     			]
     		},
@@ -2507,16 +2534,17 @@ var bundle = (function () {
     		new_rally,
     		needs_specifier,
     		specify,
-    		set_menu_props,
     		is_out,
     		is_net_area,
     		is_blocking_area,
     		is_service_area,
     		is_court_area,
+    		team_from_area,
     		other_team,
     		attacking_team,
     		defending_team,
     		process_contact,
+    		set_menu_props,
     		on_contact,
     		recording,
     		specifying,

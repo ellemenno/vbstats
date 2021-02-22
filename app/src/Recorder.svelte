@@ -51,25 +51,17 @@
     process_contact(current);
   }
 
-  const set_menu_props = ({el_x:x, el_y:y, el_rect}) => {
-    const {width:w, height:h} = el_rect;
-    const tb = (y < h/2) ? 'top'  : 'bottom';
-    const lr = (x < w/2) ? 'left' : 'right';
-    const k = 80; // FIXME: where is this vertical offset coming from?
-    menu_origin = `${tb} ${lr}`;
-    menu_offset.dx = lr === 'left' ? x : w-x;
-    menu_offset.dy = tb === 'top'  ? y-k : h-y+k;
-  }
-
-  const is_out = (area) => (area.startsWith(`free-top`) || area.startsWith(`free-bottom`));
+  const is_out = (area) => (area.startsWith(`free-`) || area.startsWith(`net-`));
 
   const is_net_area = (area) => area.startsWith('net-');
 
   const is_blocking_area = (area, team) => area.startsWith(`block-${team}`);
 
-  const is_service_area = (area, team) => area.startsWith(`free-${team}`);
+  const is_service_area = (area, team) => area.startsWith(`free-${team}-service`);
 
   const is_court_area = (area, team) => area.startsWith(`court-${team}`);
+
+  const team_from_area = (area) => area.split('-')[1];
 
   const other_team = (team) => (team === TEAM.HOME) ? TEAM.AWAY : TEAM.HOME;
 
@@ -185,7 +177,6 @@
       }
       else { console.log('no action'); }
       rally.contacts.push(contact);
-      current.specifiers = specifiers[next_team];
       if (rally_ends) {
         console.log('rally ends');
         console.log(`starting new rally, ${next_team} team serving..`);
@@ -197,6 +188,19 @@
       // match ends?
       console.log('rally:', current.rally);
     }
+  }
+
+  const set_menu_props = ({el_x:x, el_y:y, el_rect, area_id}) => {
+    // position menu to open near contact and grow towards center of court
+    const {width:w, height:h} = el_rect;
+    const tb = (y < h/2) ? 'top'  : 'bottom';
+    const lr = (x < w/2) ? 'left' : 'right';
+    const k = 80; // FIXME: where is this vertical offset coming from?
+    menu_origin = `${tb} ${lr}`;
+    menu_offset.dx = lr === 'left' ? x : w-x;
+    menu_offset.dy = tb === 'top'  ? y-k : h-y+k;
+    // set specifiers appropriate to contact location
+    current.specifiers = specifiers[team_from_area(area_id)];
   }
 
   const on_contact = (e) => {
@@ -229,7 +233,7 @@
 
   let specifiers = {
     'home':{
-      'groups':[
+      'groups':[ // TODO: set these via UI
         [
           { type: CONTACT.PLAYER, value:'01' },
           { type: CONTACT.PLAYER, value:'02' },
@@ -266,7 +270,7 @@
 </script>
 
 <style>
-  .widener > :global(:first-child) { width:100%; } /* feels hacky, but not sure how else to get the menu to fill available space, so it doesn't constrict the court */
+  .widener > :global(:first-child) { width:100%; }
 </style>
 
 <h2>record a match</h2>

@@ -99,15 +99,15 @@
   <circle id="contact" class="contact" cx="15" cy="7.5" r="0.105"/> <!-- circumference is 65-67 cm, so radius is 10.5 cm -->
 
   <g>
-    <rect   id="free-top-area" class="area" width="30" height="3" x="0" y="0" />
-    <circle id="free-top-post" class="post" cx="15" cy="2" r="0.1012"/> <!-- 3" (7.62 cm) post w/ 1.25 cm padding around it, set 1 m outside court -->
-    <line   id="free-top-extA" class="boundary extension" x1="12" y1="3" x2="12" y2="1.25" />
-    <line   id="free-top-extB" class="boundary extension" x1="18" y1="3" x2="18" y2="1.25" />
+    <rect id="free-home-top-area" class="area" width="15" height="3" x="0" y="0" />
+    <line id="free-home-top-ext" class="boundary extension" x1="12" y1="3" x2="12" y2="1.25" />
+    <rect id="free-away-top-area" class="area" width="15" height="3" x="15" y="0" />
+    <line id="free-away-top-ext" class="boundary extension" x1="18" y1="3" x2="18" y2="1.25" />
   </g>
   <g>
-    <rect id="free-home-area" class="area" width="6" height="9" x="0" y="3" />
-    <line id="free-home-extA" class="boundary extension" x1="6" y1="3" x2="4.25" y2="3" />
-    <line id="free-home-extB" class="boundary extension" x1="6" y1="12" x2="4.25" y2="12" />
+    <rect id="free-home-service-area" class="area" width="6" height="9" x="0" y="3" />
+    <line id="free-home-service-extA" class="boundary extension" x1="6" y1="3" x2="4.25" y2="3" />
+    <line id="free-home-service-extB" class="boundary extension" x1="6" y1="12" x2="4.25" y2="12" />
   </g>
   <g>
     <rect id="court-home-area"  class="area" width="7.8" height="9" x="6" y="3" />
@@ -117,10 +117,6 @@
     <line id="court-home-tapeD" class="court boundary" x1="12" y1="3" x2="12" y2="12" />
   </g>
   <rect id="block-home-area" class="block area" width="0.8" height="9" x="13.8" y="3" />
-  <g>
-    <rect id="net-area" class="net area" width="0.8" height="9" x="14.6" y="3" />
-    <line id="net-tape" class="court boundary" x1="15" y1="3" x2="15" y2="12" />
-  </g>
   <rect id="block-away-area" class="block area" width="0.8" height="9" x="15.4" y="3" />
   <g>
     <rect id="court-away-area"  class="area" width="7.8" height="9" x="16.2" y="3" />
@@ -130,15 +126,22 @@
     <line id="court-away-tapeD" class="court boundary" x1="18" y1="3" x2="18" y2="12" />
   </g>
   <g>
-    <rect id="free-away-area" class="area" width="6" height="9" x="24" y="3" />
-    <line id="free-away-extA" class="boundary extension" x1="24" y1="3" x2="25.75" y2="3" />
-    <line id="free-away-extB" class="boundary extension" x1="24" y1="12" x2="25.75" y2="12" />
+    <rect id="free-away-service-area" class="area" width="6" height="9" x="24" y="3" />
+    <line id="free-away-service-extA" class="boundary extension" x1="24" y1="3" x2="25.75" y2="3" />
+    <line id="free-away-service-extB" class="boundary extension" x1="24" y1="12" x2="25.75" y2="12" />
   </g>
   <g>
-    <rect   id="free-bottom-area" class="area" width="30" height="3" x="0" y="12" />
-    <circle id="free-bottom-post" class="post" cx="15" cy="13" r="0.1012"/>
-    <line   id="free-bottom-extA" class="boundary extension" x1="12" y1="12" x2="12" y2="13.75" />
-    <line   id="free-bottom-extB" class="boundary extension" x1="18" y1="12" x2="18" y2="13.75" />
+    <rect id="free-away-bottom-area" class="area" width="15" height="3" x="15" y="12" />
+    <line id="free-away-bottom-ext" class="boundary extension" x1="12" y1="12" x2="12" y2="13.75" />
+    <rect id="free-home-bottom-area" class="area" width="15" height="3" x="0" y="12" />
+    <line id="free-home-bottom-ext" class="boundary extension" x1="18" y1="12" x2="18" y2="13.75" />
+  </g>
+
+  <g>
+    <circle id="net-post-top" class="post" cx="15" cy="2" r="0.1012"/> <!-- 3" (7.62 cm) post w/ 1.25 cm padding around it, set 1 m outside court -->
+    <rect   id="net-area" class="net area" width="0.8" height="9" x="14.6" y="3" />
+    <line   id="net-tape" class="court boundary" x1="15" y1="3" x2="15" y2="12" />
+    <circle id="net-post-bottom" class="post" cx="15" cy="13" r="0.1012"/>
   </g>
 
 </svg>
