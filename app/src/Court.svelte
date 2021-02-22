@@ -16,6 +16,7 @@
       el_x: mouse_event.offsetX,         // px
       el_y: mouse_event.offsetY,
       el_rect: svg.parentElement.getBoundingClientRect(),
+      source_event: mouse_event,
     });
   }
 

@@ -1,10 +1,10 @@
 <script>
   import { onMount } from 'svelte';
-  import { Menu, Menuitem } from 'svelte-mui';
+  import { ButtonGroup, Button, Menu, Menuitem } from 'svelte-mui';
   import Court from "./Court.svelte";
 
   const TEAM = { HOME:'home', AWAY:'away' }
-  const RALLY_STATE = { SERVING:'serving', RECEIVING:'receiving', BLOCKING:'blocking' }
+  const RALLY_STATE = { SERVING:'serving', SERVE_RECEIVING:'serve_receiving', RECEIVING:'receiving' }
   const CONTACT = { PLAYER:'player', FLOOR:'floor' };
   const ACTION = {
     SERVE:'serve', ACE:'ace', SERVICE_ERROR:'service error',
@@ -20,6 +20,7 @@
     console.log('starting new match:', match);
     recording = true;
     current.rally = new_rally(serving);
+    current.specifiers = specifiers[serving];
     console.log(`starting new rally, ${serving} team serving..`);
     console.log('rally:', current.rally);
   }
@@ -36,11 +37,18 @@
     contacts: [],
   })
 
-  const needs_specifier = (contact) => true;
+  const needs_specifier = (contact, rally) => {
+    if (is_net_area(contact.area_id)) { return false; }
+    if (rally.state === RALLY_STATE.SERVING && !is_service_area(contact.area_id, rally.attacking_team)) { return false; }
+    return true;
+  }
 
   const specify = (type, jersey=null) => {
     specifying = false;
     console.log(`specifying a ${type} contact${jersey ? ` (Jersey #${jersey})` : ''}`);
+    current.contact.type = type;
+    current.contact.player = jersey;
+    process_contact(current);
   }
 
   const set_menu_props = ({el_x:x, el_y:y, el_rect}) => {
@@ -63,7 +71,7 @@
 
   const is_court_area = (area, team) => area.startsWith(`court-${team}`);
 
-  const other_team = (team) => team === TEAM.HOME ? TEAM.AWAY : TEAM.HOME;
+  const other_team = (team) => (team === TEAM.HOME) ? TEAM.AWAY : TEAM.HOME;
 
   const attacking_team = (rally) => rally.attacking_team;
 
@@ -82,52 +90,174 @@
     //   update set index
     //   start new rally with correct server
     let is_valid = true;
+    let rally_ends = true;
+    let next_team = rally.attacking_team; // default to same team
+    let action;
     switch (rally.state) {
       case RALLY_STATE.SERVING:
         if (!is_service_area(contact.area_id, rally.attacking_team)) {
           is_valid = false;
-          console.log('invalid contact; expected service area');
+          console.log(`invalid contact; expected service area of ${rally.attacking_team} team`);
         }
         else {
-          contact.action = ACTION.SERVE;
-          rally.state = RALLY_STATE.RECEIVING;
-          rally.attacking_team = other_team(rally.attacking_team);
-          console.log('action:', contact.action);
+          action = ACTION.SERVE;
+          rally.state = RALLY_STATE.SERVE_RECEIVING;
+          rally_ends = false;
+        }
+      break;
+
+      case RALLY_STATE.SERVE_RECEIVING:
+        if (is_court_area(contact.area_id, rally.attacking_team)
+          || is_blocking_area(contact.area_id, rally.attacking_team)) {
+          console.log('service error, ball contact on serving team court');
+          action = ACTION.SERVICE_ERROR;
+          // point for defending team
+          next_team = other_team(rally.attacking_team);
+        }
+        if (is_net_area(contact.area_id)) {
+          console.log('service error, net contact');
+          action = ACTION.SERVICE_ERROR;
+          // point for defending team
+          next_team = other_team(rally.attacking_team);
+        }
+        if (is_out(contact.area_id)) {
+          console.log(`service error, unless defending team touched it; check contact type (${contact.type})`);
+          // if defender touched it:
+          // rally_ends = false;
+          // action = ACTION.DIG
+          // next_team = other_team(rally.attacking_team);
+
+        }
+        if (is_blocking_area(contact.area_id, defending_team(rally))) {
+          console.log('reception error; cannot block a serve');
+          action = ACTION.RECEPTION_ERROR;
+          // point for attacking team
+        }
+        if (is_court_area(contact.area_id, defending_team(rally))) {
+          console.log(`some kind of reception; check contact type (${contact.type})`);
+          // if proper reception:
+          // count 1 hit
+          rally_ends = false;
+          next_team = other_team(rally.attacking_team);
         }
       break;
 
       case RALLY_STATE.RECEIVING:
-      break;
-
-      case RALLY_STATE.BLOCKING:
+        if (is_court_area(contact.area_id, rally.attacking_team)
+          || is_blocking_area(contact.area_id, rally.attacking_team)) {
+          console.log('attack, block, pass, or error; ball contact on attacking team court');
+          // check count and previous action
+          action = ACTION.ATTACK_ERROR;
+          // point for defending team
+          next_team = other_team(rally.attacking_team);
+        }
+        if (is_net_area(contact.area_id)) {
+          console.log('attack, block, or pass error; ball contact with net');
+          action = ACTION.ATTACK_ERROR;
+          // point for defending team
+          next_team = other_team(rally.attacking_team);
+        }
+        if (is_out(contact.area_id)) {
+          console.log(`attack, block, or pass error, unless attacking team touched it and has hits left; check contact type (${contact.type})`);
+          // if attacker touched it:
+          // rally_ends = false;
+          // action = ACTION.DIG
+          // next_team = other_team(rally.attacking_team);
+        }
+        if (is_blocking_area(contact.area_id, defending_team(rally))) {
+          console.log(`block or attack attempt if person (check next contact), attack, block, or pass error if floor; check contact type (${contact.type})`);
+          // action gets set after next analysis?
+        }
+        if (is_court_area(contact.area_id, defending_team(rally))) {
+          console.log(`pass or attack attempt if person (check next contact), attack, block, or pass error if floor; check contact type (${contact.type})`);
+          // if proper reception:
+          // count 1 hit
+          rally_ends = false;
+          action = ACTION.DIG
+        }
       break;
     }
-    if (is_valid) { rally.contacts.push(contact); }
-    console.log('rally:', rally);
+
+    if (is_valid) {
+      if (action) {
+        contact.action = action;
+        console.log(`action: ${contact.action.toUpperCase()}`);
+      }
+      else { console.log('no action'); }
+      rally.contacts.push(contact);
+      current.specifiers = specifiers[next_team];
+      if (rally_ends) {
+        console.log('rally ends');
+        console.log(`starting new rally, ${next_team} team serving..`);
+        current.rally = new_rally(next_team);
+        current.rally.state = RALLY_STATE.SERVING;
+        // award a point
+      }
+      else { console.log('rally continues'); }
+      // match ends?
+      console.log('rally:', current.rally);
+    }
   }
 
   const on_contact = (e) => {
     if (specifying) { specifying = false; console.log('specify cancelled'); return; }
     if (!recording) { console.log('not in recording mode'); return; }
 
-    const {area_id, court_x, court_y, screen_x, screen_y} = e.detail;
-    console.log(`contact with ${area_id} at [${e.detail.el_x}, ${e.detail.el_y}]`);
+    const contact = e.detail;
+    const {area_id, court_x, court_y, screen_x, screen_y} = contact;
+    console.log(`contact with ${area_id} at [${contact.el_x}, ${contact.el_y}]`);
 
-    current.contact = e.detail;
-    if (needs_specifier(current.contact)) {
+    current.contact = contact;
+    if (needs_specifier(current.contact, current.rally)) {
       specifying = true;
       set_menu_props(current.contact);
     }
-    else { process_contact(current); }
+    else {
+      contact.source_event.stopPropagation();
+      process_contact(current);
+    }
   }
 
   let recording = false;
   let specifying = false;
+  let action_log = [];
   let match = { score: { home:0, away:0 }, sets: [[],[],[]]};
-  let current = { set_index:-1, rally:null, contact:null };
+  let current = { set_index:-1, rally:null, contact:null, specifiers:null };
   let menu_width, menu_height; // read-only
   let menu_offset = { dx:0, dy:0 };
   let menu_origin = "top left";
+
+  let specifiers = {
+    'home':{
+      'groups':[
+        [
+          { type: CONTACT.PLAYER, value:'01' },
+          { type: CONTACT.PLAYER, value:'02' },
+          { type: CONTACT.PLAYER, value:'03' },
+          { type: CONTACT.PLAYER, value:'04' },
+        ],
+        [
+          { type: CONTACT.PLAYER, value:'05' },
+          { type: CONTACT.PLAYER, value:'06' },
+          { type: CONTACT.PLAYER, value:'07' },
+          { type: CONTACT.PLAYER, value:'08' },
+        ],
+        [
+          { type: CONTACT.PLAYER, value:'09' },
+          { type: CONTACT.PLAYER, value:'10' },
+          { type: CONTACT.PLAYER, value:'11' },
+        ],
+      ],
+    },
+    'away':{
+      'groups':[
+        [ { type: CONTACT.PLAYER, value:'Player' } ]
+      ],
+    },
+    'both':[
+      { type: CONTACT.FLOOR, value:'Floor' },
+    ],
+  };
 
   onMount(async () => {
     // TODO: move this to a `New Match` button that prompts for serving team
@@ -147,10 +277,16 @@
     <Court on:contact={on_contact}/>
   </div>
 
-  <Menuitem on:click={()=>specify(CONTACT.PLAYER, 2)}>Jersey #2</Menuitem>
-  <Menuitem on:click={()=>specify(CONTACT.PLAYER, 3)}>Jersey #3</Menuitem>
-  <Menuitem on:click={()=>specify(CONTACT.PLAYER, 4)}>Jersey #4</Menuitem>
+  {#each current.specifiers.groups as g}
+  <li><ButtonGroup>
+  {#each g as s}
+    <Button class='menu-item' on:click={()=>specify(s.type, s.value)}>#{s.value}</Button>
+  {/each}
+  </ButtonGroup></li>
+  {/each}
   <hr />
-  <Menuitem on:click={()=>specify(CONTACT.FLOOR)}>Floor</Menuitem>
+  {#each specifiers.both as s}
+  <Menuitem on:click={()=>specify(s.type, s.value)}>{s.value}</Menuitem>
+  {/each}
 </Menu>
 </div>
