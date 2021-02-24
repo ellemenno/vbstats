@@ -97,6 +97,7 @@
         if (contact.type === CONTACT.PLAYER && is_service_area(area, servers)) {
           record_action(`${servers} serving ${receivers}`, ACTION.SERVE);
           rally_ends = false;
+          rally.hits = 0;
           rally.state = RALLY_STATE.SERVE_RECEIVING;
         }
         else {
@@ -157,7 +158,7 @@
 
       case RALLY_STATE.RECEIVER_RALLYING2:
         if (contact.type === CONTACT.PLAYER && (is_play_area(area, servers) || is_free_area(area, servers))) {
-          rally.hits += 1;
+          rally.hits = 1; // ball crossed from receivers to servers, so reset hit count
           update_last_recorded_action(rally, ACTION.ATTACK);
           if (is_blocking_area(area, servers)) {
             record_action(`block or attack attempt (hit ${rally.hits})`, ACTION.BLOCK_OR_ATTACK)
@@ -211,7 +212,7 @@
 
       case RALLY_STATE.RECEIVER_RALLYING3:
         if (contact.type === CONTACT.PLAYER && (is_play_area(area, servers) || is_free_area(area, servers))) {
-          rally.hits += 1;
+          rally.hits = 1; // ball crossed from receivers to servers, so reset hit count
           update_last_recorded_action(rally, ACTION.ATTACK);
           if (is_blocking_area(area, servers)) {
             record_action(`block or attack attempt (hit ${rally.hits})`, ACTION.BLOCK_OR_ATTACK);
@@ -266,7 +267,7 @@
 
       case RALLY_STATE.RECEIVER_ATTACKING:
         if (contact.type === CONTACT.PLAYER && (is_play_area(area, servers) || is_free_area(area, servers))) {
-          rally.hits += 1;
+          rally.hits = 1; // ball crossed from receivers to servers, so reset hit count
           if (is_blocking_area(area, servers)) {
             record_action(`block or attack attempt (hit ${rally.hits})`, ACTION.BLOCK_OR_ATTACK);
             rally_ends = false;
@@ -314,7 +315,7 @@
 
       case RALLY_STATE.RECEIVER_BLOCKING:
         if (contact.type === CONTACT.PLAYER && (is_play_area(area, servers) || is_free_area(area, servers))) {
-          rally.hits += 1;
+          rally.hits = 1; // ball crossed from receivers to servers, so reset hit count
           update_last_recorded_action(rally, ACTION.ATTACK);
           if (is_blocking_area(area, servers)) {
             record_action(`block or attack attempt (hit ${rally.hits})`, ACTION.BLOCK_OR_ATTACK);
@@ -360,7 +361,7 @@
 
       case RALLY_STATE.SERVER_RALLYING2:
         if (contact.type === CONTACT.PLAYER && (is_play_area(area, receivers) || is_free_area(area, receivers))) {
-          rally.hits += 1;
+          rally.hits = 1; // ball crossed from servers to receivers, so reset hit count
           update_last_recorded_action(rally, ACTION.ATTACK);
           if (is_blocking_area(area, receivers)) {
             record_action(`block or attack attempt (hit ${rally.hits})`, ACTION.BLOCK_OR_ATTACK)
@@ -414,7 +415,7 @@
 
       case RALLY_STATE.SERVER_RALLYING3:
         if (contact.type === CONTACT.PLAYER && (is_play_area(area, receivers) || is_free_area(area, receivers))) {
-          rally.hits += 1;
+          rally.hits = 1; // ball crossed from servers to receivers, so reset hit count
           update_last_recorded_action(rally, ACTION.ATTACK);
           if (is_blocking_area(area, receivers)) {
             record_action(`block or attack attempt (hit ${rally.hits})`, ACTION.BLOCK_OR_ATTACK);
@@ -469,7 +470,7 @@
 
       case RALLY_STATE.SERVER_ATTACKING:
         if (contact.type === CONTACT.PLAYER && (is_play_area(area, receivers) || is_free_area(area, receivers))) {
-          rally.hits += 1;
+          rally.hits = 1; // ball crossed from servers to receivers, so reset hit count
           if (is_blocking_area(area, receivers)) {
             record_action(`block or attack attempt (hit ${rally.hits})`, ACTION.BLOCK_OR_ATTACK);
             rally_ends = false;
@@ -517,7 +518,7 @@
 
       case RALLY_STATE.SERVER_BLOCKING:
         if (contact.type === CONTACT.PLAYER && (is_play_area(area, receivers) || is_free_area(area, receivers))) {
-          rally.hits += 1;
+          rally.hits = 1; // ball crossed from servers to receivers, so reset hit count
           update_last_recorded_action(rally, ACTION.ATTACK);
           if (is_blocking_area(area, receivers)) {
             record_action(`block or attack attempt (hit ${rally.hits})`, ACTION.BLOCK_OR_ATTACK);
