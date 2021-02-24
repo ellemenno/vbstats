@@ -1525,36 +1525,36 @@ var bundle = (function () {
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[34] = list[i];
+    	child_ctx[37] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[37] = list[i];
+    	child_ctx[40] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[34] = list[i];
+    	child_ctx[37] = list[i];
     	return child_ctx;
     }
 
-    // (280:2) <div slot="activator">
+    // (693:2) <div slot="activator">
     function create_activator_slot(ctx) {
     	let div;
     	let court;
     	let current;
     	court = new Court({ $$inline: true });
-    	court.$on("contact", /*on_contact*/ ctx[6]);
+    	court.$on("contact", /*on_contact*/ ctx[5]);
 
     	const block = {
     		c: function create() {
     			div = element("div");
     			create_component(court.$$.fragment);
     			attr_dev(div, "slot", "activator");
-    			add_location(div, file$2, 279, 2, 10108);
+    			add_location(div, file$2, 692, 2, 27093);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1581,34 +1581,30 @@ var bundle = (function () {
     		block,
     		id: create_activator_slot.name,
     		type: "slot",
-    		source: "(280:2) <div slot=\\\"activator\\\">",
+    		source: "(693:2) <div slot=\\\"activator\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (287:4) <Button class='menu-item' on:click={()=>specify(s.type, s.value)}>
+    // (700:4) <Button class='menu-item' on:click={()=>on_specify(s.type, s.value)}>
     function create_default_slot_3(ctx) {
-    	let t0;
-    	let t1_value = /*s*/ ctx[34].value + "";
-    	let t1;
+    	let t_value = /*s*/ ctx[37].value + "";
+    	let t;
 
     	const block = {
     		c: function create() {
-    			t0 = text("#");
-    			t1 = text(t1_value);
+    			t = text(t_value);
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, t0, anchor);
-    			insert_dev(target, t1, anchor);
+    			insert_dev(target, t, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*current*/ 1 && t1_value !== (t1_value = /*s*/ ctx[34].value + "")) set_data_dev(t1, t1_value);
+    			if (dirty[0] & /*current*/ 16 && t_value !== (t_value = /*s*/ ctx[37].value + "")) set_data_dev(t, t_value);
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(t0);
-    			if (detaching) detach_dev(t1);
+    			if (detaching) detach_dev(t);
     		}
     	};
 
@@ -1616,20 +1612,20 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_3.name,
     		type: "slot",
-    		source: "(287:4) <Button class='menu-item' on:click={()=>specify(s.type, s.value)}>",
+    		source: "(700:4) <Button class='menu-item' on:click={()=>on_specify(s.type, s.value)}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (286:2) {#each g as s}
+    // (699:2) {#each g as s}
     function create_each_block_2(ctx) {
     	let button;
     	let current;
 
     	function click_handler() {
-    		return /*click_handler*/ ctx[8](/*s*/ ctx[34]);
+    		return /*click_handler*/ ctx[8](/*s*/ ctx[37]);
     	}
 
     	button = new ye({
@@ -1655,7 +1651,7 @@ var bundle = (function () {
     			ctx = new_ctx;
     			const button_changes = {};
 
-    			if (dirty[0] & /*current*/ 1 | dirty[1] & /*$$scope*/ 2048) {
+    			if (dirty[0] & /*current*/ 16 | dirty[1] & /*$$scope*/ 16384) {
     				button_changes.$$scope = { dirty, ctx };
     			}
 
@@ -1679,18 +1675,18 @@ var bundle = (function () {
     		block,
     		id: create_each_block_2.name,
     		type: "each",
-    		source: "(286:2) {#each g as s}",
+    		source: "(699:2) {#each g as s}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (285:6) <ButtonGroup>
+    // (698:6) <ButtonGroup>
     function create_default_slot_2(ctx) {
     	let each_1_anchor;
     	let current;
-    	let each_value_2 = /*g*/ ctx[37];
+    	let each_value_2 = /*g*/ ctx[40];
     	validate_each_argument(each_value_2);
     	let each_blocks = [];
 
@@ -1719,8 +1715,8 @@ var bundle = (function () {
     			current = true;
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*specify, current*/ 33) {
-    				each_value_2 = /*g*/ ctx[37];
+    			if (dirty[0] & /*on_specify, current*/ 80) {
+    				each_value_2 = /*g*/ ctx[40];
     				validate_each_argument(each_value_2);
     				let i;
 
@@ -1775,14 +1771,14 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_2.name,
     		type: "slot",
-    		source: "(285:6) <ButtonGroup>",
+    		source: "(698:6) <ButtonGroup>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (284:2) {#each current.specifiers.groups as g}
+    // (697:2) {#each current.specifiers.groups as g}
     function create_each_block_1(ctx) {
     	let li;
     	let buttongroup;
@@ -1800,7 +1796,7 @@ var bundle = (function () {
     		c: function create() {
     			li = element("li");
     			create_component(buttongroup.$$.fragment);
-    			add_location(li, file$2, 284, 2, 10221);
+    			add_location(li, file$2, 697, 2, 27206);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -1810,7 +1806,7 @@ var bundle = (function () {
     		p: function update(ctx, dirty) {
     			const buttongroup_changes = {};
 
-    			if (dirty[0] & /*current*/ 1 | dirty[1] & /*$$scope*/ 2048) {
+    			if (dirty[0] & /*current*/ 16 | dirty[1] & /*$$scope*/ 16384) {
     				buttongroup_changes.$$scope = { dirty, ctx };
     			}
 
@@ -1835,16 +1831,16 @@ var bundle = (function () {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(284:2) {#each current.specifiers.groups as g}",
+    		source: "(697:2) {#each current.specifiers.groups as g}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (293:2) <Menuitem on:click={()=>specify(s.type, s.value)}>
+    // (706:2) <Menuitem on:click={()=>on_specify(s.type, s.value)}>
     function create_default_slot_1(ctx) {
-    	let t_value = /*s*/ ctx[34].value + "";
+    	let t_value = /*s*/ ctx[37].value + "";
     	let t;
 
     	const block = {
@@ -1864,20 +1860,20 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_1.name,
     		type: "slot",
-    		source: "(293:2) <Menuitem on:click={()=>specify(s.type, s.value)}>",
+    		source: "(706:2) <Menuitem on:click={()=>on_specify(s.type, s.value)}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (292:2) {#each specifiers.both as s}
+    // (705:2) {#each specifiers.both as s}
     function create_each_block(ctx) {
     	let menuitem;
     	let current;
 
     	function click_handler_1() {
-    		return /*click_handler_1*/ ctx[9](/*s*/ ctx[34]);
+    		return /*click_handler_1*/ ctx[9](/*s*/ ctx[37]);
     	}
 
     	menuitem = new Yn({
@@ -1902,7 +1898,7 @@ var bundle = (function () {
     			ctx = new_ctx;
     			const menuitem_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 2048) {
+    			if (dirty[1] & /*$$scope*/ 16384) {
     				menuitem_changes.$$scope = { dirty, ctx };
     			}
 
@@ -1926,14 +1922,14 @@ var bundle = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(292:2) {#each specifiers.both as s}",
+    		source: "(705:2) {#each specifiers.both as s}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (279:0) <Menu origin={menu_origin} {...menu_offset}>
+    // (692:0) <Menu origin={menu_origin} {...menu_offset}>
     function create_default_slot(ctx) {
     	let t0;
     	let t1;
@@ -1941,7 +1937,7 @@ var bundle = (function () {
     	let t2;
     	let each1_anchor;
     	let current;
-    	let each_value_1 = /*current*/ ctx[0].specifiers.groups;
+    	let each_value_1 = /*current*/ ctx[4].specifiers.groups;
     	validate_each_argument(each_value_1);
     	let each_blocks_1 = [];
 
@@ -1982,7 +1978,7 @@ var bundle = (function () {
     			}
 
     			each1_anchor = empty();
-    			add_location(hr, file$2, 290, 2, 10390);
+    			add_location(hr, file$2, 703, 2, 27377);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, t0, anchor);
@@ -2003,8 +1999,8 @@ var bundle = (function () {
     			current = true;
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*current, specify*/ 33) {
-    				each_value_1 = /*current*/ ctx[0].specifiers.groups;
+    			if (dirty[0] & /*current, on_specify*/ 80) {
+    				each_value_1 = /*current*/ ctx[4].specifiers.groups;
     				validate_each_argument(each_value_1);
     				let i;
 
@@ -2031,7 +2027,7 @@ var bundle = (function () {
     				check_outros();
     			}
 
-    			if (dirty[0] & /*specify, specifiers*/ 160) {
+    			if (dirty[0] & /*on_specify, specifiers*/ 192) {
     				each_value = /*specifiers*/ ctx[7].both;
     				validate_each_argument(each_value);
     				let i;
@@ -2102,7 +2098,7 @@ var bundle = (function () {
     		block,
     		id: create_default_slot.name,
     		type: "slot",
-    		source: "(279:0) <Menu origin={menu_origin} {...menu_offset}>",
+    		source: "(692:0) <Menu origin={menu_origin} {...menu_offset}>",
     		ctx
     	});
 
@@ -2116,7 +2112,7 @@ var bundle = (function () {
     	let menu;
     	let div_resize_listener;
     	let current;
-    	const menu_spread_levels = [{ origin: /*menu_origin*/ ctx[4] }, /*menu_offset*/ ctx[3]];
+    	const menu_spread_levels = [{ origin: /*menu_origin*/ ctx[3] }, /*menu_offset*/ ctx[2]];
 
     	let menu_props = {
     		$$slots: {
@@ -2139,10 +2135,10 @@ var bundle = (function () {
     			t1 = space();
     			div = element("div");
     			create_component(menu.$$.fragment);
-    			add_location(h2, file$2, 275, 0, 9952);
+    			add_location(h2, file$2, 688, 0, 26937);
     			attr_dev(div, "class", "widener svelte-l2w7th");
     			add_render_callback(() => /*div_elementresize_handler*/ ctx[10].call(div));
-    			add_location(div, file$2, 277, 0, 9977);
+    			add_location(div, file$2, 690, 0, 26962);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2156,14 +2152,14 @@ var bundle = (function () {
     			current = true;
     		},
     		p: function update(ctx, dirty) {
-    			const menu_changes = (dirty[0] & /*menu_origin, menu_offset*/ 24)
+    			const menu_changes = (dirty[0] & /*menu_origin, menu_offset*/ 12)
     			? get_spread_update(menu_spread_levels, [
-    					dirty[0] & /*menu_origin*/ 16 && { origin: /*menu_origin*/ ctx[4] },
-    					dirty[0] & /*menu_offset*/ 8 && get_spread_object(/*menu_offset*/ ctx[3])
+    					dirty[0] & /*menu_origin*/ 8 && { origin: /*menu_origin*/ ctx[3] },
+    					dirty[0] & /*menu_offset*/ 4 && get_spread_object(/*menu_offset*/ ctx[2])
     				])
     			: {};
 
-    			if (dirty[0] & /*current*/ 1 | dirty[1] & /*$$scope*/ 2048) {
+    			if (dirty[0] & /*current*/ 16 | dirty[1] & /*$$scope*/ 16384) {
     				menu_changes.$$scope = { dirty, ctx };
     			}
 
@@ -2202,71 +2198,75 @@ var bundle = (function () {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots("Recorder", slots, []);
     	const TEAM = { HOME: "home", AWAY: "away" };
+    	const CONTACT = { PLAYER: "player", FLOOR: "floor" };
 
     	const RALLY_STATE = {
     		SERVING: "serving",
     		SERVE_RECEIVING: "serve_receiving",
-    		RECEIVING: "receiving"
+    		RECEIVER_RALLYING2: "receiver_rallying2",
+    		RECEIVER_RALLYING3: "receiver_rallying3",
+    		RECEIVER_ATTACKING: "receiver_attacking",
+    		RECEIVER_BLOCKING: "receiver_blocking",
+    		SERVER_RALLYING2: "server_rallying2",
+    		SERVER_RALLYING3: "server_rallying3",
+    		SERVER_ATTACKING: "server_attacking",
+    		SERVER_BLOCKING: "server_blocking"
     	};
-
-    	const CONTACT = { PLAYER: "player", FLOOR: "floor" };
 
     	const ACTION = {
     		SERVE: "serve",
     		ACE: "ace",
     		SERVICE_ERROR: "service error",
+    		DIG_OR_ATTACK: "dig_or_attack",
     		DIG: "dig",
     		RECEPTION_ERROR: "reception error",
+    		PASS_OR_ATTACK: "pass_or_attack",
     		PASS: "pass",
     		PASSING_ERROR: "passing error",
     		ATTACK: "attack",
     		KILL: "kill",
-    		ATACKING_ERROR: "attacking error",
+    		ATTACKING_ERROR: "attacking error",
+    		BLOCK_OR_ATTACK: "block_or_attack",
     		BLOCK: "block",
     		BLOCKING_ERROR: "blocking error",
     		VIOLATION: "violation"
     	};
 
-    	const on_new_match = serving => {
-    		reset_match(match);
-    		console.log("starting new match:", match);
-    		recording = true;
-    		$$invalidate(0, current.rally = new_rally(serving), current);
-    		$$invalidate(0, current.specifiers = specifiers[serving], current);
-    		console.log(`starting new rally, ${serving} team serving..`);
-    		console.log("rally:", current.rally);
-    	};
-
-    	const reset_match = m => {
-    		m.score.home = 0;
-    		m.score.away = 0;
-    		m.sets.forEach(s => s.splice(0));
+    	const reset_match = match => {
+    		match.score.home = 0;
+    		match.score.away = 0;
+    		match.sets.forEach(s => s.splice(0));
     	};
 
     	const new_rally = serving => ({
     		state: RALLY_STATE.SERVING,
-    		attacking_team: serving,
+    		serving_team: serving,
+    		hits: 0,
     		contacts: []
     	});
+
+    	const point_for = (team, match) => {
+    		match.score[team] += 1;
+    		console.log(`score: H ${match.score.home} | A ${match.score.away}`);
+    	};
+
+    	const update_last_recorded_action = (rally, action) => {
+    		const latest = rally.contacts[rally.contacts.length - 1];
+    		const old = latest.action;
+    		latest.action = action;
+    		console.log(`updated latest action from: ${old} to ${latest.action}`);
+    	};
 
     	const needs_specifier = (contact, rally) => {
     		if (is_net_area(contact.area_id)) {
     			return false;
     		}
 
-    		if (rally.state === RALLY_STATE.SERVING && !is_service_area(contact.area_id, rally.attacking_team)) {
+    		if (rally.state === RALLY_STATE.SERVING && !is_service_area(contact.area_id, rally.serving_team)) {
     			return false;
     		}
 
     		return true;
-    	};
-
-    	const specify = (type, jersey = null) => {
-    		specifying = false;
-    		console.log(`specifying a ${type} contact${jersey ? ` (Jersey #${jersey})` : ""}`);
-    		$$invalidate(0, current.contact.type = type, current);
-    		$$invalidate(0, current.contact.player = jersey, current);
-    		process_contact(current);
     	};
 
     	const is_out = area => area.startsWith(`free-`) || area.startsWith(`net-`);
@@ -2274,138 +2274,522 @@ var bundle = (function () {
     	const is_blocking_area = (area, team) => area.startsWith(`block-${team}`);
     	const is_service_area = (area, team) => area.startsWith(`free-${team}-service`);
     	const is_court_area = (area, team) => area.startsWith(`court-${team}`);
+    	const is_free_area = (area, team) => area.startsWith(`free-${team}`);
+    	const is_play_area = (area, team) => is_court_area(area, team) || is_blocking_area(area, team);
     	const team_from_area = area => area.split("-")[1];
     	const other_team = team => team === TEAM.HOME ? TEAM.AWAY : TEAM.HOME;
-    	const attacking_team = rally => rally.attacking_team;
-    	const defending_team = rally => other_team(rally.attacking_team);
+    	const serving_team = rally => rally.serving_team;
+    	const receiving_team = rally => other_team(rally.serving_team);
 
-    	const process_contact = ({ contact, rally, match }) => {
-    		console.log(`processing contact with ${contact.area_id}`);
-
-    		// if contact is valid, record to rally: rally.contacts.push(contact);
-    		// determine action
-    		// if rally complete..
-    		//   add rally to set: match.sets[current.set_index].push(current.rally)
-    		//   update score
-    		//   start new rally with correct server
-    		// if set complete..
-    		//   is game complete?
-    		//   update set index
-    		//   start new rally with correct server
+    	const process_contact = current => {
+    		const { contact, rally, match } = current;
+    		console.log(`processing ${contact.type} contact with ${contact.area_id}`);
+    		let servers = serving_team(rally);
+    		let receivers = receiving_team(rally);
+    		let possession = servers;
+    		let area = contact.area_id;
     		let is_valid = true;
-
     		let rally_ends = true;
-    		let next_team = rally.attacking_team; // default to same team
-    		let action;
+
+    		const record_action = (msg, action) => {
+    			console.log(action.toUpperCase(), msg);
+    			contact.description = msg;
+    			contact.action = action;
+    		};
 
     		switch (rally.state) {
     			case RALLY_STATE.SERVING:
-    				if (!is_service_area(contact.area_id, rally.attacking_team)) {
-    					is_valid = false;
-    					console.log(`invalid contact; expected service area of ${rally.attacking_team} team`);
-    				} else {
-    					action = ACTION.SERVE;
-    					rally.state = RALLY_STATE.SERVE_RECEIVING;
+    				if (contact.type === CONTACT.PLAYER && is_service_area(area, servers)) {
+    					record_action(`${servers} serving ${receivers}`, ACTION.SERVE);
     					rally_ends = false;
+    					rally.state = RALLY_STATE.SERVE_RECEIVING;
+    				} else {
+    					is_valid = false;
+    					console.log(`invalid contact; expected ${CONTACT.PLAYER} contact in service area of ${servers} team`);
     				}
     				break;
     			case RALLY_STATE.SERVE_RECEIVING:
-    				if (is_court_area(contact.area_id, rally.attacking_team) || is_blocking_area(contact.area_id, rally.attacking_team)) {
-    					console.log("service error, ball contact on serving team court");
-    					action = ACTION.SERVICE_ERROR;
+    				if (contact.type === CONTACT.PLAYER && is_play_area(area, receivers)) {
+    					if (is_blocking_area(area, receivers)) {
+    						record_action("reception error; cannot block a serve", ACTION.RECEPTION_ERROR);
+    						rally_ends = true;
+    						possession = servers;
+    					} else {
+    						rally.hits += 1;
+    						record_action(`reception: dig or attack (hit ${rally.hits})`, ACTION.DIG_OR_ATTACK);
+    						rally_ends = false;
+    						rally.state = RALLY_STATE.RECEIVER_RALLYING2;
+    					}
 
-    					// point for defending team
-    					next_team = other_team(rally.attacking_team);
+    					break;
     				}
-    				if (is_net_area(contact.area_id)) {
-    					console.log("service error, net contact");
-    					action = ACTION.SERVICE_ERROR;
+    				if (contact.type === CONTACT.FLOOR && is_play_area(area, receivers)) {
+    					record_action("service ace", ACTION.ACE);
+    					rally_ends = true;
+    					possession = servers;
+    					break;
+    				}
+    				if (is_net_area(area)) {
+    					record_action("service error, net contact", ACTION.SERVICE_ERROR);
+    					rally_ends = true;
+    					possession = receivers;
+    					break;
+    				}
+    				if (is_out(area)) {
+    					if (contact.type === CONTACT.PLAYER && is_free_area(area, receivers)) {
+    						rally.hits += 1;
+    						record_action(`reception: dig or attack [in free area], hit ${rally.hits})`, ACTION.DIG_OR_ATTACK);
+    						rally_ends = false;
+    						rally.state = RALLY_STATE.RECEIVER_RALLYING2;
+    					} else {
+    						record_action("service error, ball landed out of bounds", ACTION.SERVICE_ERROR);
+    						rally_ends = true;
+    						possession = receivers;
+    					}
 
-    					// point for defending team
-    					next_team = other_team(rally.attacking_team);
+    					break;
     				}
-    				if (is_out(contact.area_id)) {
-    					console.log(`service error, unless defending team touched it; check contact type (${contact.type})`);
+    				if (is_play_area(area, servers)) {
+    					record_action("service error, ball contact on serving team court", ACTION.SERVICE_ERROR);
+    					rally_ends = true;
+    					possession = receivers;
+    					break;
     				}
-    				// action = ACTION.DIG
-    				// next_team = other_team(rally.attacking_team);
-    				if (is_blocking_area(contact.area_id, defending_team(rally))) {
-    					console.log("reception error; cannot block a serve"); // if defender touched it:
-    					// rally_ends = false;
+    				console.error(`unhandled scenario in rally state ${rally.state}`);
+    				break;
+    			case RALLY_STATE.RECEIVER_RALLYING2:
+    				if (contact.type === CONTACT.PLAYER && (is_play_area(area, servers) || is_free_area(area, servers))) {
+    					rally.hits += 1;
+    					update_last_recorded_action(rally, ACTION.ATTACK);
 
-    					action = ACTION.RECEPTION_ERROR;
-    				}
-    				if (is_court_area(contact.area_id, defending_team(rally))) {
-    					console.log(`some kind of reception; check contact type (${contact.type})`); // point for attacking team
+    					if (is_blocking_area(area, servers)) {
+    						record_action(`block or attack attempt (hit ${rally.hits})`, ACTION.BLOCK_OR_ATTACK);
+    						rally.state = RALLY_STATE.SERVER_BLOCKING;
+    					} else {
+    						record_action(`reception: dig or attack (hit ${rally.hits})`, ACTION.DIG_OR_ATTACK);
+    						rally.state = RALLY_STATE.SERVER_RALLYING2;
+    					}
 
-    					// if proper reception:
-    					// count 1 hit
     					rally_ends = false;
+    					break;
+    				}
+    				if (contact.type === CONTACT.PLAYER && (is_play_area(area, receivers) || is_free_area(area, receivers))) {
+    					rally.hits += 1;
+    					update_last_recorded_action(rally, ACTION.DIG);
+    					record_action(`reception: pass or attack (hit ${rally.hits})`, ACTION.PASS_OR_ATTACK);
+    					rally_ends = false;
+    					rally.state = RALLY_STATE.RECEIVER_RALLYING3;
+    					break;
+    				}
+    				if (contact.type === CONTACT.FLOOR && is_play_area(area, servers)) {
+    					update_last_recorded_action(rally, ACTION.ATTACK);
+    					record_action("attack kill", ACTION.KILL);
+    					rally_ends = true;
+    					possession = receivers;
+    					break;
+    				}
+    				if (is_net_area(area)) {
+    					update_last_recorded_action(rally, ACTION.DIG);
+    					record_action("reception error, net contact", ACTION.RECEPTION_ERROR);
+    					rally_ends = true;
+    					possession = servers;
+    					break;
+    				}
+    				if (contact.type === CONTACT.FLOOR && is_out(area)) {
+    					update_last_recorded_action(rally, ACTION.DIG);
+    					record_action("reception error, ball landed out of bounds", ACTION.RECEPTION_ERROR);
+    					rally_ends = true;
+    					possession = servers;
+    					break;
+    				}
+    				if (contact.type === CONTACT.FLOOR && is_play_area(area, receivers)) {
+    					update_last_recorded_action(rally, ACTION.DIG);
+    					record_action("reception error, ball dropped", ACTION.RECEPTION_ERROR);
+    					rally_ends = true;
+    					possession = servers;
+    					break;
+    				}
+    				console.error(`unhandled scenario in rally state ${rally.state}`);
+    				break;
+    			case RALLY_STATE.RECEIVER_RALLYING3:
+    				if (contact.type === CONTACT.PLAYER && (is_play_area(area, servers) || is_free_area(area, servers))) {
+    					rally.hits += 1;
+    					update_last_recorded_action(rally, ACTION.ATTACK);
 
-    					next_team = other_team(rally.attacking_team);
+    					if (is_blocking_area(area, servers)) {
+    						record_action(`block or attack attempt (hit ${rally.hits})`, ACTION.BLOCK_OR_ATTACK);
+    						rally_ends = false;
+    						rally.state = RALLY_STATE.SERVER_BLOCKING;
+    					} else {
+    						record_action(`reception: dig or attack (hit ${rally.hits})`, ACTION.DIG_OR_ATTACK);
+    						rally_ends = false;
+    						rally.state = RALLY_STATE.SERVER_RALLYING2;
+    					}
+
+    					break;
+    				}
+    				if (contact.type === CONTACT.PLAYER && (is_play_area(area, receivers) || is_free_area(area, receivers))) {
+    					rally.hits += 1;
+    					update_last_recorded_action(rally, ACTION.PASS);
+    					record_action(`reception: attack (hit ${rally.hits})`, ACTION.ATTACK);
+    					rally_ends = false;
+    					rally.state = RALLY_STATE.RECEIVER_ATTACKING;
+    					break;
+    				}
+    				if (contact.type === CONTACT.FLOOR && is_play_area(area, servers)) {
+    					update_last_recorded_action(rally, ACTION.ATTACK);
+    					record_action("attack kill", ACTION.KILL);
+    					rally_ends = true;
+    					possession = receivers;
+    					break;
+    				}
+    				if (is_net_area(area)) {
+    					update_last_recorded_action(rally, ACTION.PASS);
+    					record_action("passing error, net contact", ACTION.PASSING_ERROR);
+    					rally_ends = true;
+    					possession = servers;
+    					break;
+    				}
+    				if (contact.type === CONTACT.FLOOR && is_out(area)) {
+    					update_last_recorded_action(rally, ACTION.PASS);
+    					record_action("passing error, ball landed out of bounds", ACTION.PASSING_ERROR);
+    					rally_ends = true;
+    					possession = servers;
+    					break;
+    				}
+    				if (contact.type === CONTACT.FLOOR && is_play_area(area, receivers)) {
+    					update_last_recorded_action(rally, ACTION.PASS);
+    					record_action("passing error, ball dropped", ACTION.PASSING_ERROR);
+    					rally_ends = true;
+    					possession = servers;
+    					break;
+    				}
+    				console.error(`unhandled scenario in rally state ${rally.state}`);
+    				break;
+    			case RALLY_STATE.RECEIVER_ATTACKING:
+    				if (contact.type === CONTACT.PLAYER && (is_play_area(area, servers) || is_free_area(area, servers))) {
+    					rally.hits += 1;
+
+    					if (is_blocking_area(area, servers)) {
+    						record_action(`block or attack attempt (hit ${rally.hits})`, ACTION.BLOCK_OR_ATTACK);
+    						rally_ends = false;
+    						rally.state = RALLY_STATE.SERVER_BLOCKING;
+    					} else {
+    						record_action(`reception: dig or attack (hit ${rally.hits})`, ACTION.DIG_OR_ATTACK);
+    						rally_ends = false;
+    						rally.state = RALLY_STATE.SERVER_RALLYING2;
+    					}
+
+    					break;
+    				}
+    				if (contact.type === CONTACT.FLOOR && is_play_area(area, servers)) {
+    					record_action("attack kill", ACTION.KILL);
+    					rally_ends = true;
+    					possession = receivers;
+    					break;
+    				}
+    				if (is_net_area(area)) {
+    					record_action("attacking error, net contact", ACTION.ATTACKING_ERROR);
+    					rally_ends = true;
+    					possession = servers;
+    					break;
+    				}
+    				if (contact.type === CONTACT.FLOOR && is_out(area)) {
+    					record_action("attacking error, ball landed out of bounds", ACTION.ATTACKING_ERROR);
+    					rally_ends = true;
+    					possession = servers;
+    					break;
+    				}
+    				if (contact.type === CONTACT.FLOOR && is_play_area(area, receivers)) {
+    					record_action("attacking error, ball dropped", ACTION.ATTACKING_ERROR);
+    					rally_ends = true;
+    					possession = servers;
+    					break;
+    				}
+    				if (contact.type === CONTACT.PLAYER && (is_play_area(area, receivers) || is_free_area(area, receivers))) {
+    					rally.hits += 1;
+    					record_action(`attacking error: too many hits (${rally.hits})`, ACTION.ATTACKING_ERROR);
+    					rally_ends = true;
+    					possession = servers;
+    					break;
     				}
     				break;
-    			case RALLY_STATE.RECEIVING:
-    				if (is_court_area(contact.area_id, rally.attacking_team) || is_blocking_area(contact.area_id, rally.attacking_team)) {
-    					console.log("attack, block, pass, or error; ball contact on attacking team court");
+    			case RALLY_STATE.RECEIVER_BLOCKING:
+    				if (contact.type === CONTACT.PLAYER && (is_play_area(area, servers) || is_free_area(area, servers))) {
+    					rally.hits += 1;
+    					update_last_recorded_action(rally, ACTION.ATTACK);
 
-    					// check count and previous action
-    					action = ACTION.ATTACK_ERROR;
+    					if (is_blocking_area(area, servers)) {
+    						record_action(`block or attack attempt (hit ${rally.hits})`, ACTION.BLOCK_OR_ATTACK);
+    						rally_ends = false;
+    						rally.state = RALLY_STATE.SERVER_BLOCKING;
+    					} else {
+    						record_action(`reception: dig or attack (hit ${rally.hits})`, ACTION.DIG_OR_ATTACK);
+    						rally_ends = false;
+    						rally.state = RALLY_STATE.SERVER_RALLYING2;
+    					}
 
-    					// point for defending team
-    					next_team = other_team(rally.attacking_team);
+    					break;
     				}
-    				if (is_net_area(contact.area_id)) {
-    					console.log("attack, block, or pass error; ball contact with net");
-    					action = ACTION.ATTACK_ERROR;
-
-    					// point for defending team
-    					next_team = other_team(rally.attacking_team);
-    				}
-    				if (is_out(contact.area_id)) {
-    					console.log(`attack, block, or pass error, unless attacking team touched it and has hits left; check contact type (${contact.type})`);
-    				}
-    				// action = ACTION.DIG
-    				// next_team = other_team(rally.attacking_team);
-    				if (is_blocking_area(contact.area_id, defending_team(rally))) {
-    					console.log(`block or attack attempt if person (check next contact), attack, block, or pass error if floor; check contact type (${contact.type})`); // if attacker touched it:
-    					// rally_ends = false;
-    				}
-    				if (is_court_area(contact.area_id, defending_team(rally))) {
-    					console.log(`pass or attack attempt if person (check next contact), attack, block, or pass error if floor; check contact type (${contact.type})`); // action gets set after next analysis?
-
-    					// if proper reception:
-    					// count 1 hit
+    				if (contact.type === CONTACT.PLAYER && (is_play_area(area, receivers) || is_free_area(area, receivers))) {
+    					rally.hits += 1;
+    					update_last_recorded_action(rally, ACTION.PASS);
+    					record_action(`reception: pass or attack (hit ${rally.hits})`, ACTION.PASS_OR_ATTACK);
     					rally_ends = false;
+    					rally.state = RALLY_STATE.RECEIVER_RALLYING3;
+    					break;
+    				}
+    				if (contact.type === CONTACT.FLOOR && is_play_area(area, servers)) {
+    					update_last_recorded_action(rally, ACTION.BLOCK);
+    					record_action("block", ACTION.KILL);
+    					rally_ends = true;
+    					possession = receivers;
+    					break;
+    				}
+    				if (contact.type === CONTACT.FLOOR && is_out(area)) {
+    					update_last_recorded_action(rally, ACTION.ATTACK);
+    					record_action("attacking error, ball landed out of bounds", ACTION.ATTACKING_ERROR);
+    					rally_ends = true;
+    					possession = servers;
+    					break;
+    				}
+    				if (contact.type === CONTACT.FLOOR && is_play_area(area, receivers)) {
+    					record_action("attacking error, ball dropped", ACTION.ATTACKING_ERROR);
+    					rally_ends = true;
+    					possession = servers;
+    					break;
+    				}
+    				break;
+    			case RALLY_STATE.SERVER_RALLYING2:
+    				if (contact.type === CONTACT.PLAYER && (is_play_area(area, receivers) || is_free_area(area, receivers))) {
+    					rally.hits += 1;
+    					update_last_recorded_action(rally, ACTION.ATTACK);
 
-    					action = ACTION.DIG;
+    					if (is_blocking_area(area, receivers)) {
+    						record_action(`block or attack attempt (hit ${rally.hits})`, ACTION.BLOCK_OR_ATTACK);
+    						rally.state = RALLY_STATE.RECEIVER_BLOCKING;
+    					} else {
+    						record_action(`reception: dig or attack (hit ${rally.hits})`, ACTION.DIG_OR_ATTACK);
+    						rally.state = RALLY_STATE.RECEIVER_RALLYING2;
+    					}
+
+    					rally_ends = false;
+    					break;
+    				}
+    				if (contact.type === CONTACT.PLAYER && (is_play_area(area, servers) || is_free_area(area, servers))) {
+    					rally.hits += 1;
+    					update_last_recorded_action(rally, ACTION.DIG);
+    					record_action(`reception: pass or attack (hit ${rally.hits})`, ACTION.PASS_OR_ATTACK);
+    					rally_ends = false;
+    					rally.state = RALLY_STATE.SERVER_RALLYING3;
+    					break;
+    				}
+    				if (contact.type === CONTACT.FLOOR && is_play_area(area, receivers)) {
+    					update_last_recorded_action(rally, ACTION.ATTACK);
+    					record_action("attack kill", ACTION.KILL);
+    					rally_ends = true;
+    					possession = servers;
+    					break;
+    				}
+    				if (is_net_area(area)) {
+    					update_last_recorded_action(rally, ACTION.DIG);
+    					record_action("reception error, net contact", ACTION.RECEPTION_ERROR);
+    					rally_ends = true;
+    					possession = receivers;
+    					break;
+    				}
+    				if (contact.type === CONTACT.FLOOR && is_out(area)) {
+    					update_last_recorded_action(rally, ACTION.DIG);
+    					record_action("reception error, ball landed out of bounds", ACTION.RECEPTION_ERROR);
+    					rally_ends = true;
+    					possession = receivers;
+    					break;
+    				}
+    				if (contact.type === CONTACT.FLOOR && is_play_area(area, servers)) {
+    					update_last_recorded_action(rally, ACTION.DIG);
+    					record_action("reception error, ball dropped", ACTION.RECEPTION_ERROR);
+    					rally_ends = true;
+    					possession = receivers;
+    					break;
+    				}
+    				console.error(`unhandled scenario in rally state ${rally.state}`);
+    				break;
+    			case RALLY_STATE.SERVER_RALLYING3:
+    				if (contact.type === CONTACT.PLAYER && (is_play_area(area, receivers) || is_free_area(area, receivers))) {
+    					rally.hits += 1;
+    					update_last_recorded_action(rally, ACTION.ATTACK);
+
+    					if (is_blocking_area(area, receivers)) {
+    						record_action(`block or attack attempt (hit ${rally.hits})`, ACTION.BLOCK_OR_ATTACK);
+    						rally_ends = false;
+    						rally.state = RALLY_STATE.RECEIVER_BLOCKING;
+    					} else {
+    						record_action(`reception: dig or attack (hit ${rally.hits})`, ACTION.DIG_OR_ATTACK);
+    						rally_ends = false;
+    						rally.state = RALLY_STATE.RECEIVER_RALLYING2;
+    					}
+
+    					break;
+    				}
+    				if (contact.type === CONTACT.PLAYER && (is_play_area(area, servers) || is_free_area(area, servers))) {
+    					rally.hits += 1;
+    					update_last_recorded_action(rally, ACTION.PASS);
+    					record_action(`reception: attack (hit ${rally.hits})`, ACTION.ATTACK);
+    					rally_ends = false;
+    					rally.state = RALLY_STATE.SERVER_ATTACKING;
+    					break;
+    				}
+    				if (contact.type === CONTACT.FLOOR && is_play_area(area, receivers)) {
+    					update_last_recorded_action(rally, ACTION.ATTACK);
+    					record_action("attack kill", ACTION.KILL);
+    					rally_ends = true;
+    					possession = servers;
+    					break;
+    				}
+    				if (is_net_area(area)) {
+    					update_last_recorded_action(rally, ACTION.PASS);
+    					record_action("passing error, net contact", ACTION.PASSING_ERROR);
+    					rally_ends = true;
+    					possession = receivers;
+    					break;
+    				}
+    				if (contact.type === CONTACT.FLOOR && is_out(area)) {
+    					update_last_recorded_action(rally, ACTION.PASS);
+    					record_action("passing error, ball landed out of bounds", ACTION.PASSING_ERROR);
+    					rally_ends = true;
+    					possession = receivers;
+    					break;
+    				}
+    				if (contact.type === CONTACT.FLOOR && is_play_area(area, servers)) {
+    					update_last_recorded_action(rally, ACTION.PASS);
+    					record_action("passing error, ball dropped", ACTION.PASSING_ERROR);
+    					rally_ends = true;
+    					possession = receivers;
+    					break;
+    				}
+    				console.error(`unhandled scenario in rally state ${rally.state}`);
+    				break;
+    			case RALLY_STATE.SERVER_ATTACKING:
+    				if (contact.type === CONTACT.PLAYER && (is_play_area(area, receivers) || is_free_area(area, receivers))) {
+    					rally.hits += 1;
+
+    					if (is_blocking_area(area, receivers)) {
+    						record_action(`block or attack attempt (hit ${rally.hits})`, ACTION.BLOCK_OR_ATTACK);
+    						rally_ends = false;
+    						rally.state = RALLY_STATE.RECEIVER_BLOCKING;
+    					} else {
+    						record_action(`reception: dig or attack (hit ${rally.hits})`, ACTION.DIG_OR_ATTACK);
+    						rally_ends = false;
+    						rally.state = RALLY_STATE.RECEIVER_RALLYING2;
+    					}
+
+    					break;
+    				}
+    				if (contact.type === CONTACT.FLOOR && is_play_area(area, receivers)) {
+    					record_action("attack kill", ACTION.KILL);
+    					rally_ends = true;
+    					possession = servers;
+    					break;
+    				}
+    				if (is_net_area(area)) {
+    					record_action("attacking error, net contact", ACTION.ATTACKING_ERROR);
+    					rally_ends = true;
+    					possession = receivers;
+    					break;
+    				}
+    				if (contact.type === CONTACT.FLOOR && is_out(area)) {
+    					record_action("attacking error, ball landed out of bounds", ACTION.ATTACKING_ERROR);
+    					rally_ends = true;
+    					possession = receivers;
+    					break;
+    				}
+    				if (contact.type === CONTACT.FLOOR && is_play_area(area, servers)) {
+    					record_action("attacking error, ball dropped", ACTION.ATTACKING_ERROR);
+    					rally_ends = true;
+    					possession = receivers;
+    					break;
+    				}
+    				if (contact.type === CONTACT.PLAYER && (is_play_area(area, servers) || is_free_area(area, servers))) {
+    					rally.hits += 1;
+    					record_action(`attacking error: too many hits (${rally.hits})`, ACTION.ATTACKING_ERROR);
+    					rally_ends = true;
+    					possession = receivers;
+    					break;
+    				}
+    				break;
+    			case RALLY_STATE.SERVER_BLOCKING:
+    				if (contact.type === CONTACT.PLAYER && (is_play_area(area, receivers) || is_free_area(area, receivers))) {
+    					rally.hits += 1;
+    					update_last_recorded_action(rally, ACTION.ATTACK);
+
+    					if (is_blocking_area(area, receivers)) {
+    						record_action(`block or attack attempt (hit ${rally.hits})`, ACTION.BLOCK_OR_ATTACK);
+    						rally_ends = false;
+    						rally.state = RALLY_STATE.RECEIVER_BLOCKING;
+    					} else {
+    						record_action(`reception: dig or attack (hit ${rally.hits})`, ACTION.DIG_OR_ATTACK);
+    						rally_ends = false;
+    						rally.state = RALLY_STATE.RECEIVER_RALLYING2;
+    					}
+
+    					break;
+    				}
+    				if (contact.type === CONTACT.PLAYER && (is_play_area(area, servers) || is_free_area(area, servers))) {
+    					rally.hits += 1;
+    					update_last_recorded_action(rally, ACTION.PASS);
+    					record_action(`reception: pass or attack (hit ${rally.hits})`, ACTION.PASS_OR_ATTACK);
+    					rally_ends = false;
+    					rally.state = RALLY_STATE.SERVER_RALLYING3;
+    					break;
+    				}
+    				if (contact.type === CONTACT.FLOOR && is_play_area(area, receivers)) {
+    					update_last_recorded_action(rally, ACTION.BLOCK);
+    					record_action("block", ACTION.KILL);
+    					rally_ends = true;
+    					possession = servers;
+    					break;
+    				}
+    				if (contact.type === CONTACT.FLOOR && is_out(area)) {
+    					update_last_recorded_action(rally, ACTION.ATTACK);
+    					record_action("attacking error, ball landed out of bounds", ACTION.ATTACKING_ERROR);
+    					rally_ends = true;
+    					possession = receivers;
+    					break;
+    				}
+    				if (contact.type === CONTACT.FLOOR && is_play_area(area, servers)) {
+    					record_action("attacking error, ball dropped", ACTION.ATTACKING_ERROR);
+    					rally_ends = true;
+    					possession = receivers;
+    					break;
     				}
     				break;
     		}
 
-    		if (is_valid) {
-    			if (action) {
-    				contact.action = action;
-    				console.log(`action: ${contact.action.toUpperCase()}`);
-    			} else {
-    				console.log("no action");
-    			}
+    		if (!contact.action) {
+    			console.log("no action");
+    		}
 
-    			rally.contacts.push(contact);
+    		if (!is_valid) {
+    			return;
+    		}
 
-    			if (rally_ends) {
-    				console.log("rally ends");
-    				console.log(`starting new rally, ${next_team} team serving..`);
-    				$$invalidate(0, current.rally = new_rally(next_team), current);
-    				$$invalidate(0, current.rally.state = RALLY_STATE.SERVING, current);
-    			} else {
-    				console.log("rally continues"); // award a point
-    			}
+    		rally.contacts.push(contact);
 
-    			// match ends?
+    		if (rally_ends) {
+    			console.log(`rally ends. appending to set ${current.set_index + 1}`);
+    			current.match.sets[current.set_index].push(current.rally);
     			console.log("rally:", current.rally);
+    			point_for(possession, match);
+    			console.log(`starting new rally, ${possession} team serving..`);
+    			current.rally = new_rally(possession);
+    			current.rally.state = RALLY_STATE.SERVING;
+    		} else {
+    			console.log("rally continues..");
     		}
-    	};
+    	}; // set ends?
+    	// TODO: add function to determine when set has been won
+    	// match ends?
+    	// TODO: add function to determine when match has been won
 
     	const set_menu_props = ({ el_x: x, el_y: y, el_rect, area_id }) => {
     		// position menu to open near contact and grow towards center of court
@@ -2414,12 +2798,12 @@ var bundle = (function () {
     		const tb = y < h / 2 ? "top" : "bottom";
     		const lr = x < w / 2 ? "left" : "right";
     		const k = 80; // FIXME: where is this vertical offset coming from?
-    		$$invalidate(4, menu_origin = `${tb} ${lr}`);
-    		$$invalidate(3, menu_offset.dx = lr === "left" ? x : w - x, menu_offset);
-    		$$invalidate(3, menu_offset.dy = tb === "top" ? y - k : h - y + k, menu_offset);
+    		$$invalidate(3, menu_origin = `${tb} ${lr}`);
+    		$$invalidate(2, menu_offset.dx = lr === "left" ? x : w - x, menu_offset);
+    		$$invalidate(2, menu_offset.dy = tb === "top" ? y - k : h - y + k, menu_offset);
 
     		// set specifiers appropriate to contact location
-    		$$invalidate(0, current.specifiers = specifiers[team_from_area(area_id)], current);
+    		$$invalidate(4, current.specifiers = specifiers[team_from_area(area_id)], current);
     	};
 
     	const on_contact = e => {
@@ -2435,9 +2819,9 @@ var bundle = (function () {
     		}
 
     		const contact = e.detail;
-    		const { area_id, court_x, court_y, screen_x, screen_y } = contact;
-    		console.log(`contact with ${area_id} at [${contact.el_x}, ${contact.el_y}]`);
-    		$$invalidate(0, current.contact = contact, current);
+
+    		// console.log(`contact with ${contact.area_id} at [${contact.el_x}, ${contact.el_y}]`);
+    		$$invalidate(4, current.contact = contact, current);
 
     		if (needs_specifier(current.contact, current.rally)) {
     			specifying = true;
@@ -2448,9 +2832,29 @@ var bundle = (function () {
     		}
     	};
 
-    	let recording = false;
-    	let specifying = false;
-    	let action_log = [];
+    	const on_match_start = serving => {
+    		reset_match(current.match);
+    		$$invalidate(4, current.set_index = 0, current);
+    		console.log("starting new match:", current.match);
+    		recording = true;
+    		$$invalidate(4, current.rally = new_rally(serving), current);
+    		$$invalidate(4, current.specifiers = specifiers[serving], current);
+    		console.log(`starting new rally, ${serving} team serving..`);
+    	}; // console.log('rally:', current.rally);
+
+    	const on_specify = (type, value) => {
+    		specifying = false;
+
+    		// console.log(`specifying a ${type} contact (${value})`);
+    		$$invalidate(4, current.contact.type = type, current);
+
+    		$$invalidate(4, current.contact.player = value, current);
+    		process_contact(current);
+    	};
+
+    	let menu_width, menu_height; // read-only
+    	let menu_offset = { dx: 0, dy: 0 };
+    	let menu_origin = "top left";
 
     	let match = {
     		score: { home: 0, away: 0 },
@@ -2458,36 +2862,36 @@ var bundle = (function () {
     	};
 
     	let current = {
+    		match,
     		set_index: -1,
     		rally: null,
     		contact: null,
     		specifiers: null
     	};
 
-    	let menu_width, menu_height; // read-only
-    	let menu_offset = { dx: 0, dy: 0 };
-    	let menu_origin = "top left";
+    	let recording = false;
+    	let specifying = false;
 
     	let specifiers = {
     		"home": {
     			"groups": [
     				// TODO: set these via UI
     				[
-    					{ type: CONTACT.PLAYER, value: "01" },
-    					{ type: CONTACT.PLAYER, value: "02" },
-    					{ type: CONTACT.PLAYER, value: "03" },
-    					{ type: CONTACT.PLAYER, value: "04" }
+    					{ type: CONTACT.PLAYER, value: "#01" },
+    					{ type: CONTACT.PLAYER, value: "#02" },
+    					{ type: CONTACT.PLAYER, value: "#03" },
+    					{ type: CONTACT.PLAYER, value: "#04" }
     				],
     				[
-    					{ type: CONTACT.PLAYER, value: "05" },
-    					{ type: CONTACT.PLAYER, value: "06" },
-    					{ type: CONTACT.PLAYER, value: "07" },
-    					{ type: CONTACT.PLAYER, value: "08" }
+    					{ type: CONTACT.PLAYER, value: "#05" },
+    					{ type: CONTACT.PLAYER, value: "#06" },
+    					{ type: CONTACT.PLAYER, value: "#07" },
+    					{ type: CONTACT.PLAYER, value: "#08" }
     				],
     				[
-    					{ type: CONTACT.PLAYER, value: "09" },
-    					{ type: CONTACT.PLAYER, value: "10" },
-    					{ type: CONTACT.PLAYER, value: "11" }
+    					{ type: CONTACT.PLAYER, value: "#09" },
+    					{ type: CONTACT.PLAYER, value: "#10" },
+    					{ type: CONTACT.PLAYER, value: "#11" }
     				]
     			]
     		},
@@ -2499,7 +2903,7 @@ var bundle = (function () {
 
     	onMount(async () => {
     		// TODO: move this to a `New Match` button that prompts for serving team
-    		on_new_match(TEAM.HOME);
+    		on_match_start(TEAM.HOME);
     	});
 
     	const writable_props = [];
@@ -2508,14 +2912,14 @@ var bundle = (function () {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console_1.warn(`<Recorder> was created with unknown prop '${key}'`);
     	});
 
-    	const click_handler = s => specify(s.type, s.value);
-    	const click_handler_1 = s => specify(s.type, s.value);
+    	const click_handler = s => on_specify(s.type, s.value);
+    	const click_handler_1 = s => on_specify(s.type, s.value);
 
     	function div_elementresize_handler() {
     		menu_width = this.clientWidth;
     		menu_height = this.clientHeight;
-    		$$invalidate(1, menu_width);
-    		$$invalidate(2, menu_height);
+    		$$invalidate(0, menu_width);
+    		$$invalidate(1, menu_height);
     	}
 
     	$$self.$capture_state = () => ({
@@ -2526,48 +2930,50 @@ var bundle = (function () {
     		Menuitem: Yn,
     		Court,
     		TEAM,
-    		RALLY_STATE,
     		CONTACT,
+    		RALLY_STATE,
     		ACTION,
-    		on_new_match,
     		reset_match,
     		new_rally,
+    		point_for,
+    		update_last_recorded_action,
     		needs_specifier,
-    		specify,
     		is_out,
     		is_net_area,
     		is_blocking_area,
     		is_service_area,
     		is_court_area,
+    		is_free_area,
+    		is_play_area,
     		team_from_area,
     		other_team,
-    		attacking_team,
-    		defending_team,
+    		serving_team,
+    		receiving_team,
     		process_contact,
     		set_menu_props,
     		on_contact,
-    		recording,
-    		specifying,
-    		action_log,
-    		match,
-    		current,
+    		on_match_start,
+    		on_specify,
     		menu_width,
     		menu_height,
     		menu_offset,
     		menu_origin,
+    		match,
+    		current,
+    		recording,
+    		specifying,
     		specifiers
     	});
 
     	$$self.$inject_state = $$props => {
+    		if ("menu_width" in $$props) $$invalidate(0, menu_width = $$props.menu_width);
+    		if ("menu_height" in $$props) $$invalidate(1, menu_height = $$props.menu_height);
+    		if ("menu_offset" in $$props) $$invalidate(2, menu_offset = $$props.menu_offset);
+    		if ("menu_origin" in $$props) $$invalidate(3, menu_origin = $$props.menu_origin);
+    		if ("match" in $$props) match = $$props.match;
+    		if ("current" in $$props) $$invalidate(4, current = $$props.current);
     		if ("recording" in $$props) recording = $$props.recording;
     		if ("specifying" in $$props) specifying = $$props.specifying;
-    		if ("action_log" in $$props) action_log = $$props.action_log;
-    		if ("match" in $$props) match = $$props.match;
-    		if ("current" in $$props) $$invalidate(0, current = $$props.current);
-    		if ("menu_width" in $$props) $$invalidate(1, menu_width = $$props.menu_width);
-    		if ("menu_height" in $$props) $$invalidate(2, menu_height = $$props.menu_height);
-    		if ("menu_offset" in $$props) $$invalidate(3, menu_offset = $$props.menu_offset);
-    		if ("menu_origin" in $$props) $$invalidate(4, menu_origin = $$props.menu_origin);
     		if ("specifiers" in $$props) $$invalidate(7, specifiers = $$props.specifiers);
     	};
 
@@ -2576,13 +2982,13 @@ var bundle = (function () {
     	}
 
     	return [
-    		current,
     		menu_width,
     		menu_height,
     		menu_offset,
     		menu_origin,
-    		specify,
+    		current,
     		on_contact,
+    		on_specify,
     		specifiers,
     		click_handler,
     		click_handler_1,
