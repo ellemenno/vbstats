@@ -1525,23 +1525,23 @@ var bundle = (function () {
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[37] = list[i];
+    	child_ctx[38] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[40] = list[i];
+    	child_ctx[41] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[37] = list[i];
+    	child_ctx[38] = list[i];
     	return child_ctx;
     }
 
-    // (693:2) <div slot="activator">
+    // (702:2) <div slot="activator">
     function create_activator_slot(ctx) {
     	let div;
     	let court;
@@ -1554,7 +1554,7 @@ var bundle = (function () {
     			div = element("div");
     			create_component(court.$$.fragment);
     			attr_dev(div, "slot", "activator");
-    			add_location(div, file$2, 692, 2, 27093);
+    			add_location(div, file$2, 701, 2, 27880);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1581,16 +1581,16 @@ var bundle = (function () {
     		block,
     		id: create_activator_slot.name,
     		type: "slot",
-    		source: "(693:2) <div slot=\\\"activator\\\">",
+    		source: "(702:2) <div slot=\\\"activator\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (700:4) <Button class='menu-item' on:click={()=>on_specify(s.type, s.value)}>
+    // (709:4) <Button class='menu-item' on:click={()=>on_specify(s.type, s.value)}>
     function create_default_slot_3(ctx) {
-    	let t_value = /*s*/ ctx[37].value + "";
+    	let t_value = /*s*/ ctx[38].value + "";
     	let t;
 
     	const block = {
@@ -1601,7 +1601,7 @@ var bundle = (function () {
     			insert_dev(target, t, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*current*/ 16 && t_value !== (t_value = /*s*/ ctx[37].value + "")) set_data_dev(t, t_value);
+    			if (dirty[0] & /*current*/ 16 && t_value !== (t_value = /*s*/ ctx[38].value + "")) set_data_dev(t, t_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(t);
@@ -1612,20 +1612,20 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_3.name,
     		type: "slot",
-    		source: "(700:4) <Button class='menu-item' on:click={()=>on_specify(s.type, s.value)}>",
+    		source: "(709:4) <Button class='menu-item' on:click={()=>on_specify(s.type, s.value)}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (699:2) {#each g as s}
+    // (708:2) {#each g as s}
     function create_each_block_2(ctx) {
     	let button;
     	let current;
 
     	function click_handler() {
-    		return /*click_handler*/ ctx[8](/*s*/ ctx[37]);
+    		return /*click_handler*/ ctx[8](/*s*/ ctx[38]);
     	}
 
     	button = new ye({
@@ -1651,7 +1651,7 @@ var bundle = (function () {
     			ctx = new_ctx;
     			const button_changes = {};
 
-    			if (dirty[0] & /*current*/ 16 | dirty[1] & /*$$scope*/ 16384) {
+    			if (dirty[0] & /*current*/ 16 | dirty[1] & /*$$scope*/ 32768) {
     				button_changes.$$scope = { dirty, ctx };
     			}
 
@@ -1675,18 +1675,18 @@ var bundle = (function () {
     		block,
     		id: create_each_block_2.name,
     		type: "each",
-    		source: "(699:2) {#each g as s}",
+    		source: "(708:2) {#each g as s}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (698:6) <ButtonGroup>
+    // (707:6) <ButtonGroup>
     function create_default_slot_2(ctx) {
     	let each_1_anchor;
     	let current;
-    	let each_value_2 = /*g*/ ctx[40];
+    	let each_value_2 = /*g*/ ctx[41];
     	validate_each_argument(each_value_2);
     	let each_blocks = [];
 
@@ -1716,7 +1716,7 @@ var bundle = (function () {
     		},
     		p: function update(ctx, dirty) {
     			if (dirty[0] & /*on_specify, current*/ 80) {
-    				each_value_2 = /*g*/ ctx[40];
+    				each_value_2 = /*g*/ ctx[41];
     				validate_each_argument(each_value_2);
     				let i;
 
@@ -1771,14 +1771,14 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_2.name,
     		type: "slot",
-    		source: "(698:6) <ButtonGroup>",
+    		source: "(707:6) <ButtonGroup>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (697:2) {#each current.specifiers.groups as g}
+    // (706:2) {#each current.specifiers.groups as g}
     function create_each_block_1(ctx) {
     	let li;
     	let buttongroup;
@@ -1796,7 +1796,7 @@ var bundle = (function () {
     		c: function create() {
     			li = element("li");
     			create_component(buttongroup.$$.fragment);
-    			add_location(li, file$2, 697, 2, 27206);
+    			add_location(li, file$2, 706, 2, 27993);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -1806,7 +1806,7 @@ var bundle = (function () {
     		p: function update(ctx, dirty) {
     			const buttongroup_changes = {};
 
-    			if (dirty[0] & /*current*/ 16 | dirty[1] & /*$$scope*/ 16384) {
+    			if (dirty[0] & /*current*/ 16 | dirty[1] & /*$$scope*/ 32768) {
     				buttongroup_changes.$$scope = { dirty, ctx };
     			}
 
@@ -1831,16 +1831,16 @@ var bundle = (function () {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(697:2) {#each current.specifiers.groups as g}",
+    		source: "(706:2) {#each current.specifiers.groups as g}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (706:2) <Menuitem on:click={()=>on_specify(s.type, s.value)}>
+    // (715:2) <Menuitem on:click={()=>on_specify(s.type, s.value)}>
     function create_default_slot_1(ctx) {
-    	let t_value = /*s*/ ctx[37].value + "";
+    	let t_value = /*s*/ ctx[38].value + "";
     	let t;
 
     	const block = {
@@ -1860,20 +1860,20 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_1.name,
     		type: "slot",
-    		source: "(706:2) <Menuitem on:click={()=>on_specify(s.type, s.value)}>",
+    		source: "(715:2) <Menuitem on:click={()=>on_specify(s.type, s.value)}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (705:2) {#each specifiers.both as s}
+    // (714:2) {#each specifiers.both as s}
     function create_each_block(ctx) {
     	let menuitem;
     	let current;
 
     	function click_handler_1() {
-    		return /*click_handler_1*/ ctx[9](/*s*/ ctx[37]);
+    		return /*click_handler_1*/ ctx[9](/*s*/ ctx[38]);
     	}
 
     	menuitem = new Yn({
@@ -1898,7 +1898,7 @@ var bundle = (function () {
     			ctx = new_ctx;
     			const menuitem_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 16384) {
+    			if (dirty[1] & /*$$scope*/ 32768) {
     				menuitem_changes.$$scope = { dirty, ctx };
     			}
 
@@ -1922,14 +1922,14 @@ var bundle = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(705:2) {#each specifiers.both as s}",
+    		source: "(714:2) {#each specifiers.both as s}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (692:0) <Menu origin={menu_origin} {...menu_offset}>
+    // (701:0) <Menu origin={menu_origin} {...menu_offset}>
     function create_default_slot(ctx) {
     	let t0;
     	let t1;
@@ -1978,7 +1978,7 @@ var bundle = (function () {
     			}
 
     			each1_anchor = empty();
-    			add_location(hr, file$2, 703, 2, 27377);
+    			add_location(hr, file$2, 712, 2, 28164);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, t0, anchor);
@@ -2098,7 +2098,7 @@ var bundle = (function () {
     		block,
     		id: create_default_slot.name,
     		type: "slot",
-    		source: "(692:0) <Menu origin={menu_origin} {...menu_offset}>",
+    		source: "(701:0) <Menu origin={menu_origin} {...menu_offset}>",
     		ctx
     	});
 
@@ -2135,10 +2135,10 @@ var bundle = (function () {
     			t1 = space();
     			div = element("div");
     			create_component(menu.$$.fragment);
-    			add_location(h2, file$2, 688, 0, 26937);
+    			add_location(h2, file$2, 697, 0, 27724);
     			attr_dev(div, "class", "widener svelte-l2w7th");
     			add_render_callback(() => /*div_elementresize_handler*/ ctx[10].call(div));
-    			add_location(div, file$2, 690, 0, 26962);
+    			add_location(div, file$2, 699, 0, 27749);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2159,7 +2159,7 @@ var bundle = (function () {
     				])
     			: {};
 
-    			if (dirty[0] & /*current*/ 16 | dirty[1] & /*$$scope*/ 16384) {
+    			if (dirty[0] & /*current*/ 16 | dirty[1] & /*$$scope*/ 32768) {
     				menu_changes.$$scope = { dirty, ctx };
     			}
 
@@ -2247,14 +2247,14 @@ var bundle = (function () {
 
     	const point_for = (team, match) => {
     		match.score[team] += 1;
-    		console.log(`score: H ${match.score.home} | A ${match.score.away}`);
+    		console.log(`score: H ${match.score.home} | ${match.score.away} A`);
     	};
 
     	const update_last_recorded_action = (rally, action) => {
     		const latest = rally.contacts[rally.contacts.length - 1];
     		const old = latest.action;
     		latest.action = action;
-    		console.log(`updated latest action from: ${old} to ${latest.action}`);
+    		console.log(`resolved last action from: ${old} to ${latest.action}`);
     	};
 
     	const needs_specifier = (contact, rally) => {
@@ -2283,7 +2283,7 @@ var bundle = (function () {
 
     	const process_contact = current => {
     		const { contact, rally, match } = current;
-    		console.log(`processing ${contact.type} contact with ${contact.area_id}`);
+    		console.log(`ball contact with ${contact.type} in ${contact.area_id}`);
     		let servers = serving_team(rally);
     		let receivers = receiving_team(rally);
     		let possession = servers;
@@ -2300,8 +2300,9 @@ var bundle = (function () {
     		switch (rally.state) {
     			case RALLY_STATE.SERVING:
     				if (contact.type === CONTACT.PLAYER && is_service_area(area, servers)) {
-    					record_action(`${servers} serving ${receivers}`, ACTION.SERVE);
+    					record_action(`${team_aliases[servers]} (${servers}) serving ${team_aliases[receivers]}`, ACTION.SERVE);
     					rally_ends = false;
+    					rally.hits = 0;
     					rally.state = RALLY_STATE.SERVE_RECEIVING;
     				} else {
     					is_valid = false;
@@ -2359,7 +2360,7 @@ var bundle = (function () {
     				break;
     			case RALLY_STATE.RECEIVER_RALLYING2:
     				if (contact.type === CONTACT.PLAYER && (is_play_area(area, servers) || is_free_area(area, servers))) {
-    					rally.hits += 1;
+    					rally.hits = 1; // ball crossed from receivers to servers, so reset hit count
     					update_last_recorded_action(rally, ACTION.ATTACK);
 
     					if (is_blocking_area(area, servers)) {
@@ -2413,7 +2414,7 @@ var bundle = (function () {
     				break;
     			case RALLY_STATE.RECEIVER_RALLYING3:
     				if (contact.type === CONTACT.PLAYER && (is_play_area(area, servers) || is_free_area(area, servers))) {
-    					rally.hits += 1;
+    					rally.hits = 1; // ball crossed from receivers to servers, so reset hit count
     					update_last_recorded_action(rally, ACTION.ATTACK);
 
     					if (is_blocking_area(area, servers)) {
@@ -2468,7 +2469,7 @@ var bundle = (function () {
     				break;
     			case RALLY_STATE.RECEIVER_ATTACKING:
     				if (contact.type === CONTACT.PLAYER && (is_play_area(area, servers) || is_free_area(area, servers))) {
-    					rally.hits += 1;
+    					rally.hits = 1; // ball crossed from receivers to servers, so reset hit count
 
     					if (is_blocking_area(area, servers)) {
     						record_action(`block or attack attempt (hit ${rally.hits})`, ACTION.BLOCK_OR_ATTACK);
@@ -2516,7 +2517,7 @@ var bundle = (function () {
     				break;
     			case RALLY_STATE.RECEIVER_BLOCKING:
     				if (contact.type === CONTACT.PLAYER && (is_play_area(area, servers) || is_free_area(area, servers))) {
-    					rally.hits += 1;
+    					rally.hits = 1; // ball crossed from receivers to servers, so reset hit count
     					update_last_recorded_action(rally, ACTION.ATTACK);
 
     					if (is_blocking_area(area, servers)) {
@@ -2562,7 +2563,7 @@ var bundle = (function () {
     				break;
     			case RALLY_STATE.SERVER_RALLYING2:
     				if (contact.type === CONTACT.PLAYER && (is_play_area(area, receivers) || is_free_area(area, receivers))) {
-    					rally.hits += 1;
+    					rally.hits = 1; // ball crossed from servers to receivers, so reset hit count
     					update_last_recorded_action(rally, ACTION.ATTACK);
 
     					if (is_blocking_area(area, receivers)) {
@@ -2616,7 +2617,7 @@ var bundle = (function () {
     				break;
     			case RALLY_STATE.SERVER_RALLYING3:
     				if (contact.type === CONTACT.PLAYER && (is_play_area(area, receivers) || is_free_area(area, receivers))) {
-    					rally.hits += 1;
+    					rally.hits = 1; // ball crossed from servers to receivers, so reset hit count
     					update_last_recorded_action(rally, ACTION.ATTACK);
 
     					if (is_blocking_area(area, receivers)) {
@@ -2671,7 +2672,7 @@ var bundle = (function () {
     				break;
     			case RALLY_STATE.SERVER_ATTACKING:
     				if (contact.type === CONTACT.PLAYER && (is_play_area(area, receivers) || is_free_area(area, receivers))) {
-    					rally.hits += 1;
+    					rally.hits = 1; // ball crossed from servers to receivers, so reset hit count
 
     					if (is_blocking_area(area, receivers)) {
     						record_action(`block or attack attempt (hit ${rally.hits})`, ACTION.BLOCK_OR_ATTACK);
@@ -2719,7 +2720,7 @@ var bundle = (function () {
     				break;
     			case RALLY_STATE.SERVER_BLOCKING:
     				if (contact.type === CONTACT.PLAYER && (is_play_area(area, receivers) || is_free_area(area, receivers))) {
-    					rally.hits += 1;
+    					rally.hits = 1; // ball crossed from servers to receivers, so reset hit count
     					update_last_recorded_action(rally, ACTION.ATTACK);
 
     					if (is_blocking_area(area, receivers)) {
@@ -2780,7 +2781,7 @@ var bundle = (function () {
     			current.match.sets[current.set_index].push(current.rally);
     			console.log("rally:", current.rally);
     			point_for(possession, match);
-    			console.log(`starting new rally, ${possession} team serving..`);
+    			console.log(`starting new rally, ${team_aliases[possession]} (${possession}) team serving..`);
     			current.rally = new_rally(possession);
     			current.rally.state = RALLY_STATE.SERVING;
     		} else {
@@ -2818,18 +2819,19 @@ var bundle = (function () {
     			return;
     		}
 
-    		const contact = e.detail;
-
-    		// console.log(`contact with ${contact.area_id} at [${contact.el_x}, ${contact.el_y}]`);
-    		$$invalidate(4, current.contact = contact, current);
+    		// console.log(`contact with ${e.detail.area_id} at [${e.detail.el_x}, ${e.detail.el_y}]`);
+    		$$invalidate(4, current.contact = e.detail, current);
 
     		if (needs_specifier(current.contact, current.rally)) {
     			specifying = true;
     			set_menu_props(current.contact);
     		} else {
-    			contact.source_event.stopPropagation();
+    			current.contact.source_event.stopPropagation();
     			process_contact(current);
     		}
+
+    		delete current.contact.el_rect; // no longer needed
+    		delete current.contact.source_event; // no longer needed
     	};
 
     	const on_match_start = serving => {
@@ -2839,7 +2841,7 @@ var bundle = (function () {
     		recording = true;
     		$$invalidate(4, current.rally = new_rally(serving), current);
     		$$invalidate(4, current.specifiers = specifiers[serving], current);
-    		console.log(`starting new rally, ${serving} team serving..`);
+    		console.log(`starting new rally, ${team_aliases[serving]} (${serving}) team serving..`);
     	}; // console.log('rally:', current.rally);
 
     	const on_specify = (type, value) => {
@@ -2900,6 +2902,8 @@ var bundle = (function () {
     		},
     		"both": [{ type: CONTACT.FLOOR, value: "Floor" }]
     	};
+
+    	let team_aliases = { "home": "my team", "away": "their team" };
 
     	onMount(async () => {
     		// TODO: move this to a `New Match` button that prompts for serving team
@@ -2962,7 +2966,8 @@ var bundle = (function () {
     		current,
     		recording,
     		specifying,
-    		specifiers
+    		specifiers,
+    		team_aliases
     	});
 
     	$$self.$inject_state = $$props => {
@@ -2975,6 +2980,7 @@ var bundle = (function () {
     		if ("recording" in $$props) recording = $$props.recording;
     		if ("specifying" in $$props) specifying = $$props.specifying;
     		if ("specifiers" in $$props) $$invalidate(7, specifiers = $$props.specifiers);
+    		if ("team_aliases" in $$props) team_aliases = $$props.team_aliases;
     	};
 
     	if ($$props && "$$inject" in $$props) {

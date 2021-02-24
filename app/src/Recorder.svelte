@@ -36,14 +36,14 @@
 
   const point_for = (team, match) => {
     match.score[team] += 1;
-    console.log(`score: H ${match.score.home} | A ${match.score.away}`);
+    console.log(`score: H ${match.score.home} | ${match.score.away} A`);
   }
 
   const update_last_recorded_action = (rally, action) => {
     const latest = rally.contacts[rally.contacts.length-1];
     const old = latest.action;
     latest.action = action;
-    console.log(`updated latest action from: ${old} to ${latest.action}`);
+    console.log(`resolved last action from: ${old} to ${latest.action}`);
   }
 
   const needs_specifier = (contact, rally) => {
@@ -76,7 +76,7 @@
 
   const process_contact = (current) => {
     const {contact, rally, match} = current;
-    console.log(`processing ${contact.type} contact with ${contact.area_id}`);
+    console.log(`ball contact with ${contact.type} in ${contact.area_id}`);
 
     let servers = serving_team(rally);
     let receivers = receiving_team(rally);
@@ -95,7 +95,7 @@
     switch (rally.state) {
       case RALLY_STATE.SERVING:
         if (contact.type === CONTACT.PLAYER && is_service_area(area, servers)) {
-          record_action(`${servers} serving ${receivers}`, ACTION.SERVE);
+          record_action(`${team_aliases[servers]} (${servers}) serving ${team_aliases[receivers]}`, ACTION.SERVE);
           rally_ends = false;
           rally.hits = 0;
           rally.state = RALLY_STATE.SERVE_RECEIVING;
@@ -573,7 +573,7 @@
       current.match.sets[current.set_index].push(current.rally);
       console.log('rally:', current.rally);
       point_for(possession, match);
-      console.log(`starting new rally, ${possession} team serving..`);
+      console.log(`starting new rally, ${team_aliases[possession]} (${possession}) team serving..`);
       current.rally = new_rally(possession);
       current.rally.state = RALLY_STATE.SERVING;
     }
@@ -627,7 +627,7 @@
     recording = true;
     current.rally = new_rally(serving);
     current.specifiers = specifiers[serving];
-    console.log(`starting new rally, ${serving} team serving..`);
+    console.log(`starting new rally, ${team_aliases[serving]} (${serving}) team serving..`);
     // console.log('rally:', current.rally);
   }
 
@@ -678,6 +678,12 @@
       { type: CONTACT.FLOOR, value:'Floor' },
     ],
   };
+
+  let team_aliases = {
+    'home': 'my team',
+    'away': 'their team',
+  };
+
 
   onMount(async () => {
     // TODO: move this to a `New Match` button that prompts for serving team
