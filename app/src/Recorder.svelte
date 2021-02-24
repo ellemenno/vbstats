@@ -604,18 +604,20 @@
     if (specifying) { specifying = false; console.log('specify cancelled'); return; }
     if (!recording) { console.log('not in recording mode'); return; }
 
-    const contact = e.detail;
-    // console.log(`contact with ${contact.area_id} at [${contact.el_x}, ${contact.el_y}]`);
+    // console.log(`contact with ${e.detail.area_id} at [${e.detail.el_x}, ${e.detail.el_y}]`);
+    current.contact = e.detail;
 
-    current.contact = contact;
     if (needs_specifier(current.contact, current.rally)) {
       specifying = true;
       set_menu_props(current.contact);
     }
     else {
-      contact.source_event.stopPropagation();
+      current.contact.source_event.stopPropagation();
       process_contact(current);
     }
+
+    delete current.contact.el_rect; // no longer needed
+    delete current.contact.source_event; // no longer needed
   }
 
   const on_match_start = (serving) => {
