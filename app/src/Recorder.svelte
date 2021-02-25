@@ -3,6 +3,7 @@
   import { ButtonGroup, Button, Menu, Menuitem } from 'svelte-mui';
 
   import { logger } from './logger.js';
+  import { match as stored_match } from './stores.js';
   import Court from './Court.svelte';
   import Transcript from './Transcript.svelte';
 
@@ -643,6 +644,8 @@
       log.info(`starting new rally, ${team_aliases[possession]} (${possession}) team serving..`);
       current.rally = new_rally(possession);
     }
+
+    $stored_match = match; // update store
   }
 
   const set_menu_props = ({el_x:x, el_y:y, el_rect, area_id}) => {
@@ -705,8 +708,8 @@
   let menu_width, menu_height; // read-only
   let menu_offset = { dx:0, dy:0 };
   let menu_origin = "top left";
-  let match = []; // array of sets
-  let current = { match:match, set_index:-1, rally:null, contact:null, specifiers:null };
+  // let match = []; // array of sets
+  let current = { match:$stored_match, set_index:-1, rally:null, contact:null, specifiers:null };
   let recording = false;
   let specifying = false;
 

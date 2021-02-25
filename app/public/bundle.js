@@ -32,6 +32,21 @@ var bundle = (function () {
     function is_empty(obj) {
         return Object.keys(obj).length === 0;
     }
+    function validate_store(store, name) {
+        if (store != null && typeof store.subscribe !== 'function') {
+            throw new Error(`'${name}' is not a store with a 'subscribe' method`);
+        }
+    }
+    function subscribe(store, ...callbacks) {
+        if (store == null) {
+            return noop;
+        }
+        const unsub = store.subscribe(...callbacks);
+        return unsub.unsubscribe ? () => unsub.unsubscribe() : unsub;
+    }
+    function component_subscribe(component, store, callback) {
+        component.$$.on_destroy.push(subscribe(store, callback));
+    }
     function create_slot(definition, ctx, $$scope, fn) {
         if (definition) {
             const slot_ctx = get_slot_context(definition, ctx, $$scope, fn);
@@ -77,6 +92,10 @@ var bundle = (function () {
     }
     function null_to_empty(value) {
         return value == null ? '' : value;
+    }
+    function set_store_value(store, ret, value = ret) {
+        store.set(value);
+        return ret;
     }
     function action_destroyer(action_result) {
         return action_result && is_function(action_result.destroy) ? action_result.destroy : noop;
@@ -926,6 +945,15 @@ var bundle = (function () {
 
     function oe(n){return l=>{const o=Object.keys(n.$$.callbacks),i=[];return o.forEach(o=>i.push(listen(l,o,e=>bubble(n,e)))),{destroy:()=>{i.forEach(e=>e());}}}}function ie(){return "undefined"!=typeof window&&!(window.CSS&&window.CSS.supports&&window.CSS.supports("(--foo: red)"))}function se(e){var t;return "r"===e.charAt(0)?e=(t=(t=e).match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i))&&4===t.length?"#"+("0"+parseInt(t[1],10).toString(16)).slice(-2)+("0"+parseInt(t[2],10).toString(16)).slice(-2)+("0"+parseInt(t[3],10).toString(16)).slice(-2):"":"transparent"===e.toLowerCase()&&(e="#00000000"),e}const{document:re}=globals;function ae(e){let t;return {c(){t=element("div"),attr(t,"class","ripple svelte-po4fcb");},m(n,l){insert(n,t,l),e[4](t);},p:noop,i:noop,o:noop,d(n){n&&detach(t),e[4](null);}}}function ce(e,t){e.style.transform=t,e.style.webkitTransform=t;}function de(e,t){e.style.opacity=t.toString();}const ue=function(e,t){const n=["touchcancel","mouseleave","dragstart"];let l=t.currentTarget||t.target;if(l&&!l.classList.contains("ripple")&&(l=l.querySelector(".ripple")),!l)return;const o=l.dataset.event;if(o&&o!==e)return;l.dataset.event=e;const i=document.createElement("span"),{radius:s,scale:r,x:a,y:c,centerX:d,centerY:u}=((e,t)=>{const n=t.getBoundingClientRect(),l=function(e){return "TouchEvent"===e.constructor.name}(e)?e.touches[e.touches.length-1]:e,o=l.clientX-n.left,i=l.clientY-n.top;let s=0,r=.3;const a=t.dataset.center;t.dataset.circle?(r=.15,s=t.clientWidth/2,s=a?s:s+Math.sqrt((o-s)**2+(i-s)**2)/4):s=Math.sqrt(t.clientWidth**2+t.clientHeight**2)/2;const c=(t.clientWidth-2*s)/2+"px",d=(t.clientHeight-2*s)/2+"px";return {radius:s,scale:r,x:a?c:o-s+"px",y:a?d:i-s+"px",centerX:c,centerY:d}})(t,l),p=l.dataset.color,f=2*s+"px";i.className="animation",i.style.width=f,i.style.height=f,i.style.background=p,i.classList.add("animation--enter"),i.classList.add("animation--visible"),ce(i,`translate(${a}, ${c}) scale3d(${r},${r},${r})`),de(i,0),i.dataset.activated=String(performance.now()),l.appendChild(i),setTimeout(()=>{i.classList.remove("animation--enter"),i.classList.add("animation--in"),ce(i,`translate(${d}, ${u}) scale3d(1,1,1)`),de(i,.25);},0);const v="mousedown"===e?"mouseup":"touchend",h=function(){document.removeEventListener(v,h),n.forEach(e=>{document.removeEventListener(e,h);});const e=performance.now()-Number(i.dataset.activated),t=Math.max(250-e,0);setTimeout(()=>{i.classList.remove("animation--in"),i.classList.add("animation--out"),de(i,0),setTimeout(()=>{i&&l.removeChild(i),0===l.children.length&&delete l.dataset.event;},300);},t);};document.addEventListener(v,h),n.forEach(e=>{document.addEventListener(e,h,{passive:!0});});},pe=function(e){0===e.button&&ue(e.type,e);},fe=function(e){if(e.changedTouches)for(let t=0;t<e.changedTouches.length;++t)ue(e.type,e.changedTouches[t]);};function ve(e,t,n){let l,o,{center:i=!1}=t,{circle:s=!1}=t,{color:r="currentColor"}=t;return onMount(async()=>{await tick();try{i&&n(0,l.dataset.center="true",l),s&&n(0,l.dataset.circle="true",l),n(0,l.dataset.color=r,l),o=l.parentElement;}catch(e){}if(!o)return void console.error("Ripple: Trigger element not found.");let e=window.getComputedStyle(o);0!==e.position.length&&"static"!==e.position||(o.style.position="relative"),o.addEventListener("touchstart",fe,{passive:!0}),o.addEventListener("mousedown",pe,{passive:!0});}),onDestroy(()=>{o&&(o.removeEventListener("mousedown",pe),o.removeEventListener("touchstart",fe));}),e.$$set=e=>{"center"in e&&n(1,i=e.center),"circle"in e&&n(2,s=e.circle),"color"in e&&n(3,r=e.color);},[l,i,s,r,function(e){binding_callbacks[e?"unshift":"push"](()=>{l=e,n(0,l);});}]}class he extends SvelteComponent{constructor(e){var t;super(),re.getElementById("svelte-po4fcb-style")||((t=element("style")).id="svelte-po4fcb-style",t.textContent=".ripple.svelte-po4fcb{display:block;position:absolute;top:0;left:0;right:0;bottom:0;overflow:hidden;border-radius:inherit;color:inherit;pointer-events:none;z-index:0;contain:strict}.ripple.svelte-po4fcb .animation{color:inherit;position:absolute;top:0;left:0;border-radius:50%;opacity:0;pointer-events:none;overflow:hidden;will-change:transform, opacity}.ripple.svelte-po4fcb .animation--enter{transition:none}.ripple.svelte-po4fcb .animation--in{transition:opacity 0.1s cubic-bezier(0.4, 0, 0.2, 1);transition:transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),\r\n\t\t\topacity 0.1s cubic-bezier(0.4, 0, 0.2, 1)}.ripple.svelte-po4fcb .animation--out{transition:opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)}",append(re.head,t)),init(this,e,ve,ae,safe_not_equal,{center:1,circle:2,color:3});}}function me(e){let t,n;return t=new he({props:{center:e[3],circle:e[3]}}),{c(){create_component(t.$$.fragment);},m(e,l){mount_component(t,e,l),n=!0;},p(e,n){const l={};8&n&&(l.center=e[3]),8&n&&(l.circle=e[3]),t.$set(l);},i(e){n||(transition_in(t.$$.fragment,e),n=!0);},o(e){transition_out(t.$$.fragment,e),n=!1;},d(e){destroy_component(t,e);}}}function ge(t){let n,l,i,a,d;const p=t[19].default,v=create_slot(p,t,t[18],null);let h=t[10]&&me(t),b=[{class:t[1]},{style:t[2]},t[14]],L={};for(let e=0;e<b.length;e+=1)L=assign(L,b[e]);return {c(){n=element("button"),v&&v.c(),l=space(),h&&h.c(),set_attributes(n,L),toggle_class(n,"raised",t[6]),toggle_class(n,"outlined",t[8]&&!(t[6]||t[7])),toggle_class(n,"shaped",t[9]&&!t[3]),toggle_class(n,"dense",t[5]),toggle_class(n,"fab",t[4]&&t[3]),toggle_class(n,"icon-button",t[3]),toggle_class(n,"toggle",t[11]),toggle_class(n,"active",t[11]&&t[0]),toggle_class(n,"full-width",t[12]&&!t[3]),toggle_class(n,"svelte-6bcb3a",!0);},m(s,u){insert(s,n,u),v&&v.m(n,null),append(n,l),h&&h.m(n,null),t[20](n),i=!0,a||(d=[listen(n,"click",t[16]),action_destroyer(t[15].call(null,n))],a=!0);},p(e,[t]){v&&v.p&&262144&t&&update_slot(v,p,e,e[18],t,null,null),e[10]?h?(h.p(e,t),1024&t&&transition_in(h,1)):(h=me(e),h.c(),transition_in(h,1),h.m(n,null)):h&&(group_outros(),transition_out(h,1,1,()=>{h=null;}),check_outros()),set_attributes(n,L=get_spread_update(b,[(!i||2&t)&&{class:e[1]},(!i||4&t)&&{style:e[2]},16384&t&&e[14]])),toggle_class(n,"raised",e[6]),toggle_class(n,"outlined",e[8]&&!(e[6]||e[7])),toggle_class(n,"shaped",e[9]&&!e[3]),toggle_class(n,"dense",e[5]),toggle_class(n,"fab",e[4]&&e[3]),toggle_class(n,"icon-button",e[3]),toggle_class(n,"toggle",e[11]),toggle_class(n,"active",e[11]&&e[0]),toggle_class(n,"full-width",e[12]&&!e[3]),toggle_class(n,"svelte-6bcb3a",!0);},i(e){i||(transition_in(v,e),transition_in(h),i=!0);},o(e){transition_out(v,e),transition_out(h),i=!1;},d(e){e&&detach(n),v&&v.d(e),h&&h.d(),t[20](null),a=!1,run_all(d);}}}function be(e,t,n){let l,{$$slots:o={},$$scope:i}=t;const s=createEventDispatcher(),r=oe(current_component);let a,{class:c=""}=t,{style:d=null}=t,{icon:u=!1}=t,{fab:f=!1}=t,{dense:v=!1}=t,{raised:h=!1}=t,{unelevated:m=!1}=t,{outlined:g=!1}=t,{shaped:b=!1}=t,{color:x=null}=t,{ripple:w=!0}=t,{toggle:$=!1}=t,{active:z=!1}=t,{fullWidth:k=!1}=t,D={};return beforeUpdate(()=>{if(!a)return;let e=a.getElementsByTagName("svg"),t=e.length;for(let n=0;n<t;n++)e[n].setAttribute("width",l+($&&!u?2:0)),e[n].setAttribute("height",l+($&&!u?2:0));n(13,a.style.backgroundColor=h||m?x:"transparent",a);let o=getComputedStyle(a).getPropertyValue("background-color");n(13,a.style.color=h||m?function(e="#ffffff"){let t,n,l,o,i,s;if(0===e.length&&(e="#ffffff"),e=se(e),e=String(e).replace(/[^0-9a-f]/gi,""),!new RegExp(/^(?:[0-9a-f]{3}){1,2}$/i).test(e))throw new Error("Invalid HEX color!");e.length<6&&(e=e[0]+e[0]+e[1]+e[1]+e[2]+e[2]);const r=/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(e);return t=parseInt(r[1],16)/255,n=parseInt(r[2],16)/255,l=parseInt(r[3],16)/255,o=t<=.03928?t/12.92:Math.pow((t+.055)/1.055,2.4),i=n<=.03928?n/12.92:Math.pow((n+.055)/1.055,2.4),s=l<=.03928?l/12.92:Math.pow((l+.055)/1.055,2.4),.2126*o+.7152*i+.0722*s}(o)>.5?"#000":"#fff":x,a);}),e.$$set=e=>{n(23,t=assign(assign({},t),exclude_internal_props(e))),"class"in e&&n(1,c=e.class),"style"in e&&n(2,d=e.style),"icon"in e&&n(3,u=e.icon),"fab"in e&&n(4,f=e.fab),"dense"in e&&n(5,v=e.dense),"raised"in e&&n(6,h=e.raised),"unelevated"in e&&n(7,m=e.unelevated),"outlined"in e&&n(8,g=e.outlined),"shaped"in e&&n(9,b=e.shaped),"color"in e&&n(17,x=e.color),"ripple"in e&&n(10,w=e.ripple),"toggle"in e&&n(11,$=e.toggle),"active"in e&&n(0,z=e.active),"fullWidth"in e&&n(12,k=e.fullWidth),"$$scope"in e&&n(18,i=e.$$scope);},e.$$.update=()=>{{const{style:e,icon:l,fab:o,dense:i,raised:s,unelevated:r,outlined:a,shaped:c,color:d,ripple:u,toggle:p,active:f,fullWidth:v,...h}=t;!h.disabled&&delete h.disabled,delete h.class,n(14,D=h);}56&e.$$.dirty&&(l=u?f?24:v?20:24:v?16:18),139264&e.$$.dirty&&("primary"===x?n(17,x=ie()?"#1976d2":"var(--primary, #1976d2)"):"accent"==x?n(17,x=ie()?"#f50057":"var(--accent, #f50057)"):!x&&a&&n(17,x=a.style.color||a.parentElement.style.color||(ie()?"#333":"var(--color, #333)")));},t=exclude_internal_props(t),[z,c,d,u,f,v,h,m,g,b,w,$,k,a,D,r,function(e){$&&(n(0,z=!z),s("change",z));},x,i,o,function(e){binding_callbacks[e?"unshift":"push"](()=>{a=e,n(13,a);});}]}class ye extends SvelteComponent{constructor(e){var t;super(),document.getElementById("svelte-6bcb3a-style")||((t=element("style")).id="svelte-6bcb3a-style",t.textContent="button.svelte-6bcb3a:disabled{cursor:default}button.svelte-6bcb3a{cursor:pointer;font-family:Roboto, Helvetica, sans-serif;font-family:var(--button-font-family, Roboto, Helvetica, sans-serif);font-size:0.875rem;font-weight:500;letter-spacing:0.75px;text-decoration:none;text-transform:uppercase;will-change:transform, opacity;margin:0;padding:0 16px;display:-ms-inline-flexbox;display:inline-flex;position:relative;align-items:center;justify-content:center;box-sizing:border-box;height:36px;border:none;outline:none;line-height:inherit;user-select:none;overflow:hidden;vertical-align:middle;border-radius:4px}button.svelte-6bcb3a::-moz-focus-inner{border:0}button.svelte-6bcb3a:-moz-focusring{outline:none}button.svelte-6bcb3a:before{box-sizing:inherit;border-radius:inherit;color:inherit;bottom:0;content:'';left:0;opacity:0;pointer-events:none;position:absolute;right:0;top:0;transition:0.2s cubic-bezier(0.25, 0.8, 0.5, 1);will-change:background-color, opacity}.toggle.svelte-6bcb3a:before{box-sizing:content-box}.active.svelte-6bcb3a:before{background-color:currentColor;opacity:0.3}.raised.svelte-6bcb3a{box-shadow:0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),\r\n\t\t\t0 1px 5px 0 rgba(0, 0, 0, 0.12)}.outlined.svelte-6bcb3a{padding:0 14px;border-style:solid;border-width:2px}.shaped.svelte-6bcb3a{border-radius:18px}.dense.svelte-6bcb3a{height:32px}.icon-button.svelte-6bcb3a{line-height:0.5;border-radius:50%;padding:8px;width:40px;height:40px;vertical-align:middle}.icon-button.outlined.svelte-6bcb3a{padding:6px}.icon-button.fab.svelte-6bcb3a{border:none;width:56px;height:56px;box-shadow:0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14),\r\n\t\t\t0 1px 18px 0 rgba(0, 0, 0, 0.12)}.icon-button.dense.svelte-6bcb3a{width:36px;height:36px}.icon-button.fab.dense.svelte-6bcb3a{width:40px;height:40px}.outlined.svelte-6bcb3a:not(.shaped) .ripple{border-radius:0 !important}.full-width.svelte-6bcb3a{width:100%}@media(hover: hover){button.svelte-6bcb3a:hover:not(.toggle):not([disabled]):not(.disabled):before{background-color:currentColor;opacity:0.15}button.focus-visible.svelte-6bcb3a:focus:not(.toggle):not([disabled]):not(.disabled):before{background-color:currentColor;opacity:0.3}button.focus-visible.toggle.svelte-6bcb3a:focus:not(.active):not([disabled]):not(.disabled):before{background-color:currentColor;opacity:0.15}}",append(document.head,t)),init(this,e,be,ge,safe_not_equal,{class:1,style:2,icon:3,fab:4,dense:5,raised:6,unelevated:7,outlined:8,shaped:9,color:17,ripple:10,toggle:11,active:0,fullWidth:12});}}function xe(e){let t,n,l;const o=e[3].default,i=create_slot(o,e,e[2],null);return {c(){t=element("div"),i&&i.c(),attr(t,"class","button-group svelte-x6hf3e"),attr(t,"style",n=e[0]?`color: ${e[0]};`:""+e[1]);},m(e,n){insert(e,t,n),i&&i.m(t,null),l=!0;},p(e,[s]){i&&i.p&&4&s&&update_slot(i,o,e,e[2],s,null,null),(!l||3&s&&n!==(n=e[0]?`color: ${e[0]};`:""+e[1]))&&attr(t,"style",n);},i(e){l||(transition_in(i,e),l=!0);},o(e){transition_out(i,e),l=!1;},d(e){e&&detach(t),i&&i.d(e);}}}function we(e,t,n){let{$$slots:l={},$$scope:o}=t,{color:i=""}=t,{style:s=""}=t;return e.$$set=e=>{"color"in e&&n(0,i=e.color),"style"in e&&n(1,s=e.style),"$$scope"in e&&n(2,o=e.$$scope);},e.$$.update=()=>{1&e.$$.dirty&&("primary"===i?n(0,i=ie()?"#1976d2":"var(--primary, #1976d2)"):"accent"==i&&n(0,i=ie()?"#f50057":"var(--accent, #f50057)"));},[i,s,o,l]}class $e extends SvelteComponent{constructor(e){var t;super(),document.getElementById("svelte-x6hf3e-style")||((t=element("style")).id="svelte-x6hf3e-style",t.textContent=".button-group.svelte-x6hf3e{display:inline-flex;flex-wrap:wrap}.button-group.svelte-x6hf3e button{padding:0 8px}.button-group.svelte-x6hf3e button:first-child{border-top-right-radius:0;border-bottom-right-radius:0}.button-group.svelte-x6hf3e button:last-child{border-top-left-radius:0;border-bottom-left-radius:0}.button-group.svelte-x6hf3e .shaped:first-child{padding-left:12px}.button-group.svelte-x6hf3e .shaped:last-child{padding-right:12px}.button-group.svelte-x6hf3e button:not(:first-child):not(:last-child){border-radius:0}.button-group.svelte-x6hf3e button:not(:first-child){border-left:none}.button-group.svelte-x6hf3e .outlined{border-width:1px}",append(document.head,t)),init(this,e,we,xe,safe_not_equal,{color:0,style:1});}}function ze(e){let t;const n=e[12].default,l=create_slot(n,e,e[11],null);return {c(){l&&l.c();},m(e,n){l&&l.m(e,n),t=!0;},p(e,t){l&&l.p&&2048&t&&update_slot(l,n,e,e[11],t,null,null);},i(e){t||(transition_in(l,e),t=!0);},o(e){transition_out(l,e),t=!1;},d(e){l&&l.d(e);}}}function ke(e){let t,n;return {c(){t=svg_element("svg"),n=svg_element("path"),attr(n,"d",e[1]),attr(t,"xmlns","http://www.w3.org/2000/svg"),attr(t,"viewBox",e[2]),attr(t,"class","svelte-h2unzw");},m(e,l){insert(e,t,l),append(t,n);},p(e,l){2&l&&attr(n,"d",e[1]),4&l&&attr(t,"viewBox",e[2]);},i:noop,o:noop,d(e){e&&detach(t);}}}function De(e){let t,n,l,o,r,a,d;const p=[ke,ze],f=[];function v(e,t){return "string"==typeof e[1]?0:1}n=v(e),l=f[n]=p[n](e);let h=[{class:o="icon "+e[0]},e[7]],b={};for(let e=0;e<h.length;e+=1)b=assign(b,h[e]);return {c(){t=element("i"),l.c(),set_attributes(t,b),toggle_class(t,"flip",e[3]&&"boolean"==typeof e[3]),toggle_class(t,"flip-h","h"===e[3]),toggle_class(t,"flip-v","v"===e[3]),toggle_class(t,"spin",e[4]),toggle_class(t,"pulse",e[5]&&!e[4]),toggle_class(t,"svelte-h2unzw",!0);},m(l,o){insert(l,t,o),f[n].m(t,null),e[13](t),r=!0,a||(d=action_destroyer(e[8].call(null,t)),a=!0);},p(e,[i]){let s=n;n=v(e),n===s?f[n].p(e,i):(group_outros(),transition_out(f[s],1,1,()=>{f[s]=null;}),check_outros(),l=f[n],l?l.p(e,i):(l=f[n]=p[n](e),l.c()),transition_in(l,1),l.m(t,null)),set_attributes(t,b=get_spread_update(h,[(!r||1&i&&o!==(o="icon "+e[0]))&&{class:o},128&i&&e[7]])),toggle_class(t,"flip",e[3]&&"boolean"==typeof e[3]),toggle_class(t,"flip-h","h"===e[3]),toggle_class(t,"flip-v","v"===e[3]),toggle_class(t,"spin",e[4]),toggle_class(t,"pulse",e[5]&&!e[4]),toggle_class(t,"svelte-h2unzw",!0);},i(e){r||(transition_in(l),r=!0);},o(e){transition_out(l),r=!1;},d(l){l&&detach(t),f[n].d(),e[13](null),a=!1,d();}}}function Ce(e,t,n){let{$$slots:l={},$$scope:o}=t;const i=oe(current_component);let s,{class:r=""}=t,{path:a=null}=t,{size:c=24}=t,{viewBox:d="0 0 24 24"}=t,{color:u="currentColor"}=t,{flip:f=!1}=t,{spin:v=!1}=t,{pulse:h=!1}=t,m={};return e.$$set=e=>{n(14,t=assign(assign({},t),exclude_internal_props(e))),"class"in e&&n(0,r=e.class),"path"in e&&n(1,a=e.path),"size"in e&&n(9,c=e.size),"viewBox"in e&&n(2,d=e.viewBox),"color"in e&&n(10,u=e.color),"flip"in e&&n(3,f=e.flip),"spin"in e&&n(4,v=e.spin),"pulse"in e&&n(5,h=e.pulse),"$$scope"in e&&n(11,o=e.$$scope);},e.$$.update=()=>{{const{path:e,size:l,viewBox:o,color:i,flip:s,spin:r,pulse:a,...c}=t;delete c.class,n(7,m=c);}1600&e.$$.dirty&&s&&(s.firstChild.setAttribute("width",c),s.firstChild.setAttribute("height",c),u&&s.firstChild.setAttribute("fill",u));},t=exclude_internal_props(t),[r,a,d,f,v,h,s,m,i,c,u,o,l,function(e){binding_callbacks[e?"unshift":"push"](()=>{s=e,n(6,s);});}]}class je extends SvelteComponent{constructor(e){var t;super(),document.getElementById("svelte-h2unzw-style")||((t=element("style")).id="svelte-h2unzw-style",t.textContent=".icon.svelte-h2unzw.svelte-h2unzw{display:inline-block;position:relative;vertical-align:middle;line-height:0.5}.icon.svelte-h2unzw>svg.svelte-h2unzw{display:inline-block}.flip.svelte-h2unzw.svelte-h2unzw{transform:scale(-1, -1)}.flip-h.svelte-h2unzw.svelte-h2unzw{transform:scale(-1, 1)}.flip-v.svelte-h2unzw.svelte-h2unzw{transform:scale(1, -1)}.spin.svelte-h2unzw.svelte-h2unzw{animation:svelte-h2unzw-spin 1s 0s infinite linear}.pulse.svelte-h2unzw.svelte-h2unzw{animation:svelte-h2unzw-spin 1s infinite steps(8)}@keyframes svelte-h2unzw-spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}",append(document.head,t)),init(this,e,Ce,De,safe_not_equal,{class:0,path:1,size:9,viewBox:2,color:10,flip:3,spin:4,pulse:5});}}function Re(e,t){if("Tab"!==e.key&&9!==e.keyCode)return;let n=function(e=document){return Array.prototype.slice.call(e.querySelectorAll('button, [href], select, textarea, input:not([type="hidden"]), [tabindex]:not([tabindex="-1"])')).filter((function(e){const t=window.getComputedStyle(e);return !e.disabled&&!e.getAttribute("disabled")&&!e.classList.contains("disabled")&&"none"!==t.display&&"hidden"!==t.visibility&&t.opacity>0}))}(t);if(0===n.length)return void e.preventDefault();let l=document.activeElement,o=n.indexOf(l);e.shiftKey?o<=0&&(n[n.length-1].focus(),e.preventDefault()):o>=n.length-1&&(n[0].focus(),e.preventDefault());}const{window:Ze}=globals;function Ue(t){let n,l,i,r,d,p,v;const h=t[17].default,b=create_slot(h,t,t[16],null);return {c(){n=element("div"),b&&b.c(),attr(n,"class",l=null_to_empty("popover "+t[1])+" svelte-5k22n0"),attr(n,"style",t[2]),attr(n,"tabindex","-1");},m(l,i){insert(l,n,i),b&&b.m(n,null),t[20](n),d=!0,p||(v=[listen(n,"introstart",t[18]),listen(n,"introend",t[19]),action_destroyer(t[4].call(null,n))],p=!0);},p(e,t){b&&b.p&&65536&t&&update_slot(b,h,e,e[16],t,null,null),(!d||2&t&&l!==(l=null_to_empty("popover "+e[1])+" svelte-5k22n0"))&&attr(n,"class",l),(!d||4&t)&&attr(n,"style",e[2]);},i(e){d||(transition_in(b,e),add_render_callback(()=>{r&&r.end(1),i||(i=create_in_transition(n,t[5],{})),i.start();}),d=!0);},o(e){transition_out(b,e),i&&i.invalidate(),r=create_out_transition(n,t[6],{}),d=!1;},d(e){e&&detach(n),b&&b.d(e),t[20](null),e&&r&&r.end(),p=!1,run_all(v);}}}function Ge(t){let n,l,o,i,s=t[0]&&Ue(t);return {c(){s&&s.c(),n=empty();},m(r,a){s&&s.m(r,a),insert(r,n,a),l=!0,o||(i=[listen(Ze,"scroll",t[8],{passive:!0}),listen(Ze,"resize",t[9],{passive:!0}),listen(Ze,"keydown",t[10],!0),listen(Ze,"click",t[11],!0)],o=!0);},p(e,[t]){e[0]?s?(s.p(e,t),1&t&&transition_in(s,1)):(s=Ue(e),s.c(),transition_in(s,1),s.m(n.parentNode,n)):s&&(group_outros(),transition_out(s,1,1,()=>{s=null;}),check_outros());},i(e){l||(transition_in(s),l=!0);},o(e){transition_out(s),l=!1;},d(e){s&&s.d(e),e&&detach(n),o=!1,run_all(i);}}}function Ke(e,t,n){let{$$slots:l={},$$scope:o}=t;const i=oe(current_component),s=createEventDispatcher();let r,a,{class:c=""}=t,{style:d=null}=t,{origin:u="top left"}=t,{dx:f=0}=t,{dy:v=0}=t,{visible:h=!1}=t,{duration:m=300}=t;async function g({target:e}){setTimeout(()=>{e.style.transitionDuration=m+"ms",e.style.transitionProperty="opacity, transform",e.style.transform="scale(1)",e.style.opacity=null;},0);}function b(){if(!h||!r||!a)return;const e=a.getBoundingClientRect();e.top<-e.height||e.top>window.innerHeight?y("overflow"):(n(3,r.style.top=function(e,t){let l=0;n(13,v=+v);const o=window.innerHeight-8-e;return l=l=u.indexOf("top")>=0?t.top+v:t.top+t.height-e-v,l=Math.min(o,l),l=Math.max(8,l),l}(r.offsetHeight,e)+"px",r),n(3,r.style.left=function(e,t){let l=0;n(12,f=+f);const o=window.innerWidth-8-e;return l=l=u.indexOf("left")>=0?t.left+f:t.left+t.width-e-f,l=Math.min(o,l),l=Math.max(8,l),l}(r.offsetWidth,e)+"px",r));}function y(e){s("close",e),n(0,h=!1);}beforeUpdate(()=>{a=r?r.parentElement:null,a&&b();});return e.$$set=e=>{"class"in e&&n(1,c=e.class),"style"in e&&n(2,d=e.style),"origin"in e&&n(14,u=e.origin),"dx"in e&&n(12,f=e.dx),"dy"in e&&n(13,v=e.dy),"visible"in e&&n(0,h=e.visible),"duration"in e&&n(15,m=e.duration),"$$scope"in e&&n(16,o=e.$$scope);},[h,c,d,r,i,function(e){return e.style.transformOrigin=u,e.style.transform="scale(0.6)",e.style.opacity="0",{duration:+m}},function(e){return e.style.transformOrigin=u,e.style.transitionDuration=m+"ms",e.style.transitionProperty="opacity, transform",e.style.transform="scale(0.6)",e.style.opacity="0",{duration:+m}},g,function(){b();},function(){b();},function(e){h&&(27===e.keyCode&&(e.stopPropagation(),y("escape")),Re(e,r));},function(e){h&&a&&!a.contains(e.target)&&(e.stopPropagation(),y("clickOutside"));},f,v,u,m,o,l,e=>g(e),e=>function({target:e}){e.style.transformOrigin=null,e.style.transitionDuration=null,e.style.transitionProperty=null,e.style.transform=null,e.focus();}(e),function(e){binding_callbacks[e?"unshift":"push"](()=>{r=e,n(3,r);});}]}class Je extends SvelteComponent{constructor(e){var t;super(),document.getElementById("svelte-5k22n0-style")||((t=element("style")).id="svelte-5k22n0-style",t.textContent=".popover.svelte-5k22n0{color:#333;color:var(--color, #333);background:#fff;background:var(--bg-popover, #fff);backface-visibility:hidden;position:fixed;border-radius:2px;max-height:100%;max-width:80%;overflow:auto;outline:none;box-shadow:0 3px 3px -2px rgba(0, 0, 0, 0.2), 0 3px 4px 0 rgba(0, 0, 0, 0.14),\r\n\t\t\t0 1px 8px 0 rgba(0, 0, 0, 0.12);z-index:50}",append(document.head,t)),init(this,e,Ke,Ge,safe_not_equal,{class:1,style:2,origin:14,dx:12,dy:13,visible:0,duration:15});}}const yn=e=>({}),xn=e=>({});function wn(e){let t,n,l;const o=e[11].default,i=create_slot(o,e,e[14],null);return {c(){t=element("ul"),i&&i.c(),attr(t,"style",n=`min-width: ${e[5]}px`),attr(t,"class","svelte-1vc5q8h");},m(e,n){insert(e,t,n),i&&i.m(t,null),l=!0;},p(e,s){i&&i.p&&16384&s&&update_slot(i,o,e,e[14],s,null,null),(!l||32&s&&n!==(n=`min-width: ${e[5]}px`))&&attr(t,"style",n);},i(e){l||(transition_in(i,e),l=!0);},o(e){transition_out(i,e),l=!1;},d(e){e&&detach(t),i&&i.d(e);}}}function $n(t){let n,l,o,i,y,w,$;const D=t[11].activator,C=create_slot(D,t,t[14],xn),j=C||function(e){let t;return {c(){t=element("span");},m(e,n){insert(e,t,n);},d(e){e&&detach(t);}}}();function L(e){t[12](e);}let M={class:t[0],style:t[1],origin:t[4],dx:t[2],dy:t[3],$$slots:{default:[wn]},$$scope:{ctx:t}};return void 0!==t[6]&&(M.visible=t[6]),o=new Je({props:M}),binding_callbacks.push(()=>bind(o,"visible",L)),o.$on("click",t[10]),{c(){n=element("div"),j&&j.c(),l=space(),create_component(o.$$.fragment),attr(n,"class","menu svelte-1vc5q8h");},m(i,s){insert(i,n,s),j&&j.m(n,null),append(n,l),mount_component(o,n,null),t[13](n),y=!0,w||($=[listen(n,"click",t[9]),action_destroyer(t[8].call(null,n))],w=!0);},p(e,[t]){C&&C.p&&16384&t&&update_slot(C,D,e,e[14],t,yn,xn);const n={};1&t&&(n.class=e[0]),2&t&&(n.style=e[1]),16&t&&(n.origin=e[4]),4&t&&(n.dx=e[2]),8&t&&(n.dy=e[3]),16416&t&&(n.$$scope={dirty:t,ctx:e}),!i&&64&t&&(i=!0,n.visible=e[6],add_flush_callback(()=>i=!1)),o.$set(n);},i(e){y||(transition_in(j,e),transition_in(o.$$.fragment,e),y=!0);},o(e){transition_out(j,e),transition_out(o.$$.fragment,e),y=!1;},d(e){e&&detach(n),j&&j.d(e),destroy_component(o),t[13](null),w=!1,run_all($);}}}function zn(e,t,n){let{$$slots:l={},$$scope:o}=t;const i=oe(current_component);let s,{class:r=""}=t,{style:a=null}=t,{dx:c=0}=t,{dy:d=0}=t,{origin:u="top left"}=t,{width:f=112}=t,v=!1;return e.$$set=e=>{"class"in e&&n(0,r=e.class),"style"in e&&n(1,a=e.style),"dx"in e&&n(2,c=e.dx),"dy"in e&&n(3,d=e.dy),"origin"in e&&n(4,u=e.origin),"width"in e&&n(5,f=e.width),"$$scope"in e&&n(14,o=e.$$scope);},[r,a,c,d,u,f,v,s,i,function(e){try{s.childNodes[0].contains(e.target)?n(6,v=!v):e.target===s&&n(6,v=!1);}catch(e){console.error(e);}},function(e){e.target.classList.contains("menu-item")&&n(6,v=!1);},l,function(e){v=e,n(6,v);},function(e){binding_callbacks[e?"unshift":"push"](()=>{s=e,n(7,s);});},o]}class kn extends SvelteComponent{constructor(e){var t;super(),document.getElementById("svelte-1vc5q8h-style")||((t=element("style")).id="svelte-1vc5q8h-style",t.textContent="@supports (-webkit-overflow-scrolling: touch){html{cursor:pointer}}.menu.svelte-1vc5q8h{position:relative;display:inline-block;vertical-align:middle}ul.svelte-1vc5q8h{margin:0;padding:8px 0;width:100%;position:relative;overflow-x:hidden;overflow-y:visible}",append(document.head,t)),init(this,e,zn,$n,safe_not_equal,{class:0,style:1,dx:2,dy:3,origin:4,width:5});}}function Dn(t){let n,l,o,i,d,p,v;const h=t[9].default,b=create_slot(h,t,t[8],null);let L=t[1]&&jn(),M=[{class:o="menu-item "+t[0]},{tabindex:i=t[2]?"-1":"0"},t[4]],Y={};for(let e=0;e<M.length;e+=1)Y=assign(Y,M[e]);return {c(){n=element("li"),b&&b.c(),l=space(),L&&L.c(),set_attributes(n,Y),toggle_class(n,"svelte-mmrniu",!0);},m(o,i){insert(o,n,i),b&&b.m(n,null),append(n,l),L&&L.m(n,null),t[11](n),d=!0,p||(v=[listen(n,"keydown",t[7]),action_destroyer(t[6].call(null,n))],p=!0);},p(e,t){b&&b.p&&256&t&&update_slot(b,h,e,e[8],t,null,null),e[1]?L?2&t&&transition_in(L,1):(L=jn(),L.c(),transition_in(L,1),L.m(n,null)):L&&(group_outros(),transition_out(L,1,1,()=>{L=null;}),check_outros()),set_attributes(n,Y=get_spread_update(M,[(!d||1&t&&o!==(o="menu-item "+e[0]))&&{class:o},(!d||4&t&&i!==(i=e[2]?"-1":"0"))&&{tabindex:i},16&t&&e[4]])),toggle_class(n,"svelte-mmrniu",!0);},i(e){d||(transition_in(b,e),transition_in(L),d=!0);},o(e){transition_out(b,e),transition_out(L),d=!1;},d(e){e&&detach(n),b&&b.d(e),L&&L.d(),t[11](null),p=!1,run_all(v);}}}function Cn(t){let n,l,o,i,d,v,h,b;const L=t[9].default,M=create_slot(L,t,t[8],null);let Y=t[1]&&En(),A=[{class:i="menu-item "+t[0]},{href:t[3]},{tabindex:d=t[2]?"-1":"0"},t[4]],T={};for(let e=0;e<A.length;e+=1)T=assign(T,A[e]);return {c(){n=element("li"),l=element("a"),M&&M.c(),o=space(),Y&&Y.c(),set_attributes(l,T),toggle_class(l,"svelte-mmrniu",!0),attr(n,"class","svelte-mmrniu");},m(i,s){insert(i,n,s),append(n,l),M&&M.m(l,null),append(l,o),Y&&Y.m(l,null),t[10](l),v=!0,h||(b=[listen(l,"keydown",t[7]),action_destroyer(t[6].call(null,l))],h=!0);},p(e,t){M&&M.p&&256&t&&update_slot(M,L,e,e[8],t,null,null),e[1]?Y?2&t&&transition_in(Y,1):(Y=En(),Y.c(),transition_in(Y,1),Y.m(l,null)):Y&&(group_outros(),transition_out(Y,1,1,()=>{Y=null;}),check_outros()),set_attributes(l,T=get_spread_update(A,[(!v||1&t&&i!==(i="menu-item "+e[0]))&&{class:i},(!v||8&t)&&{href:e[3]},(!v||4&t&&d!==(d=e[2]?"-1":"0"))&&{tabindex:d},16&t&&e[4]])),toggle_class(l,"svelte-mmrniu",!0);},i(e){v||(transition_in(M,e),transition_in(Y),v=!0);},o(e){transition_out(M,e),transition_out(Y),v=!1;},d(e){e&&detach(n),M&&M.d(e),Y&&Y.d(),t[10](null),h=!1,run_all(b);}}}function jn(e){let t,n;return t=new he({}),{c(){create_component(t.$$.fragment);},m(e,l){mount_component(t,e,l),n=!0;},i(e){n||(transition_in(t.$$.fragment,e),n=!0);},o(e){transition_out(t.$$.fragment,e),n=!1;},d(e){destroy_component(t,e);}}}function En(e){let t,n;return t=new he({}),{c(){create_component(t.$$.fragment);},m(e,l){mount_component(t,e,l),n=!0;},i(e){n||(transition_in(t.$$.fragment,e),n=!0);},o(e){transition_out(t.$$.fragment,e),n=!1;},d(e){destroy_component(t,e);}}}function Ln(e){let t,n,l,o;const i=[Cn,Dn],s=[];function r(e,t){return e[3]?0:1}return t=r(e),n=s[t]=i[t](e),{c(){n.c(),l=empty();},m(e,n){s[t].m(e,n),insert(e,l,n),o=!0;},p(e,[o]){let a=t;t=r(e),t===a?s[t].p(e,o):(group_outros(),transition_out(s[a],1,1,()=>{s[a]=null;}),check_outros(),n=s[t],n?n.p(e,o):(n=s[t]=i[t](e),n.c()),transition_in(n,1),n.m(l.parentNode,l));},i(e){o||(transition_in(n),o=!0);},o(e){transition_out(n),o=!1;},d(e){s[t].d(e),e&&detach(l);}}}function Mn(e,t,n){let{$$slots:l={},$$scope:o}=t;const i=oe(current_component);let s,{class:r=""}=t,{ripple:a=!0}=t,c=!1,d=null,u={};return e.$$set=e=>{n(12,t=assign(assign({},t),exclude_internal_props(e))),"class"in e&&n(0,r=e.class),"ripple"in e&&n(1,a=e.ripple),"$$scope"in e&&n(8,o=e.$$scope);},e.$$.update=()=>{{const{href:e,ripple:l,...o}=t;delete o.class,!1===o.disabled&&delete o.disabled,n(2,c=!!o.disabled),n(3,d=e&&!c?e:null),n(4,u=o);}},t=exclude_internal_props(t),[r,a,c,d,u,s,i,function(e){if(13===e.keyCode||32===e.keyCode){e.stopPropagation(),e.preventDefault();const t=new MouseEvent("click",{bubbles:!0,cancelable:!0});s.dispatchEvent(t),s.blur();}},o,l,function(e){binding_callbacks[e?"unshift":"push"](()=>{s=e,n(5,s);});},function(e){binding_callbacks[e?"unshift":"push"](()=>{s=e,n(5,s);});}]}class Yn extends SvelteComponent{constructor(e){var t;super(),document.getElementById("svelte-mmrniu-style")||((t=element("style")).id="svelte-mmrniu-style",t.textContent="li.svelte-mmrniu{display:block}a.svelte-mmrniu,a.svelte-mmrniu:hover{text-decoration:none}.menu-item.svelte-mmrniu{position:relative;color:inherit;cursor:pointer;height:44px;user-select:none;display:flex;align-items:center;padding:0 16px;white-space:nowrap}.menu-item.svelte-mmrniu:focus{outline:none}.menu-item.svelte-mmrniu::-moz-focus-inner{border:0}.menu-item.svelte-mmrniu:-moz-focusring{outline:none}.menu-item.svelte-mmrniu:before{background-color:currentColor;color:inherit;bottom:0;content:'';left:0;opacity:0;pointer-events:none;position:absolute;right:0;top:0;transition:0.3s cubic-bezier(0.25, 0.8, 0.5, 1)}@media(hover: hover){.menu-item.svelte-mmrniu:hover:not([disabled]):not(.disabled):before{opacity:0.15}.focus-visible.menu-item:focus:not([disabled]):not(.disabled):before{opacity:0.3}}",append(document.head,t)),init(this,e,Mn,Ln,safe_not_equal,{class:0,ripple:1});}}const{document:Kn}=globals;function Jn(e,t,n){const l=e.slice();return l[17]=t[n],l[19]=n,l}function Qn(t,n){let l,o,i,d,p,f,y,w,$=n[17]+"";function z(...e){return n[12](n[19],...e)}return d=new he({props:{center:!0}}),{key:t,first:null,c(){l=element("button"),o=text($),i=space(),create_component(d.$$.fragment),attr(l,"class",p="tabbutton "+(n[0]==n[19]?"tabbuttonactive":"")+" svelte-4jfme"),this.first=l;},m(t,n){insert(t,l,n),append(l,o),append(l,i),mount_component(d,l,null),f=!0,y||(w=listen(l,"click",z),y=!0);},p(e,t){n=e,(!f||8&t)&&$!==($=n[17]+"")&&set_data(o,$),(!f||9&t&&p!==(p="tabbutton "+(n[0]==n[19]?"tabbuttonactive":"")+" svelte-4jfme"))&&attr(l,"class",p);},i(e){f||(transition_in(d.$$.fragment,e),f=!0);},o(e){transition_out(d.$$.fragment,e),f=!1;},d(e){e&&detach(l),destroy_component(d),y=!1,w();}}}function el(e){let t,n,l,o,i,d,p,v,h,E,L,M,Y=[],A=new Map,T=e[3];const N=e=>e[17];for(let t=0;t<T.length;t+=1){let n=Jn(e,T,t),l=N(n);A.set(l,Y[t]=Qn(l,n));}const I=e[11].default,B=create_slot(I,e,e[10],null);let S=[{class:h="tabbar "+e[1]},{style:e[2]},e[5]],q={};for(let e=0;e<S.length;e+=1)q=assign(q,S[e]);return {c(){t=element("div"),n=element("div");for(let e=0;e<Y.length;e+=1)Y[e].c();l=space(),o=element("span"),d=space(),p=element("div"),v=element("div"),B&&B.c(),attr(o,"class","tabindicator svelte-4jfme"),attr(o,"style",i=e[7]+"; background-color:var(--primary);"),attr(n,"class","tabbar-wrap svelte-4jfme"),attr(v,"class","tabcontent svelte-4jfme"),attr(v,"style",e[6]),attr(p,"class","tabcontent-wrap svelte-4jfme"),set_attributes(t,q),toggle_class(t,"svelte-4jfme",!0);},m(i,s){insert(i,t,s),append(t,n);for(let e=0;e<Y.length;e+=1)Y[e].m(n,null);append(n,l),append(n,o),append(t,d),append(t,p),append(p,v),B&&B.m(v,null),e[13](t),E=!0,L||(M=action_destroyer(e[8].call(null,t)),L=!0);},p(e,[s]){521&s&&(T=e[3],group_outros(),Y=update_keyed_each(Y,s,N,1,e,T,A,n,outro_and_destroy_block,Qn,l,Jn),check_outros()),(!E||128&s&&i!==(i=e[7]+"; background-color:var(--primary);"))&&attr(o,"style",i),B&&B.p&&1024&s&&update_slot(B,I,e,e[10],s,null,null),(!E||64&s)&&attr(v,"style",e[6]),set_attributes(t,q=get_spread_update(S,[(!E||2&s&&h!==(h="tabbar "+e[1]))&&{class:h},(!E||4&s)&&{style:e[2]},32&s&&e[5]])),toggle_class(t,"svelte-4jfme",!0);},i(e){if(!E){for(let e=0;e<T.length;e+=1)transition_in(Y[e]);transition_in(B,e),E=!0;}},o(e){for(let e=0;e<Y.length;e+=1)transition_out(Y[e]);transition_out(B,e),E=!1;},d(n){n&&detach(t);for(let e=0;e<Y.length;e+=1)Y[e].d();B&&B.d(n),e[13](null),L=!1,M();}}}function tl(e,t,n){let{$$slots:l={},$$scope:o}=t;const i=createEventDispatcher(),s=oe(current_component);let r,{class:a=""}=t,{style:c=null}=t,d={},u="transform:translate3d(0%, 0px, 0px);",f="",{tabNames:v=[]}=t,{activeTab:h=0}=t;async function m(){await tick;let e=r.querySelectorAll(".tabbutton");if(e&&e.length>0){let t={};return h>=e.length&&(h>e.length?n(0,h=e.length-1):n(0,h--,h)),t.target=e[h],g(t,h),!0}return !1}function g(e,t){let l=e.target;n(6,u="transform:translate3d(-"+100*t+"%, 0px, 0px);"),n(7,f="left:"+l.offsetLeft+"px; width:"+l.offsetWidth+"px;"),n(0,h=t),i("change",{activeTab:h});}onMount(()=>{m()&&function(e,t){let n=0,l=0;function o(t){e.style.userSelect="none",l=t.touches?t.touches[0].clientX:t.clientX,document.addEventListener("mouseup",s),document.addEventListener("mousemove",i),document.addEventListener("touchmove",i,!1),document.addEventListener("touchend",s,!1);}function i(o){e.style.pointerEvents="none";const i=o.touches?o.touches[0].clientX:o.clientX;n=l-i,l=i;const s=parseInt(e.style.left)-n;e.style.left=(s>0?0:s+e.scrollWidth<=t.clientWidth?t.clientWidth-e.scrollWidth:s)+"px";}function s(){document.removeEventListener("mouseup",s),document.removeEventListener("mousemove",i),document.removeEventListener("touchmove",i),document.removeEventListener("touchend",i),e.style.pointerEvents="all",e.style.userSelect="all";}e.addEventListener("mousedown",o),e.addEventListener("touchstart",o,!1),""==e.style.left&&(e.style.left="0px");}(r.querySelector(".tabbar-wrap"),r);});return e.$$set=e=>{n(16,t=assign(assign({},t),exclude_internal_props(e))),"class"in e&&n(1,a=e.class),"style"in e&&n(2,c=e.style),"tabNames"in e&&n(3,v=e.tabNames),"activeTab"in e&&n(0,h=e.activeTab),"$$scope"in e&&n(10,o=e.$$scope);},e.$$.update=()=>{{const{style:e,tabNames:l,activeTab:o,...i}=t;n(5,d=i);}9&e.$$.dirty&&(n(0,h=Math.abs(parseInt(h))),Number.isInteger(h)||n(0,h=0),m());},t=exclude_internal_props(t),[h,a,c,v,r,d,u,f,s,g,o,l,(e,t)=>{g(t,e);},function(e){binding_callbacks[e?"unshift":"push"](()=>{r=e,n(4,r);});}]}class nl extends SvelteComponent{constructor(e){var t;super(),Kn.getElementById("svelte-4jfme-style")||((t=element("style")).id="svelte-4jfme-style",t.textContent=".tabbar.svelte-4jfme{width:100%;overflow:hidden}.tabbar-wrap.svelte-4jfme{display:flex;position:relative;transition:left 150ms}.tabbutton.svelte-4jfme{color:var(--color);min-width:70px;font-family:Roboto,sans-serif;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;font-size:.875rem;font-weight:500;letter-spacing:.08929em;text-decoration:none;text-transform:uppercase;position:relative;display:flex;flex:1 0 auto;justify-content:center;align-items:center;box-sizing:border-box;height:48px;margin:0 !important;padding:0 24px;border:none;outline:none;background:none;text-align:center;white-space:nowrap;cursor:pointer;-webkit-appearance:none;z-index:1}.tabbutton.svelte-4jfme:before{bottom:0;content:'';left:0;opacity:0;pointer-events:none;position:absolute;right:0;top:0;transition:0.2s cubic-bezier(0.25, 0.8, 0.5, 1);will-change:background-color, opacity}.tabbutton.svelte-4jfme:hover:before{background-color:currentColor;opacity:0.15}.tabbuttonactive.svelte-4jfme{color:var(--primary)}.tabcontent-wrap.svelte-4jfme{overflow:hidden;transition:none}.tabcontent.svelte-4jfme{display:flex;align-items:flex-start;flex-wrap:nowrap;transform:translate3d(0%, 0px, 0px);transition:transform .35s cubic-bezier(.4,0,.2,1);will-change:transform}.tabindicator.svelte-4jfme{height:2px;position:absolute;left:0;bottom:0;transition:left .2s cubic-bezier(.4,0,.2,1);background-color:var(--primary)}",append(Kn.head,t)),init(this,e,tl,el,safe_not_equal,{class:1,style:2,tabNames:3,activeTab:0});}}function ll(e){let t,n,o,i,r;const a=e[5].default,d=create_slot(a,e,e[4],null);let p=[{class:n="tabcontent-page "+e[0]},{style:e[1]},e[2]],v={};for(let e=0;e<p.length;e+=1)v=assign(v,p[e]);return {c(){t=element("div"),d&&d.c(),set_attributes(t,v),toggle_class(t,"svelte-1cy2yx5",!0);},m(n,s){insert(n,t,s),d&&d.m(t,null),o=!0,i||(r=action_destroyer(e[3].call(null,t)),i=!0);},p(e,[l]){d&&d.p&&16&l&&update_slot(d,a,e,e[4],l,null,null),set_attributes(t,v=get_spread_update(p,[(!o||1&l&&n!==(n="tabcontent-page "+e[0]))&&{class:n},(!o||2&l)&&{style:e[1]},4&l&&e[2]])),toggle_class(t,"svelte-1cy2yx5",!0);},i(e){o||(transition_in(d,e),o=!0);},o(e){transition_out(d,e),o=!1;},d(e){e&&detach(t),d&&d.d(e),i=!1,r();}}}function ol(e,t,n){let{$$slots:l={},$$scope:o}=t;const i=oe(current_component);let{class:s=""}=t,{style:r=null}=t,a={};return e.$$set=e=>{n(6,t=assign(assign({},t),exclude_internal_props(e))),"class"in e&&n(0,s=e.class),"style"in e&&n(1,r=e.style),"$$scope"in e&&n(4,o=e.$$scope);},e.$$.update=()=>{{const{style:e,...l}=t;n(2,a=l);}},t=exclude_internal_props(t),[s,r,a,i,o,l]}class il extends SvelteComponent{constructor(e){var t;super(),document.getElementById("svelte-1cy2yx5-style")||((t=element("style")).id="svelte-1cy2yx5-style",t.textContent=".tabcontent-page.svelte-1cy2yx5{width:100%;flex:1 0 100%}",append(document.head,t)),init(this,e,ol,ll,safe_not_equal,{class:0,style:1});}}
 
+    const logger = (prefix='') => {
+      return {
+        debug: (msg, ...rest) => console.debug(`${prefix}${msg}`, ...rest),
+        info:  (msg, ...rest) => console.info( `${prefix}${msg}`, ...rest),
+        warn:  (msg, ...rest) => console.warn( `${prefix}${msg}`, ...rest),
+        error: (msg, ...rest) => console.error(`${prefix}${msg}`, ...rest),
+      }
+    };
+
     /* src/HeaderBar.svelte generated by Svelte v3.32.3 */
 
     const file = "src/HeaderBar.svelte";
@@ -1022,6 +1050,60 @@ var bundle = (function () {
     		throw new Error("<HeaderBar>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
     }
+
+    const subscriber_queue = [];
+    /**
+     * Create a `Writable` store that allows both updating and reading by subscription.
+     * @param {*=}value initial value
+     * @param {StartStopNotifier=}start start and stop notifications for subscriptions
+     */
+    function writable(value, start = noop) {
+        let stop;
+        const subscribers = [];
+        function set(new_value) {
+            if (safe_not_equal(value, new_value)) {
+                value = new_value;
+                if (stop) { // store is ready
+                    const run_queue = !subscriber_queue.length;
+                    for (let i = 0; i < subscribers.length; i += 1) {
+                        const s = subscribers[i];
+                        s[1]();
+                        subscriber_queue.push(s, value);
+                    }
+                    if (run_queue) {
+                        for (let i = 0; i < subscriber_queue.length; i += 2) {
+                            subscriber_queue[i][0](subscriber_queue[i + 1]);
+                        }
+                        subscriber_queue.length = 0;
+                    }
+                }
+            }
+        }
+        function update(fn) {
+            set(fn(value));
+        }
+        function subscribe(run, invalidate = noop) {
+            const subscriber = [run, invalidate];
+            subscribers.push(subscriber);
+            if (subscribers.length === 1) {
+                stop = start(set) || noop;
+            }
+            run(value);
+            return () => {
+                const index = subscribers.indexOf(subscriber);
+                if (index !== -1) {
+                    subscribers.splice(index, 1);
+                }
+                if (subscribers.length === 0) {
+                    stop();
+                    stop = null;
+                }
+            };
+        }
+        return { set, update, subscribe };
+    }
+
+    const match = writable([]); // array of sets of rallies
 
     /* src/Court.svelte generated by Svelte v3.32.3 */
     const file$1 = "src/Court.svelte";
@@ -1523,35 +1605,35 @@ var bundle = (function () {
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[3] = list[i];
+    	child_ctx[6] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[3] = list[i];
+    	child_ctx[6] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[3] = list[i];
+    	child_ctx[6] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_3(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[3] = list[i];
+    	child_ctx[6] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_4(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[3] = list[i];
+    	child_ctx[6] = list[i];
     	return child_ctx;
     }
 
-    // (72:2) <Button outlined dense icon color="white" title="Set 1">
+    // (82:2) <Button outlined dense icon color="white" title="Set 1">
     function create_default_slot_7(ctx) {
     	let t;
 
@@ -1571,16 +1653,16 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_7.name,
     		type: "slot",
-    		source: "(72:2) <Button outlined dense icon color=\\\"white\\\" title=\\\"Set 1\\\">",
+    		source: "(82:2) <Button outlined dense icon color=\\\"white\\\" title=\\\"Set 1\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (75:4) <Button unelevated dense icon color="{color_for_action(a)}" title="{title_for_action(a)}">
+    // (85:4) <Button unelevated dense icon color="{color_for_action(a)}" title="{title_for_action(a)}">
     function create_default_slot_6(ctx) {
-    	let t_value = /*a*/ ctx[3] + "";
+    	let t_value = /*a*/ ctx[6] + "";
     	let t;
 
     	const block = {
@@ -1591,7 +1673,7 @@ var bundle = (function () {
     			insert_dev(target, t, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*actions*/ 1 && t_value !== (t_value = /*a*/ ctx[3] + "")) set_data_dev(t, t_value);
+    			if (dirty & /*actions*/ 1 && t_value !== (t_value = /*a*/ ctx[6] + "")) set_data_dev(t, t_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(t);
@@ -1602,14 +1684,14 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_6.name,
     		type: "slot",
-    		source: "(75:4) <Button unelevated dense icon color=\\\"{color_for_action(a)}\\\" title=\\\"{title_for_action(a)}\\\">",
+    		source: "(85:4) <Button unelevated dense icon color=\\\"{color_for_action(a)}\\\" title=\\\"{title_for_action(a)}\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (74:2) {#each actions as a}
+    // (84:2) {#each actions as a}
     function create_each_block_4(ctx) {
     	let button;
     	let current;
@@ -1619,8 +1701,8 @@ var bundle = (function () {
     				unelevated: true,
     				dense: true,
     				icon: true,
-    				color: /*color_for_action*/ ctx[1](/*a*/ ctx[3]),
-    				title: /*title_for_action*/ ctx[2](/*a*/ ctx[3]),
+    				color: /*color_for_action*/ ctx[1](/*a*/ ctx[6]),
+    				title: /*title_for_action*/ ctx[2](/*a*/ ctx[6]),
     				$$slots: { default: [create_default_slot_6] },
     				$$scope: { ctx }
     			},
@@ -1637,10 +1719,10 @@ var bundle = (function () {
     		},
     		p: function update(ctx, dirty) {
     			const button_changes = {};
-    			if (dirty & /*actions*/ 1) button_changes.color = /*color_for_action*/ ctx[1](/*a*/ ctx[3]);
-    			if (dirty & /*actions*/ 1) button_changes.title = /*title_for_action*/ ctx[2](/*a*/ ctx[3]);
+    			if (dirty & /*actions*/ 1) button_changes.color = /*color_for_action*/ ctx[1](/*a*/ ctx[6]);
+    			if (dirty & /*actions*/ 1) button_changes.title = /*title_for_action*/ ctx[2](/*a*/ ctx[6]);
 
-    			if (dirty & /*$$scope, actions*/ 16385) {
+    			if (dirty & /*$$scope, actions*/ 131073) {
     				button_changes.$$scope = { dirty, ctx };
     			}
 
@@ -1664,16 +1746,16 @@ var bundle = (function () {
     		block,
     		id: create_each_block_4.name,
     		type: "each",
-    		source: "(74:2) {#each actions as a}",
+    		source: "(84:2) {#each actions as a}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (78:4) <Button unelevated dense icon color="{color_for_action(a)}" title="{title_for_action(a)}">
+    // (88:4) <Button unelevated dense icon color="{color_for_action(a)}" title="{title_for_action(a)}">
     function create_default_slot_5(ctx) {
-    	let t_value = /*a*/ ctx[3] + "";
+    	let t_value = /*a*/ ctx[6] + "";
     	let t;
 
     	const block = {
@@ -1684,7 +1766,7 @@ var bundle = (function () {
     			insert_dev(target, t, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*actions*/ 1 && t_value !== (t_value = /*a*/ ctx[3] + "")) set_data_dev(t, t_value);
+    			if (dirty & /*actions*/ 1 && t_value !== (t_value = /*a*/ ctx[6] + "")) set_data_dev(t, t_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(t);
@@ -1695,14 +1777,14 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_5.name,
     		type: "slot",
-    		source: "(78:4) <Button unelevated dense icon color=\\\"{color_for_action(a)}\\\" title=\\\"{title_for_action(a)}\\\">",
+    		source: "(88:4) <Button unelevated dense icon color=\\\"{color_for_action(a)}\\\" title=\\\"{title_for_action(a)}\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (77:2) {#each actions as a}
+    // (87:2) {#each actions as a}
     function create_each_block_3(ctx) {
     	let button;
     	let current;
@@ -1712,8 +1794,8 @@ var bundle = (function () {
     				unelevated: true,
     				dense: true,
     				icon: true,
-    				color: /*color_for_action*/ ctx[1](/*a*/ ctx[3]),
-    				title: /*title_for_action*/ ctx[2](/*a*/ ctx[3]),
+    				color: /*color_for_action*/ ctx[1](/*a*/ ctx[6]),
+    				title: /*title_for_action*/ ctx[2](/*a*/ ctx[6]),
     				$$slots: { default: [create_default_slot_5] },
     				$$scope: { ctx }
     			},
@@ -1730,10 +1812,10 @@ var bundle = (function () {
     		},
     		p: function update(ctx, dirty) {
     			const button_changes = {};
-    			if (dirty & /*actions*/ 1) button_changes.color = /*color_for_action*/ ctx[1](/*a*/ ctx[3]);
-    			if (dirty & /*actions*/ 1) button_changes.title = /*title_for_action*/ ctx[2](/*a*/ ctx[3]);
+    			if (dirty & /*actions*/ 1) button_changes.color = /*color_for_action*/ ctx[1](/*a*/ ctx[6]);
+    			if (dirty & /*actions*/ 1) button_changes.title = /*title_for_action*/ ctx[2](/*a*/ ctx[6]);
 
-    			if (dirty & /*$$scope, actions*/ 16385) {
+    			if (dirty & /*$$scope, actions*/ 131073) {
     				button_changes.$$scope = { dirty, ctx };
     			}
 
@@ -1757,16 +1839,16 @@ var bundle = (function () {
     		block,
     		id: create_each_block_3.name,
     		type: "each",
-    		source: "(77:2) {#each actions as a}",
+    		source: "(87:2) {#each actions as a}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (81:4) <Button unelevated dense icon color="{color_for_action(a)}" title="{title_for_action(a)}">
+    // (91:4) <Button unelevated dense icon color="{color_for_action(a)}" title="{title_for_action(a)}">
     function create_default_slot_4(ctx) {
-    	let t_value = /*a*/ ctx[3] + "";
+    	let t_value = /*a*/ ctx[6] + "";
     	let t;
 
     	const block = {
@@ -1777,7 +1859,7 @@ var bundle = (function () {
     			insert_dev(target, t, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*actions*/ 1 && t_value !== (t_value = /*a*/ ctx[3] + "")) set_data_dev(t, t_value);
+    			if (dirty & /*actions*/ 1 && t_value !== (t_value = /*a*/ ctx[6] + "")) set_data_dev(t, t_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(t);
@@ -1788,14 +1870,14 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_4.name,
     		type: "slot",
-    		source: "(81:4) <Button unelevated dense icon color=\\\"{color_for_action(a)}\\\" title=\\\"{title_for_action(a)}\\\">",
+    		source: "(91:4) <Button unelevated dense icon color=\\\"{color_for_action(a)}\\\" title=\\\"{title_for_action(a)}\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (80:2) {#each actions as a}
+    // (90:2) {#each actions as a}
     function create_each_block_2(ctx) {
     	let button;
     	let current;
@@ -1805,8 +1887,8 @@ var bundle = (function () {
     				unelevated: true,
     				dense: true,
     				icon: true,
-    				color: /*color_for_action*/ ctx[1](/*a*/ ctx[3]),
-    				title: /*title_for_action*/ ctx[2](/*a*/ ctx[3]),
+    				color: /*color_for_action*/ ctx[1](/*a*/ ctx[6]),
+    				title: /*title_for_action*/ ctx[2](/*a*/ ctx[6]),
     				$$slots: { default: [create_default_slot_4] },
     				$$scope: { ctx }
     			},
@@ -1823,10 +1905,10 @@ var bundle = (function () {
     		},
     		p: function update(ctx, dirty) {
     			const button_changes = {};
-    			if (dirty & /*actions*/ 1) button_changes.color = /*color_for_action*/ ctx[1](/*a*/ ctx[3]);
-    			if (dirty & /*actions*/ 1) button_changes.title = /*title_for_action*/ ctx[2](/*a*/ ctx[3]);
+    			if (dirty & /*actions*/ 1) button_changes.color = /*color_for_action*/ ctx[1](/*a*/ ctx[6]);
+    			if (dirty & /*actions*/ 1) button_changes.title = /*title_for_action*/ ctx[2](/*a*/ ctx[6]);
 
-    			if (dirty & /*$$scope, actions*/ 16385) {
+    			if (dirty & /*$$scope, actions*/ 131073) {
     				button_changes.$$scope = { dirty, ctx };
     			}
 
@@ -1850,14 +1932,14 @@ var bundle = (function () {
     		block,
     		id: create_each_block_2.name,
     		type: "each",
-    		source: "(80:2) {#each actions as a}",
+    		source: "(90:2) {#each actions as a}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (86:2) <Button outlined dense icon color="white" title="Set 2">
+    // (96:2) <Button outlined dense icon color="white" title="Set 2">
     function create_default_slot_3(ctx) {
     	let t;
 
@@ -1877,16 +1959,16 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_3.name,
     		type: "slot",
-    		source: "(86:2) <Button outlined dense icon color=\\\"white\\\" title=\\\"Set 2\\\">",
+    		source: "(96:2) <Button outlined dense icon color=\\\"white\\\" title=\\\"Set 2\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (89:4) <Button unelevated dense icon color="{color_for_action(a)}" title="{title_for_action(a)}">
+    // (99:4) <Button unelevated dense icon color="{color_for_action(a)}" title="{title_for_action(a)}">
     function create_default_slot_2(ctx) {
-    	let t_value = /*a*/ ctx[3] + "";
+    	let t_value = /*a*/ ctx[6] + "";
     	let t;
 
     	const block = {
@@ -1897,7 +1979,7 @@ var bundle = (function () {
     			insert_dev(target, t, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*actions*/ 1 && t_value !== (t_value = /*a*/ ctx[3] + "")) set_data_dev(t, t_value);
+    			if (dirty & /*actions*/ 1 && t_value !== (t_value = /*a*/ ctx[6] + "")) set_data_dev(t, t_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(t);
@@ -1908,14 +1990,14 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_2.name,
     		type: "slot",
-    		source: "(89:4) <Button unelevated dense icon color=\\\"{color_for_action(a)}\\\" title=\\\"{title_for_action(a)}\\\">",
+    		source: "(99:4) <Button unelevated dense icon color=\\\"{color_for_action(a)}\\\" title=\\\"{title_for_action(a)}\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (88:2) {#each actions as a}
+    // (98:2) {#each actions as a}
     function create_each_block_1(ctx) {
     	let button;
     	let current;
@@ -1925,8 +2007,8 @@ var bundle = (function () {
     				unelevated: true,
     				dense: true,
     				icon: true,
-    				color: /*color_for_action*/ ctx[1](/*a*/ ctx[3]),
-    				title: /*title_for_action*/ ctx[2](/*a*/ ctx[3]),
+    				color: /*color_for_action*/ ctx[1](/*a*/ ctx[6]),
+    				title: /*title_for_action*/ ctx[2](/*a*/ ctx[6]),
     				$$slots: { default: [create_default_slot_2] },
     				$$scope: { ctx }
     			},
@@ -1943,10 +2025,10 @@ var bundle = (function () {
     		},
     		p: function update(ctx, dirty) {
     			const button_changes = {};
-    			if (dirty & /*actions*/ 1) button_changes.color = /*color_for_action*/ ctx[1](/*a*/ ctx[3]);
-    			if (dirty & /*actions*/ 1) button_changes.title = /*title_for_action*/ ctx[2](/*a*/ ctx[3]);
+    			if (dirty & /*actions*/ 1) button_changes.color = /*color_for_action*/ ctx[1](/*a*/ ctx[6]);
+    			if (dirty & /*actions*/ 1) button_changes.title = /*title_for_action*/ ctx[2](/*a*/ ctx[6]);
 
-    			if (dirty & /*$$scope, actions*/ 16385) {
+    			if (dirty & /*$$scope, actions*/ 131073) {
     				button_changes.$$scope = { dirty, ctx };
     			}
 
@@ -1970,14 +2052,14 @@ var bundle = (function () {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(88:2) {#each actions as a}",
+    		source: "(98:2) {#each actions as a}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (94:2) <Button outlined dense icon color="white" title="Set 3">
+    // (104:2) <Button outlined dense icon color="white" title="Set 3">
     function create_default_slot_1(ctx) {
     	let t;
 
@@ -1997,16 +2079,16 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_1.name,
     		type: "slot",
-    		source: "(94:2) <Button outlined dense icon color=\\\"white\\\" title=\\\"Set 3\\\">",
+    		source: "(104:2) <Button outlined dense icon color=\\\"white\\\" title=\\\"Set 3\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (97:4) <Button unelevated dense icon color="{color_for_action(a)}" title="{title_for_action(a)}">
+    // (107:4) <Button unelevated dense icon color="{color_for_action(a)}" title="{title_for_action(a)}">
     function create_default_slot(ctx) {
-    	let t_value = /*a*/ ctx[3] + "";
+    	let t_value = /*a*/ ctx[6] + "";
     	let t;
 
     	const block = {
@@ -2017,7 +2099,7 @@ var bundle = (function () {
     			insert_dev(target, t, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*actions*/ 1 && t_value !== (t_value = /*a*/ ctx[3] + "")) set_data_dev(t, t_value);
+    			if (dirty & /*actions*/ 1 && t_value !== (t_value = /*a*/ ctx[6] + "")) set_data_dev(t, t_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(t);
@@ -2028,14 +2110,14 @@ var bundle = (function () {
     		block,
     		id: create_default_slot.name,
     		type: "slot",
-    		source: "(97:4) <Button unelevated dense icon color=\\\"{color_for_action(a)}\\\" title=\\\"{title_for_action(a)}\\\">",
+    		source: "(107:4) <Button unelevated dense icon color=\\\"{color_for_action(a)}\\\" title=\\\"{title_for_action(a)}\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (96:2) {#each actions as a}
+    // (106:2) {#each actions as a}
     function create_each_block(ctx) {
     	let button;
     	let current;
@@ -2045,8 +2127,8 @@ var bundle = (function () {
     				unelevated: true,
     				dense: true,
     				icon: true,
-    				color: /*color_for_action*/ ctx[1](/*a*/ ctx[3]),
-    				title: /*title_for_action*/ ctx[2](/*a*/ ctx[3]),
+    				color: /*color_for_action*/ ctx[1](/*a*/ ctx[6]),
+    				title: /*title_for_action*/ ctx[2](/*a*/ ctx[6]),
     				$$slots: { default: [create_default_slot] },
     				$$scope: { ctx }
     			},
@@ -2063,10 +2145,10 @@ var bundle = (function () {
     		},
     		p: function update(ctx, dirty) {
     			const button_changes = {};
-    			if (dirty & /*actions*/ 1) button_changes.color = /*color_for_action*/ ctx[1](/*a*/ ctx[3]);
-    			if (dirty & /*actions*/ 1) button_changes.title = /*title_for_action*/ ctx[2](/*a*/ ctx[3]);
+    			if (dirty & /*actions*/ 1) button_changes.color = /*color_for_action*/ ctx[1](/*a*/ ctx[6]);
+    			if (dirty & /*actions*/ 1) button_changes.title = /*title_for_action*/ ctx[2](/*a*/ ctx[6]);
 
-    			if (dirty & /*$$scope, actions*/ 16385) {
+    			if (dirty & /*$$scope, actions*/ 131073) {
     				button_changes.$$scope = { dirty, ctx };
     			}
 
@@ -2090,7 +2172,7 @@ var bundle = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(96:2) {#each actions as a}",
+    		source: "(106:2) {#each actions as a}",
     		ctx
     	});
 
@@ -2258,15 +2340,15 @@ var bundle = (function () {
     				each_blocks[i].c();
     			}
 
-    			add_location(span0, file$2, 72, 2, 1515);
+    			add_location(span0, file$2, 82, 2, 1795);
     			attr_dev(div0, "class", "home-set svelte-16ciu3y");
-    			add_location(div0, file$2, 70, 0, 1421);
-    			add_location(span1, file$2, 86, 2, 2053);
+    			add_location(div0, file$2, 80, 0, 1701);
+    			add_location(span1, file$2, 96, 2, 2333);
     			attr_dev(div1, "class", "away-set svelte-16ciu3y");
-    			add_location(div1, file$2, 84, 0, 1959);
-    			add_location(span2, file$2, 94, 2, 2314);
+    			add_location(div1, file$2, 94, 0, 2239);
+    			add_location(span2, file$2, 104, 2, 2594);
     			attr_dev(div2, "class", "current-set svelte-16ciu3y");
-    			add_location(div2, file$2, 92, 0, 2217);
+    			add_location(div2, file$2, 102, 0, 2497);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2318,7 +2400,7 @@ var bundle = (function () {
     		p: function update(ctx, [dirty]) {
     			const button0_changes = {};
 
-    			if (dirty & /*$$scope*/ 16384) {
+    			if (dirty & /*$$scope*/ 131072) {
     				button0_changes.$$scope = { dirty, ctx };
     			}
 
@@ -2410,7 +2492,7 @@ var bundle = (function () {
 
     			const button1_changes = {};
 
-    			if (dirty & /*$$scope*/ 16384) {
+    			if (dirty & /*$$scope*/ 131072) {
     				button1_changes.$$scope = { dirty, ctx };
     			}
 
@@ -2446,7 +2528,7 @@ var bundle = (function () {
 
     			const button2_changes = {};
 
-    			if (dirty & /*$$scope*/ 16384) {
+    			if (dirty & /*$$scope*/ 131072) {
     				button2_changes.$$scope = { dirty, ctx };
     			}
 
@@ -2578,6 +2660,7 @@ var bundle = (function () {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots("Transcript", slots, []);
     	let { actions = ["E", "V", "♠", "B", "K", " ", "S", "D", "P", "A", "1"] } = $$props;
+    	const log = logger("transcript: ");
 
     	const color_for_action = a => {
     		switch (a) {
@@ -2625,6 +2708,11 @@ var bundle = (function () {
     		}
     	};
 
+    	const on_match_update = match => {
+    		log.debug("match change", match);
+    	};
+
+    	const unsubscribe = match.subscribe(on_match_update);
     	const writable_props = ["actions"];
 
     	Object.keys($$props).forEach(key => {
@@ -2638,9 +2726,14 @@ var bundle = (function () {
     	$$self.$capture_state = () => ({
     		Button: ye,
     		Icon: je,
+    		logger,
+    		stored_match: match,
     		actions,
+    		log,
     		color_for_action,
-    		title_for_action
+    		title_for_action,
+    		on_match_update,
+    		unsubscribe
     	});
 
     	$$self.$inject_state = $$props => {
@@ -2677,29 +2770,27 @@ var bundle = (function () {
     }
 
     /* src/Recorder.svelte generated by Svelte v3.32.3 */
-
-    const { console: console_1 } = globals;
     const file$3 = "src/Recorder.svelte";
 
     function get_each_context$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[43] = list[i];
+    	child_ctx[44] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_1$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[46] = list[i];
+    	child_ctx[47] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_2$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[43] = list[i];
+    	child_ctx[44] = list[i];
     	return child_ctx;
     }
 
-    // (762:2) <div slot="activator">
+    // (768:2) <div slot="activator">
     function create_activator_slot(ctx) {
     	let div;
     	let court;
@@ -2712,7 +2803,7 @@ var bundle = (function () {
     			div = element("div");
     			create_component(court.$$.fragment);
     			attr_dev(div, "slot", "activator");
-    			add_location(div, file$3, 761, 2, 29842);
+    			add_location(div, file$3, 767, 2, 29962);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -2739,16 +2830,16 @@ var bundle = (function () {
     		block,
     		id: create_activator_slot.name,
     		type: "slot",
-    		source: "(762:2) <div slot=\\\"activator\\\">",
+    		source: "(768:2) <div slot=\\\"activator\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (769:4) <Button class='menu-item' on:click={()=>on_specify(s.type, s.value)}>
+    // (775:4) <Button class='menu-item' on:click={()=>on_specify(s.type, s.value)}>
     function create_default_slot_3$1(ctx) {
-    	let t_value = /*s*/ ctx[43].value + "";
+    	let t_value = /*s*/ ctx[44].value + "";
     	let t;
 
     	const block = {
@@ -2759,7 +2850,7 @@ var bundle = (function () {
     			insert_dev(target, t, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*current*/ 16 && t_value !== (t_value = /*s*/ ctx[43].value + "")) set_data_dev(t, t_value);
+    			if (dirty[0] & /*current*/ 16 && t_value !== (t_value = /*s*/ ctx[44].value + "")) set_data_dev(t, t_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(t);
@@ -2770,20 +2861,20 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_3$1.name,
     		type: "slot",
-    		source: "(769:4) <Button class='menu-item' on:click={()=>on_specify(s.type, s.value)}>",
+    		source: "(775:4) <Button class='menu-item' on:click={()=>on_specify(s.type, s.value)}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (768:2) {#each g as s}
+    // (774:2) {#each g as s}
     function create_each_block_2$1(ctx) {
     	let button;
     	let current;
 
     	function click_handler() {
-    		return /*click_handler*/ ctx[8](/*s*/ ctx[43]);
+    		return /*click_handler*/ ctx[8](/*s*/ ctx[44]);
     	}
 
     	button = new ye({
@@ -2809,7 +2900,7 @@ var bundle = (function () {
     			ctx = new_ctx;
     			const button_changes = {};
 
-    			if (dirty[0] & /*current*/ 16 | dirty[1] & /*$$scope*/ 1048576) {
+    			if (dirty[0] & /*current*/ 16 | dirty[1] & /*$$scope*/ 2097152) {
     				button_changes.$$scope = { dirty, ctx };
     			}
 
@@ -2833,18 +2924,18 @@ var bundle = (function () {
     		block,
     		id: create_each_block_2$1.name,
     		type: "each",
-    		source: "(768:2) {#each g as s}",
+    		source: "(774:2) {#each g as s}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (767:6) <ButtonGroup>
+    // (773:6) <ButtonGroup>
     function create_default_slot_2$1(ctx) {
     	let each_1_anchor;
     	let current;
-    	let each_value_2 = /*g*/ ctx[46];
+    	let each_value_2 = /*g*/ ctx[47];
     	validate_each_argument(each_value_2);
     	let each_blocks = [];
 
@@ -2874,7 +2965,7 @@ var bundle = (function () {
     		},
     		p: function update(ctx, dirty) {
     			if (dirty[0] & /*on_specify, current*/ 80) {
-    				each_value_2 = /*g*/ ctx[46];
+    				each_value_2 = /*g*/ ctx[47];
     				validate_each_argument(each_value_2);
     				let i;
 
@@ -2929,14 +3020,14 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_2$1.name,
     		type: "slot",
-    		source: "(767:6) <ButtonGroup>",
+    		source: "(773:6) <ButtonGroup>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (766:2) {#each current.specifiers.groups as g}
+    // (772:2) {#each current.specifiers.groups as g}
     function create_each_block_1$1(ctx) {
     	let li;
     	let buttongroup;
@@ -2954,7 +3045,7 @@ var bundle = (function () {
     		c: function create() {
     			li = element("li");
     			create_component(buttongroup.$$.fragment);
-    			add_location(li, file$3, 766, 2, 29955);
+    			add_location(li, file$3, 772, 2, 30075);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -2964,7 +3055,7 @@ var bundle = (function () {
     		p: function update(ctx, dirty) {
     			const buttongroup_changes = {};
 
-    			if (dirty[0] & /*current*/ 16 | dirty[1] & /*$$scope*/ 1048576) {
+    			if (dirty[0] & /*current*/ 16 | dirty[1] & /*$$scope*/ 2097152) {
     				buttongroup_changes.$$scope = { dirty, ctx };
     			}
 
@@ -2989,16 +3080,16 @@ var bundle = (function () {
     		block,
     		id: create_each_block_1$1.name,
     		type: "each",
-    		source: "(766:2) {#each current.specifiers.groups as g}",
+    		source: "(772:2) {#each current.specifiers.groups as g}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (775:2) <Menuitem on:click={()=>on_specify(s.type, s.value)}>
+    // (781:2) <Menuitem on:click={()=>on_specify(s.type, s.value)}>
     function create_default_slot_1$1(ctx) {
-    	let t_value = /*s*/ ctx[43].value + "";
+    	let t_value = /*s*/ ctx[44].value + "";
     	let t;
 
     	const block = {
@@ -3018,20 +3109,20 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_1$1.name,
     		type: "slot",
-    		source: "(775:2) <Menuitem on:click={()=>on_specify(s.type, s.value)}>",
+    		source: "(781:2) <Menuitem on:click={()=>on_specify(s.type, s.value)}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (774:2) {#each specifiers.both as s}
+    // (780:2) {#each specifiers.both as s}
     function create_each_block$1(ctx) {
     	let menuitem;
     	let current;
 
     	function click_handler_1() {
-    		return /*click_handler_1*/ ctx[9](/*s*/ ctx[43]);
+    		return /*click_handler_1*/ ctx[9](/*s*/ ctx[44]);
     	}
 
     	menuitem = new Yn({
@@ -3056,7 +3147,7 @@ var bundle = (function () {
     			ctx = new_ctx;
     			const menuitem_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 1048576) {
+    			if (dirty[1] & /*$$scope*/ 2097152) {
     				menuitem_changes.$$scope = { dirty, ctx };
     			}
 
@@ -3080,14 +3171,14 @@ var bundle = (function () {
     		block,
     		id: create_each_block$1.name,
     		type: "each",
-    		source: "(774:2) {#each specifiers.both as s}",
+    		source: "(780:2) {#each specifiers.both as s}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (761:0) <Menu origin={menu_origin} {...menu_offset}>
+    // (767:0) <Menu origin={menu_origin} {...menu_offset}>
     function create_default_slot$1(ctx) {
     	let t0;
     	let t1;
@@ -3136,7 +3227,7 @@ var bundle = (function () {
     			}
 
     			each1_anchor = empty();
-    			add_location(hr, file$3, 772, 2, 30126);
+    			add_location(hr, file$3, 778, 2, 30246);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, t0, anchor);
@@ -3256,7 +3347,7 @@ var bundle = (function () {
     		block,
     		id: create_default_slot$1.name,
     		type: "slot",
-    		source: "(761:0) <Menu origin={menu_origin} {...menu_offset}>",
+    		source: "(767:0) <Menu origin={menu_origin} {...menu_offset}>",
     		ctx
     	});
 
@@ -3298,10 +3389,10 @@ var bundle = (function () {
     			create_component(menu.$$.fragment);
     			t2 = space();
     			create_component(transcript.$$.fragment);
-    			add_location(h2, file$3, 757, 0, 29686);
+    			add_location(h2, file$3, 763, 0, 29806);
     			attr_dev(div, "class", "widener svelte-l2w7th");
     			add_render_callback(() => /*div_elementresize_handler*/ ctx[10].call(div));
-    			add_location(div, file$3, 759, 0, 29711);
+    			add_location(div, file$3, 765, 0, 29831);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -3324,7 +3415,7 @@ var bundle = (function () {
     				])
     			: {};
 
-    			if (dirty[0] & /*current*/ 16 | dirty[1] & /*$$scope*/ 1048576) {
+    			if (dirty[0] & /*current*/ 16 | dirty[1] & /*$$scope*/ 2097152) {
     				menu_changes.$$scope = { dirty, ctx };
     			}
 
@@ -3364,8 +3455,12 @@ var bundle = (function () {
     }
 
     function instance$3($$self, $$props, $$invalidate) {
+    	let $stored_match;
+    	validate_store(match, "stored_match");
+    	component_subscribe($$self, match, $$value => $$invalidate(13, $stored_match = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots("Recorder", slots, []);
+    	const log = logger("recorder: ");
     	const TEAM = { HOME: "home", AWAY: "away" };
     	const CONTACT = { PLAYER: "player", FLOOR: "floor" };
 
@@ -3459,14 +3554,14 @@ var bundle = (function () {
 
     	const point_for = (team, match, set_index) => {
     		match[set_index].score[team] += 1;
-    		console.log(score_summary(match, set_index));
+    		log.info(score_summary(match, set_index));
     	};
 
     	const update_last_recorded_action = (rally, action) => {
     		const latest = rally.contacts[rally.contacts.length - 1];
     		const old = latest.action;
     		latest.action = action;
-    		console.log(`resolved last action from: ${old} to ${latest.action}`);
+    		log.debug(`resolved last action from: ${old} to ${latest.action}`);
     	};
 
     	const needs_specifier = (contact, rally) => {
@@ -3494,8 +3589,8 @@ var bundle = (function () {
     	const receiving_team = rally => other_team(rally.serving_team);
 
     	const process_contact = current => {
-    		const { contact, rally, match } = current;
-    		console.log(`ball contact with ${contact.type} in ${contact.area_id}`);
+    		const { contact, rally, match: match$1 } = current;
+    		log.debug(`ball contact with ${contact.type} in ${contact.area_id}`);
     		let servers = serving_team(rally);
     		let receivers = receiving_team(rally);
     		let possession = servers;
@@ -3504,7 +3599,7 @@ var bundle = (function () {
     		let rally_ends = true;
 
     		const record_action = (msg, action) => {
-    			console.log(action.toUpperCase(), msg);
+    			log.info(action.toUpperCase(), msg);
     			contact.description = msg;
     			contact.action = action;
     		};
@@ -3518,7 +3613,7 @@ var bundle = (function () {
     					rally.state = RALLY_STATE.SERVE_RECEIVING;
     				} else {
     					is_valid = false;
-    					console.log(`invalid contact; expected ${CONTACT.PLAYER} contact in service area of ${servers} team`);
+    					log.warn(`invalid contact; expected ${CONTACT.PLAYER} contact in service area of ${servers} team`);
     				}
     				break;
     			case RALLY_STATE.SERVE_RECEIVING:
@@ -3568,7 +3663,7 @@ var bundle = (function () {
     					possession = receivers;
     					break;
     				}
-    				console.error(`unhandled scenario in rally state ${rally.state}`);
+    				log.error(`unhandled scenario in rally state ${rally.state}`);
     				break;
     			case RALLY_STATE.RECEIVER_RALLYING2:
     				if (contact.type === CONTACT.PLAYER && (is_play_area(area, servers) || is_free_area(area, servers))) {
@@ -3622,7 +3717,7 @@ var bundle = (function () {
     					possession = servers;
     					break;
     				}
-    				console.error(`unhandled scenario in rally state ${rally.state}`);
+    				log.error(`unhandled scenario in rally state ${rally.state}`);
     				break;
     			case RALLY_STATE.RECEIVER_RALLYING3:
     				if (contact.type === CONTACT.PLAYER && (is_play_area(area, servers) || is_free_area(area, servers))) {
@@ -3677,7 +3772,7 @@ var bundle = (function () {
     					possession = servers;
     					break;
     				}
-    				console.error(`unhandled scenario in rally state ${rally.state}`);
+    				log.error(`unhandled scenario in rally state ${rally.state}`);
     				break;
     			case RALLY_STATE.RECEIVER_ATTACKING:
     				if (contact.type === CONTACT.PLAYER && (is_play_area(area, servers) || is_free_area(area, servers))) {
@@ -3825,7 +3920,7 @@ var bundle = (function () {
     					possession = receivers;
     					break;
     				}
-    				console.error(`unhandled scenario in rally state ${rally.state}`);
+    				log.error(`unhandled scenario in rally state ${rally.state}`);
     				break;
     			case RALLY_STATE.SERVER_RALLYING3:
     				if (contact.type === CONTACT.PLAYER && (is_play_area(area, receivers) || is_free_area(area, receivers))) {
@@ -3880,7 +3975,7 @@ var bundle = (function () {
     					possession = receivers;
     					break;
     				}
-    				console.error(`unhandled scenario in rally state ${rally.state}`);
+    				log.error(`unhandled scenario in rally state ${rally.state}`);
     				break;
     			case RALLY_STATE.SERVER_ATTACKING:
     				if (contact.type === CONTACT.PLAYER && (is_play_area(area, receivers) || is_free_area(area, receivers))) {
@@ -3979,7 +4074,7 @@ var bundle = (function () {
     		}
 
     		if (!contact.action) {
-    			console.log("no action");
+    			log.debug("no action");
     		}
 
     		if (!is_valid) {
@@ -3991,19 +4086,19 @@ var bundle = (function () {
 
     		if (rally_ends) {
     			const set_index = current.set_index;
-    			console.log(`rally ends. appending to set ${set_index + 1}`);
-    			match[set_index].rallies.push(rally);
-    			point_for(possession, match, set_index);
-    			console.log("current:", current);
-    			const [set_ends, set_winner] = set_winner_info(match, set_index);
+    			log.info(`rally ends. appending to set ${set_index + 1}`);
+    			match$1[set_index].rallies.push(rally);
+    			point_for(possession, match$1, set_index);
+    			log.debug("current:", current);
+    			const [set_ends, set_winner] = set_winner_info(match$1, set_index);
 
     			if (set_ends) {
-    				console.log(`set ${set_index + 1} ends. ${team_aliases[set_winner]} (${set_winner}) team wins.`);
-    				match[set_index].winner = set_winner;
-    				const [match_ends, match_winner] = match_winner_info(match, set_index);
+    				log.info(`set ${set_index + 1} ends. ${team_aliases[set_winner]} (${set_winner}) team wins.`);
+    				match$1[set_index].winner = set_winner;
+    				const [match_ends, match_winner] = match_winner_info(match$1, set_index);
 
     				if (match_ends) {
-    					console.log(`match ends. ${team_aliases[match_winner]} (${match_winner}) team wins.`);
+    					log.info(`match ends. ${team_aliases[match_winner]} (${match_winner}) team wins.`);
     					recording = false;
     				} else {
     					current.set_index = set_index + 1; // TODO: signal UI and reactivate New Match button
@@ -4013,13 +4108,15 @@ var bundle = (function () {
     				need_new_rally = true;
     			}
     		} else {
-    			console.log("rally continues..");
+    			log.info("rally continues..");
     		}
 
     		if (need_new_rally) {
-    			console.log(`starting new rally, ${team_aliases[possession]} (${possession}) team serving..`);
+    			log.info(`starting new rally, ${team_aliases[possession]} (${possession}) team serving..`);
     			current.rally = new_rally(possession);
     		}
+
+    		set_store_value(match, $stored_match = match$1, $stored_match); // update store
     	};
 
     	const set_menu_props = ({ el_x: x, el_y: y, el_rect, area_id }) => {
@@ -4039,18 +4136,18 @@ var bundle = (function () {
 
     	const on_contact = e => {
     		if (!recording) {
-    			console.log("not in recording mode");
+    			log.debug("not in recording mode");
     			e.detail.source_event.stopPropagation();
     			return;
     		}
 
     		if (specifying) {
     			specifying = false;
-    			console.log("specify cancelled");
+    			log.debug("specify cancelled");
     			return;
     		}
 
-    		// console.log(`contact with ${e.detail.area_id} at [${e.detail.el_x}, ${e.detail.el_y}]`);
+    		// log.debug(`contact with ${e.detail.area_id} at [${e.detail.el_x}, ${e.detail.el_y}]`);
     		$$invalidate(4, current.contact = e.detail, current);
 
     		if (needs_specifier(current.contact, current.rally)) {
@@ -4069,11 +4166,11 @@ var bundle = (function () {
     		recording = true;
     		reset_match(current.match, num_sets);
     		$$invalidate(4, current.set_index = 0, current);
-    		console.log("starting new match:", current.match);
-    		console.log(score_summary(current.match, current.set_index));
+    		log.info("starting new match:", current.match);
+    		log.info(score_summary(current.match, current.set_index));
     		$$invalidate(4, current.rally = new_rally(serving), current);
     		$$invalidate(4, current.specifiers = specifiers[serving], current);
-    		console.log(`starting new rally, ${team_aliases[serving]} (${serving}) team serving..`);
+    		log.info(`starting new rally, ${team_aliases[serving]} (${serving}) team serving..`);
     	};
 
     	const on_specify = (type, value) => {
@@ -4086,10 +4183,10 @@ var bundle = (function () {
     	let menu_width, menu_height; // read-only
     	let menu_offset = { dx: 0, dy: 0 };
     	let menu_origin = "top left";
-    	let match = []; // array of sets
 
+    	// let match = []; // array of sets
     	let current = {
-    		match,
+    		match: $stored_match,
     		set_index: -1,
     		rally: null,
     		contact: null,
@@ -4138,7 +4235,7 @@ var bundle = (function () {
     	const writable_props = [];
 
     	Object.keys($$props).forEach(key => {
-    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console_1.warn(`<Recorder> was created with unknown prop '${key}'`);
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<Recorder> was created with unknown prop '${key}'`);
     	});
 
     	const click_handler = s => on_specify(s.type, s.value);
@@ -4157,8 +4254,11 @@ var bundle = (function () {
     		Button: ye,
     		Menu: kn,
     		Menuitem: Yn,
+    		logger,
+    		stored_match: match,
     		Court,
     		Transcript,
+    		log,
     		TEAM,
     		CONTACT,
     		RALLY_STATE,
@@ -4193,12 +4293,12 @@ var bundle = (function () {
     		menu_height,
     		menu_offset,
     		menu_origin,
-    		match,
     		current,
     		recording,
     		specifying,
     		specifiers,
-    		team_aliases
+    		team_aliases,
+    		$stored_match
     	});
 
     	$$self.$inject_state = $$props => {
@@ -4206,7 +4306,6 @@ var bundle = (function () {
     		if ("menu_height" in $$props) $$invalidate(1, menu_height = $$props.menu_height);
     		if ("menu_offset" in $$props) $$invalidate(2, menu_offset = $$props.menu_offset);
     		if ("menu_origin" in $$props) $$invalidate(3, menu_origin = $$props.menu_origin);
-    		if ("match" in $$props) match = $$props.match;
     		if ("current" in $$props) $$invalidate(4, current = $$props.current);
     		if ("recording" in $$props) recording = $$props.recording;
     		if ("specifying" in $$props) specifying = $$props.specifying;
@@ -4316,7 +4415,7 @@ var bundle = (function () {
     const { Object: Object_1 } = globals;
     const file$5 = "src/App.svelte";
 
-    // (41:2) <Tab>
+    // (46:2) <Tab>
     function create_default_slot_2$2(ctx) {
     	let recorder;
     	let current;
@@ -4348,14 +4447,14 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_2$2.name,
     		type: "slot",
-    		source: "(41:2) <Tab>",
+    		source: "(46:2) <Tab>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (42:2) <Tab>
+    // (47:2) <Tab>
     function create_default_slot_1$2(ctx) {
     	let visualizer;
     	let current;
@@ -4387,14 +4486,14 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_1$2.name,
     		type: "slot",
-    		source: "(42:2) <Tab>",
+    		source: "(47:2) <Tab>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (40:0) <Tabs tabNames={['record', 'visualize']}>
+    // (45:0) <Tabs tabNames={['record', 'visualize']}>
     function create_default_slot$2(ctx) {
     	let tab0;
     	let t;
@@ -4432,14 +4531,14 @@ var bundle = (function () {
     		p: function update(ctx, dirty) {
     			const tab0_changes = {};
 
-    			if (dirty & /*$$scope*/ 8) {
+    			if (dirty & /*$$scope*/ 16) {
     				tab0_changes.$$scope = { dirty, ctx };
     			}
 
     			tab0.$set(tab0_changes);
     			const tab1_changes = {};
 
-    			if (dirty & /*$$scope*/ 8) {
+    			if (dirty & /*$$scope*/ 16) {
     				tab1_changes.$$scope = { dirty, ctx };
     			}
 
@@ -4467,7 +4566,7 @@ var bundle = (function () {
     		block,
     		id: create_default_slot$2.name,
     		type: "slot",
-    		source: "(40:0) <Tabs tabNames={['record', 'visualize']}>",
+    		source: "(45:0) <Tabs tabNames={['record', 'visualize']}>",
     		ctx
     	});
 
@@ -4503,8 +4602,8 @@ var bundle = (function () {
     			br1 = element("br");
     			t = space();
     			create_component(tabs.$$.fragment);
-    			add_location(br0, file$5, 37, 28, 1234);
-    			add_location(br1, file$5, 37, 33, 1239);
+    			add_location(br0, file$5, 42, 28, 1344);
+    			add_location(br1, file$5, 42, 33, 1349);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -4520,7 +4619,7 @@ var bundle = (function () {
     		p: function update(ctx, [dirty]) {
     			const tabs_changes = {};
 
-    			if (dirty & /*$$scope*/ 8) {
+    			if (dirty & /*$$scope*/ 16) {
     				tabs_changes.$$scope = { dirty, ctx };
     			}
 
@@ -4560,9 +4659,11 @@ var bundle = (function () {
     function instance$5($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots("App", slots, []);
+    	const log = logger("app: ");
     	const prefers_dark = () => window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
 
     	const toggle_theme = palette => {
+    		log.info("toggling theme");
     		const d = document.documentElement;
 
     		if (d.attributes.getNamedItem("style")) {
@@ -4604,9 +4705,11 @@ var bundle = (function () {
     		onMount,
     		Tab: il,
     		Tabs: nl,
+    		logger,
     		HeaderBar,
     		Recorder,
     		Visualizer,
+    		log,
     		prefers_dark,
     		toggle_theme,
     		dark_theme

@@ -1,8 +1,12 @@
 <script>
   import { Button, Icon } from 'svelte-mui';
 
+  import { logger } from './logger.js';
+  import { match as stored_match } from './stores.js';
+
   export let actions = ['E','V', '♠','B','K', ' ','S','D','P','A','1'];
 
+  const log = logger('transcript: ');
   const color_for_action = (a) => {
     switch (a) {
       case 'E':
@@ -42,6 +46,12 @@
       case '1': return 'point';
     }
   }
+
+  const on_match_update = (match) => {
+    log.debug('match change', match);
+  }
+
+  const unsubscribe = stored_match.subscribe(on_match_update);
 </script>
 
 <style>
