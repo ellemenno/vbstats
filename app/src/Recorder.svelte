@@ -21,12 +21,6 @@
     VIOLATION:'violation',
   }
 
-  const reset_match = (match) => {
-    match.score.home = 0;
-    match.score.away = 0;
-    match.sets.forEach(s => s.splice(0));
-  }
-
   const new_rally = (serving) => ({
     state: RALLY_STATE.SERVING,
     serving_team: serving,
@@ -34,9 +28,54 @@
     contacts: [],
   })
 
-  const point_for = (team, match) => {
-    match.score[team] += 1;
-    console.log(`score: H ${match.score.home} | ${match.score.away} A`);
+  const new_set = () => {
+    const set = { score: {}, rallies: [], winner: null };
+    set.score[TEAM.HOME] = 0;
+    set.score[TEAM.AWAY] = 0;
+    return set;
+  }
+
+  const reset_match = (match, num_sets) => {
+    match.splice(0, match.length, ...Array(num_sets).fill(null).map(()=>new_set()));
+  }
+
+  const num_set_wins = (match, team) => {
+    return match.reduce((a,v) => (a + ((v.winner === team) ? 1 : 0)), 0);
+  }
+
+  const match_winner_info = (match, set_index, min_wins=2) => {
+    let has_won = false;
+    let team = null;
+
+    if (set_index+1 >= min_wins) {
+      if      (num_set_wins(match, TEAM.HOME) >= min_wins) { has_won = true; team = TEAM.HOME; }
+      else if (num_set_wins(match, TEAM.AWAY) >= min_wins) { has_won = true; team = TEAM.AWAY; }
+    }
+
+    return [has_won, team];
+  }
+
+  const set_winner_info = (match, set_index, min_wins=2) => {
+    let has_won = false;
+    let team = null;
+
+    const h = match[set_index].score[TEAM.HOME];
+    const a = match[set_index].score[TEAM.AWAY];
+    const threshold = (set_index < min_wins) ? 25 : 15;
+
+    if (Math.max(h, a) >= threshold && Math.abs(h - a) >= 2) {
+      has_won = true;
+      team = (h > a) ? TEAM.HOME : TEAM.AWAY;
+    }
+
+    return [has_won, team];
+  }
+
+  const score_summary = (match, set_index) => `score: (${num_set_wins(match, TEAM.HOME)}) H ${match[set_index].score[TEAM.HOME]} | ${match[set_index].score[TEAM.AWAY]} A (${num_set_wins(match, TEAM.AWAY)})`
+
+  const point_for = (team, match, set_index) => {
+    match[set_index].score[team] += 1;
+    console.log(score_summary(match, set_index));
   }
 
   const update_last_recorded_action = (rally, action) => {
@@ -567,24 +606,39 @@
     if (!is_valid) { return; }
 
     rally.contacts.push(contact);
+    let need_new_rally = false;
 
     if (rally_ends) {
-      console.log(`rally ends. appending to set ${current.set_index+1}`);
-      current.match.sets[current.set_index].push(current.rally);
-      console.log('rally:', current.rally);
-      point_for(possession, match);
-      console.log(`starting new rally, ${team_aliases[possession]} (${possession}) team serving..`);
-      current.rally = new_rally(possession);
-      current.rally.state = RALLY_STATE.SERVING;
+      const set_index = current.set_index;
+      console.log(`rally ends. appending to set ${set_index+1}`);
+      match[set_index].rallies.push(rally);
+      point_for(possession, match, set_index);
+      console.log('current:', current);
+
+      const [set_ends, set_winner] = set_winner_info(match, set_index);
+      if (set_ends) {
+        console.log(`set ${set_index+1} ends. ${team_aliases[set_winner]} (${set_winner}) team wins.`);
+        match[set_index].winner = set_winner;
+
+        const [match_ends, match_winner] = match_winner_info(match, set_index);
+        if (match_ends) {
+          console.log(`match ends. ${team_aliases[match_winner]} (${match_winner}) team wins.`);
+          recording = false;
+          // TODO: signal UI and reactivate New Match button
+        }
+        else {
+          current.set_index = set_index + 1;
+          need_new_rally = true;
+        }
+      }
+      else { need_new_rally = true; }
     }
     else { console.log('rally continues..'); }
 
-    // set ends?
-    // TODO: add function to determine when set has been won
-
-    // match ends?
-    // TODO: add function to determine when match has been won
-
+    if (need_new_rally) {
+      console.log(`starting new rally, ${team_aliases[possession]} (${possession}) team serving..`);
+      current.rally = new_rally(possession);
+    }
   }
 
   const set_menu_props = ({el_x:x, el_y:y, el_rect, area_id}) => {
@@ -592,7 +646,7 @@
     const {width:w, height:h} = el_rect;
     const tb = (y < h/2) ? 'top'  : 'bottom';
     const lr = (x < w/2) ? 'left' : 'right';
-    const k = 80; // FIXME: where is this vertical offset coming from?
+    const k = 80; // FIXME: magic number.. where is this vertical offset coming from?
     menu_origin = `${tb} ${lr}`;
     menu_offset.dx = lr === 'left' ? x : w-x;
     menu_offset.dy = tb === 'top'  ? y-k : h-y+k;
@@ -601,8 +655,12 @@
   }
 
   const on_contact = (e) => {
+    if (!recording) {
+      console.log('not in recording mode');
+      e.detail.source_event.stopPropagation();
+      return;
+    }
     if (specifying) { specifying = false; console.log('specify cancelled'); return; }
-    if (!recording) { console.log('not in recording mode'); return; }
 
     // console.log(`contact with ${e.detail.area_id} at [${e.detail.el_x}, ${e.detail.el_y}]`);
     current.contact = e.detail;
@@ -620,20 +678,21 @@
     delete current.contact.source_event; // no longer needed
   }
 
-  const on_match_start = (serving) => {
-    reset_match(current.match);
+  const on_match_start = (serving, num_sets=3) => {
+    recording = true;
+
+    reset_match(current.match, num_sets);
     current.set_index = 0;
     console.log('starting new match:', current.match);
-    recording = true;
+    console.log(score_summary(current.match, current.set_index));
+
     current.rally = new_rally(serving);
     current.specifiers = specifiers[serving];
     console.log(`starting new rally, ${team_aliases[serving]} (${serving}) team serving..`);
-    // console.log('rally:', current.rally);
   }
 
   const on_specify = (type, value) => {
     specifying = false;
-    // console.log(`specifying a ${type} contact (${value})`);
     current.contact.type = type;
     current.contact.player = value;
     process_contact(current);
@@ -642,7 +701,7 @@
   let menu_width, menu_height; // read-only
   let menu_offset = { dx:0, dy:0 };
   let menu_origin = "top left";
-  let match = { score: { home:0, away:0 }, sets: [[],[],[]]};
+  let match = []; // array of sets
   let current = { match:match, set_index:-1, rally:null, contact:null, specifiers:null };
   let recording = false;
   let specifying = false;
