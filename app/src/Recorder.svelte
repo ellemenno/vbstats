@@ -1,9 +1,12 @@
 <script>
   import { onMount } from 'svelte';
   import { ButtonGroup, Button, Menu, Menuitem } from 'svelte-mui';
-  import Court from "./Court.svelte";
-  import Transcript from "./Transcript.svelte";
 
+  import { logger } from './logger.js';
+  import Court from './Court.svelte';
+  import Transcript from './Transcript.svelte';
+
+  const log = logger('recorder: ');
   const TEAM = { HOME:'home', AWAY:'away' }
   const CONTACT = { PLAYER:'player', FLOOR:'floor' };
   const RALLY_STATE = {
@@ -76,14 +79,14 @@
 
   const point_for = (team, match, set_index) => {
     match[set_index].score[team] += 1;
-    console.log(score_summary(match, set_index));
+    log.info(score_summary(match, set_index));
   }
 
   const update_last_recorded_action = (rally, action) => {
     const latest = rally.contacts[rally.contacts.length-1];
     const old = latest.action;
     latest.action = action;
-    console.log(`resolved last action from: ${old} to ${latest.action}`);
+    log.debug(`resolved last action from: ${old} to ${latest.action}`);
   }
 
   const needs_specifier = (contact, rally) => {
@@ -116,7 +119,7 @@
 
   const process_contact = (current) => {
     const {contact, rally, match} = current;
-    console.log(`ball contact with ${contact.type} in ${contact.area_id}`);
+    log.debug(`ball contact with ${contact.type} in ${contact.area_id}`);
 
     let servers = serving_team(rally);
     let receivers = receiving_team(rally);
@@ -127,7 +130,7 @@
     let rally_ends = true;
 
     const record_action = (msg, action) => {
-      console.log(action.toUpperCase(), msg);
+      log.info(action.toUpperCase(), msg);
       contact.description = msg;
       contact.action = action;
     }
@@ -142,7 +145,7 @@
         }
         else {
           is_valid = false;
-          console.log(`invalid contact; expected ${CONTACT.PLAYER} contact in service area of ${servers} team`);
+          log.warn(`invalid contact; expected ${CONTACT.PLAYER} contact in service area of ${servers} team`);
         }
       break;
 
@@ -193,7 +196,7 @@
           possession = receivers;
           break;
         }
-        console.error(`unhandled scenario in rally state ${rally.state}`);
+        log.error(`unhandled scenario in rally state ${rally.state}`);
       break;
 
       case RALLY_STATE.RECEIVER_RALLYING2:
@@ -247,7 +250,7 @@
           possession = servers;
           break;
         }
-        console.error(`unhandled scenario in rally state ${rally.state}`);
+        log.error(`unhandled scenario in rally state ${rally.state}`);
       break;
 
       case RALLY_STATE.RECEIVER_RALLYING3:
@@ -302,7 +305,7 @@
           possession = servers;
           break;
         }
-        console.error(`unhandled scenario in rally state ${rally.state}`);
+        log.error(`unhandled scenario in rally state ${rally.state}`);
       break;
 
       case RALLY_STATE.RECEIVER_ATTACKING:
@@ -450,7 +453,7 @@
           possession = receivers;
           break;
         }
-        console.error(`unhandled scenario in rally state ${rally.state}`);
+        log.error(`unhandled scenario in rally state ${rally.state}`);
       break;
 
       case RALLY_STATE.SERVER_RALLYING3:
@@ -505,7 +508,7 @@
           possession = receivers;
           break;
         }
-        console.error(`unhandled scenario in rally state ${rally.state}`);
+        log.error(`unhandled scenario in rally state ${rally.state}`);
       break;
 
       case RALLY_STATE.SERVER_ATTACKING:
@@ -603,7 +606,7 @@
       break;
     }
 
-    if (!contact.action) { console.log('no action'); }
+    if (!contact.action) { log.debug('no action'); }
     if (!is_valid) { return; }
 
     rally.contacts.push(contact);
@@ -611,19 +614,19 @@
 
     if (rally_ends) {
       const set_index = current.set_index;
-      console.log(`rally ends. appending to set ${set_index+1}`);
+      log.info(`rally ends. appending to set ${set_index+1}`);
       match[set_index].rallies.push(rally);
       point_for(possession, match, set_index);
-      console.log('current:', current);
+      log.debug('current:', current);
 
       const [set_ends, set_winner] = set_winner_info(match, set_index);
       if (set_ends) {
-        console.log(`set ${set_index+1} ends. ${team_aliases[set_winner]} (${set_winner}) team wins.`);
+        log.info(`set ${set_index+1} ends. ${team_aliases[set_winner]} (${set_winner}) team wins.`);
         match[set_index].winner = set_winner;
 
         const [match_ends, match_winner] = match_winner_info(match, set_index);
         if (match_ends) {
-          console.log(`match ends. ${team_aliases[match_winner]} (${match_winner}) team wins.`);
+          log.info(`match ends. ${team_aliases[match_winner]} (${match_winner}) team wins.`);
           recording = false;
           // TODO: signal UI and reactivate New Match button
         }
@@ -634,10 +637,10 @@
       }
       else { need_new_rally = true; }
     }
-    else { console.log('rally continues..'); }
+    else { log.info('rally continues..'); }
 
     if (need_new_rally) {
-      console.log(`starting new rally, ${team_aliases[possession]} (${possession}) team serving..`);
+      log.info(`starting new rally, ${team_aliases[possession]} (${possession}) team serving..`);
       current.rally = new_rally(possession);
     }
   }
@@ -657,13 +660,13 @@
 
   const on_contact = (e) => {
     if (!recording) {
-      console.log('not in recording mode');
+      log.debug('not in recording mode');
       e.detail.source_event.stopPropagation();
       return;
     }
-    if (specifying) { specifying = false; console.log('specify cancelled'); return; }
+    if (specifying) { specifying = false; log.debug('specify cancelled'); return; }
 
-    // console.log(`contact with ${e.detail.area_id} at [${e.detail.el_x}, ${e.detail.el_y}]`);
+    // log.debug(`contact with ${e.detail.area_id} at [${e.detail.el_x}, ${e.detail.el_y}]`);
     current.contact = e.detail;
 
     if (needs_specifier(current.contact, current.rally)) {
@@ -684,12 +687,12 @@
 
     reset_match(current.match, num_sets);
     current.set_index = 0;
-    console.log('starting new match:', current.match);
-    console.log(score_summary(current.match, current.set_index));
+    log.info('starting new match:', current.match);
+    log.info(score_summary(current.match, current.set_index));
 
     current.rally = new_rally(serving);
     current.specifiers = specifiers[serving];
-    console.log(`starting new rally, ${team_aliases[serving]} (${serving}) team serving..`);
+    log.info(`starting new rally, ${team_aliases[serving]} (${serving}) team serving..`);
   }
 
   const on_specify = (type, value) => {

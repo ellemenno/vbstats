@@ -1,13 +1,18 @@
 <script>
   import { onMount } from 'svelte';
   import { Tab, Tabs } from 'svelte-mui';
+
+  import { logger } from './logger.js';
   import HeaderBar from "./HeaderBar.svelte";
   import Recorder from "./Recorder.svelte";
   import Visualizer from "./Visualizer.svelte";
 
+  const log = logger('app: ');
+
   const prefers_dark = () => (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
 
   const toggle_theme = (palette) => {
+    log.info('toggling theme');
     const d = document.documentElement;
     if (d.attributes.getNamedItem('style')) { d.removeAttribute('style'); }
     else { Object.keys(palette).map(k => d.style.setProperty(k, palette[k])); }
