@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import { ButtonGroup, Button, Menu, Menuitem } from 'svelte-mui';
   import Court from "./Court.svelte";
+  import Transcript from "./Transcript.svelte";
 
   const TEAM = { HOME:'home', AWAY:'away' }
   const CONTACT = { PLAYER:'player', FLOOR:'floor' };
@@ -775,3 +776,5 @@
   {/each}
 </Menu>
 </div>
+
+<Transcript/>
