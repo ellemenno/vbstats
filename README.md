@@ -57,6 +57,8 @@ Serving
 
 ## vocab & rules
 > https://usavolleyball.org/resources-for-officials/rulebooks-and-interpretations/
+> http://fs.ncaa.org/Docs/stats/Stats_Manuals/VB/2008%20VB%20Stats%20Manual%20easy%20print.pdf
+> https://www.wiaawi.org/Portals/0/PDF/Sports/Volleyball/vbstatspresentation.pdf
 
 to keep things simple, vbstats has a relatively small vocabulary and pays attention to a short list of contact types.
 
