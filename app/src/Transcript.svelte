@@ -1,57 +1,103 @@
 <script>
   import { Button, Icon } from 'svelte-mui';
 
-  import { logger } from './logger.js';
+  import { TEAM, ACTION } from './stores.js';
   import { match as stored_match } from './stores.js';
+  import { logger } from './logger.js';
 
-  export let actions = ['E','V', '♠','B','K', ' ','S','D','P','A','1'];
+/*
+  const TEAM = { HOME:'home', AWAY:'away' }
 
+  const ACTION = {
+    SERVE:'serve', ACE:'ace', SERVICE_ERROR:'service error',
+    DIG_OR_ATTACK:'dig_or_attack', DIG:'dig', RECEPTION_ERROR:'reception error',
+    PASS_OR_ATTACK:'pass_or_attack', PASS:'pass', PASSING_ERROR:'passing error',
+    ATTACK:'attack', KILL:'kill', ATTACKING_ERROR:'attacking error',
+    BLOCK_OR_ATTACK:'block_or_attack', BLOCK:'block', BLOCKING_ERROR:'blocking error',
+    VIOLATION:'violation',
+  }
+
+contact:
+ .type
+ .player
+ .team
+ .description
+ .action
+ .area_id
+ .court_x
+ .court_y
+*/
   const log = logger('transcript: ');
-  const color_for_action = (a) => {
-    switch (a) {
-      case 'E':
-      case 'V':
+
+  const class_for_set = (set) => {
+    switch (set.winner) {
+      case 'home': return 'home-set';
+      case 'away': return 'away-set';
+      default: return 'current-set';
+    }
+  }
+
+  const title_for_contact = (contact) => {
+    let t = contact.description;
+    if (contact.player) { t = `${contact.player} ${t}` }
+    return t;
+  }
+
+  const color_for_contact = (contact) => {
+    switch (contact.action) {
+      case $ACTION.SERVICE_ERROR:
+      case $ACTION.RECEPTION_ERROR:
+      case $ACTION.PASSING_ERROR:
+      case $ACTION.ATTACKING_ERROR:
+      case $ACTION.BLOCKING_ERROR:
+      case $ACTION.VIOLATION:
         return '#d80073'
       break;
 
-      case '♠':
-      case 'B':
-      case 'K':
+      case $ACTION.ACE:
+      case $ACTION.BLOCK:
+      case $ACTION.KILL:
         return '#60a917'
       break;
 
-      case ' ':
-      case 'S':
-      case 'D':
-      case 'P':
-      case 'A':
-      case '1':
-        return Math.random() >= 0.5 ? '#1ba1e2' : '#f0a30a'
+      case $ACTION.SERVE:
+      case $ACTION.DIG_OR_ATTACK:
+      case $ACTION.DIG:
+      case $ACTION.PASS_OR_ATTACK:
+      case $ACTION.PASS:
+      case $ACTION.BLOCK_OR_ATTACK:
+      case $ACTION.BLOCK:
+      case $ACTION.ATTACK:
+        return (contact.team === $TEAM.HOME) ? '#1ba1e2' : '#f0a30a'
       break;
     }
   }
 
-  const title_for_action = (a) => {
-    switch (a) {
-      case 'E': return 'error';
-      case 'V': return 'violation';
-      case '♠': return 'ace';
-      case 'B': return 'block';
-      case 'K': return 'kill';
-      case ' ': return 'pending resolution';
-      case 'S': return 'serve';
-      case 'D': return 'dig';
-      case 'P': return 'pass';
-      case 'A': return 'attack';
-      case '1': return 'point';
+  const symbol_for_action = (action) => {
+    switch (action) {
+      case $ACTION.SERVICE_ERROR:
+      case $ACTION.RECEPTION_ERROR:
+      case $ACTION.PASSING_ERROR:
+      case $ACTION.ATTACKING_ERROR:
+      case $ACTION.BLOCKING_ERROR:
+        return 'E';
+
+      case $ACTION.DIG_OR_ATTACK:
+      case $ACTION.PASS_OR_ATTACK:
+      case $ACTION.BLOCK_OR_ATTACK:
+        return ' ';
+
+      case $ACTION.VIOLATION: return 'V';
+
+      case $ACTION.ACE:    return '♠';
+      case $ACTION.BLOCK:  return 'B';
+      case $ACTION.KILL:   return 'K';
+      case $ACTION.SERVE:  return 'S';
+      case $ACTION.DIG:    return 'D';
+      case $ACTION.PASS:   return 'P';
+      case $ACTION.ATTACK: return 'A';
     }
   }
-
-  const on_match_update = (match) => {
-    log.debug('match change', match);
-  }
-
-  const unsubscribe = stored_match.subscribe(on_match_update);
 </script>
 
 <style>
@@ -78,33 +124,15 @@
   }
 </style>
 
-<div class="home-set">
-  <Button outlined dense icon color="white" title="Set 1">1</Button>
+{#each $stored_match as set, i}
+<div class="{class_for_set(set)}">
+  <Button outlined dense icon color="white" title="Set {i+1}">{i+1}</Button>
   <span>
-  {#each actions as a}
-    <Button unelevated dense icon color="{color_for_action(a)}" title="{title_for_action(a)}">{a}</Button>
+  {#each set.rallies as rally}
+  {#each rally.contacts as c}
+    <Button unelevated dense icon color="{color_for_contact(c)}" title="{title_for_contact(c)}">{symbol_for_action(c.action)}</Button>
   {/each}
-  {#each actions as a}
-    <Button unelevated dense icon color="{color_for_action(a)}" title="{title_for_action(a)}">{a}</Button>
-  {/each}
-  {#each actions as a}
-    <Button unelevated dense icon color="{color_for_action(a)}" title="{title_for_action(a)}">{a}</Button>
   {/each}
   </span>
 </div>
-<div class="away-set">
-  <Button outlined dense icon color="white" title="Set 2">2</Button>
-  <span>
-  {#each actions as a}
-    <Button unelevated dense icon color="{color_for_action(a)}" title="{title_for_action(a)}">{a}</Button>
-  {/each}
-  </span>
-</div>
-<div class="current-set">
-  <Button outlined dense icon color="white" title="Set 3">3</Button>
-  <span>
-  {#each actions as a}
-    <Button unelevated dense icon color="{color_for_action(a)}" title="{title_for_action(a)}">{a}</Button>
-  {/each}
-  </span>
-</div>
+{/each}
