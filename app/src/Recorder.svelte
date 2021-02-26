@@ -692,6 +692,16 @@
   }
 
   const on_contact = (e) => {
+    /* contact:
+       .type
+       .player
+       .team
+       .description
+       .action
+       .area_id
+       .court_x
+       .court_y
+    */
     if (!recording) {
       log.debug('not in recording mode');
       e.detail.source_event.stopPropagation();

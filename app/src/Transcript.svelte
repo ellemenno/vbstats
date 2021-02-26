@@ -5,28 +5,7 @@
   import { match as stored_match } from './stores.js';
   import { logger } from './logger.js';
 
-/*
-  const TEAM = { HOME:'home', AWAY:'away' }
 
-  const ACTION = {
-    SERVE:'serve', ACE:'ace', SERVICE_ERROR:'service error',
-    DIG_OR_ATTACK:'dig_or_attack', DIG:'dig', RECEPTION_ERROR:'reception error',
-    PASS_OR_ATTACK:'pass_or_attack', PASS:'pass', PASSING_ERROR:'passing error',
-    ATTACK:'attack', KILL:'kill', ATTACKING_ERROR:'attacking error',
-    BLOCK_OR_ATTACK:'block_or_attack', BLOCK:'block', BLOCKING_ERROR:'blocking error',
-    VIOLATION:'violation',
-  }
-
-contact:
- .type
- .player
- .team
- .description
- .action
- .area_id
- .court_x
- .court_y
-*/
   const log = logger('transcript: ');
 
   const class_for_set = (set) => {
