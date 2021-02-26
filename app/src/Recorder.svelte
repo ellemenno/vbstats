@@ -850,10 +850,9 @@
   <Button style="align-self: center;" outlined toggle bind:active={recording}>recording</Button>
   <Textfield
     outlined
-    readonly
     style="margin: 0; align-self: center;"
     label={$TEAM.HOME}
-    value={team_aliases[$TEAM.HOME]}
+    bind:value={team_aliases[$TEAM.HOME]}
   />
 
   <Score
@@ -865,10 +864,9 @@
 
   <Textfield
     outlined
-    readonly
     style="margin: 0 0 0 1.5rem; align-self: center;"
     label={$TEAM.AWAY}
-    value={team_aliases[$TEAM.AWAY]}
+    bind:value={team_aliases[$TEAM.AWAY]}
   />
   <Button style="margin-left: 1.5rem; align-self: center;" color="rgb(var(--action-error-rgb))" on:click={on_whistle}>whistle</Button>
 </div>

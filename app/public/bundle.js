@@ -2578,19 +2578,19 @@ var bundle = (function () {
 
     function get_each_context$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[51] = list[i];
+    	child_ctx[53] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_1$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[54] = list[i];
+    	child_ctx[56] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_2$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[51] = list[i];
+    	child_ctx[53] = list[i];
     	return child_ctx;
     }
 
@@ -2600,7 +2600,7 @@ var bundle = (function () {
     	let court;
     	let current;
     	court = new Court({ $$inline: true });
-    	court.$on("contact", /*on_contact*/ ctx[11]);
+    	court.$on("contact", /*on_contact*/ ctx[12]);
 
     	const block = {
     		c: function create() {
@@ -2644,7 +2644,7 @@ var bundle = (function () {
 
     // (836:4) <Button class="menu-item" on:click={()=>on_specify(s.type, s.value)}>
     function create_default_slot_5(ctx) {
-    	let t_value = /*s*/ ctx[51].value + "";
+    	let t_value = /*s*/ ctx[53].value + "";
     	let t;
 
     	const block = {
@@ -2655,7 +2655,7 @@ var bundle = (function () {
     			insert_dev(target, t, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*current*/ 16 && t_value !== (t_value = /*s*/ ctx[51].value + "")) set_data_dev(t, t_value);
+    			if (dirty[0] & /*current*/ 16 && t_value !== (t_value = /*s*/ ctx[53].value + "")) set_data_dev(t, t_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(t);
@@ -2679,7 +2679,7 @@ var bundle = (function () {
     	let current;
 
     	function click_handler() {
-    		return /*click_handler*/ ctx[14](/*s*/ ctx[51]);
+    		return /*click_handler*/ ctx[14](/*s*/ ctx[53]);
     	}
 
     	button = new ye({
@@ -2705,7 +2705,7 @@ var bundle = (function () {
     			ctx = new_ctx;
     			const button_changes = {};
 
-    			if (dirty[0] & /*current*/ 16 | dirty[1] & /*$$scope*/ 268435456) {
+    			if (dirty[0] & /*current*/ 16 | dirty[1] & /*$$scope*/ 1073741824) {
     				button_changes.$$scope = { dirty, ctx };
     			}
 
@@ -2740,7 +2740,7 @@ var bundle = (function () {
     function create_default_slot_4(ctx) {
     	let each_1_anchor;
     	let current;
-    	let each_value_2 = /*g*/ ctx[54];
+    	let each_value_2 = /*g*/ ctx[56];
     	validate_each_argument(each_value_2);
     	let each_blocks = [];
 
@@ -2769,8 +2769,8 @@ var bundle = (function () {
     			current = true;
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*on_specify, current*/ 528) {
-    				each_value_2 = /*g*/ ctx[54];
+    			if (dirty[0] & /*on_specify, current*/ 1040) {
+    				each_value_2 = /*g*/ ctx[56];
     				validate_each_argument(each_value_2);
     				let i;
 
@@ -2860,7 +2860,7 @@ var bundle = (function () {
     		p: function update(ctx, dirty) {
     			const buttongroup_changes = {};
 
-    			if (dirty[0] & /*current*/ 16 | dirty[1] & /*$$scope*/ 268435456) {
+    			if (dirty[0] & /*current*/ 16 | dirty[1] & /*$$scope*/ 1073741824) {
     				buttongroup_changes.$$scope = { dirty, ctx };
     			}
 
@@ -2894,7 +2894,7 @@ var bundle = (function () {
 
     // (842:2) <Menuitem on:click={()=>on_specify(s.type, s.value)}>
     function create_default_slot_3(ctx) {
-    	let t_value = /*s*/ ctx[51].value + "";
+    	let t_value = /*s*/ ctx[53].value + "";
     	let t;
 
     	const block = {
@@ -2927,7 +2927,7 @@ var bundle = (function () {
     	let current;
 
     	function click_handler_1() {
-    		return /*click_handler_1*/ ctx[15](/*s*/ ctx[51]);
+    		return /*click_handler_1*/ ctx[15](/*s*/ ctx[53]);
     	}
 
     	menuitem = new Yn({
@@ -2952,7 +2952,7 @@ var bundle = (function () {
     			ctx = new_ctx;
     			const menuitem_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 268435456) {
+    			if (dirty[1] & /*$$scope*/ 1073741824) {
     				menuitem_changes.$$scope = { dirty, ctx };
     			}
 
@@ -3003,7 +3003,7 @@ var bundle = (function () {
     		each_blocks_1[i] = null;
     	});
 
-    	let each_value = /*specifiers*/ ctx[12].both;
+    	let each_value = /*specifiers*/ ctx[13].both;
     	validate_each_argument(each_value);
     	let each_blocks = [];
 
@@ -3053,7 +3053,7 @@ var bundle = (function () {
     			current = true;
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*current, on_specify*/ 528) {
+    			if (dirty[0] & /*current, on_specify*/ 1040) {
     				each_value_1 = /*current*/ ctx[4].specifiers.groups;
     				validate_each_argument(each_value_1);
     				let i;
@@ -3081,8 +3081,8 @@ var bundle = (function () {
     				check_outros();
     			}
 
-    			if (dirty[0] & /*on_specify, specifiers*/ 4608) {
-    				each_value = /*specifiers*/ ctx[12].both;
+    			if (dirty[0] & /*on_specify, specifiers*/ 9216) {
+    				each_value = /*specifiers*/ ctx[13].both;
     				validate_each_argument(each_value);
     				let i;
 
@@ -3186,7 +3186,7 @@ var bundle = (function () {
     	return block;
     }
 
-    // (873:2) <Button style="margin-left: 1.5rem; align-self: center;" color="rgb(var(--action-error-rgb))" on:click={on_whistle}>
+    // (871:2) <Button style="margin-left: 1.5rem; align-self: center;" color="rgb(var(--action-error-rgb))" on:click={on_whistle}>
     function create_default_slot$1(ctx) {
     	let t;
 
@@ -3206,7 +3206,7 @@ var bundle = (function () {
     		block,
     		id: create_default_slot$1.name,
     		type: "slot",
-    		source: "(873:2) <Button style=\\\"margin-left: 1.5rem; align-self: center;\\\" color=\\\"rgb(var(--action-error-rgb))\\\" on:click={on_whistle}>",
+    		source: "(871:2) <Button style=\\\"margin-left: 1.5rem; align-self: center;\\\" color=\\\"rgb(var(--action-error-rgb))\\\" on:click={on_whistle}>",
     		ctx
     	});
 
@@ -3227,10 +3227,12 @@ var bundle = (function () {
     	let updating_active;
     	let t4;
     	let textfield0;
+    	let updating_value;
     	let t5;
     	let score;
     	let t6;
     	let textfield1;
+    	let updating_value_1;
     	let t7;
     	let button1;
     	let current;
@@ -3274,37 +3276,49 @@ var bundle = (function () {
     	button0 = new ye({ props: button0_props, $$inline: true });
     	binding_callbacks.push(() => bind(button0, "active", button0_active_binding));
 
-    	textfield0 = new Ve({
-    			props: {
-    				outlined: true,
-    				readonly: true,
-    				style: "margin: 0; align-self: center;",
-    				label: /*$TEAM*/ ctx[6].HOME,
-    				value: /*team_aliases*/ ctx[13][/*$TEAM*/ ctx[6].HOME]
-    			},
-    			$$inline: true
-    		});
+    	function textfield0_value_binding(value) {
+    		/*textfield0_value_binding*/ ctx[18](value);
+    	}
+
+    	let textfield0_props = {
+    		outlined: true,
+    		style: "margin: 0; align-self: center;",
+    		label: /*$TEAM*/ ctx[7].HOME
+    	};
+
+    	if (/*team_aliases*/ ctx[6][/*$TEAM*/ ctx[7].HOME] !== void 0) {
+    		textfield0_props.value = /*team_aliases*/ ctx[6][/*$TEAM*/ ctx[7].HOME];
+    	}
+
+    	textfield0 = new Ve({ props: textfield0_props, $$inline: true });
+    	binding_callbacks.push(() => bind(textfield0, "value", textfield0_value_binding));
 
     	score = new Score({
     			props: {
-    				home_score: /*score_for_set*/ ctx[7](/*current*/ ctx[4].match, /*current*/ ctx[4].set_index, /*$TEAM*/ ctx[6].HOME),
-    				home_sets: /*num_set_wins*/ ctx[8](/*current*/ ctx[4].match, /*$TEAM*/ ctx[6].HOME),
-    				away_sets: /*num_set_wins*/ ctx[8](/*current*/ ctx[4].match, /*$TEAM*/ ctx[6].AWAY),
-    				away_score: /*score_for_set*/ ctx[7](/*current*/ ctx[4].match, /*current*/ ctx[4].set_index, /*$TEAM*/ ctx[6].AWAY)
+    				home_score: /*score_for_set*/ ctx[8](/*current*/ ctx[4].match, /*current*/ ctx[4].set_index, /*$TEAM*/ ctx[7].HOME),
+    				home_sets: /*num_set_wins*/ ctx[9](/*current*/ ctx[4].match, /*$TEAM*/ ctx[7].HOME),
+    				away_sets: /*num_set_wins*/ ctx[9](/*current*/ ctx[4].match, /*$TEAM*/ ctx[7].AWAY),
+    				away_score: /*score_for_set*/ ctx[8](/*current*/ ctx[4].match, /*current*/ ctx[4].set_index, /*$TEAM*/ ctx[7].AWAY)
     			},
     			$$inline: true
     		});
 
-    	textfield1 = new Ve({
-    			props: {
-    				outlined: true,
-    				readonly: true,
-    				style: "margin: 0 0 0 1.5rem; align-self: center;",
-    				label: /*$TEAM*/ ctx[6].AWAY,
-    				value: /*team_aliases*/ ctx[13][/*$TEAM*/ ctx[6].AWAY]
-    			},
-    			$$inline: true
-    		});
+    	function textfield1_value_binding(value) {
+    		/*textfield1_value_binding*/ ctx[19](value);
+    	}
+
+    	let textfield1_props = {
+    		outlined: true,
+    		style: "margin: 0 0 0 1.5rem; align-self: center;",
+    		label: /*$TEAM*/ ctx[7].AWAY
+    	};
+
+    	if (/*team_aliases*/ ctx[6][/*$TEAM*/ ctx[7].AWAY] !== void 0) {
+    		textfield1_props.value = /*team_aliases*/ ctx[6][/*$TEAM*/ ctx[7].AWAY];
+    	}
+
+    	textfield1 = new Ve({ props: textfield1_props, $$inline: true });
+    	binding_callbacks.push(() => bind(textfield1, "value", textfield1_value_binding));
 
     	button1 = new ye({
     			props: {
@@ -3316,7 +3330,7 @@ var bundle = (function () {
     			$$inline: true
     		});
 
-    	button1.$on("click", /*on_whistle*/ ctx[10]);
+    	button1.$on("click", /*on_whistle*/ ctx[11]);
 
     	const block = {
     		c: function create() {
@@ -3377,7 +3391,7 @@ var bundle = (function () {
     				])
     			: {};
 
-    			if (dirty[0] & /*current*/ 16 | dirty[1] & /*$$scope*/ 268435456) {
+    			if (dirty[0] & /*current*/ 16 | dirty[1] & /*$$scope*/ 1073741824) {
     				menu_changes.$$scope = { dirty, ctx };
     			}
 
@@ -3387,7 +3401,7 @@ var bundle = (function () {
     			transcript.$set(transcript_changes);
     			const button0_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 268435456) {
+    			if (dirty[1] & /*$$scope*/ 1073741824) {
     				button0_changes.$$scope = { dirty, ctx };
     			}
 
@@ -3399,22 +3413,34 @@ var bundle = (function () {
 
     			button0.$set(button0_changes);
     			const textfield0_changes = {};
-    			if (dirty[0] & /*$TEAM*/ 64) textfield0_changes.label = /*$TEAM*/ ctx[6].HOME;
-    			if (dirty[0] & /*$TEAM*/ 64) textfield0_changes.value = /*team_aliases*/ ctx[13][/*$TEAM*/ ctx[6].HOME];
+    			if (dirty[0] & /*$TEAM*/ 128) textfield0_changes.label = /*$TEAM*/ ctx[7].HOME;
+
+    			if (!updating_value && dirty[0] & /*team_aliases, $TEAM*/ 192) {
+    				updating_value = true;
+    				textfield0_changes.value = /*team_aliases*/ ctx[6][/*$TEAM*/ ctx[7].HOME];
+    				add_flush_callback(() => updating_value = false);
+    			}
+
     			textfield0.$set(textfield0_changes);
     			const score_changes = {};
-    			if (dirty[0] & /*current, $TEAM*/ 80) score_changes.home_score = /*score_for_set*/ ctx[7](/*current*/ ctx[4].match, /*current*/ ctx[4].set_index, /*$TEAM*/ ctx[6].HOME);
-    			if (dirty[0] & /*current, $TEAM*/ 80) score_changes.home_sets = /*num_set_wins*/ ctx[8](/*current*/ ctx[4].match, /*$TEAM*/ ctx[6].HOME);
-    			if (dirty[0] & /*current, $TEAM*/ 80) score_changes.away_sets = /*num_set_wins*/ ctx[8](/*current*/ ctx[4].match, /*$TEAM*/ ctx[6].AWAY);
-    			if (dirty[0] & /*current, $TEAM*/ 80) score_changes.away_score = /*score_for_set*/ ctx[7](/*current*/ ctx[4].match, /*current*/ ctx[4].set_index, /*$TEAM*/ ctx[6].AWAY);
+    			if (dirty[0] & /*current, $TEAM*/ 144) score_changes.home_score = /*score_for_set*/ ctx[8](/*current*/ ctx[4].match, /*current*/ ctx[4].set_index, /*$TEAM*/ ctx[7].HOME);
+    			if (dirty[0] & /*current, $TEAM*/ 144) score_changes.home_sets = /*num_set_wins*/ ctx[9](/*current*/ ctx[4].match, /*$TEAM*/ ctx[7].HOME);
+    			if (dirty[0] & /*current, $TEAM*/ 144) score_changes.away_sets = /*num_set_wins*/ ctx[9](/*current*/ ctx[4].match, /*$TEAM*/ ctx[7].AWAY);
+    			if (dirty[0] & /*current, $TEAM*/ 144) score_changes.away_score = /*score_for_set*/ ctx[8](/*current*/ ctx[4].match, /*current*/ ctx[4].set_index, /*$TEAM*/ ctx[7].AWAY);
     			score.$set(score_changes);
     			const textfield1_changes = {};
-    			if (dirty[0] & /*$TEAM*/ 64) textfield1_changes.label = /*$TEAM*/ ctx[6].AWAY;
-    			if (dirty[0] & /*$TEAM*/ 64) textfield1_changes.value = /*team_aliases*/ ctx[13][/*$TEAM*/ ctx[6].AWAY];
+    			if (dirty[0] & /*$TEAM*/ 128) textfield1_changes.label = /*$TEAM*/ ctx[7].AWAY;
+
+    			if (!updating_value_1 && dirty[0] & /*team_aliases, $TEAM*/ 192) {
+    				updating_value_1 = true;
+    				textfield1_changes.value = /*team_aliases*/ ctx[6][/*$TEAM*/ ctx[7].AWAY];
+    				add_flush_callback(() => updating_value_1 = false);
+    			}
+
     			textfield1.$set(textfield1_changes);
     			const button1_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 268435456) {
+    			if (dirty[1] & /*$$scope*/ 1073741824) {
     				button1_changes.$$scope = { dirty, ctx };
     			}
 
@@ -3476,13 +3502,13 @@ var bundle = (function () {
     	let $ACTION;
     	let $stored_match;
     	validate_store(TEAM, "TEAM");
-    	component_subscribe($$self, TEAM, $$value => $$invalidate(6, $TEAM = $$value));
+    	component_subscribe($$self, TEAM, $$value => $$invalidate(7, $TEAM = $$value));
     	validate_store(CONTACT, "CONTACT");
-    	component_subscribe($$self, CONTACT, $$value => $$invalidate(19, $CONTACT = $$value));
+    	component_subscribe($$self, CONTACT, $$value => $$invalidate(21, $CONTACT = $$value));
     	validate_store(ACTION, "ACTION");
-    	component_subscribe($$self, ACTION, $$value => $$invalidate(20, $ACTION = $$value));
+    	component_subscribe($$self, ACTION, $$value => $$invalidate(22, $ACTION = $$value));
     	validate_store(match, "stored_match");
-    	component_subscribe($$self, match, $$value => $$invalidate(21, $stored_match = $$value));
+    	component_subscribe($$self, match, $$value => $$invalidate(23, $stored_match = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots("Recorder", slots, []);
     	const log = logger("recorder: ");
@@ -4322,6 +4348,20 @@ var bundle = (function () {
     		$$invalidate(5, recording);
     	}
 
+    	function textfield0_value_binding(value) {
+    		if ($$self.$$.not_equal(team_aliases[$TEAM.HOME], value)) {
+    			team_aliases[$TEAM.HOME] = value;
+    			$$invalidate(6, team_aliases);
+    		}
+    	}
+
+    	function textfield1_value_binding(value) {
+    		if ($$self.$$.not_equal(team_aliases[$TEAM.AWAY], value)) {
+    			team_aliases[$TEAM.AWAY] = value;
+    			$$invalidate(6, team_aliases);
+    		}
+    	}
+
     	$$self.$capture_state = () => ({
     		onMount,
     		ButtonGroup: $e,
@@ -4394,8 +4434,8 @@ var bundle = (function () {
     		if ("current" in $$props) $$invalidate(4, current = $$props.current);
     		if ("recording" in $$props) $$invalidate(5, recording = $$props.recording);
     		if ("specifying" in $$props) specifying = $$props.specifying;
-    		if ("specifiers" in $$props) $$invalidate(12, specifiers = $$props.specifiers);
-    		if ("team_aliases" in $$props) $$invalidate(13, team_aliases = $$props.team_aliases);
+    		if ("specifiers" in $$props) $$invalidate(13, specifiers = $$props.specifiers);
+    		if ("team_aliases" in $$props) $$invalidate(6, team_aliases = $$props.team_aliases);
     	};
 
     	if ($$props && "$$inject" in $$props) {
@@ -4409,6 +4449,7 @@ var bundle = (function () {
     		menu_origin,
     		current,
     		recording,
+    		team_aliases,
     		$TEAM,
     		score_for_set,
     		num_set_wins,
@@ -4416,11 +4457,12 @@ var bundle = (function () {
     		on_whistle,
     		on_contact,
     		specifiers,
-    		team_aliases,
     		click_handler,
     		click_handler_1,
     		div0_elementresize_handler,
-    		button0_active_binding
+    		button0_active_binding,
+    		textfield0_value_binding,
+    		textfield1_value_binding
     	];
     }
 
