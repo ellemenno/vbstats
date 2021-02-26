@@ -70,6 +70,8 @@ contact:
       case $ACTION.ATTACK:
         return (contact.team === $TEAM.HOME) ? '#1ba1e2' : '#f0a30a'
       break;
+
+      default: return '#555';
     }
   }
 
@@ -96,6 +98,15 @@ contact:
       case $ACTION.DIG:    return 'D';
       case $ACTION.PASS:   return 'P';
       case $ACTION.ATTACK: return 'A';
+
+      default: return '?';
+    }
+  }
+
+  const style_for_symbol = (action) => {
+    switch (action) {
+      case $ACTION.ACE: return 'font-size: x-large; margin-top: -0.15em';
+      default: return '';
     }
   }
 </script>
@@ -130,7 +141,12 @@ contact:
   <span>
   {#each set.rallies as rally}
   {#each rally.contacts as c}
-    <Button unelevated dense icon color="{color_for_contact(c)}" title="{title_for_contact(c)}">{symbol_for_action(c.action)}</Button>
+    <Button unelevated dense icon
+            title="{title_for_contact(c)}"
+            color="{color_for_contact(c)}"
+            style="{style_for_symbol(c.action)}">
+      {symbol_for_action(c.action)}
+    </Button>
   {/each}
   {/each}
   </span>

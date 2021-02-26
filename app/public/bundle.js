@@ -1640,26 +1640,26 @@ var bundle = (function () {
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[8] = list[i];
-    	child_ctx[10] = i;
+    	child_ctx[9] = list[i];
+    	child_ctx[11] = i;
     	return child_ctx;
     }
 
     function get_each_context_1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[11] = list[i];
+    	child_ctx[12] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[14] = list[i];
+    	child_ctx[15] = list[i];
     	return child_ctx;
     }
 
-    // (129:2) <Button outlined dense icon color="white" title="Set {i+1}">
+    // (140:2) <Button outlined dense icon color="white" title="Set {i+1}">
     function create_default_slot_1(ctx) {
-    	let t_value = /*i*/ ctx[10] + 1 + "";
+    	let t_value = /*i*/ ctx[11] + 1 + "";
     	let t;
 
     	const block = {
@@ -1679,30 +1679,34 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_1.name,
     		type: "slot",
-    		source: "(129:2) <Button outlined dense icon color=\\\"white\\\" title=\\\"Set {i+1}\\\">",
+    		source: "(140:2) <Button outlined dense icon color=\\\"white\\\" title=\\\"Set {i+1}\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (133:4) <Button unelevated dense icon color="{color_for_contact(c)}" title="{title_for_contact(c)}">
+    // (144:4) <Button unelevated dense icon             title="{title_for_contact(c)}"             color="{color_for_contact(c)}"             style="{style_for_symbol(c.action)}">
     function create_default_slot(ctx) {
-    	let t_value = /*symbol_for_action*/ ctx[4](/*c*/ ctx[14].action) + "";
-    	let t;
+    	let t0_value = /*symbol_for_action*/ ctx[4](/*c*/ ctx[15].action) + "";
+    	let t0;
+    	let t1;
 
     	const block = {
     		c: function create() {
-    			t = text(t_value);
+    			t0 = text(t0_value);
+    			t1 = space();
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, t, anchor);
+    			insert_dev(target, t0, anchor);
+    			insert_dev(target, t1, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*$stored_match*/ 1 && t_value !== (t_value = /*symbol_for_action*/ ctx[4](/*c*/ ctx[14].action) + "")) set_data_dev(t, t_value);
+    			if (dirty & /*$stored_match*/ 1 && t0_value !== (t0_value = /*symbol_for_action*/ ctx[4](/*c*/ ctx[15].action) + "")) set_data_dev(t0, t0_value);
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(t);
+    			if (detaching) detach_dev(t0);
+    			if (detaching) detach_dev(t1);
     		}
     	};
 
@@ -1710,14 +1714,14 @@ var bundle = (function () {
     		block,
     		id: create_default_slot.name,
     		type: "slot",
-    		source: "(133:4) <Button unelevated dense icon color=\\\"{color_for_contact(c)}\\\" title=\\\"{title_for_contact(c)}\\\">",
+    		source: "(144:4) <Button unelevated dense icon             title=\\\"{title_for_contact(c)}\\\"             color=\\\"{color_for_contact(c)}\\\"             style=\\\"{style_for_symbol(c.action)}\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (132:2) {#each rally.contacts as c}
+    // (143:2) {#each rally.contacts as c}
     function create_each_block_2(ctx) {
     	let button;
     	let current;
@@ -1727,8 +1731,9 @@ var bundle = (function () {
     				unelevated: true,
     				dense: true,
     				icon: true,
-    				color: /*color_for_contact*/ ctx[3](/*c*/ ctx[14]),
-    				title: /*title_for_contact*/ ctx[2](/*c*/ ctx[14]),
+    				title: /*title_for_contact*/ ctx[2](/*c*/ ctx[15]),
+    				color: /*color_for_contact*/ ctx[3](/*c*/ ctx[15]),
+    				style: /*style_for_symbol*/ ctx[5](/*c*/ ctx[15].action),
     				$$slots: { default: [create_default_slot] },
     				$$scope: { ctx }
     			},
@@ -1745,10 +1750,11 @@ var bundle = (function () {
     		},
     		p: function update(ctx, dirty) {
     			const button_changes = {};
-    			if (dirty & /*$stored_match*/ 1) button_changes.color = /*color_for_contact*/ ctx[3](/*c*/ ctx[14]);
-    			if (dirty & /*$stored_match*/ 1) button_changes.title = /*title_for_contact*/ ctx[2](/*c*/ ctx[14]);
+    			if (dirty & /*$stored_match*/ 1) button_changes.title = /*title_for_contact*/ ctx[2](/*c*/ ctx[15]);
+    			if (dirty & /*$stored_match*/ 1) button_changes.color = /*color_for_contact*/ ctx[3](/*c*/ ctx[15]);
+    			if (dirty & /*$stored_match*/ 1) button_changes.style = /*style_for_symbol*/ ctx[5](/*c*/ ctx[15].action);
 
-    			if (dirty & /*$$scope, $stored_match*/ 131073) {
+    			if (dirty & /*$$scope, $stored_match*/ 262145) {
     				button_changes.$$scope = { dirty, ctx };
     			}
 
@@ -1772,18 +1778,18 @@ var bundle = (function () {
     		block,
     		id: create_each_block_2.name,
     		type: "each",
-    		source: "(132:2) {#each rally.contacts as c}",
+    		source: "(143:2) {#each rally.contacts as c}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (131:2) {#each set.rallies as rally}
+    // (142:2) {#each set.rallies as rally}
     function create_each_block_1(ctx) {
     	let each_1_anchor;
     	let current;
-    	let each_value_2 = /*rally*/ ctx[11].contacts;
+    	let each_value_2 = /*rally*/ ctx[12].contacts;
     	validate_each_argument(each_value_2);
     	let each_blocks = [];
 
@@ -1812,8 +1818,8 @@ var bundle = (function () {
     			current = true;
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*color_for_contact, $stored_match, title_for_contact, symbol_for_action*/ 29) {
-    				each_value_2 = /*rally*/ ctx[11].contacts;
+    			if (dirty & /*title_for_contact, $stored_match, color_for_contact, style_for_symbol, symbol_for_action*/ 61) {
+    				each_value_2 = /*rally*/ ctx[12].contacts;
     				validate_each_argument(each_value_2);
     				let i;
 
@@ -1868,14 +1874,14 @@ var bundle = (function () {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(131:2) {#each set.rallies as rally}",
+    		source: "(142:2) {#each set.rallies as rally}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (127:0) {#each $stored_match as set, i}
+    // (138:0) {#each $stored_match as set, i}
     function create_each_block(ctx) {
     	let div;
     	let button;
@@ -1891,14 +1897,14 @@ var bundle = (function () {
     				dense: true,
     				icon: true,
     				color: "white",
-    				title: "Set " + (/*i*/ ctx[10] + 1),
+    				title: "Set " + (/*i*/ ctx[11] + 1),
     				$$slots: { default: [create_default_slot_1] },
     				$$scope: { ctx }
     			},
     			$$inline: true
     		});
 
-    	let each_value_1 = /*set*/ ctx[8].rallies;
+    	let each_value_1 = /*set*/ ctx[9].rallies;
     	validate_each_argument(each_value_1);
     	let each_blocks = [];
 
@@ -1922,9 +1928,9 @@ var bundle = (function () {
     			}
 
     			t1 = space();
-    			add_location(span, file$2, 129, 2, 3229);
-    			attr_dev(div, "class", div_class_value = "" + (null_to_empty(/*class_for_set*/ ctx[1](/*set*/ ctx[8])) + " svelte-16ciu3y"));
-    			add_location(div, file$2, 127, 0, 3115);
+    			add_location(span, file$2, 140, 2, 3462);
+    			attr_dev(div, "class", div_class_value = "" + (null_to_empty(/*class_for_set*/ ctx[1](/*set*/ ctx[9])) + " svelte-16ciu3y"));
+    			add_location(div, file$2, 138, 0, 3348);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1942,14 +1948,14 @@ var bundle = (function () {
     		p: function update(ctx, dirty) {
     			const button_changes = {};
 
-    			if (dirty & /*$$scope*/ 131072) {
+    			if (dirty & /*$$scope*/ 262144) {
     				button_changes.$$scope = { dirty, ctx };
     			}
 
     			button.$set(button_changes);
 
-    			if (dirty & /*$stored_match, color_for_contact, title_for_contact, symbol_for_action*/ 29) {
-    				each_value_1 = /*set*/ ctx[8].rallies;
+    			if (dirty & /*$stored_match, title_for_contact, color_for_contact, style_for_symbol, symbol_for_action*/ 61) {
+    				each_value_1 = /*set*/ ctx[9].rallies;
     				validate_each_argument(each_value_1);
     				let i;
 
@@ -1976,7 +1982,7 @@ var bundle = (function () {
     				check_outros();
     			}
 
-    			if (!current || dirty & /*$stored_match*/ 1 && div_class_value !== (div_class_value = "" + (null_to_empty(/*class_for_set*/ ctx[1](/*set*/ ctx[8])) + " svelte-16ciu3y"))) {
+    			if (!current || dirty & /*$stored_match*/ 1 && div_class_value !== (div_class_value = "" + (null_to_empty(/*class_for_set*/ ctx[1](/*set*/ ctx[9])) + " svelte-16ciu3y"))) {
     				attr_dev(div, "class", div_class_value);
     			}
     		},
@@ -2011,7 +2017,7 @@ var bundle = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(127:0) {#each $stored_match as set, i}",
+    		source: "(138:0) {#each $stored_match as set, i}",
     		ctx
     	});
 
@@ -2053,7 +2059,7 @@ var bundle = (function () {
     			current = true;
     		},
     		p: function update(ctx, [dirty]) {
-    			if (dirty & /*class_for_set, $stored_match, color_for_contact, title_for_contact, symbol_for_action*/ 31) {
+    			if (dirty & /*class_for_set, $stored_match, title_for_contact, color_for_contact, style_for_symbol, symbol_for_action*/ 63) {
     				each_value = /*$stored_match*/ ctx[0];
     				validate_each_argument(each_value);
     				let i;
@@ -2121,9 +2127,9 @@ var bundle = (function () {
     	let $TEAM;
     	let $stored_match;
     	validate_store(ACTION, "ACTION");
-    	component_subscribe($$self, ACTION, $$value => $$invalidate(5, $ACTION = $$value));
+    	component_subscribe($$self, ACTION, $$value => $$invalidate(6, $ACTION = $$value));
     	validate_store(TEAM, "TEAM");
-    	component_subscribe($$self, TEAM, $$value => $$invalidate(6, $TEAM = $$value));
+    	component_subscribe($$self, TEAM, $$value => $$invalidate(7, $TEAM = $$value));
     	validate_store(match, "stored_match");
     	component_subscribe($$self, match, $$value => $$invalidate(0, $stored_match = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
@@ -2173,6 +2179,8 @@ var bundle = (function () {
     			case $ACTION.BLOCK:
     			case $ACTION.ATTACK:
     				return contact.team === $TEAM.HOME ? "#1ba1e2" : "#f0a30a";
+    			default:
+    				return "#555";
     		}
     	};
 
@@ -2204,6 +2212,17 @@ var bundle = (function () {
     				return "P";
     			case $ACTION.ATTACK:
     				return "A";
+    			default:
+    				return "?";
+    		}
+    	};
+
+    	const style_for_symbol = action => {
+    		switch (action) {
+    			case $ACTION.ACE:
+    				return "font-size: x-large; margin-top: -0.15em";
+    			default:
+    				return "";
     		}
     	};
 
@@ -2225,6 +2244,7 @@ var bundle = (function () {
     		title_for_contact,
     		color_for_contact,
     		symbol_for_action,
+    		style_for_symbol,
     		$ACTION,
     		$TEAM,
     		$stored_match
@@ -2235,7 +2255,8 @@ var bundle = (function () {
     		class_for_set,
     		title_for_contact,
     		color_for_contact,
-    		symbol_for_action
+    		symbol_for_action,
+    		style_for_symbol
     	];
     }
 
