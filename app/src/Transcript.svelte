@@ -5,6 +5,7 @@
   import { match as stored_match } from './stores.js';
   import { logger } from './logger.js';
 
+  export let set_index = 0;
 
   const log = logger('transcript: ');
 
@@ -115,6 +116,7 @@
 </style>
 
 {#each $stored_match as set, i}
+{#if i <= set_index}
 <div class="{class_for_set(set)}">
   <Button outlined dense icon color="white" title="Set {i+1}">{i+1}</Button>
   <span>
@@ -130,4 +132,5 @@
   {/each}
   </span>
 </div>
+{/if}
 {/each}

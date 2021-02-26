@@ -747,7 +747,7 @@
   let menu_width, menu_height; // read-only
   let menu_offset = { dx:0, dy:0 };
   let menu_origin = "top left";
-  let current = { match:$stored_match, set_index:-1, rally:null, contact:null, specifiers:null };
+  let current = { match:$stored_match, set_index:0, rally:null, contact:null, specifiers:null };
   let recording = false;
   let specifying = false;
 
@@ -803,7 +803,7 @@
 
 <div class="widener" bind:clientWidth={menu_width} bind:clientHeight={menu_height}>
 <Menu origin={menu_origin} {...menu_offset}>
-  <div slot="activator">
+  <div slot="activator" style="display:flex;">
     <Court on:contact={on_contact}/>
   </div>
 
@@ -821,4 +821,4 @@
 </Menu>
 </div>
 
-<Transcript/>
+<Transcript set_index={current.set_index} />

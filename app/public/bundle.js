@@ -205,6 +205,9 @@ var bundle = (function () {
         if (text.wholeText !== data)
             text.data = data;
     }
+    function set_style(node, key, value, important) {
+        node.style.setProperty(key, value, important ? 'important' : '');
+    }
     // unfortunately this can't be a constant as that wouldn't be tree-shakeable
     // so we cache the result instead
     let crossorigin;
@@ -1640,26 +1643,169 @@ var bundle = (function () {
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[9] = list[i];
-    	child_ctx[11] = i;
+    	child_ctx[10] = list[i];
+    	child_ctx[12] = i;
     	return child_ctx;
     }
 
     function get_each_context_1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[12] = list[i];
+    	child_ctx[13] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[15] = list[i];
+    	child_ctx[16] = list[i];
     	return child_ctx;
     }
 
-    // (140:2) <Button outlined dense icon color="white" title="Set {i+1}">
+    // (119:0) {#if i <= set_index}
+    function create_if_block(ctx) {
+    	let div;
+    	let button;
+    	let t0;
+    	let span;
+    	let t1;
+    	let div_class_value;
+    	let current;
+
+    	button = new ye({
+    			props: {
+    				outlined: true,
+    				dense: true,
+    				icon: true,
+    				color: "white",
+    				title: "Set " + (/*i*/ ctx[12] + 1),
+    				$$slots: { default: [create_default_slot_1] },
+    				$$scope: { ctx }
+    			},
+    			$$inline: true
+    		});
+
+    	let each_value_1 = /*set*/ ctx[10].rallies;
+    	validate_each_argument(each_value_1);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value_1.length; i += 1) {
+    		each_blocks[i] = create_each_block_1(get_each_context_1(ctx, each_value_1, i));
+    	}
+
+    	const out = i => transition_out(each_blocks[i], 1, 1, () => {
+    		each_blocks[i] = null;
+    	});
+
+    	const block = {
+    		c: function create() {
+    			div = element("div");
+    			create_component(button.$$.fragment);
+    			t0 = space();
+    			span = element("span");
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			t1 = space();
+    			add_location(span, file$2, 121, 2, 2946);
+    			attr_dev(div, "class", div_class_value = "" + (null_to_empty(/*class_for_set*/ ctx[2](/*set*/ ctx[10])) + " svelte-16ciu3y"));
+    			add_location(div, file$2, 119, 0, 2832);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div, anchor);
+    			mount_component(button, div, null);
+    			append_dev(div, t0);
+    			append_dev(div, span);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(span, null);
+    			}
+
+    			append_dev(div, t1);
+    			current = true;
+    		},
+    		p: function update(ctx, dirty) {
+    			const button_changes = {};
+
+    			if (dirty & /*$$scope*/ 524288) {
+    				button_changes.$$scope = { dirty, ctx };
+    			}
+
+    			button.$set(button_changes);
+
+    			if (dirty & /*$stored_match, title_for_contact, color_for_contact, style_for_symbol, symbol_for_action*/ 122) {
+    				each_value_1 = /*set*/ ctx[10].rallies;
+    				validate_each_argument(each_value_1);
+    				let i;
+
+    				for (i = 0; i < each_value_1.length; i += 1) {
+    					const child_ctx = get_each_context_1(ctx, each_value_1, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    						transition_in(each_blocks[i], 1);
+    					} else {
+    						each_blocks[i] = create_each_block_1(child_ctx);
+    						each_blocks[i].c();
+    						transition_in(each_blocks[i], 1);
+    						each_blocks[i].m(span, null);
+    					}
+    				}
+
+    				group_outros();
+
+    				for (i = each_value_1.length; i < each_blocks.length; i += 1) {
+    					out(i);
+    				}
+
+    				check_outros();
+    			}
+
+    			if (!current || dirty & /*$stored_match*/ 2 && div_class_value !== (div_class_value = "" + (null_to_empty(/*class_for_set*/ ctx[2](/*set*/ ctx[10])) + " svelte-16ciu3y"))) {
+    				attr_dev(div, "class", div_class_value);
+    			}
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(button.$$.fragment, local);
+
+    			for (let i = 0; i < each_value_1.length; i += 1) {
+    				transition_in(each_blocks[i]);
+    			}
+
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(button.$$.fragment, local);
+    			each_blocks = each_blocks.filter(Boolean);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				transition_out(each_blocks[i]);
+    			}
+
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div);
+    			destroy_component(button);
+    			destroy_each(each_blocks, detaching);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block.name,
+    		type: "if",
+    		source: "(119:0) {#if i <= set_index}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (121:2) <Button outlined dense icon color="white" title="Set {i+1}">
     function create_default_slot_1(ctx) {
-    	let t_value = /*i*/ ctx[11] + 1 + "";
+    	let t_value = /*i*/ ctx[12] + 1 + "";
     	let t;
 
     	const block = {
@@ -1679,16 +1825,16 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_1.name,
     		type: "slot",
-    		source: "(140:2) <Button outlined dense icon color=\\\"white\\\" title=\\\"Set {i+1}\\\">",
+    		source: "(121:2) <Button outlined dense icon color=\\\"white\\\" title=\\\"Set {i+1}\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (144:4) <Button unelevated dense icon             title="{title_for_contact(c)}"             color="{color_for_contact(c)}"             style="{style_for_symbol(c.action)}">
+    // (125:4) <Button unelevated dense icon             title="{title_for_contact(c)}"             color="{color_for_contact(c)}"             style="{style_for_symbol(c.action)}">
     function create_default_slot(ctx) {
-    	let t0_value = /*symbol_for_action*/ ctx[4](/*c*/ ctx[15].action) + "";
+    	let t0_value = /*symbol_for_action*/ ctx[5](/*c*/ ctx[16].action) + "";
     	let t0;
     	let t1;
 
@@ -1702,7 +1848,7 @@ var bundle = (function () {
     			insert_dev(target, t1, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*$stored_match*/ 1 && t0_value !== (t0_value = /*symbol_for_action*/ ctx[4](/*c*/ ctx[15].action) + "")) set_data_dev(t0, t0_value);
+    			if (dirty & /*$stored_match*/ 2 && t0_value !== (t0_value = /*symbol_for_action*/ ctx[5](/*c*/ ctx[16].action) + "")) set_data_dev(t0, t0_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(t0);
@@ -1714,14 +1860,14 @@ var bundle = (function () {
     		block,
     		id: create_default_slot.name,
     		type: "slot",
-    		source: "(144:4) <Button unelevated dense icon             title=\\\"{title_for_contact(c)}\\\"             color=\\\"{color_for_contact(c)}\\\"             style=\\\"{style_for_symbol(c.action)}\\\">",
+    		source: "(125:4) <Button unelevated dense icon             title=\\\"{title_for_contact(c)}\\\"             color=\\\"{color_for_contact(c)}\\\"             style=\\\"{style_for_symbol(c.action)}\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (143:2) {#each rally.contacts as c}
+    // (124:2) {#each rally.contacts as c}
     function create_each_block_2(ctx) {
     	let button;
     	let current;
@@ -1731,9 +1877,9 @@ var bundle = (function () {
     				unelevated: true,
     				dense: true,
     				icon: true,
-    				title: /*title_for_contact*/ ctx[2](/*c*/ ctx[15]),
-    				color: /*color_for_contact*/ ctx[3](/*c*/ ctx[15]),
-    				style: /*style_for_symbol*/ ctx[5](/*c*/ ctx[15].action),
+    				title: /*title_for_contact*/ ctx[3](/*c*/ ctx[16]),
+    				color: /*color_for_contact*/ ctx[4](/*c*/ ctx[16]),
+    				style: /*style_for_symbol*/ ctx[6](/*c*/ ctx[16].action),
     				$$slots: { default: [create_default_slot] },
     				$$scope: { ctx }
     			},
@@ -1750,11 +1896,11 @@ var bundle = (function () {
     		},
     		p: function update(ctx, dirty) {
     			const button_changes = {};
-    			if (dirty & /*$stored_match*/ 1) button_changes.title = /*title_for_contact*/ ctx[2](/*c*/ ctx[15]);
-    			if (dirty & /*$stored_match*/ 1) button_changes.color = /*color_for_contact*/ ctx[3](/*c*/ ctx[15]);
-    			if (dirty & /*$stored_match*/ 1) button_changes.style = /*style_for_symbol*/ ctx[5](/*c*/ ctx[15].action);
+    			if (dirty & /*$stored_match*/ 2) button_changes.title = /*title_for_contact*/ ctx[3](/*c*/ ctx[16]);
+    			if (dirty & /*$stored_match*/ 2) button_changes.color = /*color_for_contact*/ ctx[4](/*c*/ ctx[16]);
+    			if (dirty & /*$stored_match*/ 2) button_changes.style = /*style_for_symbol*/ ctx[6](/*c*/ ctx[16].action);
 
-    			if (dirty & /*$$scope, $stored_match*/ 262145) {
+    			if (dirty & /*$$scope, $stored_match*/ 524290) {
     				button_changes.$$scope = { dirty, ctx };
     			}
 
@@ -1778,18 +1924,18 @@ var bundle = (function () {
     		block,
     		id: create_each_block_2.name,
     		type: "each",
-    		source: "(143:2) {#each rally.contacts as c}",
+    		source: "(124:2) {#each rally.contacts as c}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (142:2) {#each set.rallies as rally}
+    // (123:2) {#each set.rallies as rally}
     function create_each_block_1(ctx) {
     	let each_1_anchor;
     	let current;
-    	let each_value_2 = /*rally*/ ctx[12].contacts;
+    	let each_value_2 = /*rally*/ ctx[13].contacts;
     	validate_each_argument(each_value_2);
     	let each_blocks = [];
 
@@ -1818,8 +1964,8 @@ var bundle = (function () {
     			current = true;
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*title_for_contact, $stored_match, color_for_contact, style_for_symbol, symbol_for_action*/ 61) {
-    				each_value_2 = /*rally*/ ctx[12].contacts;
+    			if (dirty & /*title_for_contact, $stored_match, color_for_contact, style_for_symbol, symbol_for_action*/ 122) {
+    				each_value_2 = /*rally*/ ctx[13].contacts;
     				validate_each_argument(each_value_2);
     				let i;
 
@@ -1874,142 +2020,65 @@ var bundle = (function () {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(142:2) {#each set.rallies as rally}",
+    		source: "(123:2) {#each set.rallies as rally}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (138:0) {#each $stored_match as set, i}
+    // (118:0) {#each $stored_match as set, i}
     function create_each_block(ctx) {
-    	let div;
-    	let button;
-    	let t0;
-    	let span;
-    	let t1;
-    	let div_class_value;
+    	let if_block_anchor;
     	let current;
-
-    	button = new ye({
-    			props: {
-    				outlined: true,
-    				dense: true,
-    				icon: true,
-    				color: "white",
-    				title: "Set " + (/*i*/ ctx[11] + 1),
-    				$$slots: { default: [create_default_slot_1] },
-    				$$scope: { ctx }
-    			},
-    			$$inline: true
-    		});
-
-    	let each_value_1 = /*set*/ ctx[9].rallies;
-    	validate_each_argument(each_value_1);
-    	let each_blocks = [];
-
-    	for (let i = 0; i < each_value_1.length; i += 1) {
-    		each_blocks[i] = create_each_block_1(get_each_context_1(ctx, each_value_1, i));
-    	}
-
-    	const out = i => transition_out(each_blocks[i], 1, 1, () => {
-    		each_blocks[i] = null;
-    	});
+    	let if_block = /*i*/ ctx[12] <= /*set_index*/ ctx[0] && create_if_block(ctx);
 
     	const block = {
     		c: function create() {
-    			div = element("div");
-    			create_component(button.$$.fragment);
-    			t0 = space();
-    			span = element("span");
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].c();
-    			}
-
-    			t1 = space();
-    			add_location(span, file$2, 140, 2, 3462);
-    			attr_dev(div, "class", div_class_value = "" + (null_to_empty(/*class_for_set*/ ctx[1](/*set*/ ctx[9])) + " svelte-16ciu3y"));
-    			add_location(div, file$2, 138, 0, 3348);
+    			if (if_block) if_block.c();
+    			if_block_anchor = empty();
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, div, anchor);
-    			mount_component(button, div, null);
-    			append_dev(div, t0);
-    			append_dev(div, span);
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(span, null);
-    			}
-
-    			append_dev(div, t1);
+    			if (if_block) if_block.m(target, anchor);
+    			insert_dev(target, if_block_anchor, anchor);
     			current = true;
     		},
     		p: function update(ctx, dirty) {
-    			const button_changes = {};
+    			if (/*i*/ ctx[12] <= /*set_index*/ ctx[0]) {
+    				if (if_block) {
+    					if_block.p(ctx, dirty);
 
-    			if (dirty & /*$$scope*/ 262144) {
-    				button_changes.$$scope = { dirty, ctx };
-    			}
-
-    			button.$set(button_changes);
-
-    			if (dirty & /*$stored_match, title_for_contact, color_for_contact, style_for_symbol, symbol_for_action*/ 61) {
-    				each_value_1 = /*set*/ ctx[9].rallies;
-    				validate_each_argument(each_value_1);
-    				let i;
-
-    				for (i = 0; i < each_value_1.length; i += 1) {
-    					const child_ctx = get_each_context_1(ctx, each_value_1, i);
-
-    					if (each_blocks[i]) {
-    						each_blocks[i].p(child_ctx, dirty);
-    						transition_in(each_blocks[i], 1);
-    					} else {
-    						each_blocks[i] = create_each_block_1(child_ctx);
-    						each_blocks[i].c();
-    						transition_in(each_blocks[i], 1);
-    						each_blocks[i].m(span, null);
+    					if (dirty & /*set_index*/ 1) {
+    						transition_in(if_block, 1);
     					}
+    				} else {
+    					if_block = create_if_block(ctx);
+    					if_block.c();
+    					transition_in(if_block, 1);
+    					if_block.m(if_block_anchor.parentNode, if_block_anchor);
     				}
-
+    			} else if (if_block) {
     				group_outros();
 
-    				for (i = each_value_1.length; i < each_blocks.length; i += 1) {
-    					out(i);
-    				}
+    				transition_out(if_block, 1, 1, () => {
+    					if_block = null;
+    				});
 
     				check_outros();
-    			}
-
-    			if (!current || dirty & /*$stored_match*/ 1 && div_class_value !== (div_class_value = "" + (null_to_empty(/*class_for_set*/ ctx[1](/*set*/ ctx[9])) + " svelte-16ciu3y"))) {
-    				attr_dev(div, "class", div_class_value);
     			}
     		},
     		i: function intro(local) {
     			if (current) return;
-    			transition_in(button.$$.fragment, local);
-
-    			for (let i = 0; i < each_value_1.length; i += 1) {
-    				transition_in(each_blocks[i]);
-    			}
-
+    			transition_in(if_block);
     			current = true;
     		},
     		o: function outro(local) {
-    			transition_out(button.$$.fragment, local);
-    			each_blocks = each_blocks.filter(Boolean);
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				transition_out(each_blocks[i]);
-    			}
-
+    			transition_out(if_block);
     			current = false;
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div);
-    			destroy_component(button);
-    			destroy_each(each_blocks, detaching);
+    			if (if_block) if_block.d(detaching);
+    			if (detaching) detach_dev(if_block_anchor);
     		}
     	};
 
@@ -2017,7 +2086,7 @@ var bundle = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(138:0) {#each $stored_match as set, i}",
+    		source: "(118:0) {#each $stored_match as set, i}",
     		ctx
     	});
 
@@ -2027,7 +2096,7 @@ var bundle = (function () {
     function create_fragment$2(ctx) {
     	let each_1_anchor;
     	let current;
-    	let each_value = /*$stored_match*/ ctx[0];
+    	let each_value = /*$stored_match*/ ctx[1];
     	validate_each_argument(each_value);
     	let each_blocks = [];
 
@@ -2059,8 +2128,8 @@ var bundle = (function () {
     			current = true;
     		},
     		p: function update(ctx, [dirty]) {
-    			if (dirty & /*class_for_set, $stored_match, title_for_contact, color_for_contact, style_for_symbol, symbol_for_action*/ 63) {
-    				each_value = /*$stored_match*/ ctx[0];
+    			if (dirty & /*class_for_set, $stored_match, title_for_contact, color_for_contact, style_for_symbol, symbol_for_action, set_index*/ 127) {
+    				each_value = /*$stored_match*/ ctx[1];
     				validate_each_argument(each_value);
     				let i;
 
@@ -2127,13 +2196,14 @@ var bundle = (function () {
     	let $TEAM;
     	let $stored_match;
     	validate_store(ACTION, "ACTION");
-    	component_subscribe($$self, ACTION, $$value => $$invalidate(6, $ACTION = $$value));
+    	component_subscribe($$self, ACTION, $$value => $$invalidate(7, $ACTION = $$value));
     	validate_store(TEAM, "TEAM");
-    	component_subscribe($$self, TEAM, $$value => $$invalidate(7, $TEAM = $$value));
+    	component_subscribe($$self, TEAM, $$value => $$invalidate(8, $TEAM = $$value));
     	validate_store(match, "stored_match");
-    	component_subscribe($$self, match, $$value => $$invalidate(0, $stored_match = $$value));
+    	component_subscribe($$self, match, $$value => $$invalidate(1, $stored_match = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots("Transcript", slots, []);
+    	let { set_index = 0 } = $$props;
     	const log = logger("transcript: ");
 
     	const class_for_set = set => {
@@ -2226,11 +2296,15 @@ var bundle = (function () {
     		}
     	};
 
-    	const writable_props = [];
+    	const writable_props = ["set_index"];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<Transcript> was created with unknown prop '${key}'`);
     	});
+
+    	$$self.$$set = $$props => {
+    		if ("set_index" in $$props) $$invalidate(0, set_index = $$props.set_index);
+    	};
 
     	$$self.$capture_state = () => ({
     		Button: ye,
@@ -2239,6 +2313,7 @@ var bundle = (function () {
     		ACTION,
     		stored_match: match,
     		logger,
+    		set_index,
     		log,
     		class_for_set,
     		title_for_contact,
@@ -2250,7 +2325,16 @@ var bundle = (function () {
     		$stored_match
     	});
 
+    	$$self.$inject_state = $$props => {
+    		if ("set_index" in $$props) $$invalidate(0, set_index = $$props.set_index);
+    	};
+
+    	if ($$props && "$$inject" in $$props) {
+    		$$self.$inject_state($$props.$$inject);
+    	}
+
     	return [
+    		set_index,
     		$stored_match,
     		class_for_set,
     		title_for_contact,
@@ -2263,7 +2347,7 @@ var bundle = (function () {
     class Transcript extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$2, create_fragment$2, safe_not_equal, {});
+    		init(this, options, instance$2, create_fragment$2, safe_not_equal, { set_index: 0 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -2271,6 +2355,14 @@ var bundle = (function () {
     			options,
     			id: create_fragment$2.name
     		});
+    	}
+
+    	get set_index() {
+    		throw new Error("<Transcript>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set set_index(value) {
+    		throw new Error("<Transcript>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
     }
 
@@ -2295,7 +2387,7 @@ var bundle = (function () {
     	return child_ctx;
     }
 
-    // (796:2) <div slot="activator">
+    // (806:2) <div slot="activator" style="display:flex;">
     function create_activator_slot(ctx) {
     	let div;
     	let court;
@@ -2308,7 +2400,8 @@ var bundle = (function () {
     			div = element("div");
     			create_component(court.$$.fragment);
     			attr_dev(div, "slot", "activator");
-    			add_location(div, file$3, 795, 2, 32291);
+    			set_style(div, "display", "flex");
+    			add_location(div, file$3, 805, 2, 32437);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -2335,14 +2428,14 @@ var bundle = (function () {
     		block,
     		id: create_activator_slot.name,
     		type: "slot",
-    		source: "(796:2) <div slot=\\\"activator\\\">",
+    		source: "(806:2) <div slot=\\\"activator\\\" style=\\\"display:flex;\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (803:4) <Button class='menu-item' on:click={()=>on_specify(s.type, s.value)}>
+    // (813:4) <Button class='menu-item' on:click={()=>on_specify(s.type, s.value)}>
     function create_default_slot_3(ctx) {
     	let t_value = /*s*/ ctx[48].value + "";
     	let t;
@@ -2366,14 +2459,14 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_3.name,
     		type: "slot",
-    		source: "(803:4) <Button class='menu-item' on:click={()=>on_specify(s.type, s.value)}>",
+    		source: "(813:4) <Button class='menu-item' on:click={()=>on_specify(s.type, s.value)}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (802:2) {#each g as s}
+    // (812:2) {#each g as s}
     function create_each_block_2$1(ctx) {
     	let button;
     	let current;
@@ -2429,14 +2522,14 @@ var bundle = (function () {
     		block,
     		id: create_each_block_2$1.name,
     		type: "each",
-    		source: "(802:2) {#each g as s}",
+    		source: "(812:2) {#each g as s}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (801:6) <ButtonGroup>
+    // (811:6) <ButtonGroup>
     function create_default_slot_2(ctx) {
     	let each_1_anchor;
     	let current;
@@ -2525,14 +2618,14 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_2.name,
     		type: "slot",
-    		source: "(801:6) <ButtonGroup>",
+    		source: "(811:6) <ButtonGroup>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (800:2) {#each current.specifiers.groups as g}
+    // (810:2) {#each current.specifiers.groups as g}
     function create_each_block_1$1(ctx) {
     	let li;
     	let buttongroup;
@@ -2550,7 +2643,7 @@ var bundle = (function () {
     		c: function create() {
     			li = element("li");
     			create_component(buttongroup.$$.fragment);
-    			add_location(li, file$3, 800, 2, 32404);
+    			add_location(li, file$3, 810, 2, 32572);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -2585,14 +2678,14 @@ var bundle = (function () {
     		block,
     		id: create_each_block_1$1.name,
     		type: "each",
-    		source: "(800:2) {#each current.specifiers.groups as g}",
+    		source: "(810:2) {#each current.specifiers.groups as g}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (809:2) <Menuitem on:click={()=>on_specify(s.type, s.value)}>
+    // (819:2) <Menuitem on:click={()=>on_specify(s.type, s.value)}>
     function create_default_slot_1$1(ctx) {
     	let t_value = /*s*/ ctx[48].value + "";
     	let t;
@@ -2614,14 +2707,14 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_1$1.name,
     		type: "slot",
-    		source: "(809:2) <Menuitem on:click={()=>on_specify(s.type, s.value)}>",
+    		source: "(819:2) <Menuitem on:click={()=>on_specify(s.type, s.value)}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (808:2) {#each specifiers.both as s}
+    // (818:2) {#each specifiers.both as s}
     function create_each_block$1(ctx) {
     	let menuitem;
     	let current;
@@ -2676,14 +2769,14 @@ var bundle = (function () {
     		block,
     		id: create_each_block$1.name,
     		type: "each",
-    		source: "(808:2) {#each specifiers.both as s}",
+    		source: "(818:2) {#each specifiers.both as s}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (795:0) <Menu origin={menu_origin} {...menu_offset}>
+    // (805:0) <Menu origin={menu_origin} {...menu_offset}>
     function create_default_slot$1(ctx) {
     	let t0;
     	let t1;
@@ -2732,7 +2825,7 @@ var bundle = (function () {
     			}
 
     			each1_anchor = empty();
-    			add_location(hr, file$3, 806, 2, 32575);
+    			add_location(hr, file$3, 816, 2, 32743);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, t0, anchor);
@@ -2852,7 +2945,7 @@ var bundle = (function () {
     		block,
     		id: create_default_slot$1.name,
     		type: "slot",
-    		source: "(795:0) <Menu origin={menu_origin} {...menu_offset}>",
+    		source: "(805:0) <Menu origin={menu_origin} {...menu_offset}>",
     		ctx
     	});
 
@@ -2883,7 +2976,11 @@ var bundle = (function () {
     	}
 
     	menu = new kn({ props: menu_props, $$inline: true });
-    	transcript = new Transcript({ $$inline: true });
+
+    	transcript = new Transcript({
+    			props: { set_index: /*current*/ ctx[4].set_index },
+    			$$inline: true
+    		});
 
     	const block = {
     		c: function create() {
@@ -2894,10 +2991,10 @@ var bundle = (function () {
     			create_component(menu.$$.fragment);
     			t2 = space();
     			create_component(transcript.$$.fragment);
-    			add_location(h2, file$3, 791, 0, 32135);
+    			add_location(h2, file$3, 801, 0, 32281);
     			attr_dev(div, "class", "widener svelte-l2w7th");
     			add_render_callback(() => /*div_elementresize_handler*/ ctx[10].call(div));
-    			add_location(div, file$3, 793, 0, 32160);
+    			add_location(div, file$3, 803, 0, 32306);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2925,6 +3022,9 @@ var bundle = (function () {
     			}
 
     			menu.$set(menu_changes);
+    			const transcript_changes = {};
+    			if (dirty[0] & /*current*/ 16) transcript_changes.set_index = /*current*/ ctx[4].set_index;
+    			transcript.$set(transcript_changes);
     		},
     		i: function intro(local) {
     			if (current) return;
@@ -3669,6 +3769,16 @@ var bundle = (function () {
     	};
 
     	const on_contact = e => {
+    		/* contact:
+       .type
+       .player
+       .team
+       .description
+       .action
+       .area_id
+       .court_x
+       .court_y
+    */
     		if (!recording) {
     			log.debug("not in recording mode");
     			e.detail.source_event.stopPropagation();
@@ -3723,7 +3833,7 @@ var bundle = (function () {
 
     	let current = {
     		match: $stored_match,
-    		set_index: -1,
+    		set_index: 0,
     		rally: null,
     		contact: null,
     		specifiers: null
