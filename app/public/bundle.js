@@ -2258,23 +2258,23 @@ var bundle = (function () {
 
     function get_each_context$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[45] = list[i];
+    	child_ctx[48] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_1$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[48] = list[i];
+    	child_ctx[51] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_2$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[45] = list[i];
+    	child_ctx[48] = list[i];
     	return child_ctx;
     }
 
-    // (793:2) <div slot="activator">
+    // (796:2) <div slot="activator">
     function create_activator_slot(ctx) {
     	let div;
     	let court;
@@ -2287,7 +2287,7 @@ var bundle = (function () {
     			div = element("div");
     			create_component(court.$$.fragment);
     			attr_dev(div, "slot", "activator");
-    			add_location(div, file$3, 792, 2, 32138);
+    			add_location(div, file$3, 795, 2, 32291);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -2314,16 +2314,16 @@ var bundle = (function () {
     		block,
     		id: create_activator_slot.name,
     		type: "slot",
-    		source: "(793:2) <div slot=\\\"activator\\\">",
+    		source: "(796:2) <div slot=\\\"activator\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (800:4) <Button class='menu-item' on:click={()=>on_specify(s.type, s.value)}>
+    // (803:4) <Button class='menu-item' on:click={()=>on_specify(s.type, s.value)}>
     function create_default_slot_3(ctx) {
-    	let t_value = /*s*/ ctx[45].value + "";
+    	let t_value = /*s*/ ctx[48].value + "";
     	let t;
 
     	const block = {
@@ -2334,7 +2334,7 @@ var bundle = (function () {
     			insert_dev(target, t, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*current*/ 16 && t_value !== (t_value = /*s*/ ctx[45].value + "")) set_data_dev(t, t_value);
+    			if (dirty[0] & /*current*/ 16 && t_value !== (t_value = /*s*/ ctx[48].value + "")) set_data_dev(t, t_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(t);
@@ -2345,20 +2345,20 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_3.name,
     		type: "slot",
-    		source: "(800:4) <Button class='menu-item' on:click={()=>on_specify(s.type, s.value)}>",
+    		source: "(803:4) <Button class='menu-item' on:click={()=>on_specify(s.type, s.value)}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (799:2) {#each g as s}
+    // (802:2) {#each g as s}
     function create_each_block_2$1(ctx) {
     	let button;
     	let current;
 
     	function click_handler() {
-    		return /*click_handler*/ ctx[8](/*s*/ ctx[45]);
+    		return /*click_handler*/ ctx[8](/*s*/ ctx[48]);
     	}
 
     	button = new ye({
@@ -2384,7 +2384,7 @@ var bundle = (function () {
     			ctx = new_ctx;
     			const button_changes = {};
 
-    			if (dirty[0] & /*current*/ 16 | dirty[1] & /*$$scope*/ 4194304) {
+    			if (dirty[0] & /*current*/ 16 | dirty[1] & /*$$scope*/ 33554432) {
     				button_changes.$$scope = { dirty, ctx };
     			}
 
@@ -2408,18 +2408,18 @@ var bundle = (function () {
     		block,
     		id: create_each_block_2$1.name,
     		type: "each",
-    		source: "(799:2) {#each g as s}",
+    		source: "(802:2) {#each g as s}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (798:6) <ButtonGroup>
+    // (801:6) <ButtonGroup>
     function create_default_slot_2(ctx) {
     	let each_1_anchor;
     	let current;
-    	let each_value_2 = /*g*/ ctx[48];
+    	let each_value_2 = /*g*/ ctx[51];
     	validate_each_argument(each_value_2);
     	let each_blocks = [];
 
@@ -2449,7 +2449,7 @@ var bundle = (function () {
     		},
     		p: function update(ctx, dirty) {
     			if (dirty[0] & /*on_specify, current*/ 80) {
-    				each_value_2 = /*g*/ ctx[48];
+    				each_value_2 = /*g*/ ctx[51];
     				validate_each_argument(each_value_2);
     				let i;
 
@@ -2504,14 +2504,14 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_2.name,
     		type: "slot",
-    		source: "(798:6) <ButtonGroup>",
+    		source: "(801:6) <ButtonGroup>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (797:2) {#each current.specifiers.groups as g}
+    // (800:2) {#each current.specifiers.groups as g}
     function create_each_block_1$1(ctx) {
     	let li;
     	let buttongroup;
@@ -2529,7 +2529,7 @@ var bundle = (function () {
     		c: function create() {
     			li = element("li");
     			create_component(buttongroup.$$.fragment);
-    			add_location(li, file$3, 797, 2, 32251);
+    			add_location(li, file$3, 800, 2, 32404);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -2539,7 +2539,7 @@ var bundle = (function () {
     		p: function update(ctx, dirty) {
     			const buttongroup_changes = {};
 
-    			if (dirty[0] & /*current*/ 16 | dirty[1] & /*$$scope*/ 4194304) {
+    			if (dirty[0] & /*current*/ 16 | dirty[1] & /*$$scope*/ 33554432) {
     				buttongroup_changes.$$scope = { dirty, ctx };
     			}
 
@@ -2564,16 +2564,16 @@ var bundle = (function () {
     		block,
     		id: create_each_block_1$1.name,
     		type: "each",
-    		source: "(797:2) {#each current.specifiers.groups as g}",
+    		source: "(800:2) {#each current.specifiers.groups as g}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (806:2) <Menuitem on:click={()=>on_specify(s.type, s.value)}>
+    // (809:2) <Menuitem on:click={()=>on_specify(s.type, s.value)}>
     function create_default_slot_1$1(ctx) {
-    	let t_value = /*s*/ ctx[45].value + "";
+    	let t_value = /*s*/ ctx[48].value + "";
     	let t;
 
     	const block = {
@@ -2593,20 +2593,20 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_1$1.name,
     		type: "slot",
-    		source: "(806:2) <Menuitem on:click={()=>on_specify(s.type, s.value)}>",
+    		source: "(809:2) <Menuitem on:click={()=>on_specify(s.type, s.value)}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (805:2) {#each specifiers.both as s}
+    // (808:2) {#each specifiers.both as s}
     function create_each_block$1(ctx) {
     	let menuitem;
     	let current;
 
     	function click_handler_1() {
-    		return /*click_handler_1*/ ctx[9](/*s*/ ctx[45]);
+    		return /*click_handler_1*/ ctx[9](/*s*/ ctx[48]);
     	}
 
     	menuitem = new Yn({
@@ -2631,7 +2631,7 @@ var bundle = (function () {
     			ctx = new_ctx;
     			const menuitem_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 4194304) {
+    			if (dirty[1] & /*$$scope*/ 33554432) {
     				menuitem_changes.$$scope = { dirty, ctx };
     			}
 
@@ -2655,14 +2655,14 @@ var bundle = (function () {
     		block,
     		id: create_each_block$1.name,
     		type: "each",
-    		source: "(805:2) {#each specifiers.both as s}",
+    		source: "(808:2) {#each specifiers.both as s}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (792:0) <Menu origin={menu_origin} {...menu_offset}>
+    // (795:0) <Menu origin={menu_origin} {...menu_offset}>
     function create_default_slot$1(ctx) {
     	let t0;
     	let t1;
@@ -2711,7 +2711,7 @@ var bundle = (function () {
     			}
 
     			each1_anchor = empty();
-    			add_location(hr, file$3, 803, 2, 32422);
+    			add_location(hr, file$3, 806, 2, 32575);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, t0, anchor);
@@ -2831,7 +2831,7 @@ var bundle = (function () {
     		block,
     		id: create_default_slot$1.name,
     		type: "slot",
-    		source: "(792:0) <Menu origin={menu_origin} {...menu_offset}>",
+    		source: "(795:0) <Menu origin={menu_origin} {...menu_offset}>",
     		ctx
     	});
 
@@ -2873,10 +2873,10 @@ var bundle = (function () {
     			create_component(menu.$$.fragment);
     			t2 = space();
     			create_component(transcript.$$.fragment);
-    			add_location(h2, file$3, 788, 0, 31982);
+    			add_location(h2, file$3, 791, 0, 32135);
     			attr_dev(div, "class", "widener svelte-l2w7th");
     			add_render_callback(() => /*div_elementresize_handler*/ ctx[10].call(div));
-    			add_location(div, file$3, 790, 0, 32007);
+    			add_location(div, file$3, 793, 0, 32160);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2899,7 +2899,7 @@ var bundle = (function () {
     				])
     			: {};
 
-    			if (dirty[0] & /*current*/ 16 | dirty[1] & /*$$scope*/ 4194304) {
+    			if (dirty[0] & /*current*/ 16 | dirty[1] & /*$$scope*/ 33554432) {
     				menu_changes.$$scope = { dirty, ctx };
     			}
 
@@ -2968,6 +2968,9 @@ var bundle = (function () {
     		SERVER_BLOCKING: "server_blocking"
     	};
 
+    	const first = array => array[0];
+    	const last = array => array[array.length - 1];
+
     	const new_rally = serving => ({
     		state: RALLY_STATE.SERVING,
     		serving_team: serving,
@@ -3029,14 +3032,21 @@ var bundle = (function () {
     		log.info(score_summary(match, set_index));
     	};
 
+    	const add_new_rally_to_set = (possession, current) => {
+    		const { match, set_index } = current;
+    		log.info(`starting new rally in set ${set_index + 1}, ${team_aliases[possession]} (${possession}) team serving..`);
+    		match[set_index].rallies.push(new_rally(possession));
+    		current.rally = last(match[set_index].rallies);
+    	};
+
     	const attribute_action_to_last_player = (rally, contact) => {
-    		const latest = rally.contacts[rally.contacts.length - 1];
+    		const latest = last(rally.contacts);
     		contact.player = latest.player;
     		log.debug(`attributed current action (${contact.action}) to ${latest.player}`);
     	};
 
     	const update_last_recorded_action = (rally, action) => {
-    		const latest = rally.contacts[rally.contacts.length - 1];
+    		const latest = last(rally.contacts);
     		const old = latest.action;
     		latest.action = action;
     		log.debug(`resolved last action from: ${old} to ${latest.action}`);
@@ -3592,7 +3602,6 @@ var bundle = (function () {
     		if (rally_ends) {
     			const set_index = current.set_index;
     			log.info(`rally ends. appending to set ${set_index + 1}`);
-    			match$1[set_index].rallies.push(rally);
     			point_for(possession, match$1, set_index);
     			log.debug("current:", current);
     			const [set_ends, set_winner] = set_winner_info(match$1, set_index);
@@ -3617,11 +3626,10 @@ var bundle = (function () {
     		}
 
     		if (need_new_rally) {
-    			log.info(`starting new rally, ${team_aliases[possession]} (${possession}) team serving..`);
-    			current.rally = new_rally(possession);
+    			add_new_rally_to_set(possession, current);
     		}
 
-    		set_store_value(match, $stored_match = match$1, $stored_match); // update store
+    		set_store_value(match, $stored_match = match$1, $stored_match); // trigger store update
     	};
 
     	const set_menu_props = ({ el_x: x, el_y: y, el_rect, area_id }) => {
@@ -3663,8 +3671,8 @@ var bundle = (function () {
     			process_contact(current);
     		}
 
-    		delete current.contact.el_rect; // no longer needed
-    		delete current.contact.source_event; // no longer needed
+    		delete current.contact.el_rect; // no longer needed after this function
+    		delete current.contact.source_event; // no longer needed after this function
     	};
 
     	const on_match_start = (serving, num_sets = 3) => {
@@ -3673,9 +3681,8 @@ var bundle = (function () {
     		$$invalidate(4, current.set_index = 0, current);
     		log.info("starting new match:", current.match);
     		log.info(score_summary(current.match, current.set_index));
-    		$$invalidate(4, current.rally = new_rally(serving), current);
+    		add_new_rally_to_set(serving, current);
     		$$invalidate(4, current.specifiers = specifiers[serving], current);
-    		log.info(`starting new rally, ${team_aliases[serving]} (${serving}) team serving..`);
     	};
 
     	const on_specify = (type, value) => {
@@ -3693,7 +3700,6 @@ var bundle = (function () {
     	let menu_offset = { dx: 0, dy: 0 };
     	let menu_origin = "top left";
 
-    	// let match = []; // array of sets
     	let current = {
     		match: $stored_match,
     		set_index: -1,
@@ -3772,6 +3778,8 @@ var bundle = (function () {
     		Transcript,
     		log,
     		RALLY_STATE,
+    		first,
+    		last,
     		new_rally,
     		new_set,
     		reset_match,
@@ -3780,6 +3788,7 @@ var bundle = (function () {
     		set_winner_info,
     		score_summary,
     		point_for,
+    		add_new_rally_to_set,
     		attribute_action_to_last_player,
     		update_last_recorded_action,
     		needs_specifier,

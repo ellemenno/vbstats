@@ -18,6 +18,9 @@
     SERVER_ATTACKING:'server_attacking', SERVER_BLOCKING:'server_blocking',
   }
 
+  const first = (array) => array[0]
+  const last = (array) => array[array.length-1]
+
   const new_rally = (serving) => ({
     state: RALLY_STATE.SERVING,
     serving_team: serving,
@@ -75,14 +78,21 @@
     log.info(score_summary(match, set_index));
   }
 
+  const add_new_rally_to_set = (possession, current) => {
+    const {match, set_index} = current;
+    log.info(`starting new rally in set ${set_index+1}, ${team_aliases[possession]} (${possession}) team serving..`);
+    match[set_index].rallies.push(new_rally(possession));
+    current.rally = last(match[set_index].rallies);
+  }
+
   const attribute_action_to_last_player = (rally, contact) => {
-    const latest = rally.contacts[rally.contacts.length-1];
+    const latest = last(rally.contacts);
     contact.player = latest.player;
     log.debug(`attributed current action (${contact.action}) to ${latest.player}`);
   }
 
   const update_last_recorded_action = (rally, action) => {
-    const latest = rally.contacts[rally.contacts.length-1];
+    const latest = last(rally.contacts);
     const old = latest.action;
     latest.action = action;
     log.debug(`resolved last action from: ${old} to ${latest.action}`);
@@ -641,7 +651,6 @@
     if (rally_ends) {
       const set_index = current.set_index;
       log.info(`rally ends. appending to set ${set_index+1}`);
-      match[set_index].rallies.push(rally);
       point_for(possession, match, set_index);
       log.debug('current:', current);
 
@@ -665,12 +674,8 @@
     }
     else { log.info('rally continues..'); }
 
-    if (need_new_rally) {
-      log.info(`starting new rally, ${team_aliases[possession]} (${possession}) team serving..`);
-      current.rally = new_rally(possession);
-    }
-
-    $stored_match = match; // update store
+    if (need_new_rally) { add_new_rally_to_set(possession, current); }
+    $stored_match = match; // trigger store update
   }
 
   const set_menu_props = ({el_x:x, el_y:y, el_rect, area_id}) => {
@@ -706,8 +711,8 @@
       process_contact(current);
     }
 
-    delete current.contact.el_rect; // no longer needed
-    delete current.contact.source_event; // no longer needed
+    delete current.contact.el_rect; // no longer needed after this function
+    delete current.contact.source_event; // no longer needed after this function
   }
 
   const on_match_start = (serving, num_sets=3) => {
@@ -718,9 +723,8 @@
     log.info('starting new match:', current.match);
     log.info(score_summary(current.match, current.set_index));
 
-    current.rally = new_rally(serving);
+    add_new_rally_to_set(serving, current);
     current.specifiers = specifiers[serving];
-    log.info(`starting new rally, ${team_aliases[serving]} (${serving}) team serving..`);
   }
 
   const on_specify = (type, value) => {
@@ -733,7 +737,6 @@
   let menu_width, menu_height; // read-only
   let menu_offset = { dx:0, dy:0 };
   let menu_origin = "top left";
-  // let match = []; // array of sets
   let current = { match:$stored_match, set_index:-1, rally:null, contact:null, specifiers:null };
   let recording = false;
   let specifying = false;
