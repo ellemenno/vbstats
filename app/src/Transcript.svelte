@@ -11,9 +11,9 @@
 
   const class_for_set = (set) => {
     switch (set.winner) {
-      case 'home': return 'home-set';
-      case 'away': return 'away-set';
-      default: return 'current-set';
+      case 'home': return 'home';
+      case 'away': return 'away';
+      default: return 'current';
     }
   }
 
@@ -31,13 +31,13 @@
       case $ACTION.ATTACKING_ERROR:
       case $ACTION.BLOCKING_ERROR:
       case $ACTION.VIOLATION:
-        return '#d80073'
+        return 'rgb(var(--action-error-rgb))'
       break;
 
       case $ACTION.ACE:
       case $ACTION.BLOCK:
       case $ACTION.KILL:
-        return '#60a917'
+        return 'rgb(var(--action-point-rgb))'
       break;
 
       case $ACTION.SERVE:
@@ -48,7 +48,7 @@
       case $ACTION.BLOCK_OR_ATTACK:
       case $ACTION.BLOCK:
       case $ACTION.ATTACK:
-        return (contact.team === $TEAM.HOME) ? '#1ba1e2' : '#f0a30a'
+        return (contact.team === $TEAM.HOME) ? 'rgb(var(--team-home-rgb))' : 'rgb(var(--team-away-rgb))'
       break;
 
       default: return '#555';
@@ -92,32 +92,32 @@
 </script>
 
 <style>
-  div {
+  div.set {
     border-radius: 0.1em;
     border-style: solid;
     border-width: 1px;
     padding: 0.25em;
   }
-  div.current-set {
-    background-color: #ffffff80;
-    border-color: #ffffff;
+  div.current {
+    background-color: rgba(var(--bg-set-bar-rgb), 0.25);
+    border-color: rgb(var(--bg-set-bar-rgb));
     border-bottom-style: none;
   }
-  div.home-set {
-    background-color: #1ba1e280;
-    border-color: #1ba1e2;
+  div.home {
+    background-color: rgba(var(--team-home-rgb), 0.25);
+    border-color: rgb(var(--team-home-rgb));
     border-bottom-style: none;
   }
-  div.away-set {
-    background-color: #f0a30a80;
-    border-color: #f0a30a;
+  div.away {
+    background-color: rgba(var(--team-away-rgb), 0.25);
+    border-color: rgb(var(--team-away-rgb));
     border-bottom-style: none;
   }
 </style>
 
 {#each $stored_match as set, i}
 {#if i <= set_index}
-<div class="{class_for_set(set)}">
+<div class="{class_for_set(set)} set">
   <Button outlined dense icon color="white" title="Set {i+1}">{i+1}</Button>
   <span>
   {#each set.rallies as rally}

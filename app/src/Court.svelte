@@ -58,10 +58,10 @@
     stroke-dasharray: 0.15,0.20;
   }
   rect.free {
-    fill: #0c7bdc;
+    fill: rgb(var(--team-home-rgb));
   }
   rect.court {
-    fill: #d8b13c;
+    fill: rgb(var(--team-away-rgb));
   }
   rect.area {
     fill: white;

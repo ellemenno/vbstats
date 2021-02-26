@@ -1,11 +1,12 @@
 <script>
   import { onMount } from 'svelte';
-  import { ButtonGroup, Button, Menu, Menuitem } from 'svelte-mui';
+  import { ButtonGroup, Button, Menu, Menuitem, Textfield } from 'svelte-mui';
 
   import { TEAM, CONTACT, ACTION } from './stores.js';
   import { match as stored_match } from './stores.js';
   import { logger } from './logger.js';
   import Court from './Court.svelte';
+  import Score from './Score.svelte';
   import Transcript from './Transcript.svelte';
 
   const log = logger('recorder: ');
@@ -39,6 +40,8 @@
     match.splice(0, match.length, ...Array(num_sets).fill(null).map(()=>new_set()));
   }
 
+  const score_for_set = (match, set_index, team) => match[set_index] ? match[set_index].score[team] : 0;
+
   const num_set_wins = (match, team) => {
     return match.reduce((a,v) => (a + ((v.winner === team) ? 1 : 0)), 0);
   }
@@ -59,8 +62,8 @@
     let has_won = false;
     let team = null;
 
-    const h = match[set_index].score[$TEAM.HOME];
-    const a = match[set_index].score[$TEAM.AWAY];
+    const h = score_for_set(match, set_index, $TEAM.HOME);
+    const a = score_for_set(match, set_index, $TEAM.AWAY);
     const threshold = (set_index < min_wins) ? 25 : 15;
 
     if (Math.max(h, a) >= threshold && Math.abs(h - a) >= 2) {
@@ -71,7 +74,13 @@
     return [has_won, team];
   }
 
-  const score_summary = (match, set_index) => `score: (${num_set_wins(match, $TEAM.HOME)}) H ${match[set_index].score[$TEAM.HOME]} | ${match[set_index].score[$TEAM.AWAY]} A (${num_set_wins(match, $TEAM.AWAY)})`
+  const score_summary = (match, set_index) => {
+    const sets_h = num_set_wins(match, $TEAM.HOME);
+    const score_h = score_for_set(match, set_index, $TEAM.HOME);
+    const score_a = score_for_set(match, set_index, $TEAM.AWAY);
+    const sets_a = num_set_wins(match, $TEAM.AWAY);
+    return `score: (${sets_h}) H ${score_h} | ${score_a} A (${sets_a})`
+  }
 
   const point_for = (team, match, set_index) => {
     match[set_index].score[team] += 1;
@@ -691,6 +700,17 @@
     current.specifiers = specifiers[team_from_area(area_id)];
   }
 
+  const on_specify = (type, value) => {
+    specifying = false;
+    current.contact.type = type;
+    if (type === $CONTACT.PLAYER) { current.contact.player = value; }
+    process_contact(current);
+  }
+
+  const on_whistle = (e) => {
+    log.debug('whistle!', e);
+  }
+
   const on_contact = (e) => {
     /* contact:
        .type
@@ -735,13 +755,6 @@
 
     add_new_rally_to_set(serving, current);
     current.specifiers = specifiers[serving];
-  }
-
-  const on_specify = (type, value) => {
-    specifying = false;
-    current.contact.type = type;
-    if (type === $CONTACT.PLAYER) { current.contact.player = value; }
-    process_contact(current);
   }
 
   let menu_width, menu_height; // read-only
@@ -797,6 +810,16 @@
 
 <style>
   .widener > :global(:first-child) { width:100%; }
+  .control-bar {
+    background-color: var(--bg-color);
+    column-gap: 1em;
+    display: grid;
+    grid-template-columns: 9em auto 15em auto 9em;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+  }
+  .control-bar:nth-child(1) { max-width: 8em; justify-self: end; }
+  .control-bar:nth-child(5) { max-width: 8em; justify-self: start; }
 </style>
 
 <h2>record a match</h2>
@@ -810,7 +833,7 @@
   {#each current.specifiers.groups as g}
   <li><ButtonGroup>
   {#each g as s}
-    <Button class='menu-item' on:click={()=>on_specify(s.type, s.value)}>{s.value}</Button>
+    <Button class="menu-item" on:click={()=>on_specify(s.type, s.value)}>{s.value}</Button>
   {/each}
   </ButtonGroup></li>
   {/each}
@@ -822,3 +845,30 @@
 </div>
 
 <Transcript set_index={current.set_index} />
+
+<div class="control-bar">
+  <Button style="align-self: center;" outlined toggle bind:active={recording}>recording</Button>
+  <Textfield
+    outlined
+    readonly
+    style="margin: 0; align-self: center;"
+    label={$TEAM.HOME}
+    value={team_aliases[$TEAM.HOME]}
+  />
+
+  <Score
+    home_score={score_for_set(current.match, current.set_index, $TEAM.HOME)}
+    home_sets={num_set_wins(current.match, $TEAM.HOME)}
+    away_sets={num_set_wins(current.match, $TEAM.AWAY)}
+    away_score={score_for_set(current.match, current.set_index, $TEAM.AWAY)}
+  />
+
+  <Textfield
+    outlined
+    readonly
+    style="margin: 0 0 0 1.5rem; align-self: center;"
+    label={$TEAM.AWAY}
+    value={team_aliases[$TEAM.AWAY]}
+  />
+  <Button style="margin-left: 1.5rem; align-self: center;" color="rgb(var(--action-error-rgb))" on:click={on_whistle}>whistle</Button>
+</div>

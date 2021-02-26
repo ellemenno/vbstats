@@ -1,4 +1,5 @@
 :root {
+  /* smui */
   --accent: #f50057;
   --alternate: #fff;
   --bg-app-bar: #888;
@@ -17,6 +18,13 @@
   --code-font-family: 'Roboto Mono', Menlo, Consolas, monospace;
   --font-family: Roboto, Helvetica, sans-serif;
   --heading-font-family: var(--font-family);
+
+  /* vbstats */
+  --action-error-rgb: 216, 0, 115; /* #d80073; */
+  --action-point-rgb: 96, 169, 23; /* #60a917 */
+  --bg-set-bar-rgb: 255, 255, 255; /* #ffffff; */
+  --team-home-rgb: 12, 123, 220; /* #0c7bdc; */
+  --team-away-rgb: 234, 173, 35; /* #eaad23; */
 }
 
 * {
