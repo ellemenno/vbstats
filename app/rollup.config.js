@@ -17,7 +17,7 @@ const std_output = (module_name) => ({
 const get_plugins = (module_name) => {
   // start with the standard fare..
   const plugins = [
-    svelte({ compilerOptions: { dev: build_for_dev } }), // enable run-time checks when building for dev
+    svelte({ extensions: ['.svelte', '.svg'], compilerOptions: { dev: build_for_dev } }), // process svg and enable run-time checks when building for dev
     resolve({ browser: true, dedupe: ['svelte'] }), // resolve and dedupe 3rd party modules in ./node_modules
     css({ output: `${module_name}.css` }), // extract component CSS into separate file for better performance
     build_for_prod && terser(), // in production mode, minify to reduce file size

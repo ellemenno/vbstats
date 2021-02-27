@@ -1,10 +1,11 @@
 <script>
   import { onMount } from 'svelte';
-  import { ButtonGroup, Button, Menu, Menuitem, Textfield } from 'svelte-mui';
+  import { ButtonGroup, Button, Icon, Menu, Menuitem, Textfield } from 'svelte-mui';
 
   import { TEAM, CONTACT, ACTION } from './stores.js';
   import { match as stored_match } from './stores.js';
   import { logger } from './logger.js';
+  import whistle from './icons/whistle.svg'
   import Court from './Court.svelte';
   import Score from './Score.svelte';
   import Transcript from './Transcript.svelte';
@@ -868,5 +869,8 @@
     label={$TEAM.AWAY}
     bind:value={team_aliases[$TEAM.AWAY]}
   />
-  <Button style="margin-left: 1.5rem; align-self: center;" color="rgb(var(--action-error-rgb))" on:click={on_whistle}>whistle</Button>
+
+  <Button icon style="margin-left: 2.0rem; transform: scale(1.5);" color="rgb(var(--action-error-rgb))" on:click={on_whistle}>
+    <Icon style="transform: scale(1.25);"><svelte:component this={whistle} /></Icon>
+  </Button>
 </div>
