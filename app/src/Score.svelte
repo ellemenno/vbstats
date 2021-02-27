@@ -33,7 +33,9 @@
     position: relative;
   }
   .scoreboard .digits span {
+    border-radius: 4px;
     bottom: 0;
+    padding-top: 0.1em;
     position: absolute;
     text-align: center;
     width: 100%;
