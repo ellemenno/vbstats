@@ -978,10 +978,10 @@ var bundle = (function () {
     			div1 = element("div");
     			div0 = element("div");
     			t = text(/*title*/ ctx[0]);
-    			attr_dev(div0, "class", "title svelte-13a20qe");
-    			add_location(div0, file, 28, 2, 453);
-    			attr_dev(div1, "class", "header-bar svelte-13a20qe");
-    			add_location(div1, file, 27, 0, 426);
+    			attr_dev(div0, "class", "title svelte-10jw1mw");
+    			add_location(div0, file, 28, 2, 460);
+    			attr_dev(div1, "class", "header-bar svelte-10jw1mw");
+    			add_location(div1, file, 27, 0, 433);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");

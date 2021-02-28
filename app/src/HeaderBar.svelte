@@ -5,8 +5,8 @@
 <style>
   .header-bar {
     align-items: center;
-    background: var(--bg-app-bar);
-    color: #fff;
+    background: var(--bg-panel);
+    color: var(--accent);
     display: flex;
     font-size: 1em;
     height: 2.25em;

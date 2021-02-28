@@ -20,7 +20,7 @@
   }
 
   const dark_theme = {
-    '--accent': '#ff6fab',
+    '--accent': '#e6942b',
     '--alternate': '#000',
     '--bg-app-bar': '#838383',
     '--bg-color': '#303134',
