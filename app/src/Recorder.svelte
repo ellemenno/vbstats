@@ -857,6 +857,7 @@
   />
 
   <Score
+    current_set={current.set_index+1}
     home_score={score_for_set(current.match, current.set_index, $TEAM.HOME)}
     home_sets={num_set_wins(current.match, $TEAM.HOME)}
     away_sets={num_set_wins(current.match, $TEAM.AWAY)}

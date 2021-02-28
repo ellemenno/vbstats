@@ -1723,10 +1723,10 @@ var bundle = (function () {
     const file$3 = "src/Score.svelte";
 
     function create_fragment$3(ctx) {
-    	let div4;
+    	let div5;
     	let div0;
     	let span0;
-    	let t0_value = /*home_score*/ ctx[0].toString().padStart(2, "0") + "";
+    	let t0_value = /*home_score*/ ctx[1].toString().padStart(2, "0") + "";
     	let t0;
     	let t1;
     	let div1;
@@ -1734,82 +1734,94 @@ var bundle = (function () {
     	let t2;
     	let t3;
     	let div2;
-    	let span2;
     	let t4;
     	let t5;
     	let div3;
-    	let span3;
-    	let t6_value = /*away_score*/ ctx[2].toString().padStart(2, "0") + "";
+    	let span2;
     	let t6;
+    	let t7;
+    	let div4;
+    	let span3;
+    	let t8_value = /*away_score*/ ctx[3].toString().padStart(2, "0") + "";
+    	let t8;
 
     	const block = {
     		c: function create() {
-    			div4 = element("div");
+    			div5 = element("div");
     			div0 = element("div");
     			span0 = element("span");
     			t0 = text(t0_value);
     			t1 = space();
     			div1 = element("div");
     			span1 = element("span");
-    			t2 = text(/*home_sets*/ ctx[1]);
+    			t2 = text(/*home_sets*/ ctx[2]);
     			t3 = space();
     			div2 = element("div");
-    			span2 = element("span");
-    			t4 = text(/*away_sets*/ ctx[3]);
+    			t4 = text(/*current_set*/ ctx[0]);
     			t5 = space();
     			div3 = element("div");
+    			span2 = element("span");
+    			t6 = text(/*away_sets*/ ctx[4]);
+    			t7 = space();
+    			div4 = element("div");
     			span3 = element("span");
-    			t6 = text(t6_value);
-    			attr_dev(span0, "class", "home score svelte-18gj5b9");
-    			add_location(span0, file$3, 45, 20, 864);
-    			attr_dev(div0, "class", "digits svelte-18gj5b9");
-    			add_location(div0, file$3, 45, 0, 844);
-    			attr_dev(span1, "class", "home sets svelte-18gj5b9");
-    			add_location(span1, file$3, 46, 20, 962);
-    			attr_dev(div1, "class", "digits svelte-18gj5b9");
-    			add_location(div1, file$3, 46, 0, 942);
-    			attr_dev(span2, "class", "away sets svelte-18gj5b9");
-    			add_location(span2, file$3, 47, 20, 1031);
-    			attr_dev(div2, "class", "digits svelte-18gj5b9");
-    			add_location(div2, file$3, 47, 0, 1011);
-    			attr_dev(span3, "class", "away score svelte-18gj5b9");
-    			add_location(span3, file$3, 48, 20, 1100);
-    			attr_dev(div3, "class", "digits svelte-18gj5b9");
-    			add_location(div3, file$3, 48, 0, 1080);
-    			attr_dev(div4, "class", "scoreboard svelte-18gj5b9");
-    			add_location(div4, file$3, 44, 0, 819);
+    			t8 = text(t8_value);
+    			attr_dev(span0, "class", "home score svelte-5sw5gv");
+    			add_location(span0, file$3, 54, 20, 1034);
+    			attr_dev(div0, "class", "digits svelte-5sw5gv");
+    			add_location(div0, file$3, 54, 0, 1014);
+    			attr_dev(span1, "class", "home sets svelte-5sw5gv");
+    			add_location(span1, file$3, 55, 20, 1132);
+    			attr_dev(div1, "class", "digits svelte-5sw5gv");
+    			add_location(div1, file$3, 55, 0, 1112);
+    			attr_dev(div2, "class", "set svelte-5sw5gv");
+    			add_location(div2, file$3, 56, 0, 1181);
+    			attr_dev(span2, "class", "away sets svelte-5sw5gv");
+    			add_location(span2, file$3, 57, 20, 1238);
+    			attr_dev(div3, "class", "digits svelte-5sw5gv");
+    			add_location(div3, file$3, 57, 0, 1218);
+    			attr_dev(span3, "class", "away score svelte-5sw5gv");
+    			add_location(span3, file$3, 58, 20, 1307);
+    			attr_dev(div4, "class", "digits svelte-5sw5gv");
+    			add_location(div4, file$3, 58, 0, 1287);
+    			attr_dev(div5, "class", "scoreboard svelte-5sw5gv");
+    			add_location(div5, file$3, 53, 0, 989);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, div4, anchor);
-    			append_dev(div4, div0);
+    			insert_dev(target, div5, anchor);
+    			append_dev(div5, div0);
     			append_dev(div0, span0);
     			append_dev(span0, t0);
-    			append_dev(div4, t1);
-    			append_dev(div4, div1);
+    			append_dev(div5, t1);
+    			append_dev(div5, div1);
     			append_dev(div1, span1);
     			append_dev(span1, t2);
-    			append_dev(div4, t3);
-    			append_dev(div4, div2);
-    			append_dev(div2, span2);
-    			append_dev(span2, t4);
-    			append_dev(div4, t5);
-    			append_dev(div4, div3);
-    			append_dev(div3, span3);
-    			append_dev(span3, t6);
+    			append_dev(div5, t3);
+    			append_dev(div5, div2);
+    			append_dev(div2, t4);
+    			append_dev(div5, t5);
+    			append_dev(div5, div3);
+    			append_dev(div3, span2);
+    			append_dev(span2, t6);
+    			append_dev(div5, t7);
+    			append_dev(div5, div4);
+    			append_dev(div4, span3);
+    			append_dev(span3, t8);
     		},
     		p: function update(ctx, [dirty]) {
-    			if (dirty & /*home_score*/ 1 && t0_value !== (t0_value = /*home_score*/ ctx[0].toString().padStart(2, "0") + "")) set_data_dev(t0, t0_value);
-    			if (dirty & /*home_sets*/ 2) set_data_dev(t2, /*home_sets*/ ctx[1]);
-    			if (dirty & /*away_sets*/ 8) set_data_dev(t4, /*away_sets*/ ctx[3]);
-    			if (dirty & /*away_score*/ 4 && t6_value !== (t6_value = /*away_score*/ ctx[2].toString().padStart(2, "0") + "")) set_data_dev(t6, t6_value);
+    			if (dirty & /*home_score*/ 2 && t0_value !== (t0_value = /*home_score*/ ctx[1].toString().padStart(2, "0") + "")) set_data_dev(t0, t0_value);
+    			if (dirty & /*home_sets*/ 4) set_data_dev(t2, /*home_sets*/ ctx[2]);
+    			if (dirty & /*current_set*/ 1) set_data_dev(t4, /*current_set*/ ctx[0]);
+    			if (dirty & /*away_sets*/ 16) set_data_dev(t6, /*away_sets*/ ctx[4]);
+    			if (dirty & /*away_score*/ 8 && t8_value !== (t8_value = /*away_score*/ ctx[3].toString().padStart(2, "0") + "")) set_data_dev(t8, t8_value);
     		},
     		i: noop,
     		o: noop,
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div4);
+    			if (detaching) detach_dev(div5);
     		}
     	};
 
@@ -1827,21 +1839,23 @@ var bundle = (function () {
     function instance$3($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots("Score", slots, []);
+    	let { current_set = 0 } = $$props;
     	let { home_score = 0 } = $$props;
     	let { home_sets = 0 } = $$props;
     	let { away_score = 0 } = $$props;
     	let { away_sets = 0 } = $$props;
-    	const writable_props = ["home_score", "home_sets", "away_score", "away_sets"];
+    	const writable_props = ["current_set", "home_score", "home_sets", "away_score", "away_sets"];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<Score> was created with unknown prop '${key}'`);
     	});
 
     	$$self.$$set = $$props => {
-    		if ("home_score" in $$props) $$invalidate(0, home_score = $$props.home_score);
-    		if ("home_sets" in $$props) $$invalidate(1, home_sets = $$props.home_sets);
-    		if ("away_score" in $$props) $$invalidate(2, away_score = $$props.away_score);
-    		if ("away_sets" in $$props) $$invalidate(3, away_sets = $$props.away_sets);
+    		if ("current_set" in $$props) $$invalidate(0, current_set = $$props.current_set);
+    		if ("home_score" in $$props) $$invalidate(1, home_score = $$props.home_score);
+    		if ("home_sets" in $$props) $$invalidate(2, home_sets = $$props.home_sets);
+    		if ("away_score" in $$props) $$invalidate(3, away_score = $$props.away_score);
+    		if ("away_sets" in $$props) $$invalidate(4, away_sets = $$props.away_sets);
     	};
 
     	$$self.$capture_state = () => ({
@@ -1849,6 +1863,7 @@ var bundle = (function () {
     		ACTION,
     		match,
     		logger,
+    		current_set,
     		home_score,
     		home_sets,
     		away_score,
@@ -1856,17 +1871,18 @@ var bundle = (function () {
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ("home_score" in $$props) $$invalidate(0, home_score = $$props.home_score);
-    		if ("home_sets" in $$props) $$invalidate(1, home_sets = $$props.home_sets);
-    		if ("away_score" in $$props) $$invalidate(2, away_score = $$props.away_score);
-    		if ("away_sets" in $$props) $$invalidate(3, away_sets = $$props.away_sets);
+    		if ("current_set" in $$props) $$invalidate(0, current_set = $$props.current_set);
+    		if ("home_score" in $$props) $$invalidate(1, home_score = $$props.home_score);
+    		if ("home_sets" in $$props) $$invalidate(2, home_sets = $$props.home_sets);
+    		if ("away_score" in $$props) $$invalidate(3, away_score = $$props.away_score);
+    		if ("away_sets" in $$props) $$invalidate(4, away_sets = $$props.away_sets);
     	};
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [home_score, home_sets, away_score, away_sets];
+    	return [current_set, home_score, home_sets, away_score, away_sets];
     }
 
     class Score extends SvelteComponentDev {
@@ -1874,10 +1890,11 @@ var bundle = (function () {
     		super(options);
 
     		init(this, options, instance$3, create_fragment$3, safe_not_equal, {
-    			home_score: 0,
-    			home_sets: 1,
-    			away_score: 2,
-    			away_sets: 3
+    			current_set: 0,
+    			home_score: 1,
+    			home_sets: 2,
+    			away_score: 3,
+    			away_sets: 4
     		});
 
     		dispatch_dev("SvelteRegisterComponent", {
@@ -1886,6 +1903,14 @@ var bundle = (function () {
     			options,
     			id: create_fragment$3.name
     		});
+    	}
+
+    	get current_set() {
+    		throw new Error("<Score>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set current_set(value) {
+    		throw new Error("<Score>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
 
     	get home_score() {
@@ -3264,7 +3289,7 @@ var bundle = (function () {
     	return block;
     }
 
-    // (874:4) <Icon style="transform: scale(1.25);">
+    // (875:4) <Icon style="transform: scale(1.25);">
     function create_default_slot_1$1(ctx) {
     	let switch_instance;
     	let switch_instance_anchor;
@@ -3334,14 +3359,14 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_1$1.name,
     		type: "slot",
-    		source: "(874:4) <Icon style=\\\"transform: scale(1.25);\\\">",
+    		source: "(875:4) <Icon style=\\\"transform: scale(1.25);\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (873:2) <Button icon style="margin-left: 2.0rem; transform: scale(1.5);" color="rgb(var(--action-error-rgb))" on:click={on_whistle}>
+    // (874:2) <Button icon style="margin-left: 2.0rem; transform: scale(1.5);" color="rgb(var(--action-error-rgb))" on:click={on_whistle}>
     function create_default_slot$1(ctx) {
     	let icon;
     	let current;
@@ -3390,7 +3415,7 @@ var bundle = (function () {
     		block,
     		id: create_default_slot$1.name,
     		type: "slot",
-    		source: "(873:2) <Button icon style=\\\"margin-left: 2.0rem; transform: scale(1.5);\\\" color=\\\"rgb(var(--action-error-rgb))\\\" on:click={on_whistle}>",
+    		source: "(874:2) <Button icon style=\\\"margin-left: 2.0rem; transform: scale(1.5);\\\" color=\\\"rgb(var(--action-error-rgb))\\\" on:click={on_whistle}>",
     		ctx
     	});
 
@@ -3479,6 +3504,7 @@ var bundle = (function () {
 
     	score = new Score({
     			props: {
+    				current_set: /*current*/ ctx[4].set_index + 1,
     				home_score: /*score_for_set*/ ctx[8](/*current*/ ctx[4].match, /*current*/ ctx[4].set_index, /*$TEAM*/ ctx[7].HOME),
     				home_sets: /*num_set_wins*/ ctx[9](/*current*/ ctx[4].match, /*$TEAM*/ ctx[7].HOME),
     				away_sets: /*num_set_wins*/ ctx[9](/*current*/ ctx[4].match, /*$TEAM*/ ctx[7].AWAY),
@@ -3608,6 +3634,7 @@ var bundle = (function () {
 
     			textfield0.$set(textfield0_changes);
     			const score_changes = {};
+    			if (dirty[0] & /*current*/ 16) score_changes.current_set = /*current*/ ctx[4].set_index + 1;
     			if (dirty[0] & /*current, $TEAM*/ 144) score_changes.home_score = /*score_for_set*/ ctx[8](/*current*/ ctx[4].match, /*current*/ ctx[4].set_index, /*$TEAM*/ ctx[7].HOME);
     			if (dirty[0] & /*current, $TEAM*/ 144) score_changes.home_sets = /*num_set_wins*/ ctx[9](/*current*/ ctx[4].match, /*$TEAM*/ ctx[7].HOME);
     			if (dirty[0] & /*current, $TEAM*/ 144) score_changes.away_sets = /*num_set_wins*/ ctx[9](/*current*/ ctx[4].match, /*$TEAM*/ ctx[7].AWAY);
@@ -5800,7 +5827,7 @@ var bundle = (function () {
     	};
 
     	const dark_theme = {
-    		"--accent": "#ff6fab",
+    		"--accent": "#e6942b",
     		"--alternate": "#000",
     		"--bg-app-bar": "#838383",
     		"--bg-color": "#303134",
