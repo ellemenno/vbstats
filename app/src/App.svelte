@@ -6,6 +6,7 @@
   import HeaderBar from "./HeaderBar.svelte";
   import Recorder from "./Recorder.svelte";
   import Visualizer from "./Visualizer.svelte";
+  import DataInterface from "./DataInterface.svelte";
 
   const log = logger('app: ');
 
@@ -42,7 +43,8 @@
 
 <HeaderBar title="vbstats"/><br/><br/>
 
-<Tabs tabNames={['record', 'visualize']}>
+<Tabs tabNames={['game', 'stats', 'data']}>
   <Tab><Recorder/></Tab>
   <Tab><Visualizer/></Tab>
+  <Tab><DataInterface/></Tab>
 </Tabs>

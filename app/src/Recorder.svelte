@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import { ButtonGroup, Button, Icon, Menu, Menuitem, Textfield } from 'svelte-mui';
+  import { Button, ButtonGroup, Icon, Menu, Menuitem, Textfield } from 'svelte-mui';
 
   import { TEAM, CONTACT, ACTION } from './stores.js';
   import { match as stored_match } from './stores.js';
