@@ -421,6 +421,14 @@
           possession = receivers;
           break;
         }
+        if (is_net_area(area)) {
+          update_last_recorded_action(rally, $ACTION.ATTACK);
+          record_action('attack error: net contact', $ACTION.ATTACKING_ERROR, receivers);
+          attribute_action_to_last_player(rally, contact);
+          rally_ends = true;
+          possession = servers;
+          break;
+        }
         if (contact.type === $CONTACT.FLOOR && is_out(area)) {
           update_last_recorded_action(rally, $ACTION.ATTACK);
           record_action('attacking error: ball landed out of bounds', $ACTION.ATTACKING_ERROR, receivers);
@@ -633,6 +641,14 @@
           attribute_action_to_last_player(rally, contact);
           rally_ends = true;
           possession = servers;
+          break;
+        }
+        if (is_net_area(area)) {
+          update_last_recorded_action(rally, $ACTION.ATTACK);
+          record_action('attack error: net contact', $ACTION.ATTACKING_ERROR, servers);
+          attribute_action_to_last_player(rally, contact);
+          rally_ends = true;
+          possession = receivers;
           break;
         }
         if (contact.type === $CONTACT.FLOOR && is_out(area)) {
