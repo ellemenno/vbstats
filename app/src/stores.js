@@ -17,7 +17,7 @@ export const ACTION = readable(
     DIG_OR_ATTACK:'dig_or_attack', DIG:'dig', RECEPTION_ERROR:'reception error',
     PASS_OR_ATTACK:'pass_or_attack', PASS:'pass', PASSING_ERROR:'passing error',
     ATTACK:'attack', KILL:'kill', ATTACKING_ERROR:'attacking error',
-    BLOCK_OR_ATTACK:'block_or_attack', BLOCK:'block', BLOCKING_ERROR:'blocking error',
+    BLOCK_OR_ATTACK:'block_or_attack', BLOCK:'block', BLOCK_KILL:'block kill', BLOCKING_ERROR:'blocking error',
     VIOLATION:'violation',
   },
   () => {}

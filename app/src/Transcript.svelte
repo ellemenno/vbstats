@@ -35,7 +35,7 @@
       break;
 
       case $ACTION.ACE:
-      case $ACTION.BLOCK:
+      case $ACTION.BLOCK_KILL:
       case $ACTION.KILL:
         return 'rgb(var(--action-point-rgb))'
       break;
@@ -71,13 +71,14 @@
 
       case $ACTION.VIOLATION: return 'V';
 
-      case $ACTION.ACE:    return '♠';
-      case $ACTION.BLOCK:  return 'B';
-      case $ACTION.KILL:   return 'K';
-      case $ACTION.SERVE:  return 'S';
-      case $ACTION.DIG:    return 'D';
-      case $ACTION.PASS:   return 'P';
-      case $ACTION.ATTACK: return 'A';
+      case $ACTION.ACE:        return '♠'; // U+2660 Black Spade Suit
+      case $ACTION.BLOCK:      return 'B';
+      case $ACTION.BLOCK_KILL: return 'ꓘ'; // U+A4D8 ꓘ LISU LETTER KHA
+      case $ACTION.KILL:       return 'K';
+      case $ACTION.SERVE:      return 'S';
+      case $ACTION.DIG:        return 'D';
+      case $ACTION.PASS:       return 'P';
+      case $ACTION.ATTACK:     return 'A';
 
       default: return '?';
     }

@@ -415,7 +415,7 @@
         }
         if (contact.type === $CONTACT.FLOOR && is_play_area(area, servers)) {
           update_last_recorded_action(rally, $ACTION.BLOCK);
-          record_action('block', $ACTION.KILL, receivers);
+          record_action('block kill', $ACTION.BLOCK_KILL, receivers);
           attribute_action_to_last_player(rally, contact);
           rally_ends = true;
           possession = receivers;
@@ -629,7 +629,7 @@
         }
         if (contact.type === $CONTACT.FLOOR && is_play_area(area, receivers)) {
           update_last_recorded_action(rally, $ACTION.BLOCK);
-          record_action('block', $ACTION.KILL, servers);
+          record_action('block kill', $ACTION.BLOCK_KILL, servers);
           attribute_action_to_last_player(rally, contact);
           rally_ends = true;
           possession = servers;
