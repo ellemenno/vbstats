@@ -1900,26 +1900,26 @@ var bundle = (function () {
     			div4 = element("div");
     			span3 = element("span");
     			t8 = text(t8_value);
-    			attr_dev(span0, "class", "home score svelte-5sw5gv");
-    			add_location(span0, file$3, 52, 20, 949);
-    			attr_dev(div0, "class", "digits svelte-5sw5gv");
-    			add_location(div0, file$3, 52, 0, 929);
-    			attr_dev(span1, "class", "home sets svelte-5sw5gv");
-    			add_location(span1, file$3, 53, 20, 1047);
-    			attr_dev(div1, "class", "digits svelte-5sw5gv");
-    			add_location(div1, file$3, 53, 0, 1027);
-    			attr_dev(div2, "class", "set svelte-5sw5gv");
-    			add_location(div2, file$3, 54, 0, 1096);
-    			attr_dev(span2, "class", "away sets svelte-5sw5gv");
-    			add_location(span2, file$3, 55, 20, 1153);
-    			attr_dev(div3, "class", "digits svelte-5sw5gv");
-    			add_location(div3, file$3, 55, 0, 1133);
-    			attr_dev(span3, "class", "away score svelte-5sw5gv");
-    			add_location(span3, file$3, 56, 20, 1222);
-    			attr_dev(div4, "class", "digits svelte-5sw5gv");
-    			add_location(div4, file$3, 56, 0, 1202);
-    			attr_dev(div5, "class", "scoreboard svelte-5sw5gv");
-    			add_location(div5, file$3, 51, 0, 904);
+    			attr_dev(span0, "class", "home score svelte-ck8g7a");
+    			add_location(span0, file$3, 53, 20, 972);
+    			attr_dev(div0, "class", "digits svelte-ck8g7a");
+    			add_location(div0, file$3, 53, 0, 952);
+    			attr_dev(span1, "class", "home sets svelte-ck8g7a");
+    			add_location(span1, file$3, 54, 20, 1070);
+    			attr_dev(div1, "class", "digits svelte-ck8g7a");
+    			add_location(div1, file$3, 54, 0, 1050);
+    			attr_dev(div2, "class", "set svelte-ck8g7a");
+    			add_location(div2, file$3, 55, 0, 1119);
+    			attr_dev(span2, "class", "away sets svelte-ck8g7a");
+    			add_location(span2, file$3, 56, 20, 1176);
+    			attr_dev(div3, "class", "digits svelte-ck8g7a");
+    			add_location(div3, file$3, 56, 0, 1156);
+    			attr_dev(span3, "class", "away score svelte-ck8g7a");
+    			add_location(span3, file$3, 57, 20, 1245);
+    			attr_dev(div4, "class", "digits svelte-ck8g7a");
+    			add_location(div4, file$3, 57, 0, 1225);
+    			attr_dev(div5, "class", "scoreboard svelte-ck8g7a");
+    			add_location(div5, file$3, 52, 0, 927);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2807,24 +2807,30 @@ var bundle = (function () {
 
     function get_each_context$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[50] = list[i];
+    	child_ctx[52] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_1$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[53] = list[i];
+    	child_ctx[55] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_2$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[50] = list[i];
+    	child_ctx[58] = list[i];
     	return child_ctx;
     }
 
-    // (846:2) <div slot="activator" style="display:flex;">
-    function create_activator_slot(ctx) {
+    function get_each_context_3(ctx, list, i) {
+    	const child_ctx = ctx.slice();
+    	child_ctx[55] = list[i];
+    	return child_ctx;
+    }
+
+    // (859:2) <div slot="activator" style="display:flex;">
+    function create_activator_slot_1(ctx) {
     	let div;
     	let court;
     	let current;
@@ -2837,7 +2843,7 @@ var bundle = (function () {
     			create_component(court.$$.fragment);
     			attr_dev(div, "slot", "activator");
     			set_style(div, "display", "flex");
-    			add_location(div, file$5, 845, 2, 33718);
+    			add_location(div, file$5, 858, 2, 34944);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -2862,18 +2868,18 @@ var bundle = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_activator_slot.name,
+    		id: create_activator_slot_1.name,
     		type: "slot",
-    		source: "(846:2) <div slot=\\\"activator\\\" style=\\\"display:flex;\\\">",
+    		source: "(859:2) <div slot=\\\"activator\\\" style=\\\"display:flex;\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (853:4) <Button class="menu-item" on:click={()=>on_specify(s.type, s.value)}>
-    function create_default_slot_6(ctx) {
-    	let t_value = /*s*/ ctx[50].value + "";
+    // (866:4) <Button class="menu-item" on:click={()=>on_specify(s.type, s.value)}>
+    function create_default_slot_9(ctx) {
+    	let t_value = /*s*/ ctx[55].value + "";
     	let t;
 
     	const block = {
@@ -2884,7 +2890,7 @@ var bundle = (function () {
     			insert_dev(target, t, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*current*/ 16 && t_value !== (t_value = /*s*/ ctx[50].value + "")) set_data_dev(t, t_value);
+    			if (dirty[0] & /*current*/ 16 && t_value !== (t_value = /*s*/ ctx[55].value + "")) set_data_dev(t, t_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(t);
@@ -2893,28 +2899,28 @@ var bundle = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_default_slot_6.name,
+    		id: create_default_slot_9.name,
     		type: "slot",
-    		source: "(853:4) <Button class=\\\"menu-item\\\" on:click={()=>on_specify(s.type, s.value)}>",
+    		source: "(866:4) <Button class=\\\"menu-item\\\" on:click={()=>on_specify(s.type, s.value)}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (852:2) {#each g as s}
-    function create_each_block_2$1(ctx) {
+    // (865:2) {#each g as s}
+    function create_each_block_3(ctx) {
     	let button;
     	let current;
 
     	function click_handler() {
-    		return /*click_handler*/ ctx[13](/*s*/ ctx[50]);
+    		return /*click_handler*/ ctx[13](/*s*/ ctx[55]);
     	}
 
     	button = new ye({
     			props: {
     				class: "menu-item",
-    				$$slots: { default: [create_default_slot_6] },
+    				$$slots: { default: [create_default_slot_9] },
     				$$scope: { ctx }
     			},
     			$$inline: true
@@ -2934,7 +2940,7 @@ var bundle = (function () {
     			ctx = new_ctx;
     			const button_changes = {};
 
-    			if (dirty[0] & /*current*/ 16 | dirty[1] & /*$$scope*/ 134217728) {
+    			if (dirty[0] & /*current*/ 16 | dirty[2] & /*$$scope*/ 2) {
     				button_changes.$$scope = { dirty, ctx };
     			}
 
@@ -2956,25 +2962,25 @@ var bundle = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_each_block_2$1.name,
+    		id: create_each_block_3.name,
     		type: "each",
-    		source: "(852:2) {#each g as s}",
+    		source: "(865:2) {#each g as s}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (851:6) <ButtonGroup>
-    function create_default_slot_5(ctx) {
+    // (864:6) <ButtonGroup>
+    function create_default_slot_8(ctx) {
     	let each_1_anchor;
     	let current;
-    	let each_value_2 = /*g*/ ctx[53];
-    	validate_each_argument(each_value_2);
+    	let each_value_3 = /*g*/ ctx[58];
+    	validate_each_argument(each_value_3);
     	let each_blocks = [];
 
-    	for (let i = 0; i < each_value_2.length; i += 1) {
-    		each_blocks[i] = create_each_block_2$1(get_each_context_2$1(ctx, each_value_2, i));
+    	for (let i = 0; i < each_value_3.length; i += 1) {
+    		each_blocks[i] = create_each_block_3(get_each_context_3(ctx, each_value_3, i));
     	}
 
     	const out = i => transition_out(each_blocks[i], 1, 1, () => {
@@ -2999,18 +3005,18 @@ var bundle = (function () {
     		},
     		p: function update(ctx, dirty) {
     			if (dirty[0] & /*on_specify, current*/ 528) {
-    				each_value_2 = /*g*/ ctx[53];
-    				validate_each_argument(each_value_2);
+    				each_value_3 = /*g*/ ctx[58];
+    				validate_each_argument(each_value_3);
     				let i;
 
-    				for (i = 0; i < each_value_2.length; i += 1) {
-    					const child_ctx = get_each_context_2$1(ctx, each_value_2, i);
+    				for (i = 0; i < each_value_3.length; i += 1) {
+    					const child_ctx = get_each_context_3(ctx, each_value_3, i);
 
     					if (each_blocks[i]) {
     						each_blocks[i].p(child_ctx, dirty);
     						transition_in(each_blocks[i], 1);
     					} else {
-    						each_blocks[i] = create_each_block_2$1(child_ctx);
+    						each_blocks[i] = create_each_block_3(child_ctx);
     						each_blocks[i].c();
     						transition_in(each_blocks[i], 1);
     						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
@@ -3019,7 +3025,7 @@ var bundle = (function () {
 
     				group_outros();
 
-    				for (i = each_value_2.length; i < each_blocks.length; i += 1) {
+    				for (i = each_value_3.length; i < each_blocks.length; i += 1) {
     					out(i);
     				}
 
@@ -3029,7 +3035,7 @@ var bundle = (function () {
     		i: function intro(local) {
     			if (current) return;
 
-    			for (let i = 0; i < each_value_2.length; i += 1) {
+    			for (let i = 0; i < each_value_3.length; i += 1) {
     				transition_in(each_blocks[i]);
     			}
 
@@ -3052,24 +3058,24 @@ var bundle = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_default_slot_5.name,
+    		id: create_default_slot_8.name,
     		type: "slot",
-    		source: "(851:6) <ButtonGroup>",
+    		source: "(864:6) <ButtonGroup>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (850:2) {#each current.specifiers.groups as g}
-    function create_each_block_1$1(ctx) {
+    // (863:2) {#each current.specifiers.groups as g}
+    function create_each_block_2$1(ctx) {
     	let li;
     	let buttongroup;
     	let current;
 
     	buttongroup = new $e({
     			props: {
-    				$$slots: { default: [create_default_slot_5] },
+    				$$slots: { default: [create_default_slot_8] },
     				$$scope: { ctx }
     			},
     			$$inline: true
@@ -3079,7 +3085,7 @@ var bundle = (function () {
     		c: function create() {
     			li = element("li");
     			create_component(buttongroup.$$.fragment);
-    			add_location(li, file$5, 850, 2, 33853);
+    			add_location(li, file$5, 863, 2, 35079);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -3089,7 +3095,7 @@ var bundle = (function () {
     		p: function update(ctx, dirty) {
     			const buttongroup_changes = {};
 
-    			if (dirty[0] & /*current*/ 16 | dirty[1] & /*$$scope*/ 134217728) {
+    			if (dirty[0] & /*current*/ 16 | dirty[2] & /*$$scope*/ 2) {
     				buttongroup_changes.$$scope = { dirty, ctx };
     			}
 
@@ -3112,18 +3118,18 @@ var bundle = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_each_block_1$1.name,
+    		id: create_each_block_2$1.name,
     		type: "each",
-    		source: "(850:2) {#each current.specifiers.groups as g}",
+    		source: "(863:2) {#each current.specifiers.groups as g}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (859:2) <Menuitem on:click={()=>on_specify(s.type, s.value)}>
-    function create_default_slot_4(ctx) {
-    	let t_value = /*s*/ ctx[50].value + "";
+    // (872:2) <Menuitem on:click={()=>on_specify(s.type, s.value)}>
+    function create_default_slot_7(ctx) {
+    	let t_value = /*s*/ ctx[55].value + "";
     	let t;
 
     	const block = {
@@ -3141,27 +3147,27 @@ var bundle = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_default_slot_4.name,
+    		id: create_default_slot_7.name,
     		type: "slot",
-    		source: "(859:2) <Menuitem on:click={()=>on_specify(s.type, s.value)}>",
+    		source: "(872:2) <Menuitem on:click={()=>on_specify(s.type, s.value)}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (858:2) {#each specifiers.both as s}
-    function create_each_block$1(ctx) {
+    // (871:2) {#each specifiers.both as s}
+    function create_each_block_1$1(ctx) {
     	let menuitem;
     	let current;
 
     	function click_handler_1() {
-    		return /*click_handler_1*/ ctx[14](/*s*/ ctx[50]);
+    		return /*click_handler_1*/ ctx[14](/*s*/ ctx[55]);
     	}
 
     	menuitem = new Yn({
     			props: {
-    				$$slots: { default: [create_default_slot_4] },
+    				$$slots: { default: [create_default_slot_7] },
     				$$scope: { ctx }
     			},
     			$$inline: true
@@ -3181,7 +3187,7 @@ var bundle = (function () {
     			ctx = new_ctx;
     			const menuitem_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 134217728) {
+    			if (dirty[2] & /*$$scope*/ 2) {
     				menuitem_changes.$$scope = { dirty, ctx };
     			}
 
@@ -3203,41 +3209,41 @@ var bundle = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_each_block$1.name,
+    		id: create_each_block_1$1.name,
     		type: "each",
-    		source: "(858:2) {#each specifiers.both as s}",
+    		source: "(871:2) {#each specifiers.both as s}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (845:0) <Menu origin={menu_origin} {...menu_offset}>
-    function create_default_slot_3(ctx) {
+    // (858:0) <Menu origin={menu_origin} {...menu_offset}>
+    function create_default_slot_6(ctx) {
     	let t0;
     	let t1;
     	let hr;
     	let t2;
     	let each1_anchor;
     	let current;
-    	let each_value_1 = /*current*/ ctx[4].specifiers.groups;
-    	validate_each_argument(each_value_1);
+    	let each_value_2 = /*current*/ ctx[4].specifiers.groups;
+    	validate_each_argument(each_value_2);
     	let each_blocks_1 = [];
 
-    	for (let i = 0; i < each_value_1.length; i += 1) {
-    		each_blocks_1[i] = create_each_block_1$1(get_each_context_1$1(ctx, each_value_1, i));
+    	for (let i = 0; i < each_value_2.length; i += 1) {
+    		each_blocks_1[i] = create_each_block_2$1(get_each_context_2$1(ctx, each_value_2, i));
     	}
 
     	const out = i => transition_out(each_blocks_1[i], 1, 1, () => {
     		each_blocks_1[i] = null;
     	});
 
-    	let each_value = /*specifiers*/ ctx[12].both;
-    	validate_each_argument(each_value);
+    	let each_value_1 = /*specifiers*/ ctx[12].both;
+    	validate_each_argument(each_value_1);
     	let each_blocks = [];
 
-    	for (let i = 0; i < each_value.length; i += 1) {
-    		each_blocks[i] = create_each_block$1(get_each_context$1(ctx, each_value, i));
+    	for (let i = 0; i < each_value_1.length; i += 1) {
+    		each_blocks[i] = create_each_block_1$1(get_each_context_1$1(ctx, each_value_1, i));
     	}
 
     	const out_1 = i => transition_out(each_blocks[i], 1, 1, () => {
@@ -3261,7 +3267,7 @@ var bundle = (function () {
     			}
 
     			each1_anchor = empty();
-    			add_location(hr, file$5, 856, 2, 34024);
+    			add_location(hr, file$5, 869, 2, 35250);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, t0, anchor);
@@ -3283,18 +3289,18 @@ var bundle = (function () {
     		},
     		p: function update(ctx, dirty) {
     			if (dirty[0] & /*current, on_specify*/ 528) {
-    				each_value_1 = /*current*/ ctx[4].specifiers.groups;
-    				validate_each_argument(each_value_1);
+    				each_value_2 = /*current*/ ctx[4].specifiers.groups;
+    				validate_each_argument(each_value_2);
     				let i;
 
-    				for (i = 0; i < each_value_1.length; i += 1) {
-    					const child_ctx = get_each_context_1$1(ctx, each_value_1, i);
+    				for (i = 0; i < each_value_2.length; i += 1) {
+    					const child_ctx = get_each_context_2$1(ctx, each_value_2, i);
 
     					if (each_blocks_1[i]) {
     						each_blocks_1[i].p(child_ctx, dirty);
     						transition_in(each_blocks_1[i], 1);
     					} else {
-    						each_blocks_1[i] = create_each_block_1$1(child_ctx);
+    						each_blocks_1[i] = create_each_block_2$1(child_ctx);
     						each_blocks_1[i].c();
     						transition_in(each_blocks_1[i], 1);
     						each_blocks_1[i].m(t1.parentNode, t1);
@@ -3303,7 +3309,7 @@ var bundle = (function () {
 
     				group_outros();
 
-    				for (i = each_value_1.length; i < each_blocks_1.length; i += 1) {
+    				for (i = each_value_2.length; i < each_blocks_1.length; i += 1) {
     					out(i);
     				}
 
@@ -3311,18 +3317,18 @@ var bundle = (function () {
     			}
 
     			if (dirty[0] & /*on_specify, specifiers*/ 4608) {
-    				each_value = /*specifiers*/ ctx[12].both;
-    				validate_each_argument(each_value);
+    				each_value_1 = /*specifiers*/ ctx[12].both;
+    				validate_each_argument(each_value_1);
     				let i;
 
-    				for (i = 0; i < each_value.length; i += 1) {
-    					const child_ctx = get_each_context$1(ctx, each_value, i);
+    				for (i = 0; i < each_value_1.length; i += 1) {
+    					const child_ctx = get_each_context_1$1(ctx, each_value_1, i);
 
     					if (each_blocks[i]) {
     						each_blocks[i].p(child_ctx, dirty);
     						transition_in(each_blocks[i], 1);
     					} else {
-    						each_blocks[i] = create_each_block$1(child_ctx);
+    						each_blocks[i] = create_each_block_1$1(child_ctx);
     						each_blocks[i].c();
     						transition_in(each_blocks[i], 1);
     						each_blocks[i].m(each1_anchor.parentNode, each1_anchor);
@@ -3331,7 +3337,7 @@ var bundle = (function () {
 
     				group_outros();
 
-    				for (i = each_value.length; i < each_blocks.length; i += 1) {
+    				for (i = each_value_1.length; i < each_blocks.length; i += 1) {
     					out_1(i);
     				}
 
@@ -3341,11 +3347,11 @@ var bundle = (function () {
     		i: function intro(local) {
     			if (current) return;
 
-    			for (let i = 0; i < each_value_1.length; i += 1) {
+    			for (let i = 0; i < each_value_2.length; i += 1) {
     				transition_in(each_blocks_1[i]);
     			}
 
-    			for (let i = 0; i < each_value.length; i += 1) {
+    			for (let i = 0; i < each_value_1.length; i += 1) {
     				transition_in(each_blocks[i]);
     			}
 
@@ -3379,17 +3385,17 @@ var bundle = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_default_slot_3.name,
+    		id: create_default_slot_6.name,
     		type: "slot",
-    		source: "(845:0) <Menu origin={menu_origin} {...menu_offset}>",
+    		source: "(858:0) <Menu origin={menu_origin} {...menu_offset}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (867:2) <Button style="align-self: center;" outlined toggle bind:active={recording}>
-    function create_default_slot_2(ctx) {
+    // (880:2) <Button style="align-self: center;" outlined toggle bind:active={recording}>
+    function create_default_slot_5(ctx) {
     	let t;
 
     	const block = {
@@ -3406,17 +3412,17 @@ var bundle = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_default_slot_2.name,
+    		id: create_default_slot_5.name,
     		type: "slot",
-    		source: "(867:2) <Button style=\\\"align-self: center;\\\" outlined toggle bind:active={recording}>",
+    		source: "(880:2) <Button style=\\\"align-self: center;\\\" outlined toggle bind:active={recording}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (891:4) <Icon style="transform: scale(1.25);">
-    function create_default_slot_1$1(ctx) {
+    // (906:8) <Icon style="transform: scale(1.25);">
+    function create_default_slot_4(ctx) {
     	let switch_instance;
     	let switch_instance_anchor;
     	let current;
@@ -3483,24 +3489,24 @@ var bundle = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_default_slot_1$1.name,
+    		id: create_default_slot_4.name,
     		type: "slot",
-    		source: "(891:4) <Icon style=\\\"transform: scale(1.25);\\\">",
+    		source: "(906:8) <Icon style=\\\"transform: scale(1.25);\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (890:2) <Button icon style="margin-left: 2.0rem; transform: scale(1.5);" color="rgb(var(--action-error-rgb))" on:click={on_whistle}>
-    function create_default_slot$1(ctx) {
+    // (905:6) <Button icon style="margin-left: 2.0rem; transform: scale(1.5);" color="rgb(var(--action-error-rgb))">
+    function create_default_slot_3(ctx) {
     	let icon;
     	let current;
 
     	icon = new je({
     			props: {
     				style: "transform: scale(1.25);",
-    				$$slots: { default: [create_default_slot_1$1] },
+    				$$slots: { default: [create_default_slot_4] },
     				$$scope: { ctx }
     			},
     			$$inline: true
@@ -3517,7 +3523,7 @@ var bundle = (function () {
     		p: function update(ctx, dirty) {
     			const icon_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 134217728) {
+    			if (dirty[2] & /*$$scope*/ 2) {
     				icon_changes.$$scope = { dirty, ctx };
     			}
 
@@ -3539,9 +3545,332 @@ var bundle = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
+    		id: create_default_slot_3.name,
+    		type: "slot",
+    		source: "(905:6) <Button icon style=\\\"margin-left: 2.0rem; transform: scale(1.5);\\\" color=\\\"rgb(var(--action-error-rgb))\\\">",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (904:4) <div slot="activator">
+    function create_activator_slot(ctx) {
+    	let div;
+    	let button;
+    	let current;
+
+    	button = new ye({
+    			props: {
+    				icon: true,
+    				style: "margin-left: 2.0rem; transform: scale(1.5);",
+    				color: "rgb(var(--action-error-rgb))",
+    				$$slots: { default: [create_default_slot_3] },
+    				$$scope: { ctx }
+    			},
+    			$$inline: true
+    		});
+
+    	const block = {
+    		c: function create() {
+    			div = element("div");
+    			create_component(button.$$.fragment);
+    			attr_dev(div, "slot", "activator");
+    			add_location(div, file$5, 903, 4, 36209);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div, anchor);
+    			mount_component(button, div, null);
+    			current = true;
+    		},
+    		p: function update(ctx, dirty) {
+    			const button_changes = {};
+
+    			if (dirty[2] & /*$$scope*/ 2) {
+    				button_changes.$$scope = { dirty, ctx };
+    			}
+
+    			button.$set(button_changes);
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(button.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(button.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div);
+    			destroy_component(button);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_activator_slot.name,
+    		type: "slot",
+    		source: "(904:4) <div slot=\\\"activator\\\">",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (911:4) <Menuitem on:click={()=>on_whistle(t)}>
+    function create_default_slot_2(ctx) {
+    	let t0;
+    	let t1_value = /*t*/ ctx[52] + "";
+    	let t1;
+    	let t2;
+
+    	const block = {
+    		c: function create() {
+    			t0 = text("Point for ");
+    			t1 = text(t1_value);
+    			t2 = text(" team");
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, t0, anchor);
+    			insert_dev(target, t1, anchor);
+    			insert_dev(target, t2, anchor);
+    		},
+    		p: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(t0);
+    			if (detaching) detach_dev(t1);
+    			if (detaching) detach_dev(t2);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_default_slot_2.name,
+    		type: "slot",
+    		source: "(911:4) <Menuitem on:click={()=>on_whistle(t)}>",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (910:4) {#each [TEAM.HOME, TEAM.AWAY] as t}
+    function create_each_block$1(ctx) {
+    	let menuitem;
+    	let current;
+
+    	function click_handler_2() {
+    		return /*click_handler_2*/ ctx[19](/*t*/ ctx[52]);
+    	}
+
+    	menuitem = new Yn({
+    			props: {
+    				$$slots: { default: [create_default_slot_2] },
+    				$$scope: { ctx }
+    			},
+    			$$inline: true
+    		});
+
+    	menuitem.$on("click", click_handler_2);
+
+    	const block = {
+    		c: function create() {
+    			create_component(menuitem.$$.fragment);
+    		},
+    		m: function mount(target, anchor) {
+    			mount_component(menuitem, target, anchor);
+    			current = true;
+    		},
+    		p: function update(new_ctx, dirty) {
+    			ctx = new_ctx;
+    			const menuitem_changes = {};
+
+    			if (dirty[2] & /*$$scope*/ 2) {
+    				menuitem_changes.$$scope = { dirty, ctx };
+    			}
+
+    			menuitem.$set(menuitem_changes);
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(menuitem.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(menuitem.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			destroy_component(menuitem, detaching);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block$1.name,
+    		type: "each",
+    		source: "(910:4) {#each [TEAM.HOME, TEAM.AWAY] as t}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (914:4) <Menuitem>
+    function create_default_slot_1$1(ctx) {
+    	let t;
+
+    	const block = {
+    		c: function create() {
+    			t = text("Cancel");
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, t, anchor);
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(t);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_default_slot_1$1.name,
+    		type: "slot",
+    		source: "(914:4) <Menuitem>",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (903:2) <Menu origin="bottom right" dy={MENU_DY}>
+    function create_default_slot$1(ctx) {
+    	let t0;
+    	let t1;
+    	let hr;
+    	let t2;
+    	let menuitem;
+    	let current;
+    	let each_value = [TEAM.HOME, TEAM.AWAY];
+    	validate_each_argument(each_value);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < 2; i += 1) {
+    		each_blocks[i] = create_each_block$1(get_each_context$1(ctx, each_value, i));
+    	}
+
+    	const out = i => transition_out(each_blocks[i], 1, 1, () => {
+    		each_blocks[i] = null;
+    	});
+
+    	menuitem = new Yn({
+    			props: {
+    				$$slots: { default: [create_default_slot_1$1] },
+    				$$scope: { ctx }
+    			},
+    			$$inline: true
+    		});
+
+    	const block = {
+    		c: function create() {
+    			t0 = space();
+
+    			for (let i = 0; i < 2; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			t1 = space();
+    			hr = element("hr");
+    			t2 = space();
+    			create_component(menuitem.$$.fragment);
+    			add_location(hr, file$5, 912, 4, 36587);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, t0, anchor);
+
+    			for (let i = 0; i < 2; i += 1) {
+    				each_blocks[i].m(target, anchor);
+    			}
+
+    			insert_dev(target, t1, anchor);
+    			insert_dev(target, hr, anchor);
+    			insert_dev(target, t2, anchor);
+    			mount_component(menuitem, target, anchor);
+    			current = true;
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty[0] & /*on_whistle*/ 1024) {
+    				each_value = [TEAM.HOME, TEAM.AWAY];
+    				validate_each_argument(each_value);
+    				let i;
+
+    				for (i = 0; i < 2; i += 1) {
+    					const child_ctx = get_each_context$1(ctx, each_value, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    						transition_in(each_blocks[i], 1);
+    					} else {
+    						each_blocks[i] = create_each_block$1(child_ctx);
+    						each_blocks[i].c();
+    						transition_in(each_blocks[i], 1);
+    						each_blocks[i].m(t1.parentNode, t1);
+    					}
+    				}
+
+    				group_outros();
+
+    				for (i = 2; i < 2; i += 1) {
+    					out(i);
+    				}
+
+    				check_outros();
+    			}
+
+    			const menuitem_changes = {};
+
+    			if (dirty[2] & /*$$scope*/ 2) {
+    				menuitem_changes.$$scope = { dirty, ctx };
+    			}
+
+    			menuitem.$set(menuitem_changes);
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+
+    			for (let i = 0; i < 2; i += 1) {
+    				transition_in(each_blocks[i]);
+    			}
+
+    			transition_in(menuitem.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			each_blocks = each_blocks.filter(Boolean);
+
+    			for (let i = 0; i < 2; i += 1) {
+    				transition_out(each_blocks[i]);
+    			}
+
+    			transition_out(menuitem.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(t0);
+    			destroy_each(each_blocks, detaching);
+    			if (detaching) detach_dev(t1);
+    			if (detaching) detach_dev(hr);
+    			if (detaching) detach_dev(t2);
+    			destroy_component(menuitem, detaching);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
     		id: create_default_slot$1.name,
     		type: "slot",
-    		source: "(890:2) <Button icon style=\\\"margin-left: 2.0rem; transform: scale(1.5);\\\" color=\\\"rgb(var(--action-error-rgb))\\\" on:click={on_whistle}>",
+    		source: "(903:2) <Menu origin=\\\"bottom right\\\" dy={MENU_DY}>",
     		ctx
     	});
 
@@ -3552,13 +3881,13 @@ var bundle = (function () {
     	let h2;
     	let t1;
     	let div0;
-    	let menu;
+    	let menu0;
     	let div0_resize_listener;
     	let t2;
     	let transcript;
     	let t3;
     	let div1;
-    	let button0;
+    	let button;
     	let updating_active;
     	let t4;
     	let textfield0;
@@ -3569,47 +3898,47 @@ var bundle = (function () {
     	let textfield1;
     	let updating_value_1;
     	let t7;
-    	let button1;
+    	let menu1;
     	let current;
-    	const menu_spread_levels = [{ origin: /*menu_origin*/ ctx[3] }, /*menu_offset*/ ctx[2]];
+    	const menu0_spread_levels = [{ origin: /*menu_origin*/ ctx[3] }, /*menu_offset*/ ctx[2]];
 
-    	let menu_props = {
+    	let menu0_props = {
     		$$slots: {
-    			default: [create_default_slot_3],
-    			activator: [create_activator_slot]
+    			default: [create_default_slot_6],
+    			activator: [create_activator_slot_1]
     		},
     		$$scope: { ctx }
     	};
 
-    	for (let i = 0; i < menu_spread_levels.length; i += 1) {
-    		menu_props = assign(menu_props, menu_spread_levels[i]);
+    	for (let i = 0; i < menu0_spread_levels.length; i += 1) {
+    		menu0_props = assign(menu0_props, menu0_spread_levels[i]);
     	}
 
-    	menu = new kn({ props: menu_props, $$inline: true });
+    	menu0 = new kn({ props: menu0_props, $$inline: true });
 
     	transcript = new Transcript({
     			props: { set_index: /*current*/ ctx[4].set_index },
     			$$inline: true
     		});
 
-    	function button0_active_binding(value) {
-    		/*button0_active_binding*/ ctx[16](value);
+    	function button_active_binding(value) {
+    		/*button_active_binding*/ ctx[16](value);
     	}
 
-    	let button0_props = {
+    	let button_props = {
     		style: "align-self: center;",
     		outlined: true,
     		toggle: true,
-    		$$slots: { default: [create_default_slot_2] },
+    		$$slots: { default: [create_default_slot_5] },
     		$$scope: { ctx }
     	};
 
     	if (/*recording*/ ctx[5] !== void 0) {
-    		button0_props.active = /*recording*/ ctx[5];
+    		button_props.active = /*recording*/ ctx[5];
     	}
 
-    	button0 = new ye({ props: button0_props, $$inline: true });
-    	binding_callbacks.push(() => bind(button0, "active", button0_active_binding));
+    	button = new ye({ props: button_props, $$inline: true });
+    	binding_callbacks.push(() => bind(button, "active", button_active_binding));
 
     	function textfield0_value_binding(value) {
     		/*textfield0_value_binding*/ ctx[17](value);
@@ -3656,18 +3985,18 @@ var bundle = (function () {
     	textfield1 = new Ve({ props: textfield1_props, $$inline: true });
     	binding_callbacks.push(() => bind(textfield1, "value", textfield1_value_binding));
 
-    	button1 = new ye({
+    	menu1 = new kn({
     			props: {
-    				icon: true,
-    				style: "margin-left: 2.0rem; transform: scale(1.5);",
-    				color: "rgb(var(--action-error-rgb))",
-    				$$slots: { default: [create_default_slot$1] },
+    				origin: "bottom right",
+    				dy: MENU_DY,
+    				$$slots: {
+    					default: [create_default_slot$1],
+    					activator: [create_activator_slot]
+    				},
     				$$scope: { ctx }
     			},
     			$$inline: true
     		});
-
-    	button1.$on("click", /*on_whistle*/ ctx[10]);
 
     	const block = {
     		c: function create() {
@@ -3675,12 +4004,12 @@ var bundle = (function () {
     			h2.textContent = "record a match";
     			t1 = space();
     			div0 = element("div");
-    			create_component(menu.$$.fragment);
+    			create_component(menu0.$$.fragment);
     			t2 = space();
     			create_component(transcript.$$.fragment);
     			t3 = space();
     			div1 = element("div");
-    			create_component(button0.$$.fragment);
+    			create_component(button.$$.fragment);
     			t4 = space();
     			create_component(textfield0.$$.fragment);
     			t5 = space();
@@ -3688,13 +4017,13 @@ var bundle = (function () {
     			t6 = space();
     			create_component(textfield1.$$.fragment);
     			t7 = space();
-    			create_component(button1.$$.fragment);
-    			add_location(h2, file$5, 841, 0, 33562);
+    			create_component(menu1.$$.fragment);
+    			add_location(h2, file$5, 854, 0, 34788);
     			attr_dev(div0, "class", "widener svelte-uyyo2w");
     			add_render_callback(() => /*div0_elementresize_handler*/ ctx[15].call(div0));
-    			add_location(div0, file$5, 843, 0, 33587);
+    			add_location(div0, file$5, 856, 0, 34813);
     			attr_dev(div1, "class", "control-bar svelte-uyyo2w");
-    			add_location(div1, file$5, 865, 0, 34210);
+    			add_location(div1, file$5, 878, 0, 35436);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -3703,13 +4032,13 @@ var bundle = (function () {
     			insert_dev(target, h2, anchor);
     			insert_dev(target, t1, anchor);
     			insert_dev(target, div0, anchor);
-    			mount_component(menu, div0, null);
+    			mount_component(menu0, div0, null);
     			div0_resize_listener = add_resize_listener(div0, /*div0_elementresize_handler*/ ctx[15].bind(div0));
     			insert_dev(target, t2, anchor);
     			mount_component(transcript, target, anchor);
     			insert_dev(target, t3, anchor);
     			insert_dev(target, div1, anchor);
-    			mount_component(button0, div1, null);
+    			mount_component(button, div1, null);
     			append_dev(div1, t4);
     			mount_component(textfield0, div1, null);
     			append_dev(div1, t5);
@@ -3717,38 +4046,38 @@ var bundle = (function () {
     			append_dev(div1, t6);
     			mount_component(textfield1, div1, null);
     			append_dev(div1, t7);
-    			mount_component(button1, div1, null);
+    			mount_component(menu1, div1, null);
     			current = true;
     		},
     		p: function update(ctx, dirty) {
-    			const menu_changes = (dirty[0] & /*menu_origin, menu_offset*/ 12)
-    			? get_spread_update(menu_spread_levels, [
+    			const menu0_changes = (dirty[0] & /*menu_origin, menu_offset*/ 12)
+    			? get_spread_update(menu0_spread_levels, [
     					dirty[0] & /*menu_origin*/ 8 && { origin: /*menu_origin*/ ctx[3] },
     					dirty[0] & /*menu_offset*/ 4 && get_spread_object(/*menu_offset*/ ctx[2])
     				])
     			: {};
 
-    			if (dirty[0] & /*current*/ 16 | dirty[1] & /*$$scope*/ 134217728) {
-    				menu_changes.$$scope = { dirty, ctx };
+    			if (dirty[0] & /*current*/ 16 | dirty[2] & /*$$scope*/ 2) {
+    				menu0_changes.$$scope = { dirty, ctx };
     			}
 
-    			menu.$set(menu_changes);
+    			menu0.$set(menu0_changes);
     			const transcript_changes = {};
     			if (dirty[0] & /*current*/ 16) transcript_changes.set_index = /*current*/ ctx[4].set_index;
     			transcript.$set(transcript_changes);
-    			const button0_changes = {};
+    			const button_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 134217728) {
-    				button0_changes.$$scope = { dirty, ctx };
+    			if (dirty[2] & /*$$scope*/ 2) {
+    				button_changes.$$scope = { dirty, ctx };
     			}
 
     			if (!updating_active && dirty[0] & /*recording*/ 32) {
     				updating_active = true;
-    				button0_changes.active = /*recording*/ ctx[5];
+    				button_changes.active = /*recording*/ ctx[5];
     				add_flush_callback(() => updating_active = false);
     			}
 
-    			button0.$set(button0_changes);
+    			button.$set(button_changes);
     			const textfield0_changes = {};
 
     			if (!updating_value && dirty[0] & /*team_aliases*/ 64) {
@@ -3774,50 +4103,50 @@ var bundle = (function () {
     			}
 
     			textfield1.$set(textfield1_changes);
-    			const button1_changes = {};
+    			const menu1_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 134217728) {
-    				button1_changes.$$scope = { dirty, ctx };
+    			if (dirty[2] & /*$$scope*/ 2) {
+    				menu1_changes.$$scope = { dirty, ctx };
     			}
 
-    			button1.$set(button1_changes);
+    			menu1.$set(menu1_changes);
     		},
     		i: function intro(local) {
     			if (current) return;
-    			transition_in(menu.$$.fragment, local);
+    			transition_in(menu0.$$.fragment, local);
     			transition_in(transcript.$$.fragment, local);
-    			transition_in(button0.$$.fragment, local);
+    			transition_in(button.$$.fragment, local);
     			transition_in(textfield0.$$.fragment, local);
     			transition_in(score.$$.fragment, local);
     			transition_in(textfield1.$$.fragment, local);
-    			transition_in(button1.$$.fragment, local);
+    			transition_in(menu1.$$.fragment, local);
     			current = true;
     		},
     		o: function outro(local) {
-    			transition_out(menu.$$.fragment, local);
+    			transition_out(menu0.$$.fragment, local);
     			transition_out(transcript.$$.fragment, local);
-    			transition_out(button0.$$.fragment, local);
+    			transition_out(button.$$.fragment, local);
     			transition_out(textfield0.$$.fragment, local);
     			transition_out(score.$$.fragment, local);
     			transition_out(textfield1.$$.fragment, local);
-    			transition_out(button1.$$.fragment, local);
+    			transition_out(menu1.$$.fragment, local);
     			current = false;
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(h2);
     			if (detaching) detach_dev(t1);
     			if (detaching) detach_dev(div0);
-    			destroy_component(menu);
+    			destroy_component(menu0);
     			div0_resize_listener();
     			if (detaching) detach_dev(t2);
     			destroy_component(transcript, detaching);
     			if (detaching) detach_dev(t3);
     			if (detaching) detach_dev(div1);
-    			destroy_component(button0);
+    			destroy_component(button);
     			destroy_component(textfield0);
     			destroy_component(score);
     			destroy_component(textfield1);
-    			destroy_component(button1);
+    			destroy_component(menu1);
     		}
     	};
 
@@ -3832,10 +4161,12 @@ var bundle = (function () {
     	return block;
     }
 
+    const MENU_DY = 80; // FIXME: magic number.. where is this vertical offset coming from?
+
     function instance$5($$self, $$props, $$invalidate) {
     	let $stored_match;
     	validate_store(match, "stored_match");
-    	component_subscribe($$self, match, $$value => $$invalidate(20, $stored_match = $$value));
+    	component_subscribe($$self, match, $$value => $$invalidate(21, $stored_match = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots("Recorder", slots, []);
     	const log = logger("recorder: ");
@@ -3938,11 +4269,12 @@ var bundle = (function () {
     		log.debug(`attributed current action (${contact.action}) to ${latest.player}`);
     	};
 
-    	const update_last_recorded_action = (rally, action) => {
+    	const update_last_recorded_action = (rally, action, description) => {
     		const latest = last(rally.contacts);
     		const old = latest.action;
     		latest.action = action;
-    		log.debug(`resolved last action from: ${old} to ${latest.action}`);
+    		latest.description = description;
+    		log.debug(`resolved last action from: ${old} to ${latest.action} (${latest.description})`);
     	};
 
     	const needs_specifier = (contact, rally) => {
@@ -4054,7 +4386,7 @@ var bundle = (function () {
     			case RALLY_STATE.RECEIVER_RALLYING2:
     				if (contact.type === CONTACT.PLAYER && (is_play_area(area, servers) || is_free_area(area, servers))) {
     					rally.hits = 1; // ball crossed from receivers to servers, so reset hit count
-    					update_last_recorded_action(rally, ACTION.ATTACK);
+    					update_last_recorded_action(rally, ACTION.ATTACK, "attack attempt");
 
     					if (is_blocking_area(area, servers)) {
     						record_action(`block or attack attempt (hit ${rally.hits})`, ACTION.BLOCK_OR_ATTACK, servers);
@@ -4069,14 +4401,14 @@ var bundle = (function () {
     				}
     				if (contact.type === CONTACT.PLAYER && (is_play_area(area, receivers) || is_free_area(area, receivers))) {
     					rally.hits += 1;
-    					update_last_recorded_action(rally, ACTION.DIG);
+    					update_last_recorded_action(rally, ACTION.DIG, "reception: dig");
     					record_action(`reception: pass or attack (hit ${rally.hits})`, ACTION.PASS_OR_ATTACK, receivers);
     					rally_ends = false;
     					rally.state = RALLY_STATE.RECEIVER_RALLYING3;
     					break;
     				}
     				if (contact.type === CONTACT.FLOOR && is_play_area(area, servers)) {
-    					update_last_recorded_action(rally, ACTION.ATTACK);
+    					update_last_recorded_action(rally, ACTION.ATTACK, "attack attempt");
     					record_action("attack kill", ACTION.KILL, receivers);
     					attribute_action_to_last_player(rally, contact);
     					rally_ends = true;
@@ -4084,7 +4416,7 @@ var bundle = (function () {
     					break;
     				}
     				if (is_net_area(area)) {
-    					update_last_recorded_action(rally, ACTION.DIG);
+    					update_last_recorded_action(rally, ACTION.DIG, "reception: dig");
     					record_action("reception error: net contact", ACTION.RECEPTION_ERROR, receivers);
     					attribute_action_to_last_player(rally, contact);
     					rally_ends = true;
@@ -4092,7 +4424,7 @@ var bundle = (function () {
     					break;
     				}
     				if (contact.type === CONTACT.FLOOR && is_out(area)) {
-    					update_last_recorded_action(rally, ACTION.DIG);
+    					update_last_recorded_action(rally, ACTION.DIG, "reception: dig");
     					record_action("reception error: ball landed out of bounds", ACTION.RECEPTION_ERROR, receivers);
     					attribute_action_to_last_player(rally, contact);
     					rally_ends = true;
@@ -4100,7 +4432,7 @@ var bundle = (function () {
     					break;
     				}
     				if (contact.type === CONTACT.FLOOR && is_play_area(area, receivers)) {
-    					update_last_recorded_action(rally, ACTION.DIG);
+    					update_last_recorded_action(rally, ACTION.DIG, "reception: dig");
     					record_action("reception error: ball dropped", ACTION.RECEPTION_ERROR, receivers);
     					rally_ends = true;
     					possession = servers;
@@ -4111,7 +4443,7 @@ var bundle = (function () {
     			case RALLY_STATE.RECEIVER_RALLYING3:
     				if (contact.type === CONTACT.PLAYER && (is_play_area(area, servers) || is_free_area(area, servers))) {
     					rally.hits = 1; // ball crossed from receivers to servers, so reset hit count
-    					update_last_recorded_action(rally, ACTION.ATTACK);
+    					update_last_recorded_action(rally, ACTION.ATTACK, "attack attempt");
 
     					if (is_blocking_area(area, servers)) {
     						record_action(`block or attack attempt (hit ${rally.hits})`, ACTION.BLOCK_OR_ATTACK, servers);
@@ -4127,14 +4459,14 @@ var bundle = (function () {
     				}
     				if (contact.type === CONTACT.PLAYER && (is_play_area(area, receivers) || is_free_area(area, receivers))) {
     					rally.hits += 1;
-    					update_last_recorded_action(rally, ACTION.PASS);
+    					update_last_recorded_action(rally, ACTION.PASS, "reception: pass");
     					record_action(`reception: attack (hit ${rally.hits})`, ACTION.ATTACK, receivers);
     					rally_ends = false;
     					rally.state = RALLY_STATE.RECEIVER_ATTACKING;
     					break;
     				}
     				if (contact.type === CONTACT.FLOOR && is_play_area(area, servers)) {
-    					update_last_recorded_action(rally, ACTION.ATTACK);
+    					update_last_recorded_action(rally, ACTION.ATTACK, "attack attempt");
     					record_action("attack kill", ACTION.KILL, receivers);
     					attribute_action_to_last_player(rally, contact);
     					rally_ends = true;
@@ -4142,7 +4474,7 @@ var bundle = (function () {
     					break;
     				}
     				if (is_net_area(area)) {
-    					update_last_recorded_action(rally, ACTION.PASS);
+    					update_last_recorded_action(rally, ACTION.PASS, "reception: pass");
     					record_action("passing error: net contact", ACTION.PASSING_ERROR, receivers);
     					attribute_action_to_last_player(rally, contact);
     					rally_ends = true;
@@ -4150,7 +4482,7 @@ var bundle = (function () {
     					break;
     				}
     				if (contact.type === CONTACT.FLOOR && is_out(area)) {
-    					update_last_recorded_action(rally, ACTION.PASS);
+    					update_last_recorded_action(rally, ACTION.PASS, "reception: pass");
     					record_action("passing error: ball landed out of bounds", ACTION.PASSING_ERROR, receivers);
     					attribute_action_to_last_player(rally, contact);
     					rally_ends = true;
@@ -4158,7 +4490,7 @@ var bundle = (function () {
     					break;
     				}
     				if (contact.type === CONTACT.FLOOR && is_play_area(area, receivers)) {
-    					update_last_recorded_action(rally, ACTION.PASS);
+    					update_last_recorded_action(rally, ACTION.PASS, "reception: pass");
     					record_action("passing error: ball dropped", ACTION.PASSING_ERROR, receivers);
     					rally_ends = true;
     					possession = servers;
@@ -4220,7 +4552,7 @@ var bundle = (function () {
     			case RALLY_STATE.RECEIVER_BLOCKING:
     				if (contact.type === CONTACT.PLAYER && (is_play_area(area, servers) || is_free_area(area, servers))) {
     					rally.hits = 1; // ball crossed from receivers to servers, so reset hit count
-    					update_last_recorded_action(rally, ACTION.ATTACK);
+    					update_last_recorded_action(rally, ACTION.ATTACK, "attack attempt");
 
     					if (is_blocking_area(area, servers)) {
     						record_action(`block or attack attempt (hit ${rally.hits})`, ACTION.BLOCK_OR_ATTACK, servers);
@@ -4236,14 +4568,14 @@ var bundle = (function () {
     				}
     				if (contact.type === CONTACT.PLAYER && (is_play_area(area, receivers) || is_free_area(area, receivers))) {
     					rally.hits += 1;
-    					update_last_recorded_action(rally, ACTION.PASS);
+    					update_last_recorded_action(rally, ACTION.PASS, "reception: pass");
     					record_action(`reception: pass or attack (hit ${rally.hits})`, ACTION.PASS_OR_ATTACK, receivers);
     					rally_ends = false;
     					rally.state = RALLY_STATE.RECEIVER_RALLYING3;
     					break;
     				}
     				if (contact.type === CONTACT.FLOOR && is_play_area(area, servers)) {
-    					update_last_recorded_action(rally, ACTION.BLOCK);
+    					update_last_recorded_action(rally, ACTION.BLOCK, "block attempt");
     					record_action("block kill", ACTION.BLOCK_KILL, receivers);
     					attribute_action_to_last_player(rally, contact);
     					rally_ends = true;
@@ -4251,7 +4583,7 @@ var bundle = (function () {
     					break;
     				}
     				if (is_net_area(area)) {
-    					update_last_recorded_action(rally, ACTION.ATTACK);
+    					update_last_recorded_action(rally, ACTION.ATTACK, "attack attempt");
     					record_action("attack error: net contact", ACTION.ATTACKING_ERROR, receivers);
     					attribute_action_to_last_player(rally, contact);
     					rally_ends = true;
@@ -4259,7 +4591,7 @@ var bundle = (function () {
     					break;
     				}
     				if (contact.type === CONTACT.FLOOR && is_out(area)) {
-    					update_last_recorded_action(rally, ACTION.ATTACK);
+    					update_last_recorded_action(rally, ACTION.ATTACK, "attack attempt");
     					record_action("attacking error: ball landed out of bounds", ACTION.ATTACKING_ERROR, receivers);
     					attribute_action_to_last_player(rally, contact);
     					rally_ends = true;
@@ -4276,7 +4608,7 @@ var bundle = (function () {
     			case RALLY_STATE.SERVER_RALLYING2:
     				if (contact.type === CONTACT.PLAYER && (is_play_area(area, receivers) || is_free_area(area, receivers))) {
     					rally.hits = 1; // ball crossed from servers to receivers, so reset hit count
-    					update_last_recorded_action(rally, ACTION.ATTACK);
+    					update_last_recorded_action(rally, ACTION.ATTACK, "attack attempt");
 
     					if (is_blocking_area(area, receivers)) {
     						record_action(`block or attack attempt (hit ${rally.hits})`, ACTION.BLOCK_OR_ATTACK, receivers);
@@ -4291,14 +4623,14 @@ var bundle = (function () {
     				}
     				if (contact.type === CONTACT.PLAYER && (is_play_area(area, servers) || is_free_area(area, servers))) {
     					rally.hits += 1;
-    					update_last_recorded_action(rally, ACTION.DIG);
+    					update_last_recorded_action(rally, ACTION.DIG, "reception: dig");
     					record_action(`reception: pass or attack (hit ${rally.hits})`, ACTION.PASS_OR_ATTACK, servers);
     					rally_ends = false;
     					rally.state = RALLY_STATE.SERVER_RALLYING3;
     					break;
     				}
     				if (contact.type === CONTACT.FLOOR && is_play_area(area, receivers)) {
-    					update_last_recorded_action(rally, ACTION.ATTACK);
+    					update_last_recorded_action(rally, ACTION.ATTACK, "attack attempt");
     					record_action("attack kill", ACTION.KILL, servers);
     					attribute_action_to_last_player(rally, contact);
     					rally_ends = true;
@@ -4306,7 +4638,7 @@ var bundle = (function () {
     					break;
     				}
     				if (is_net_area(area)) {
-    					update_last_recorded_action(rally, ACTION.DIG);
+    					update_last_recorded_action(rally, ACTION.DIG, "reception: dig");
     					record_action("reception error: net contact", ACTION.RECEPTION_ERROR, servers);
     					attribute_action_to_last_player(rally, contact);
     					rally_ends = true;
@@ -4314,7 +4646,7 @@ var bundle = (function () {
     					break;
     				}
     				if (contact.type === CONTACT.FLOOR && is_out(area)) {
-    					update_last_recorded_action(rally, ACTION.DIG);
+    					update_last_recorded_action(rally, ACTION.DIG, "reception: dig");
     					record_action("reception error: ball landed out of bounds", ACTION.RECEPTION_ERROR, servers);
     					attribute_action_to_last_player(rally, contact);
     					rally_ends = true;
@@ -4322,7 +4654,7 @@ var bundle = (function () {
     					break;
     				}
     				if (contact.type === CONTACT.FLOOR && is_play_area(area, servers)) {
-    					update_last_recorded_action(rally, ACTION.DIG);
+    					update_last_recorded_action(rally, ACTION.DIG, "reception: dig");
     					record_action("reception error: ball dropped", ACTION.RECEPTION_ERROR, servers);
     					rally_ends = true;
     					possession = receivers;
@@ -4333,7 +4665,7 @@ var bundle = (function () {
     			case RALLY_STATE.SERVER_RALLYING3:
     				if (contact.type === CONTACT.PLAYER && (is_play_area(area, receivers) || is_free_area(area, receivers))) {
     					rally.hits = 1; // ball crossed from servers to receivers, so reset hit count
-    					update_last_recorded_action(rally, ACTION.ATTACK);
+    					update_last_recorded_action(rally, ACTION.ATTACK, "attack attempt");
 
     					if (is_blocking_area(area, receivers)) {
     						record_action(`block or attack attempt (hit ${rally.hits})`, ACTION.BLOCK_OR_ATTACK, receivers);
@@ -4349,14 +4681,14 @@ var bundle = (function () {
     				}
     				if (contact.type === CONTACT.PLAYER && (is_play_area(area, servers) || is_free_area(area, servers))) {
     					rally.hits += 1;
-    					update_last_recorded_action(rally, ACTION.PASS);
+    					update_last_recorded_action(rally, ACTION.PASS, "reception: pass");
     					record_action(`reception: attack (hit ${rally.hits})`, ACTION.ATTACK, servers);
     					rally_ends = false;
     					rally.state = RALLY_STATE.SERVER_ATTACKING;
     					break;
     				}
     				if (contact.type === CONTACT.FLOOR && is_play_area(area, receivers)) {
-    					update_last_recorded_action(rally, ACTION.ATTACK);
+    					update_last_recorded_action(rally, ACTION.ATTACK, "attack attempt");
     					record_action("attack kill", ACTION.KILL, servers);
     					attribute_action_to_last_player(rally, contact);
     					rally_ends = true;
@@ -4364,7 +4696,7 @@ var bundle = (function () {
     					break;
     				}
     				if (is_net_area(area)) {
-    					update_last_recorded_action(rally, ACTION.PASS);
+    					update_last_recorded_action(rally, ACTION.PASS, "reception: pass");
     					record_action("passing error: net contact", ACTION.PASSING_ERROR, servers);
     					attribute_action_to_last_player(rally, contact);
     					rally_ends = true;
@@ -4372,7 +4704,7 @@ var bundle = (function () {
     					break;
     				}
     				if (contact.type === CONTACT.FLOOR && is_out(area)) {
-    					update_last_recorded_action(rally, ACTION.PASS);
+    					update_last_recorded_action(rally, ACTION.PASS, "reception: pass");
     					record_action("passing error: ball landed out of bounds", ACTION.PASSING_ERROR, servers);
     					attribute_action_to_last_player(rally, contact);
     					rally_ends = true;
@@ -4380,7 +4712,7 @@ var bundle = (function () {
     					break;
     				}
     				if (contact.type === CONTACT.FLOOR && is_play_area(area, servers)) {
-    					update_last_recorded_action(rally, ACTION.PASS);
+    					update_last_recorded_action(rally, ACTION.PASS, "reception: pass");
     					record_action("passing error: ball dropped", ACTION.PASSING_ERROR, servers);
     					rally_ends = true;
     					possession = receivers;
@@ -4442,7 +4774,7 @@ var bundle = (function () {
     			case RALLY_STATE.SERVER_BLOCKING:
     				if (contact.type === CONTACT.PLAYER && (is_play_area(area, receivers) || is_free_area(area, receivers))) {
     					rally.hits = 1; // ball crossed from servers to receivers, so reset hit count
-    					update_last_recorded_action(rally, ACTION.ATTACK);
+    					update_last_recorded_action(rally, ACTION.ATTACK, "attack attempt");
 
     					if (is_blocking_area(area, receivers)) {
     						record_action(`block or attack attempt (hit ${rally.hits})`, ACTION.BLOCK_OR_ATTACK, receivers);
@@ -4458,14 +4790,14 @@ var bundle = (function () {
     				}
     				if (contact.type === CONTACT.PLAYER && (is_play_area(area, servers) || is_free_area(area, servers))) {
     					rally.hits += 1;
-    					update_last_recorded_action(rally, ACTION.PASS);
+    					update_last_recorded_action(rally, ACTION.PASS, "reception: pass");
     					record_action(`reception: pass or attack (hit ${rally.hits})`, ACTION.PASS_OR_ATTACK, servers);
     					rally_ends = false;
     					rally.state = RALLY_STATE.SERVER_RALLYING3;
     					break;
     				}
     				if (contact.type === CONTACT.FLOOR && is_play_area(area, receivers)) {
-    					update_last_recorded_action(rally, ACTION.BLOCK);
+    					update_last_recorded_action(rally, ACTION.BLOCK, "block attempt");
     					record_action("block kill", ACTION.BLOCK_KILL, servers);
     					attribute_action_to_last_player(rally, contact);
     					rally_ends = true;
@@ -4473,7 +4805,7 @@ var bundle = (function () {
     					break;
     				}
     				if (is_net_area(area)) {
-    					update_last_recorded_action(rally, ACTION.ATTACK);
+    					update_last_recorded_action(rally, ACTION.ATTACK, "attack attempt");
     					record_action("attack error: net contact", ACTION.ATTACKING_ERROR, servers);
     					attribute_action_to_last_player(rally, contact);
     					rally_ends = true;
@@ -4481,7 +4813,7 @@ var bundle = (function () {
     					break;
     				}
     				if (contact.type === CONTACT.FLOOR && is_out(area)) {
-    					update_last_recorded_action(rally, ACTION.ATTACK);
+    					update_last_recorded_action(rally, ACTION.ATTACK, "attack attempt");
     					record_action("attacking error: ball landed out of bounds", ACTION.ATTACKING_ERROR, servers);
     					attribute_action_to_last_player(rally, contact);
     					rally_ends = true;
@@ -4509,27 +4841,7 @@ var bundle = (function () {
     		let need_new_rally = false;
 
     		if (rally_ends) {
-    			const set_index = current.set_index;
-    			log.info(`rally ends. appending to set ${set_index + 1}`);
-    			point_for(possession, match$1, set_index);
-    			log.debug("current:", current);
-    			const [set_ends, set_winner] = set_winner_info(match$1, set_index);
-
-    			if (set_ends) {
-    				log.info(`set ${set_index + 1} ends. ${team_aliases[set_winner]} (${set_winner}) team wins.`);
-    				match$1[set_index].winner = set_winner;
-    				const [match_ends, match_winner] = match_winner_info(match$1, set_index);
-
-    				if (match_ends) {
-    					log.info(`match ends. ${team_aliases[match_winner]} (${match_winner}) team wins.`);
-    					$$invalidate(5, recording = false);
-    				} else {
-    					current.set_index = set_index + 1; // TODO: signal UI and reactivate New Match button
-    					need_new_rally = true;
-    				}
-    			} else {
-    				need_new_rally = true;
-    			}
+    			need_new_rally = process_rally_end(current, possession);
     		} else {
     			log.info("rally continues..");
     		}
@@ -4541,16 +4853,43 @@ var bundle = (function () {
     		set_store_value(match, $stored_match = match$1, $stored_match); // trigger store update
     	};
 
+    	const process_rally_end = (current, possession) => {
+    		const set_index = current.set_index;
+    		const match = current.match;
+    		let need_new_rally = false;
+    		log.info("rally ends.");
+    		point_for(possession, match, set_index);
+    		log.debug("current:", current);
+    		const [set_ends, set_winner] = set_winner_info(match, set_index);
+
+    		if (set_ends) {
+    			log.info(`set ${set_index + 1} ends. ${team_aliases[set_winner]} (${set_winner}) team wins.`);
+    			match[set_index].winner = set_winner;
+    			const [match_ends, match_winner] = match_winner_info(match, set_index);
+
+    			if (match_ends) {
+    				log.info(`match ends. ${team_aliases[match_winner]} (${match_winner}) team wins.`);
+    				$$invalidate(5, recording = false);
+    			} else {
+    				current.set_index = set_index + 1; // TODO: signal UI and reactivate New Match button
+    				need_new_rally = true;
+    			}
+    		} else {
+    			need_new_rally = true;
+    		}
+
+    		return need_new_rally;
+    	};
+
     	const set_menu_props = ({ el_x: x, el_y: y, el_rect, area_id }) => {
     		// position menu to open near contact and grow towards center of court
     		const { width: w, height: h } = el_rect;
 
     		const tb = y < h / 2 ? "top" : "bottom";
     		const lr = x < w / 2 ? "left" : "right";
-    		const k = 80; // FIXME: magic number.. where is this vertical offset coming from?
     		$$invalidate(3, menu_origin = `${tb} ${lr}`);
     		$$invalidate(2, menu_offset.dx = lr === "left" ? x : w - x, menu_offset);
-    		$$invalidate(2, menu_offset.dy = tb === "top" ? y - k : h - y + k, menu_offset);
+    		$$invalidate(2, menu_offset.dy = tb === "top" ? y - MENU_DY : h - y + MENU_DY, menu_offset);
 
     		// set specifiers appropriate to contact location
     		$$invalidate(4, current.specifiers = specifiers[team_from_area(area_id)], current);
@@ -4567,8 +4906,16 @@ var bundle = (function () {
     		process_contact(current);
     	};
 
-    	const on_whistle = e => {
-    		log.debug("whistle!", e);
+    	const on_whistle = possession => {
+    		log.debug(`whistle! point and possession go to: ${possession}`);
+    		update_last_recorded_action(current.rally, ACTION.VIOLATION, `violation: point for ${team_aliases[possession]} (${possession})`);
+    		const need_new_rally = process_rally_end(current, possession);
+
+    		if (need_new_rally) {
+    			add_new_rally_to_set(possession, current);
+    		}
+
+    		set_store_value(match, $stored_match = current.match, $stored_match); // trigger store update
     	};
 
     	const on_contact = e => {
@@ -4686,7 +5033,7 @@ var bundle = (function () {
     		$$invalidate(1, menu_height);
     	}
 
-    	function button0_active_binding(value) {
+    	function button_active_binding(value) {
     		recording = value;
     		$$invalidate(5, recording);
     	}
@@ -4704,6 +5051,8 @@ var bundle = (function () {
     			$$invalidate(6, team_aliases);
     		}
     	}
+
+    	const click_handler_2 = t => on_whistle(t);
 
     	$$self.$capture_state = () => ({
     		onMount,
@@ -4723,6 +5072,7 @@ var bundle = (function () {
     		Score,
     		Transcript,
     		log,
+    		MENU_DY,
     		RALLY_STATE,
     		first,
     		last,
@@ -4751,6 +5101,7 @@ var bundle = (function () {
     		serving_team,
     		receiving_team,
     		process_contact,
+    		process_rally_end,
     		set_menu_props,
     		on_specify,
     		on_whistle,
@@ -4801,16 +5152,17 @@ var bundle = (function () {
     		click_handler,
     		click_handler_1,
     		div0_elementresize_handler,
-    		button0_active_binding,
+    		button_active_binding,
     		textfield0_value_binding,
-    		textfield1_value_binding
+    		textfield1_value_binding,
+    		click_handler_2
     	];
     }
 
     class Recorder extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$5, create_fragment$5, safe_not_equal, {}, [-1, -1]);
+    		init(this, options, instance$5, create_fragment$5, safe_not_equal, {}, [-1, -1, -1]);
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,

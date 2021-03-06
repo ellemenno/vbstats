@@ -11,6 +11,7 @@
   import Transcript from './Transcript.svelte';
 
   const log = logger('recorder: ');
+  const MENU_DY = 80; // FIXME: magic number.. where is this vertical offset coming from?
 
   const RALLY_STATE = {
     SERVING:'serving', SERVE_RECEIVING:'serve_receiving',
@@ -101,11 +102,12 @@
     log.debug(`attributed current action (${contact.action}) to ${latest.player}`);
   }
 
-  const update_last_recorded_action = (rally, action) => {
+  const update_last_recorded_action = (rally, action, description) => {
     const latest = last(rally.contacts);
     const old = latest.action;
     latest.action = action;
-    log.debug(`resolved last action from: ${old} to ${latest.action}`);
+    latest.description = description;
+    log.debug(`resolved last action from: ${old} to ${latest.action} (${latest.description})`);
   }
 
   const needs_specifier = (contact, rally) => {
@@ -226,7 +228,7 @@
       case RALLY_STATE.RECEIVER_RALLYING2:
         if (contact.type === CONTACT.PLAYER && (is_play_area(area, servers) || is_free_area(area, servers))) {
           rally.hits = 1; // ball crossed from receivers to servers, so reset hit count
-          update_last_recorded_action(rally, ACTION.ATTACK);
+          update_last_recorded_action(rally, ACTION.ATTACK, 'attack attempt');
           if (is_blocking_area(area, servers)) {
             record_action(`block or attack attempt (hit ${rally.hits})`, ACTION.BLOCK_OR_ATTACK, servers)
             rally.state = RALLY_STATE.SERVER_BLOCKING;
@@ -240,14 +242,14 @@
         }
         if (contact.type === CONTACT.PLAYER && (is_play_area(area, receivers) || is_free_area(area, receivers))) {
           rally.hits += 1;
-          update_last_recorded_action(rally, ACTION.DIG);
+          update_last_recorded_action(rally, ACTION.DIG, 'reception: dig');
           record_action(`reception: pass or attack (hit ${rally.hits})`, ACTION.PASS_OR_ATTACK, receivers);
           rally_ends = false;
           rally.state = RALLY_STATE.RECEIVER_RALLYING3;
           break;
         }
         if (contact.type === CONTACT.FLOOR && is_play_area(area, servers)) {
-          update_last_recorded_action(rally, ACTION.ATTACK);
+          update_last_recorded_action(rally, ACTION.ATTACK, 'attack attempt');
           record_action('attack kill', ACTION.KILL, receivers);
           attribute_action_to_last_player(rally, contact);
           rally_ends = true;
@@ -255,7 +257,7 @@
           break;
         }
         if (is_net_area(area)) {
-          update_last_recorded_action(rally, ACTION.DIG);
+          update_last_recorded_action(rally, ACTION.DIG, 'reception: dig');
           record_action('reception error: net contact', ACTION.RECEPTION_ERROR, receivers);
           attribute_action_to_last_player(rally, contact);
           rally_ends = true;
@@ -263,7 +265,7 @@
           break;
         }
         if (contact.type === CONTACT.FLOOR && is_out(area)) {
-          update_last_recorded_action(rally, ACTION.DIG);
+          update_last_recorded_action(rally, ACTION.DIG, 'reception: dig');
           record_action('reception error: ball landed out of bounds', ACTION.RECEPTION_ERROR, receivers);
           attribute_action_to_last_player(rally, contact);
           rally_ends = true;
@@ -271,7 +273,7 @@
           break;
         }
         if (contact.type === CONTACT.FLOOR && is_play_area(area, receivers)) {
-          update_last_recorded_action(rally, ACTION.DIG);
+          update_last_recorded_action(rally, ACTION.DIG, 'reception: dig');
           record_action('reception error: ball dropped', ACTION.RECEPTION_ERROR, receivers);
           rally_ends = true;
           possession = servers;
@@ -283,7 +285,7 @@
       case RALLY_STATE.RECEIVER_RALLYING3:
         if (contact.type === CONTACT.PLAYER && (is_play_area(area, servers) || is_free_area(area, servers))) {
           rally.hits = 1; // ball crossed from receivers to servers, so reset hit count
-          update_last_recorded_action(rally, ACTION.ATTACK);
+          update_last_recorded_action(rally, ACTION.ATTACK, 'attack attempt');
           if (is_blocking_area(area, servers)) {
             record_action(`block or attack attempt (hit ${rally.hits})`, ACTION.BLOCK_OR_ATTACK, servers);
             rally_ends = false;
@@ -298,14 +300,14 @@
         }
         if (contact.type === CONTACT.PLAYER && (is_play_area(area, receivers) || is_free_area(area, receivers))) {
           rally.hits += 1;
-          update_last_recorded_action(rally, ACTION.PASS);
+          update_last_recorded_action(rally, ACTION.PASS, 'reception: pass');
           record_action(`reception: attack (hit ${rally.hits})`, ACTION.ATTACK, receivers);
           rally_ends = false;
           rally.state = RALLY_STATE.RECEIVER_ATTACKING;
           break;
         }
         if (contact.type === CONTACT.FLOOR && is_play_area(area, servers)) {
-          update_last_recorded_action(rally, ACTION.ATTACK);
+          update_last_recorded_action(rally, ACTION.ATTACK, 'attack attempt');
           record_action('attack kill', ACTION.KILL, receivers);
           attribute_action_to_last_player(rally, contact);
           rally_ends = true;
@@ -313,7 +315,7 @@
           break;
         }
         if (is_net_area(area)) {
-          update_last_recorded_action(rally, ACTION.PASS);
+          update_last_recorded_action(rally, ACTION.PASS, 'reception: pass');
           record_action('passing error: net contact', ACTION.PASSING_ERROR, receivers);
           attribute_action_to_last_player(rally, contact);
           rally_ends = true;
@@ -321,7 +323,7 @@
           break;
         }
         if (contact.type === CONTACT.FLOOR && is_out(area)) {
-          update_last_recorded_action(rally, ACTION.PASS);
+          update_last_recorded_action(rally, ACTION.PASS, 'reception: pass');
           record_action('passing error: ball landed out of bounds', ACTION.PASSING_ERROR, receivers);
           attribute_action_to_last_player(rally, contact);
           rally_ends = true;
@@ -329,7 +331,7 @@
           break;
         }
         if (contact.type === CONTACT.FLOOR && is_play_area(area, receivers)) {
-          update_last_recorded_action(rally, ACTION.PASS);
+          update_last_recorded_action(rally, ACTION.PASS, 'reception: pass');
           record_action('passing error: ball dropped', ACTION.PASSING_ERROR, receivers);
           rally_ends = true;
           possession = servers;
@@ -392,7 +394,7 @@
       case RALLY_STATE.RECEIVER_BLOCKING:
         if (contact.type === CONTACT.PLAYER && (is_play_area(area, servers) || is_free_area(area, servers))) {
           rally.hits = 1; // ball crossed from receivers to servers, so reset hit count
-          update_last_recorded_action(rally, ACTION.ATTACK);
+          update_last_recorded_action(rally, ACTION.ATTACK, 'attack attempt');
           if (is_blocking_area(area, servers)) {
             record_action(`block or attack attempt (hit ${rally.hits})`, ACTION.BLOCK_OR_ATTACK, servers);
             rally_ends = false;
@@ -407,14 +409,14 @@
         }
         if (contact.type === CONTACT.PLAYER && (is_play_area(area, receivers) || is_free_area(area, receivers))) {
           rally.hits += 1;
-          update_last_recorded_action(rally, ACTION.PASS);
+          update_last_recorded_action(rally, ACTION.PASS, 'reception: pass');
           record_action(`reception: pass or attack (hit ${rally.hits})`, ACTION.PASS_OR_ATTACK, receivers);
           rally_ends = false;
           rally.state = RALLY_STATE.RECEIVER_RALLYING3;
           break;
         }
         if (contact.type === CONTACT.FLOOR && is_play_area(area, servers)) {
-          update_last_recorded_action(rally, ACTION.BLOCK);
+          update_last_recorded_action(rally, ACTION.BLOCK, 'block attempt');
           record_action('block kill', ACTION.BLOCK_KILL, receivers);
           attribute_action_to_last_player(rally, contact);
           rally_ends = true;
@@ -422,7 +424,7 @@
           break;
         }
         if (is_net_area(area)) {
-          update_last_recorded_action(rally, ACTION.ATTACK);
+          update_last_recorded_action(rally, ACTION.ATTACK, 'attack attempt');
           record_action('attack error: net contact', ACTION.ATTACKING_ERROR, receivers);
           attribute_action_to_last_player(rally, contact);
           rally_ends = true;
@@ -430,7 +432,7 @@
           break;
         }
         if (contact.type === CONTACT.FLOOR && is_out(area)) {
-          update_last_recorded_action(rally, ACTION.ATTACK);
+          update_last_recorded_action(rally, ACTION.ATTACK, 'attack attempt');
           record_action('attacking error: ball landed out of bounds', ACTION.ATTACKING_ERROR, receivers);
           attribute_action_to_last_player(rally, contact);
           rally_ends = true;
@@ -448,7 +450,7 @@
       case RALLY_STATE.SERVER_RALLYING2:
         if (contact.type === CONTACT.PLAYER && (is_play_area(area, receivers) || is_free_area(area, receivers))) {
           rally.hits = 1; // ball crossed from servers to receivers, so reset hit count
-          update_last_recorded_action(rally, ACTION.ATTACK);
+          update_last_recorded_action(rally, ACTION.ATTACK, 'attack attempt');
           if (is_blocking_area(area, receivers)) {
             record_action(`block or attack attempt (hit ${rally.hits})`, ACTION.BLOCK_OR_ATTACK, receivers)
             rally.state = RALLY_STATE.RECEIVER_BLOCKING;
@@ -462,14 +464,14 @@
         }
         if (contact.type === CONTACT.PLAYER && (is_play_area(area, servers) || is_free_area(area, servers))) {
           rally.hits += 1;
-          update_last_recorded_action(rally, ACTION.DIG);
+          update_last_recorded_action(rally, ACTION.DIG, 'reception: dig');
           record_action(`reception: pass or attack (hit ${rally.hits})`, ACTION.PASS_OR_ATTACK, servers);
           rally_ends = false;
           rally.state = RALLY_STATE.SERVER_RALLYING3;
           break;
         }
         if (contact.type === CONTACT.FLOOR && is_play_area(area, receivers)) {
-          update_last_recorded_action(rally, ACTION.ATTACK);
+          update_last_recorded_action(rally, ACTION.ATTACK, 'attack attempt');
           record_action('attack kill', ACTION.KILL, servers);
           attribute_action_to_last_player(rally, contact);
           rally_ends = true;
@@ -477,7 +479,7 @@
           break;
         }
         if (is_net_area(area)) {
-          update_last_recorded_action(rally, ACTION.DIG);
+          update_last_recorded_action(rally, ACTION.DIG, 'reception: dig');
           record_action('reception error: net contact', ACTION.RECEPTION_ERROR, servers);
           attribute_action_to_last_player(rally, contact);
           rally_ends = true;
@@ -485,7 +487,7 @@
           break;
         }
         if (contact.type === CONTACT.FLOOR && is_out(area)) {
-          update_last_recorded_action(rally, ACTION.DIG);
+          update_last_recorded_action(rally, ACTION.DIG, 'reception: dig');
           record_action('reception error: ball landed out of bounds', ACTION.RECEPTION_ERROR, servers);
           attribute_action_to_last_player(rally, contact);
           rally_ends = true;
@@ -493,7 +495,7 @@
           break;
         }
         if (contact.type === CONTACT.FLOOR && is_play_area(area, servers)) {
-          update_last_recorded_action(rally, ACTION.DIG);
+          update_last_recorded_action(rally, ACTION.DIG, 'reception: dig');
           record_action('reception error: ball dropped', ACTION.RECEPTION_ERROR, servers);
           rally_ends = true;
           possession = receivers;
@@ -505,7 +507,7 @@
       case RALLY_STATE.SERVER_RALLYING3:
         if (contact.type === CONTACT.PLAYER && (is_play_area(area, receivers) || is_free_area(area, receivers))) {
           rally.hits = 1; // ball crossed from servers to receivers, so reset hit count
-          update_last_recorded_action(rally, ACTION.ATTACK);
+          update_last_recorded_action(rally, ACTION.ATTACK, 'attack attempt');
           if (is_blocking_area(area, receivers)) {
             record_action(`block or attack attempt (hit ${rally.hits})`, ACTION.BLOCK_OR_ATTACK, receivers);
             rally_ends = false;
@@ -520,14 +522,14 @@
         }
         if (contact.type === CONTACT.PLAYER && (is_play_area(area, servers) || is_free_area(area, servers))) {
           rally.hits += 1;
-          update_last_recorded_action(rally, ACTION.PASS);
+          update_last_recorded_action(rally, ACTION.PASS, 'reception: pass');
           record_action(`reception: attack (hit ${rally.hits})`, ACTION.ATTACK, servers);
           rally_ends = false;
           rally.state = RALLY_STATE.SERVER_ATTACKING;
           break;
         }
         if (contact.type === CONTACT.FLOOR && is_play_area(area, receivers)) {
-          update_last_recorded_action(rally, ACTION.ATTACK);
+          update_last_recorded_action(rally, ACTION.ATTACK, 'attack attempt');
           record_action('attack kill', ACTION.KILL, servers);
           attribute_action_to_last_player(rally, contact);
           rally_ends = true;
@@ -535,7 +537,7 @@
           break;
         }
         if (is_net_area(area)) {
-          update_last_recorded_action(rally, ACTION.PASS);
+          update_last_recorded_action(rally, ACTION.PASS, 'reception: pass');
           record_action('passing error: net contact', ACTION.PASSING_ERROR, servers);
           attribute_action_to_last_player(rally, contact);
           rally_ends = true;
@@ -543,7 +545,7 @@
           break;
         }
         if (contact.type === CONTACT.FLOOR && is_out(area)) {
-          update_last_recorded_action(rally, ACTION.PASS);
+          update_last_recorded_action(rally, ACTION.PASS, 'reception: pass');
           record_action('passing error: ball landed out of bounds', ACTION.PASSING_ERROR, servers);
           attribute_action_to_last_player(rally, contact);
           rally_ends = true;
@@ -551,7 +553,7 @@
           break;
         }
         if (contact.type === CONTACT.FLOOR && is_play_area(area, servers)) {
-          update_last_recorded_action(rally, ACTION.PASS);
+          update_last_recorded_action(rally, ACTION.PASS, 'reception: pass');
           record_action('passing error: ball dropped', ACTION.PASSING_ERROR, servers);
           rally_ends = true;
           possession = receivers;
@@ -614,7 +616,7 @@
       case RALLY_STATE.SERVER_BLOCKING:
         if (contact.type === CONTACT.PLAYER && (is_play_area(area, receivers) || is_free_area(area, receivers))) {
           rally.hits = 1; // ball crossed from servers to receivers, so reset hit count
-          update_last_recorded_action(rally, ACTION.ATTACK);
+          update_last_recorded_action(rally, ACTION.ATTACK, 'attack attempt');
           if (is_blocking_area(area, receivers)) {
             record_action(`block or attack attempt (hit ${rally.hits})`, ACTION.BLOCK_OR_ATTACK, receivers);
             rally_ends = false;
@@ -629,14 +631,14 @@
         }
         if (contact.type === CONTACT.PLAYER && (is_play_area(area, servers) || is_free_area(area, servers))) {
           rally.hits += 1;
-          update_last_recorded_action(rally, ACTION.PASS);
+          update_last_recorded_action(rally, ACTION.PASS, 'reception: pass');
           record_action(`reception: pass or attack (hit ${rally.hits})`, ACTION.PASS_OR_ATTACK, servers);
           rally_ends = false;
           rally.state = RALLY_STATE.SERVER_RALLYING3;
           break;
         }
         if (contact.type === CONTACT.FLOOR && is_play_area(area, receivers)) {
-          update_last_recorded_action(rally, ACTION.BLOCK);
+          update_last_recorded_action(rally, ACTION.BLOCK, 'block attempt');
           record_action('block kill', ACTION.BLOCK_KILL, servers);
           attribute_action_to_last_player(rally, contact);
           rally_ends = true;
@@ -644,7 +646,7 @@
           break;
         }
         if (is_net_area(area)) {
-          update_last_recorded_action(rally, ACTION.ATTACK);
+          update_last_recorded_action(rally, ACTION.ATTACK, 'attack attempt');
           record_action('attack error: net contact', ACTION.ATTACKING_ERROR, servers);
           attribute_action_to_last_player(rally, contact);
           rally_ends = true;
@@ -652,7 +654,7 @@
           break;
         }
         if (contact.type === CONTACT.FLOOR && is_out(area)) {
-          update_last_recorded_action(rally, ACTION.ATTACK);
+          update_last_recorded_action(rally, ACTION.ATTACK, 'attack attempt');
           record_action('attacking error: ball landed out of bounds', ACTION.ATTACKING_ERROR, servers);
           attribute_action_to_last_player(rally, contact);
           rally_ends = true;
@@ -674,34 +676,41 @@
     rally.contacts.push(contact);
     let need_new_rally = false;
 
-    if (rally_ends) {
-      const set_index = current.set_index;
-      log.info(`rally ends. appending to set ${set_index+1}`);
-      point_for(possession, match, set_index);
-      log.debug('current:', current);
-
-      const [set_ends, set_winner] = set_winner_info(match, set_index);
-      if (set_ends) {
-        log.info(`set ${set_index+1} ends. ${team_aliases[set_winner]} (${set_winner}) team wins.`);
-        match[set_index].winner = set_winner;
-
-        const [match_ends, match_winner] = match_winner_info(match, set_index);
-        if (match_ends) {
-          log.info(`match ends. ${team_aliases[match_winner]} (${match_winner}) team wins.`);
-          recording = false;
-          // TODO: signal UI and reactivate New Match button
-        }
-        else {
-          current.set_index = set_index + 1;
-          need_new_rally = true;
-        }
-      }
-      else { need_new_rally = true; }
-    }
+    if (rally_ends) { need_new_rally = process_rally_end(current, possession); }
     else { log.info('rally continues..'); }
 
     if (need_new_rally) { add_new_rally_to_set(possession, current); }
     $stored_match = match; // trigger store update
+  }
+
+  const process_rally_end = (current, possession) => {
+    const set_index = current.set_index;
+    const match = current.match;
+    let need_new_rally = false;
+
+    log.info('rally ends.');
+    point_for(possession, match, set_index);
+    log.debug('current:', current);
+
+    const [set_ends, set_winner] = set_winner_info(match, set_index);
+    if (set_ends) {
+      log.info(`set ${set_index+1} ends. ${team_aliases[set_winner]} (${set_winner}) team wins.`);
+      match[set_index].winner = set_winner;
+
+      const [match_ends, match_winner] = match_winner_info(match, set_index);
+      if (match_ends) {
+        log.info(`match ends. ${team_aliases[match_winner]} (${match_winner}) team wins.`);
+        recording = false;
+        // TODO: signal UI and reactivate New Match button
+      }
+      else {
+        current.set_index = set_index + 1;
+        need_new_rally = true;
+      }
+    }
+    else { need_new_rally = true; }
+
+    return need_new_rally;
   }
 
   const set_menu_props = ({el_x:x, el_y:y, el_rect, area_id}) => {
@@ -709,10 +718,9 @@
     const {width:w, height:h} = el_rect;
     const tb = (y < h/2) ? 'top'  : 'bottom';
     const lr = (x < w/2) ? 'left' : 'right';
-    const k = 80; // FIXME: magic number.. where is this vertical offset coming from?
     menu_origin = `${tb} ${lr}`;
     menu_offset.dx = lr === 'left' ? x : w-x;
-    menu_offset.dy = tb === 'top'  ? y-k : h-y+k;
+    menu_offset.dy = tb === 'top'  ? y-MENU_DY : h-y+MENU_DY;
     // set specifiers appropriate to contact location
     current.specifiers = specifiers[team_from_area(area_id)];
   }
@@ -724,8 +732,13 @@
     process_contact(current);
   }
 
-  const on_whistle = (e) => {
-    log.debug('whistle!', e);
+  const on_whistle = (possession) => {
+    log.debug(`whistle! point and possession go to: ${possession}`);
+
+    update_last_recorded_action(current.rally, ACTION.VIOLATION, `violation: point for ${team_aliases[possession]} (${possession})`);
+    const need_new_rally = process_rally_end(current, possession);
+    if (need_new_rally) { add_new_rally_to_set(possession, current); }
+    $stored_match = current.match; // trigger store update
   }
 
   const on_contact = (e) => {
@@ -887,7 +900,17 @@
     bind:value={team_aliases[TEAM.AWAY]}
   />
 
-  <Button icon style="margin-left: 2.0rem; transform: scale(1.5);" color="rgb(var(--action-error-rgb))" on:click={on_whistle}>
-    <Icon style="transform: scale(1.25);"><svelte:component this={whistle} /></Icon>
-  </Button>
+  <Menu origin="bottom right" dy={MENU_DY}>
+    <div slot="activator">
+      <Button icon style="margin-left: 2.0rem; transform: scale(1.5);" color="rgb(var(--action-error-rgb))">
+        <Icon style="transform: scale(1.25);"><svelte:component this={whistle} /></Icon>
+      </Button>
+    </div>
+
+    {#each [TEAM.HOME, TEAM.AWAY] as t}
+    <Menuitem on:click={()=>on_whistle(t)}>Point for {t} team</Menuitem>
+    {/each}
+    <hr />
+    <Menuitem>Cancel</Menuitem>
+  </Menu>
 </div>
