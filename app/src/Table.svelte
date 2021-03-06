@@ -1,7 +1,10 @@
 <script>
+  import { onMount } from 'svelte';
   import { Ripple } from 'svelte-mui';
 
   export let data;
+
+  let criteria = { key: null, dir: 1 };
 
   const comparator = ({key, dir}) => (
     (a, b) => {
@@ -11,17 +14,15 @@
     }
   )
 
-  $: criteria = { key: (data && data[0] && Object.keys(data[0])[0]) || '', dir: 1 };
-
   $: sort = (key) => {
     if (key === criteria.key) { criteria.dir *= -1; }
-    else {
-      criteria.key = key;
-      criteria.dir = 1;
-    }
-
+    else { criteria.key = key; criteria.dir = 1; }
     data = data.sort(comparator(criteria));
   }
+
+  onMount(async () => {
+    criteria.key = (data && data[0] && Object.keys(data[0])[0]) || null;
+  })
 </script>
 
 <style>

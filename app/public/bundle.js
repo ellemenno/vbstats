@@ -5587,7 +5587,7 @@ var bundle = (function () {
     	return child_ctx;
     }
 
-    // (53:0) {#if data && data[0]}
+    // (54:0) {#if data && data[0]}
     function create_if_block$1(ctx) {
     	let table;
     	let thead;
@@ -5633,12 +5633,12 @@ var bundle = (function () {
     			}
 
     			attr_dev(tr, "class", "svelte-11ilpom");
-    			add_location(tr, file$6, 55, 4, 1022);
+    			add_location(tr, file$6, 56, 4, 1099);
     			attr_dev(thead, "class", "svelte-11ilpom");
-    			add_location(thead, file$6, 54, 2, 1010);
-    			add_location(tbody, file$6, 61, 2, 1196);
+    			add_location(thead, file$6, 55, 2, 1087);
+    			add_location(tbody, file$6, 62, 2, 1273);
     			attr_dev(table, "class", "svelte-11ilpom");
-    			add_location(table, file$6, 53, 0, 1000);
+    			add_location(table, file$6, 54, 0, 1077);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, table, anchor);
@@ -5740,14 +5740,14 @@ var bundle = (function () {
     		block,
     		id: create_if_block$1.name,
     		type: "if",
-    		source: "(53:0) {#if data && data[0]}",
+    		source: "(54:0) {#if data && data[0]}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (57:6) {#each Object.keys(data[0]) as key}
+    // (58:6) {#each Object.keys(data[0]) as key}
     function create_each_block_2$2(ctx) {
     	let th;
     	let t0_value = /*key*/ ctx[10] + "";
@@ -5767,7 +5767,7 @@ var bundle = (function () {
     			create_component(ripple.$$.fragment);
     			attr_dev(th, "class", "svelte-11ilpom");
     			toggle_class(th, "active", /*key*/ ctx[10] === /*criteria*/ ctx[1].key);
-    			add_location(th, file$6, 57, 6, 1075);
+    			add_location(th, file$6, 58, 6, 1152);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, th, anchor);
@@ -5820,14 +5820,14 @@ var bundle = (function () {
     		block,
     		id: create_each_block_2$2.name,
     		type: "each",
-    		source: "(57:6) {#each Object.keys(data[0]) as key}",
+    		source: "(58:6) {#each Object.keys(data[0]) as key}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (65:6) {#each Object.values(row) as val}
+    // (66:6) {#each Object.values(row) as val}
     function create_each_block_1$2(ctx) {
     	let td;
     	let t_value = /*val*/ ctx[7] + "";
@@ -5839,7 +5839,7 @@ var bundle = (function () {
     			t = text(t_value);
     			attr_dev(td, "class", "svelte-11ilpom");
     			toggle_class(td, "dim", /*val*/ ctx[7] === 0);
-    			add_location(td, file$6, 65, 6, 1283);
+    			add_location(td, file$6, 66, 6, 1360);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, td, anchor);
@@ -5861,14 +5861,14 @@ var bundle = (function () {
     		block,
     		id: create_each_block_1$2.name,
     		type: "each",
-    		source: "(65:6) {#each Object.values(row) as val}",
+    		source: "(66:6) {#each Object.values(row) as val}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (63:4) {#each data as row}
+    // (64:4) {#each data as row}
     function create_each_block$2(ctx) {
     	let tr;
     	let t;
@@ -5889,7 +5889,7 @@ var bundle = (function () {
     			}
 
     			t = space();
-    			add_location(tr, file$6, 63, 4, 1232);
+    			add_location(tr, file$6, 64, 4, 1309);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, tr, anchor);
@@ -5935,7 +5935,7 @@ var bundle = (function () {
     		block,
     		id: create_each_block$2.name,
     		type: "each",
-    		source: "(63:4) {#each data as row}",
+    		source: "(64:4) {#each data as row}",
     		ctx
     	});
 
@@ -6011,17 +6011,21 @@ var bundle = (function () {
     }
 
     function instance$6($$self, $$props, $$invalidate) {
-    	let criteria;
     	let sort;
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots("Table", slots, []);
     	let { data } = $$props;
+    	let criteria = { key: null, dir: 1 };
 
     	const comparator = ({ key, dir }) => (a, b) => {
     		if (a[key] < b[key]) return -1 * dir;
     		if (a[key] > b[key]) return 1 * dir;
     		return 0;
     	};
+
+    	onMount(async () => {
+    		$$invalidate(1, criteria.key = data && data[0] && Object.keys(data[0])[0] || null, criteria);
+    	});
 
     	const writable_props = ["data"];
 
@@ -6033,7 +6037,14 @@ var bundle = (function () {
     		if ("data" in $$props) $$invalidate(0, data = $$props.data);
     	};
 
-    	$$self.$capture_state = () => ({ Ripple: he, data, comparator, criteria, sort });
+    	$$self.$capture_state = () => ({
+    		onMount,
+    		Ripple: he,
+    		data,
+    		criteria,
+    		comparator,
+    		sort
+    	});
 
     	$$self.$inject_state = $$props => {
     		if ("data" in $$props) $$invalidate(0, data = $$props.data);
@@ -6056,13 +6067,6 @@ var bundle = (function () {
     				}
 
     				$$invalidate(0, data = data.sort(comparator(criteria)));
-    			});
-    		}
-
-    		if ($$self.$$.dirty & /*data*/ 1) {
-    			$$invalidate(1, criteria = {
-    				key: data && data[0] && Object.keys(data[0])[0] || "",
-    				dir: 1
     			});
     		}
     	};
@@ -6104,7 +6108,7 @@ var bundle = (function () {
     const { Object: Object_1$1 } = globals;
     const file$7 = "src/Visualizer.svelte";
 
-    // (77:2) <ExpansionPanel name="contribution" expand dense bind:group on:change={on_panel_change}>
+    // (75:2) <ExpansionPanel name="contribution" expand dense bind:group on:change={on_panel_change}>
     function create_default_slot_1$2(ctx) {
     	let table;
     	let current;
@@ -6145,14 +6149,14 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_1$2.name,
     		type: "slot",
-    		source: "(77:2) <ExpansionPanel name=\\\"contribution\\\" expand dense bind:group on:change={on_panel_change}>",
+    		source: "(75:2) <ExpansionPanel name=\\\"contribution\\\" expand dense bind:group on:change={on_panel_change}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (81:2) <ExpansionPanel name="actions" dense bind:group on:change={on_panel_change}>
+    // (79:2) <ExpansionPanel name="actions" dense bind:group on:change={on_panel_change}>
     function create_default_slot$2(ctx) {
     	let table;
     	let current;
@@ -6193,7 +6197,7 @@ var bundle = (function () {
     		block,
     		id: create_default_slot$2.name,
     		type: "slot",
-    		source: "(81:2) <ExpansionPanel name=\\\"actions\\\" dense bind:group on:change={on_panel_change}>",
+    		source: "(79:2) <ExpansionPanel name=\\\"actions\\\" dense bind:group on:change={on_panel_change}>",
     		ctx
     	});
 
@@ -6267,9 +6271,9 @@ var bundle = (function () {
     			create_component(expansionpanel0.$$.fragment);
     			t2 = space();
     			create_component(expansionpanel1.$$.fragment);
-    			add_location(h2, file$7, 73, 0, 2043);
+    			add_location(h2, file$7, 71, 0, 2007);
     			attr_dev(div, "class", "container svelte-1o5xhww");
-    			add_location(div, file$7, 75, 0, 2069);
+    			add_location(div, file$7, 73, 0, 2033);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -6359,8 +6363,8 @@ var bundle = (function () {
     	const sum_keys = (row, keys) => keys.reduce((a, v) => Object.keys(row).includes(v) ? a + row[v] : a, 0);
 
     	const on_panel_change = ({ detail }) => {
-    		log.debug(`panel ${detail.name} is ${detail.expanded ? "open" : "closed"}`);
-    	};
+    		
+    	}; // log.debug(`panel ${detail.name} is ${detail.expanded ? 'open' : 'closed'}`);
 
     	let group = "";
     	const writable_props = [];
@@ -6481,10 +6485,6 @@ var bundle = (function () {
     				}),
     				arrange("player")
     			));
-    		}
-
-    		if ($$self.$$.dirty & /*player_stats*/ 1) {
-    			log.info("stats", player_stats);
     		}
     	};
 

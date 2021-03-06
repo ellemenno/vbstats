@@ -12,7 +12,7 @@
   const sum_keys = (row, keys) => keys.reduce((a,v) => Object.keys(row).includes(v) ? a + row[v] : a, 0)
 
   const on_panel_change = ({ detail }) => {
-    log.debug(`panel ${detail.name} is ${detail.expanded ? 'open' : 'closed'}`);
+    // log.debug(`panel ${detail.name} is ${detail.expanded ? 'open' : 'closed'}`);
   }
 
   $: combined_rallies = $match.reduce((a,v)=>a.concat(v.rallies), [])
@@ -59,8 +59,6 @@
     mutate({ 'net value': (d) => d['points won'] - d['points lost'] }),
     arrange('player'),
   )
-
-  $: log.info('stats', player_stats);
 
   let group = '';
 </script>
