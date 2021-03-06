@@ -1,7 +1,7 @@
 <script>
   import { Button, Icon } from 'svelte-mui';
 
-  import { TEAM, ACTION } from './stores.js';
+  import { TEAM, ACTION } from './constants.js';
   import { match as stored_match } from './stores.js';
   import { logger } from './logger.js';
 
@@ -25,30 +25,30 @@
 
   const color_for_contact = (contact) => {
     switch (contact.action) {
-      case $ACTION.SERVICE_ERROR:
-      case $ACTION.RECEPTION_ERROR:
-      case $ACTION.PASSING_ERROR:
-      case $ACTION.ATTACKING_ERROR:
-      case $ACTION.BLOCKING_ERROR:
-      case $ACTION.VIOLATION:
+      case ACTION.SERVICE_ERROR:
+      case ACTION.RECEPTION_ERROR:
+      case ACTION.PASSING_ERROR:
+      case ACTION.ATTACKING_ERROR:
+      case ACTION.BLOCKING_ERROR:
+      case ACTION.VIOLATION:
         return 'rgb(var(--action-error-rgb))'
       break;
 
-      case $ACTION.ACE:
-      case $ACTION.BLOCK_KILL:
-      case $ACTION.KILL:
+      case ACTION.ACE:
+      case ACTION.BLOCK_KILL:
+      case ACTION.KILL:
         return 'rgb(var(--action-point-rgb))'
       break;
 
-      case $ACTION.SERVE:
-      case $ACTION.DIG_OR_ATTACK:
-      case $ACTION.DIG:
-      case $ACTION.PASS_OR_ATTACK:
-      case $ACTION.PASS:
-      case $ACTION.BLOCK_OR_ATTACK:
-      case $ACTION.BLOCK:
-      case $ACTION.ATTACK:
-        return (contact.team === $TEAM.HOME) ? 'rgb(var(--team-home-rgb))' : 'rgb(var(--team-away-rgb))'
+      case ACTION.SERVE:
+      case ACTION.DIG_OR_ATTACK:
+      case ACTION.DIG:
+      case ACTION.PASS_OR_ATTACK:
+      case ACTION.PASS:
+      case ACTION.BLOCK_OR_ATTACK:
+      case ACTION.BLOCK:
+      case ACTION.ATTACK:
+        return (contact.team === TEAM.HOME) ? 'rgb(var(--team-home-rgb))' : 'rgb(var(--team-away-rgb))'
       break;
 
       default: return '#555';
@@ -57,28 +57,28 @@
 
   const symbol_for_action = (action) => {
     switch (action) {
-      case $ACTION.SERVICE_ERROR:
-      case $ACTION.RECEPTION_ERROR:
-      case $ACTION.PASSING_ERROR:
-      case $ACTION.ATTACKING_ERROR:
-      case $ACTION.BLOCKING_ERROR:
+      case ACTION.SERVICE_ERROR:
+      case ACTION.RECEPTION_ERROR:
+      case ACTION.PASSING_ERROR:
+      case ACTION.ATTACKING_ERROR:
+      case ACTION.BLOCKING_ERROR:
         return 'E';
 
-      case $ACTION.DIG_OR_ATTACK:
-      case $ACTION.PASS_OR_ATTACK:
-      case $ACTION.BLOCK_OR_ATTACK:
+      case ACTION.DIG_OR_ATTACK:
+      case ACTION.PASS_OR_ATTACK:
+      case ACTION.BLOCK_OR_ATTACK:
         return ' ';
 
-      case $ACTION.VIOLATION: return 'V';
+      case ACTION.VIOLATION: return 'V';
 
-      case $ACTION.ACE:        return '♠'; // U+2660 Black Spade Suit
-      case $ACTION.BLOCK:      return 'B';
-      case $ACTION.BLOCK_KILL: return 'ꓘ'; // U+A4D8 ꓘ LISU LETTER KHA
-      case $ACTION.KILL:       return 'K';
-      case $ACTION.SERVE:      return 'S';
-      case $ACTION.DIG:        return 'D';
-      case $ACTION.PASS:       return 'P';
-      case $ACTION.ATTACK:     return 'A';
+      case ACTION.ACE:        return '♠'; // U+2660 Black Spade Suit
+      case ACTION.BLOCK:      return 'B';
+      case ACTION.BLOCK_KILL: return 'ꓘ'; // U+A4D8 ꓘ LISU LETTER KHA
+      case ACTION.KILL:       return 'K';
+      case ACTION.SERVE:      return 'S';
+      case ACTION.DIG:        return 'D';
+      case ACTION.PASS:       return 'P';
+      case ACTION.ATTACK:     return 'A';
 
       default: return '?';
     }
@@ -86,7 +86,7 @@
 
   const style_for_symbol = (action) => {
     switch (action) {
-      case $ACTION.ACE: return 'font-size: x-large; margin-top: -0.15em';
+      case ACTION.ACE: return 'font-size: x-large; margin-top: -0.15em';
       default: return '';
     }
   }
