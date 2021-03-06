@@ -36,14 +36,17 @@
     font-weight: 500;
     user-select: none;
   }
-  th.active {
-    color: var(--accent)
-  }
   td, th {
     border: 1px solid var(--border);
     padding: 0.5em;
     text-align: left;
     vertical-align: middle;
+  }
+  td.dim {
+    color: var(--alternate)
+  }
+  th.active {
+    color: var(--accent)
   }
 </style>
 
@@ -60,7 +63,7 @@
     {#each data as row}
     <tr>
       {#each Object.values(row) as val}
-      <td>{val}</td>
+      <td class:dim={(val === 0)}>{val}</td>
       {/each}
     </tr>
     {/each}

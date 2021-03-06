@@ -1,12 +1,23 @@
 <script>
   import { ExpansionPanel } from 'svelte-mui';
-  import { tidy, arrange, count, desc, endsWith, filter, groupBy, innerJoin, mutate, n, pivotWider, select, transmute } from '@tidyjs/tidy'
+  import { tidy, arrange, count, desc, endsWith, filter, groupBy, innerJoin, mutate, n, pivotWider, replaceNully, select, transmute } from '@tidyjs/tidy'
 
   import { match } from './stores.js';
   import { logger } from './logger.js';
   import Table from './Table.svelte';
 
   const log = logger('visualizer: ');
+  const player_stat_columns = [
+    'player',
+    'ace', 'block', 'kill',
+    'serve', 'dig', 'pass', 'attack',
+    'service error', 'blocking error', 'reception error', 'passing error', 'attacking error', 'violation',
+  ];
+  const points = ['ace','block','kill'];
+  const errors = ['service error', 'reception error', 'passing error', 'attacking error', 'blocking error', 'violation'];
+
+
+  const sum_keys = (row, keys) => keys.reduce((a,v) => Object.keys(row).includes(v) ? a + row[v] : a, 0)
 
   const on_panel_change = ({ detail }) => {
     log.debug(`panel ${detail.name} is ${detail.expanded ? 'open' : 'closed'}`);
@@ -18,9 +29,7 @@
 
   $: action_summary = tidy(all_contacts,
     filter( c => (c.team === 'home')),
-    groupBy('player', [
-      count('action')
-    ]),
+    groupBy('player', [count('action')]),
     arrange('action'),
   )
 
@@ -29,49 +38,37 @@
     pivotWider({
       namesFrom: 'action',
       valuesFrom: 'n',
-      valuesFill: 0,
     }),
-    select([
-      'player',
-      'ace', 'block', 'kill',
-      'serve', 'dig', 'pass', 'attack',
-      endsWith('error'), 'violation' // service -, blocking -, reception -, passing -, attacking -
-    ]),
+    replaceNully(Object.fromEntries(player_stat_columns.map(v => [v,0]))),
+    select(player_stat_columns),
     arrange('player'),
   )
 
   $: points_won = tidy(player_stats,
-    select(['player','ace','block','kill']),
+    select(['player', ...points]),
     transmute({
       player: (d) => d.player,
-      points_won: (d) => (d.ace || 0) + (d.block || 0) + (d.kill || 0),
+      'points won': (d) => sum_keys(d, points),
     }),
-    arrange([desc('points_won'), 'player']),
+    arrange([desc('points won'), 'player']),
   )
 
   $: points_lost = tidy(player_stats,
-    select(['player',endsWith('error'),'violation']),
+    select(['player', ...errors]),
     transmute({
       player: (d) => d.player,
-      points_lost: (d) => (0
-        + (d['service error'] || 0)
-        + (d['reception error'] || 0)
-        + (d['passing error'] || 0)
-        + (d['attacking error'] || 0)
-        + (d['blocking error'] || 0)
-        + (d.violation || 0)
-      ),
+      'points lost': (d) => sum_keys(d, errors),
     }),
-    arrange([desc('points_lost'), 'player']),
+    arrange([desc('points lost'), 'player']),
   )
 
   $: player_points = tidy(points_won,
     innerJoin(points_lost, { by: 'player' }),
-    mutate({ net_value: (d) => d.points_won - d.points_lost }),
+    mutate({ 'net value': (d) => d['points won'] - d['points lost'] }),
     arrange('player'),
   )
 
-  $: log.info('stats', player_points);
+  $: log.info('stats', player_stats);
 
   let group = '';
 </script>

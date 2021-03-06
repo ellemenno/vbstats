@@ -21,7 +21,7 @@
 
   const dark_theme = {
     '--accent': '#e6942b',
-    '--alternate': '#000',
+    '--alternate': '#aaa',
     '--bg-app-bar': '#838383',
     '--bg-color': '#303134',
     '--bg-input-filled': 'rgba(255,255,255, 0.1)',
