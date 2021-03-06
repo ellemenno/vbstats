@@ -1,6 +1,5 @@
 <script>
   import { TEAM, ACTION } from './stores.js';
-  import { match } from './stores.js';
   import { logger } from './logger.js';
 
   export let current_set = 0;
