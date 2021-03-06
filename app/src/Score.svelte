@@ -38,6 +38,7 @@
   .scoreboard .digits {
     height: 100%;
     position: relative;
+    user-select: none;
   }
   .scoreboard .digits span {
     border-radius: 4px;
