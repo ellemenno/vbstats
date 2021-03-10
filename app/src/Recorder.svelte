@@ -5,6 +5,7 @@
   import { TEAM, CONTACT, ACTION } from './constants.js';
   import { match as stored_match } from './stores.js';
   import { logger } from './logger.js';
+  import jersey from './icons/jersey.svg'
   import whistle from './icons/whistle.svg'
   import Court from './Court.svelte';
   import Score from './Score.svelte';
@@ -732,6 +733,10 @@
     process_contact(current);
   }
 
+  const on_jersey = (number) => {
+    log.debug(`toggle jersey #${number}`);
+  }
+
   const on_whistle = (possession) => {
     log.debug(`whistle! point and possession go to: ${possession}`);
 
@@ -844,9 +849,8 @@
     background-color: var(--bg-color);
     column-gap: 1em;
     display: grid;
-    grid-template-columns: 9em auto 15em auto 9em;
-    margin-top: 0.5rem;
-    padding: 0.5rem;
+    grid-template-columns: 1fr 0.5fr 2.5fr 2fr 2.5fr 0.5fr;
+    margin: 0.75rem 0 0.75rem 0;
   }
   .control-bar:nth-child(1) { max-width: 8em; justify-self: end; }
   .control-bar:nth-child(5) { max-width: 8em; justify-self: start; }
@@ -874,10 +878,23 @@
 </Menu>
 </div>
 
-<Transcript set_index={current.set_index} />
-
 <div class="control-bar">
-  <Button style="align-self: center;" outlined toggle bind:active={recording}>recording</Button>
+  <Button style="align-self: center;" outlined toggle bind:active={recording}>⬤ REC</Button>  <!-- black large circle (U+2B24) -->
+
+  <Menu origin="bottom right" dy={MENU_DY}>
+    <div slot="activator">
+      <Button icon style="transform: scale(1.5);">
+        <Icon style="transform: scale(1.25);"><svelte:component this={jersey} /></Icon>
+      </Button>
+    </div>
+
+    {#each ['00','0','1','2','3'] as n}
+    <Menuitem on:click={()=>on_jersey(n)}>#{n}</Menuitem>
+    {/each}
+    <hr />
+    <Menuitem>Cancel</Menuitem>
+  </Menu>
+
   <Textfield
     outlined
     style="margin: 0; align-self: center;"
@@ -902,7 +919,7 @@
 
   <Menu origin="bottom right" dy={MENU_DY}>
     <div slot="activator">
-      <Button icon style="margin-left: 2.0rem; transform: scale(1.5);" color="rgb(var(--action-error-rgb))">
+      <Button icon style="margin-left: 1.6rem; margin-right: 0.5rem; transform: scale(1.5);" color="rgb(var(--action-error-rgb))">
         <Icon style="transform: scale(1.25);"><svelte:component this={whistle} /></Icon>
       </Button>
     </div>
@@ -914,3 +931,5 @@
     <Menuitem>Cancel</Menuitem>
   </Menu>
 </div>
+
+<Transcript set_index={current.set_index} />
