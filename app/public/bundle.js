@@ -4028,7 +4028,7 @@ var bundle = (function () {
     	return block;
     }
 
-    // (922:6) <Button icon style="margin-left: 0.2rem; margin-right: 0.5rem; transform: scale(1.5);" color="rgb(var(--action-error-rgb))">
+    // (922:6) <Button icon style="margin-left: 1.5rem; margin-right: 0.5rem; transform: scale(1.5);" color="rgb(var(--action-error-rgb))">
     function create_default_slot_3(ctx) {
     	let icon;
     	let current;
@@ -4077,7 +4077,7 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_3.name,
     		type: "slot",
-    		source: "(922:6) <Button icon style=\\\"margin-left: 0.2rem; margin-right: 0.5rem; transform: scale(1.5);\\\" color=\\\"rgb(var(--action-error-rgb))\\\">",
+    		source: "(922:6) <Button icon style=\\\"margin-left: 1.5rem; margin-right: 0.5rem; transform: scale(1.5);\\\" color=\\\"rgb(var(--action-error-rgb))\\\">",
     		ctx
     	});
 
@@ -4093,7 +4093,7 @@ var bundle = (function () {
     	button = new ye({
     			props: {
     				icon: true,
-    				style: "margin-left: 0.2rem; margin-right: 0.5rem; transform: scale(1.5);",
+    				style: "margin-left: 1.5rem; margin-right: 0.5rem; transform: scale(1.5);",
     				color: "rgb(var(--action-error-rgb))",
     				$$slots: { default: [create_default_slot_3] },
     				$$scope: { ctx }
@@ -4514,7 +4514,7 @@ var bundle = (function () {
 
     	let textfield1_props = {
     		outlined: true,
-    		style: "margin: 0 0 0 0.5rem; align-self: center;",
+    		style: "margin: 0 0 0 1.5rem; align-self: center;",
     		label: TEAM.AWAY
     	};
 
@@ -4566,10 +4566,10 @@ var bundle = (function () {
     			t8 = space();
     			create_component(transcript.$$.fragment);
     			add_location(h2, file$6, 858, 0, 34911);
-    			attr_dev(div0, "class", "widener svelte-nqnpvk");
+    			attr_dev(div0, "class", "widener svelte-pe0wve");
     			add_render_callback(() => /*div0_elementresize_handler*/ ctx[16].call(div0));
     			add_location(div0, file$6, 860, 0, 34936);
-    			attr_dev(div1, "class", "control-bar svelte-nqnpvk");
+    			attr_dev(div1, "class", "control-bar svelte-pe0wve");
     			add_location(div1, file$6, 880, 0, 35513);
     		},
     		l: function claim(nodes) {

@@ -847,9 +847,9 @@
   .widener > :global(:first-child) { width:100%; }
   .control-bar {
     background-color: var(--bg-color);
-    column-gap: 1em;
+    column-gap: 0.5em;
     display: grid;
-    grid-template-columns: 1fr 0.3fr 2.6fr 3.4fr 2.6fr 0.3fr;
+    grid-template-columns: 1fr 0.3fr 2.6fr 3.4fr 2.6fr 1fr;
     margin: 0.75rem 0 0.75rem 0;
   }
   .control-bar:nth-child(1) { max-width: 8em; justify-self: end; }
@@ -912,14 +912,14 @@
 
   <Textfield
     outlined
-    style="margin: 0 0 0 0.5rem; align-self: center;"
+    style="margin: 0 0 0 1.5rem; align-self: center;"
     label={TEAM.AWAY}
     bind:value={team_aliases[TEAM.AWAY]}
   />
 
   <Menu origin="bottom right" dy={MENU_DY}>
     <div slot="activator">
-      <Button icon style="margin-left: 0.2rem; margin-right: 0.5rem; transform: scale(1.5);" color="rgb(var(--action-error-rgb))">
+      <Button icon style="margin-left: 1.5rem; margin-right: 0.5rem; transform: scale(1.5);" color="rgb(var(--action-error-rgb))">
         <Icon style="transform: scale(1.25);"><svelte:component this={whistle} /></Icon>
       </Button>
     </div>
