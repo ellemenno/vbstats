@@ -849,7 +849,7 @@
     background-color: var(--bg-color);
     column-gap: 1em;
     display: grid;
-    grid-template-columns: 1fr 0.5fr 2.5fr 2fr 2.5fr 0.5fr;
+    grid-template-columns: 1fr 0.3fr 2.6fr 3.4fr 2.6fr 0.3fr;
     margin: 0.75rem 0 0.75rem 0;
   }
   .control-bar:nth-child(1) { max-width: 8em; justify-self: end; }
@@ -879,7 +879,7 @@
 </div>
 
 <div class="control-bar">
-  <Button style="align-self: center;" outlined toggle bind:active={recording}>⬤ REC</Button>  <!-- black large circle (U+2B24) -->
+  <Button style="align-self: center; width: min-content;" outlined toggle bind:active={recording}>⬤&nbsp;REC</Button>  <!-- black large circle (U+2B24) -->
 
   <Menu origin="bottom right" dy={MENU_DY}>
     <div slot="activator">
@@ -912,14 +912,14 @@
 
   <Textfield
     outlined
-    style="margin: 0 0 0 1.5rem; align-self: center;"
+    style="margin: 0 0 0 0.5rem; align-self: center;"
     label={TEAM.AWAY}
     bind:value={team_aliases[TEAM.AWAY]}
   />
 
   <Menu origin="bottom right" dy={MENU_DY}>
     <div slot="activator">
-      <Button icon style="margin-left: 1.6rem; margin-right: 0.5rem; transform: scale(1.5);" color="rgb(var(--action-error-rgb))">
+      <Button icon style="margin-left: 0.2rem; margin-right: 0.5rem; transform: scale(1.5);" color="rgb(var(--action-error-rgb))">
         <Icon style="transform: scale(1.25);"><svelte:component this={whistle} /></Icon>
       </Button>
     </div>

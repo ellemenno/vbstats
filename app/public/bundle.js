@@ -2923,7 +2923,7 @@ var bundle = (function () {
     			create_component(court.$$.fragment);
     			attr_dev(div, "slot", "activator");
     			set_style(div, "display", "flex");
-    			add_location(div, file$6, 862, 2, 35065);
+    			add_location(div, file$6, 862, 2, 35067);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -3165,7 +3165,7 @@ var bundle = (function () {
     		c: function create() {
     			li = element("li");
     			create_component(buttongroup.$$.fragment);
-    			add_location(li, file$6, 867, 2, 35200);
+    			add_location(li, file$6, 867, 2, 35202);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -3347,7 +3347,7 @@ var bundle = (function () {
     			}
 
     			each1_anchor = empty();
-    			add_location(hr, file$6, 873, 2, 35371);
+    			add_location(hr, file$6, 873, 2, 35373);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, t0, anchor);
@@ -3474,13 +3474,13 @@ var bundle = (function () {
     	return block;
     }
 
-    // (882:2) <Button style="align-self: center;" outlined toggle bind:active={recording}>
+    // (882:2) <Button style="align-self: center; width: min-content;" outlined toggle bind:active={recording}>
     function create_default_slot_10(ctx) {
     	let t;
 
     	const block = {
     		c: function create() {
-    			t = text("⬤ REC");
+    			t = text("⬤ REC");
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, t, anchor);
@@ -3494,7 +3494,7 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_10.name,
     		type: "slot",
-    		source: "(882:2) <Button style=\\\"align-self: center;\\\" outlined toggle bind:active={recording}>",
+    		source: "(882:2) <Button style=\\\"align-self: center; width: min-content;\\\" outlined toggle bind:active={recording}>",
     		ctx
     	});
 
@@ -3655,7 +3655,7 @@ var bundle = (function () {
     			div = element("div");
     			create_component(button.$$.fragment);
     			attr_dev(div, "slot", "activator");
-    			add_location(div, file$6, 884, 4, 35717);
+    			add_location(div, file$6, 884, 4, 35744);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -3858,7 +3858,7 @@ var bundle = (function () {
     			hr = element("hr");
     			t2 = space();
     			create_component(menuitem.$$.fragment);
-    			add_location(hr, file$6, 893, 4, 36021);
+    			add_location(hr, file$6, 893, 4, 36048);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, t0, anchor);
@@ -4028,7 +4028,7 @@ var bundle = (function () {
     	return block;
     }
 
-    // (922:6) <Button icon style="margin-left: 1.6rem; margin-right: 0.5rem; transform: scale(1.5);" color="rgb(var(--action-error-rgb))">
+    // (922:6) <Button icon style="margin-left: 0.2rem; margin-right: 0.5rem; transform: scale(1.5);" color="rgb(var(--action-error-rgb))">
     function create_default_slot_3(ctx) {
     	let icon;
     	let current;
@@ -4077,7 +4077,7 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_3.name,
     		type: "slot",
-    		source: "(922:6) <Button icon style=\\\"margin-left: 1.6rem; margin-right: 0.5rem; transform: scale(1.5);\\\" color=\\\"rgb(var(--action-error-rgb))\\\">",
+    		source: "(922:6) <Button icon style=\\\"margin-left: 0.2rem; margin-right: 0.5rem; transform: scale(1.5);\\\" color=\\\"rgb(var(--action-error-rgb))\\\">",
     		ctx
     	});
 
@@ -4093,7 +4093,7 @@ var bundle = (function () {
     	button = new ye({
     			props: {
     				icon: true,
-    				style: "margin-left: 1.6rem; margin-right: 0.5rem; transform: scale(1.5);",
+    				style: "margin-left: 0.2rem; margin-right: 0.5rem; transform: scale(1.5);",
     				color: "rgb(var(--action-error-rgb))",
     				$$slots: { default: [create_default_slot_3] },
     				$$scope: { ctx }
@@ -4106,7 +4106,7 @@ var bundle = (function () {
     			div = element("div");
     			create_component(button.$$.fragment);
     			attr_dev(div, "slot", "activator");
-    			add_location(div, file$6, 920, 4, 36721);
+    			add_location(div, file$6, 920, 4, 36748);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -4314,7 +4314,7 @@ var bundle = (function () {
     			hr = element("hr");
     			t2 = space();
     			create_component(menuitem.$$.fragment);
-    			add_location(hr, file$6, 929, 4, 37121);
+    			add_location(hr, file$6, 929, 4, 37148);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, t0, anchor);
@@ -4453,7 +4453,7 @@ var bundle = (function () {
     	}
 
     	let button_props = {
-    		style: "align-self: center;",
+    		style: "align-self: center; width: min-content;",
     		outlined: true,
     		toggle: true,
     		$$slots: { default: [create_default_slot_10] },
@@ -4514,7 +4514,7 @@ var bundle = (function () {
 
     	let textfield1_props = {
     		outlined: true,
-    		style: "margin: 0 0 0 1.5rem; align-self: center;",
+    		style: "margin: 0 0 0 0.5rem; align-self: center;",
     		label: TEAM.AWAY
     	};
 
@@ -4565,12 +4565,12 @@ var bundle = (function () {
     			create_component(menu2.$$.fragment);
     			t8 = space();
     			create_component(transcript.$$.fragment);
-    			add_location(h2, file$6, 858, 0, 34909);
-    			attr_dev(div0, "class", "widener svelte-1r31ef1");
+    			add_location(h2, file$6, 858, 0, 34911);
+    			attr_dev(div0, "class", "widener svelte-nqnpvk");
     			add_render_callback(() => /*div0_elementresize_handler*/ ctx[16].call(div0));
-    			add_location(div0, file$6, 860, 0, 34934);
-    			attr_dev(div1, "class", "control-bar svelte-1r31ef1");
-    			add_location(div1, file$6, 880, 0, 35511);
+    			add_location(div0, file$6, 860, 0, 34936);
+    			attr_dev(div1, "class", "control-bar svelte-nqnpvk");
+    			add_location(div1, file$6, 880, 0, 35513);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
