@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import { Button, ButtonGroup, Icon, Menu, Menuitem, Textfield } from 'svelte-mui';
+  import { Button, ButtonGroup, Dialog, Icon, Menu, Menuitem, Textfield } from 'svelte-mui';
 
   import { TEAM, CONTACT, ACTION } from './constants.js';
   import { match as stored_match } from './stores.js';
@@ -8,6 +8,7 @@
   import jersey from './icons/jersey.svg'
   import whistle from './icons/whistle.svg'
   import Court from './Court.svelte';
+  import JerseyPicker from './JerseyPicker.svelte';
   import Score from './Score.svelte';
   import Transcript from './Transcript.svelte';
 
@@ -24,6 +25,23 @@
 
   const first = (array) => array[0]
   const last = (array) => array[array.length-1]
+
+  const array_into_rows = (A) => {
+    const root = Math.ceil(Math.sqrt(A.length));
+    let i = 0;
+    let rows = [];
+    for (let c = 0; c < root; c++) {
+      let row = [];
+      for (let r = 0; r < root; r++) {
+        row.push({ type: CONTACT.PLAYER, value:`#${A[i]}` });
+        i++;
+        if (i === A.length) break;
+      }
+      rows.push(row);
+      if (i === A.length) break;
+    }
+    return rows;
+  }
 
   const new_rally = (serving) => ({
     state: RALLY_STATE.SERVING,
@@ -733,9 +751,7 @@
     process_contact(current);
   }
 
-  const on_jersey = (number) => {
-    log.debug(`toggle jersey #${number}`);
-  }
+  const on_jersey = () => { jersey_picker_visible = true; }
 
   const on_whistle = (possession) => {
     log.debug(`whistle! point and possession go to: ${possession}`);
@@ -794,32 +810,14 @@
 
   let menu_width, menu_height; // read-only
   let menu_offset = { dx:0, dy:0 };
-  let menu_origin = "top left";
+  let menu_origin = 'top left';
   let current = { match:$stored_match, set_index:0, rally:null, contact:null, specifiers:null };
   let recording = false;
   let specifying = false;
 
   let specifiers = {
     'home':{
-      'groups':[ // TODO: set these via UI
-        [
-          { type: CONTACT.PLAYER, value:'#01' },
-          { type: CONTACT.PLAYER, value:'#02' },
-          { type: CONTACT.PLAYER, value:'#03' },
-          { type: CONTACT.PLAYER, value:'#04' },
-        ],
-        [
-          { type: CONTACT.PLAYER, value:'#05' },
-          { type: CONTACT.PLAYER, value:'#06' },
-          { type: CONTACT.PLAYER, value:'#07' },
-          { type: CONTACT.PLAYER, value:'#08' },
-        ],
-        [
-          { type: CONTACT.PLAYER, value:'#09' },
-          { type: CONTACT.PLAYER, value:'#10' },
-          { type: CONTACT.PLAYER, value:'#11' },
-        ],
-      ],
+      'groups':[],
     },
     'away':{
       'groups':[
@@ -836,6 +834,12 @@
     'away': 'their team',
   };
 
+  let jersey_numbers = [1,2,3,4,5,6,7,8,9,10,11];
+  let jersey_picker_visible = false;
+
+  $: {
+    specifiers['home']['groups'] = array_into_rows(jersey_numbers);
+  }
 
   onMount(async () => {
     // TODO: move this to a `New Match` button that prompts for serving team
@@ -865,11 +869,11 @@
   </div>
 
   {#each current.specifiers.groups as g}
-  <li><ButtonGroup>
+  <tr>
   {#each g as s}
-    <Button class="menu-item" on:click={()=>on_specify(s.type, s.value)}>{s.value}</Button>
+    <td><Button fullWidth class="menu-item" on:click={()=>on_specify(s.type, s.value)}>{s.value}</Button></td>
   {/each}
-  </ButtonGroup></li>
+  </tr>
   {/each}
   <hr />
   {#each specifiers.both as s}
@@ -881,19 +885,9 @@
 <div class="control-bar">
   <Button style="align-self: center; width: min-content;" outlined toggle bind:active={recording}>⬤&nbsp;REC</Button>  <!-- black large circle (U+2B24) -->
 
-  <Menu origin="bottom right" dy={MENU_DY}>
-    <div slot="activator">
-      <Button icon style="transform: scale(1.5);">
-        <Icon style="transform: scale(1.25);"><svelte:component this={jersey} /></Icon>
-      </Button>
-    </div>
-
-    {#each ['00','0','1','2','3'] as n}
-    <Menuitem on:click={()=>on_jersey(n)}>#{n}</Menuitem>
-    {/each}
-    <hr />
-    <Menuitem>Cancel</Menuitem>
-  </Menu>
+  <Button icon style="transform: scale(1.5);" on:click={()=>on_jersey()}>
+    <Icon style="transform: scale(1.25);"><svelte:component this={jersey} /></Icon>
+  </Button>
 
   <Textfield
     outlined
@@ -912,14 +906,14 @@
 
   <Textfield
     outlined
-    style="margin: 0 0 0 1.5rem; align-self: center;"
+    style="margin: 0 0 0 1.5rem; padding-right: 0.5rem; align-self: center;"
     label={TEAM.AWAY}
     bind:value={team_aliases[TEAM.AWAY]}
   />
 
   <Menu origin="bottom right" dy={MENU_DY}>
     <div slot="activator">
-      <Button icon style="margin-left: 1.5rem; margin-right: 0.5rem; transform: scale(1.5);" color="rgb(var(--action-error-rgb))">
+      <Button icon style="margin-left: 1.5rem; margin-right: 0.5rem; float: right; transform: scale(1.5);" color="rgb(var(--action-error-rgb))">
         <Icon style="transform: scale(1.25);"><svelte:component this={whistle} /></Icon>
       </Button>
     </div>
@@ -933,3 +927,5 @@
 </div>
 
 <Transcript set_index={current.set_index} />
+
+<JerseyPicker bind:visible={jersey_picker_visible} bind:jerseys={jersey_numbers} />
