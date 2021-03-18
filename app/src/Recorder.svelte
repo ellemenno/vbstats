@@ -953,7 +953,7 @@
 
     <Menu origin="bottom right" dy={MENU_DY}>
       <div slot="activator">
-        <Button icon style="margin-left: 1.5rem; margin-right: 0.5rem; float: right; transform: scale(1.5);" color="rgb(var(--action-error-rgb))">
+        <Button icon style="margin-left: 1.5rem; margin-right: 0.5rem; float: right; transform: scale(1.5);" color="rgb(var(--action-error-rgb))" disabled={!recording}>
           <Icon style="transform: scale(1.25);"><svelte:component this={whistle} /></Icon>
         </Button>
       </div>
