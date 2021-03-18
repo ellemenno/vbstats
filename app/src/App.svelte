@@ -8,6 +8,8 @@
   import Visualizer from "./Visualizer.svelte";
   import DataInterface from "./DataInterface.svelte";
 
+  export let version;
+
   const log = logger('app: ');
 
   const prefers_dark = () => (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
@@ -41,7 +43,7 @@
 </script>
 
 
-<HeaderBar title="vbstats"/><br/><br/>
+<HeaderBar title="vbstats" {version} /><br/><br/>
 
 <Tabs tabNames={['game', 'stats', 'data']}>
   <Tab><Recorder/></Tab>

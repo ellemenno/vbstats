@@ -1,5 +1,6 @@
 <script>
-  export let title = 'untitled'
+  export let title = 'untitled';
+  export let version = '0.0.0';
 </script>
 
 <style>
@@ -23,8 +24,12 @@
     flex: 1;
     margin-left: 0.5rem;
   }
+  .version {
+    font-size: 80%;
+    opacity: 70%;
+  }
 </style>
 
 <div class="header-bar">
-  <div class="title">{title}</div>
+  <div class="title">{title} <span class="version">v{version}</span></div>
 </div>
