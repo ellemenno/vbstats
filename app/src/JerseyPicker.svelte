@@ -10,6 +10,12 @@
   const log = logger('jersey picker: ');
   const numbers = new Array(100).fill(false);
 
+  const on_clear = () => {
+    log.debug('clearing numbers...');
+    numbers.forEach( (v,i) => numbers[i] = false );
+    jerseys = [];
+  }
+
   const on_num_clicked = (n) => {
     numbers[n] = !numbers[n];
     jerseys = numbers.reduce( (a,v,i) => v ? a.concat(i) : a, [] );
@@ -42,6 +48,7 @@
   </table>
 
   <div slot="actions" class="actions center">
+    <Button color="primary" on:click={()=>on_clear()}>Clear</Button>
     <Button color="primary" on:click={()=>visible=false}>Done</Button>
   </div>
 </Dialog>
