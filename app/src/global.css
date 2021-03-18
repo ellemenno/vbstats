@@ -1,18 +1,18 @@
 :root {
   /* smui */
-  --accent: #e6942b;
-  --alternate: #fff;
-  --bg-app-bar: #888;
   --bg-color: #fbfbfb;
-  --bg-input-filled: rgba(0,0,0, 0.0555);
-  --bg-panel: #eee;
-  --bg-popover: #fff;
-  --border: #dfdfdf;
   --color: #333;
+  --alternate: #fff;
+  --primary: #91c1c7;
+  --focus-color: #91c1c77f;  /* primary at 50% opacity */
+  --accent: #ebc599;
+  --bg-popover: #fff;
+  --bg-panel: #eee;
+  --bg-app-bar: #888;
+  --bg-input-filled: rgba(0,0,0, 0.0555);
   --divider: rgba(0,0,0, 0.1);
-  --focus-color: rgba(25,118,210, 0.5); /* primary with alpha */
   --label: rgba(0,0,0, 0.3755);
-  --primary: rgba(25,118,210, 1.0);
+  --border: #dfdfdf;
 
   --button-font-family: var(--font-family);
   --code-font-family: 'Roboto Mono', Menlo, Consolas, monospace;

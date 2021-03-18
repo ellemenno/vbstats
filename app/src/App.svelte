@@ -22,19 +22,19 @@
   }
 
   const dark_theme = {
-    '--accent': '#e6942b',
-    '--alternate': '#aaa',
-    '--bg-app-bar': '#838383',
     '--bg-color': '#303134',
-    '--bg-input-filled': 'rgba(255,255,255, 0.1)',
-    '--bg-panel': '#434343',
-    '--bg-popover': '#3f3f3f',
-    '--border': '#555',
     '--color': '#eee',
-    '--divider': 'rgba(255,255,255, 0.175)',
-    '--focus-color': 'rgba(62,166,255, 0.5)', // primary with alpha
-    '--label': 'rgba(255,255,255, 0.5)',
-    '--primary': 'rgba(62,166,255, 1.0)',
+    '--alternate': '#aaa',
+    '--primary': '#91c1c7',
+    '--focus-color': '#91c1c77f', // primary at 50% opacity
+    '--accent': '#ebc599',
+    '--bg-popover': '#3f3f3f',
+    '--bg-panel': '#434343',
+    '--bg-app-bar': '#838383',
+    '--border': '#555',
+    '--bg-input-filled': '#ffffff0d', // 05%
+    '--divider': '#ffffff2d',         // 18%
+    '--label': '#ffffff7f',           // 50%
   };
 
   onMount(async () => {
