@@ -2061,7 +2061,7 @@ var bundle = (function () {
     	return block;
     }
 
-    // (40:8) <Button color="primary"                 dense fullWidth toggle                 active={numbers[r*10+c]}                 on:click={()=>on_num_clicked(r*10+c)}>
+    // (40:8) <Button color="rgb(var(--team-home-rgb))"                 dense fullWidth toggle                 active={numbers[r*10+c]}                 on:click={()=>on_num_clicked(r*10+c)}>
     function create_default_slot_3(ctx) {
     	let t_value = /*r*/ ctx[12] * 10 + /*c*/ ctx[14] + "";
     	let t;
@@ -2083,7 +2083,7 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_3.name,
     		type: "slot",
-    		source: "(40:8) <Button color=\\\"primary\\\"                 dense fullWidth toggle                 active={numbers[r*10+c]}                 on:click={()=>on_num_clicked(r*10+c)}>",
+    		source: "(40:8) <Button color=\\\"rgb(var(--team-home-rgb))\\\"                 dense fullWidth toggle                 active={numbers[r*10+c]}                 on:click={()=>on_num_clicked(r*10+c)}>",
     		ctx
     	});
 
@@ -2102,7 +2102,7 @@ var bundle = (function () {
 
     	button = new ye({
     			props: {
-    				color: "primary",
+    				color: "rgb(var(--team-home-rgb))",
     				dense: true,
     				fullWidth: true,
     				toggle: true,
@@ -2357,7 +2357,7 @@ var bundle = (function () {
     			create_component(button1.$$.fragment);
     			attr_dev(div, "slot", "actions");
     			attr_dev(div, "class", "actions center");
-    			add_location(div, file$4, 49, 2, 1202);
+    			add_location(div, file$4, 49, 2, 1220);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -4434,7 +4434,7 @@ var bundle = (function () {
     	return block;
     }
 
-    // (956:8) <Button icon style="margin-left: 1.5rem; margin-right: 0.5rem; float: right; transform: scale(1.5);" color="rgb(var(--action-error-rgb))">
+    // (956:8) <Button icon style="margin-left: 1.5rem; margin-right: 0.5rem; float: right; transform: scale(1.5);" color="rgb(var(--action-error-rgb))" disabled={!recording}>
     function create_default_slot_3$1(ctx) {
     	let icon;
     	let current;
@@ -4483,7 +4483,7 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_3$1.name,
     		type: "slot",
-    		source: "(956:8) <Button icon style=\\\"margin-left: 1.5rem; margin-right: 0.5rem; float: right; transform: scale(1.5);\\\" color=\\\"rgb(var(--action-error-rgb))\\\">",
+    		source: "(956:8) <Button icon style=\\\"margin-left: 1.5rem; margin-right: 0.5rem; float: right; transform: scale(1.5);\\\" color=\\\"rgb(var(--action-error-rgb))\\\" disabled={!recording}>",
     		ctx
     	});
 
@@ -4501,6 +4501,7 @@ var bundle = (function () {
     				icon: true,
     				style: "margin-left: 1.5rem; margin-right: 0.5rem; float: right; transform: scale(1.5);",
     				color: "rgb(var(--action-error-rgb))",
+    				disabled: !/*recording*/ ctx[9],
     				$$slots: { default: [create_default_slot_3$1] },
     				$$scope: { ctx }
     			},
@@ -4521,6 +4522,7 @@ var bundle = (function () {
     		},
     		p: function update(ctx, dirty) {
     			const button_changes = {};
+    			if (dirty[0] & /*recording*/ 512) button_changes.disabled = !/*recording*/ ctx[9];
 
     			if (dirty[2] & /*$$scope*/ 4096) {
     				button_changes.$$scope = { dirty, ctx };
@@ -4720,7 +4722,7 @@ var bundle = (function () {
     			hr = element("hr");
     			t2 = space();
     			create_component(menuitem.$$.fragment);
-    			add_location(hr, file$7, 963, 6, 38108);
+    			add_location(hr, file$7, 963, 6, 38130);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, t0, anchor);
@@ -5157,7 +5159,7 @@ var bundle = (function () {
     			textfield2.$set(textfield2_changes);
     			const menu1_changes = {};
 
-    			if (dirty[2] & /*$$scope*/ 4096) {
+    			if (dirty[0] & /*recording*/ 512 | dirty[2] & /*$$scope*/ 4096) {
     				menu1_changes.$$scope = { dirty, ctx };
     			}
 
