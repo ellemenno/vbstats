@@ -15,7 +15,7 @@
     // log.debug(`panel ${detail.name} is ${detail.expanded ? 'open' : 'closed'}`);
   }
 
-  $: combined_rallies = $match.reduce((a,v)=>a.concat(v.rallies), [])
+  $: combined_rallies = $match.sets.reduce((a,v)=>a.concat(v.rallies), [])
 
   $: all_contacts = combined_rallies.reduce((a,v)=>a.concat(v.contacts), [])
 

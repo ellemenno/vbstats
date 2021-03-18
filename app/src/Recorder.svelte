@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import { Button, ButtonGroup, Dialog, Icon, Menu, Menuitem, Textfield } from 'svelte-mui';
+  import { Button, ButtonGroup, Datefield, Dialog, Icon, Menu, Menuitem, Textfield } from 'svelte-mui';
 
   import { TEAM, CONTACT, ACTION } from './constants.js';
   import { match as stored_match } from './stores.js';
@@ -58,13 +58,13 @@
   }
 
   const reset_match = (match, num_sets) => {
-    match.splice(0, match.length, ...Array(num_sets).fill(null).map(()=>new_set()));
+    match.sets.splice(0, match.sets.length, ...Array(num_sets).fill(null).map(()=>new_set()));
   }
 
-  const score_for_set = (match, set_index, team) => match[set_index] ? match[set_index].score[team] : 0;
+  const score_for_set = (match, set_index, team) => match.sets[set_index] ? match.sets[set_index].score[team] : 0;
 
   const num_set_wins = (match, team) => {
-    return match.reduce((a,v) => (a + ((v.winner === team) ? 1 : 0)), 0);
+    return match.sets.reduce((a,v) => (a + ((v.winner === team) ? 1 : 0)), 0);
   }
 
   const match_winner_info = (match, set_index, min_wins=2) => {
@@ -104,15 +104,15 @@
   }
 
   const point_for = (team, match, set_index) => {
-    match[set_index].score[team] += 1;
+    match.sets[set_index].score[team] += 1;
     log.info(score_summary(match, set_index));
   }
 
   const add_new_rally_to_set = (possession, current) => {
     const {match, set_index} = current;
     log.info(`starting new rally in set ${set_index+1}, ${team_aliases[possession]} (${possession}) team serving..`);
-    match[set_index].rallies.push(new_rally(possession));
-    current.rally = last(match[set_index].rallies);
+    match.sets[set_index].rallies.push(new_rally(possession));
+    current.rally = last(match.sets[set_index].rallies);
   }
 
   const attribute_action_to_last_player = (rally, contact) => {
@@ -714,7 +714,7 @@
     const [set_ends, set_winner] = set_winner_info(match, set_index);
     if (set_ends) {
       log.info(`set ${set_index+1} ends. ${team_aliases[set_winner]} (${set_winner}) team wins.`);
-      match[set_index].winner = set_winner;
+      match.sets[set_index].winner = set_winner;
 
       const [match_ends, match_winner] = match_winner_info(match, set_index);
       if (match_ends) {
@@ -796,6 +796,15 @@
     delete current.contact.source_event; // no longer needed after this function
   }
 
+  const on_venue_change = (e) => {
+    log.debug('on_venue_change', $stored_match.venue);
+  }
+
+  const on_date_change = ({detail}) => {
+    log.debug('on_date_change', detail.toISOString());
+    $stored_match.date = detail.toISOString(); // trigger store update
+  }
+
   const on_match_start = (serving, num_sets=3) => {
     recording = true;
 
@@ -808,12 +817,12 @@
     current.specifiers = specifiers[serving];
   }
 
+  let competition_date = new Date();
+  const date_format = 'YYYY.MM.DD';
+
   let menu_width, menu_height; // read-only
   let menu_offset = { dx:0, dy:0 };
   let menu_origin = 'top left';
-  let current = { match:$stored_match, set_index:0, rally:null, contact:null, specifiers:null };
-  let recording = false;
-  let specifying = false;
 
   let specifiers = {
     'home':{
@@ -837,6 +846,10 @@
   let jersey_numbers = [1,2,3,4,5,6,7,8,9,10,11];
   let jersey_picker_visible = false;
 
+  let current = { match:$stored_match, set_index:0, rally:null, contact:null, specifiers:null };
+  let recording = false;
+  let specifying = false;
+
   $: {
     specifiers['home']['groups'] = array_into_rows(jersey_numbers);
   }
@@ -844,6 +857,7 @@
   onMount(async () => {
     // TODO: move this to a `New Match` button that prompts for serving team
     on_match_start(TEAM.HOME);
+    on_date_change({detail: competition_date});
   });
 </script>
 
@@ -858,72 +872,99 @@
   }
   .control-bar:nth-child(1) { max-width: 8em; justify-self: end; }
   .control-bar:nth-child(5) { max-width: 8em; justify-self: start; }
+  .title-bar {
+    column-gap: 1em;
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr;
+    margin-bottom: -1rem;
+  }
+  .title-bar h2 { margin-bottom: 2rem; }
+  .title-bar :global(.text-field), .title-bar :global(.date-field) {
+    align-self: center;
+  }
 </style>
 
-<h2>record a match</h2>
-
-<div class="widener" bind:clientWidth={menu_width} bind:clientHeight={menu_height}>
-<Menu origin={menu_origin} {...menu_offset}>
-  <div slot="activator" style="display:flex;">
-    <Court on:contact={on_contact}/>
-  </div>
-
-  {#each current.specifiers.groups as g}
-  <tr>
-  {#each g as s}
-    <td><Button fullWidth class="menu-item" on:click={()=>on_specify(s.type, s.value)}>{s.value}</Button></td>
-  {/each}
-  </tr>
-  {/each}
-  <hr />
-  {#each specifiers.both as s}
-  <Menuitem on:click={()=>on_specify(s.type, s.value)}>{s.value}</Menuitem>
-  {/each}
-</Menu>
+<div class="title-bar">
+  <h2>record a match</h2>
+  <Textfield
+    autocomplete="off"
+    label="venue"
+    bind:value={$stored_match.venue}
+    on:change={on_venue_change}
+  />
+  <Datefield
+    icon
+    format={date_format}
+    readonly
+    value={competition_date}
+    on:date-change={on_date_change}
+  />
 </div>
 
-<div class="control-bar">
-  <Button style="align-self: center; width: min-content;" outlined toggle bind:active={recording}>⬤&nbsp;REC</Button>  <!-- black large circle (U+2B24) -->
+<div>
+  <div class="widener" bind:clientWidth={menu_width} bind:clientHeight={menu_height}>
+    <Menu origin={menu_origin} {...menu_offset}>
+      <div slot="activator" style="display:flex;">
+        <Court on:contact={on_contact}/>
+      </div>
 
-  <Button icon style="transform: scale(1.5);" on:click={()=>on_jersey()}>
-    <Icon style="transform: scale(1.25);"><svelte:component this={jersey} /></Icon>
-  </Button>
+      {#each current.specifiers.groups as g}
+      <tr>
+      {#each g as s}
+        <td><Button fullWidth class="menu-item" on:click={()=>on_specify(s.type, s.value)}>{s.value}</Button></td>
+      {/each}
+      </tr>
+      {/each}
+      <hr />
+      {#each specifiers.both as s}
+      <Menuitem on:click={()=>on_specify(s.type, s.value)}>{s.value}</Menuitem>
+      {/each}
+    </Menu>
+  </div>
 
-  <Textfield
-    outlined
-    style="margin: 0; align-self: center;"
-    label={TEAM.HOME}
-    bind:value={team_aliases[TEAM.HOME]}
-  />
+  <div class="control-bar">
+    <Button style="align-self: center; width: min-content;" outlined toggle bind:active={recording}>⬤&nbsp;REC</Button>  <!-- black large circle (U+2B24) -->
 
-  <Score
-    current_set={current.set_index+1}
-    home_score={score_for_set(current.match, current.set_index, TEAM.HOME)}
-    home_sets={num_set_wins(current.match, TEAM.HOME)}
-    away_sets={num_set_wins(current.match, TEAM.AWAY)}
-    away_score={score_for_set(current.match, current.set_index, TEAM.AWAY)}
-  />
+    <Button icon color="rgb(var(--team-home-rgb))" style="transform: scale(1.5);" on:click={()=>on_jersey()}>
+      <Icon style="transform: scale(1.25);"><svelte:component this={jersey} /></Icon>
+    </Button>
 
-  <Textfield
-    outlined
-    style="margin: 0 0 0 1.5rem; padding-right: 0.5rem; align-self: center;"
-    label={TEAM.AWAY}
-    bind:value={team_aliases[TEAM.AWAY]}
-  />
+    <Textfield
+      outlined
+      style="margin: 0; align-self: center;"
+      label={TEAM.HOME}
+      bind:value={team_aliases[TEAM.HOME]}
+    />
 
-  <Menu origin="bottom right" dy={MENU_DY}>
-    <div slot="activator">
-      <Button icon style="margin-left: 1.5rem; margin-right: 0.5rem; float: right; transform: scale(1.5);" color="rgb(var(--action-error-rgb))">
-        <Icon style="transform: scale(1.25);"><svelte:component this={whistle} /></Icon>
-      </Button>
-    </div>
+    <Score
+      current_set={current.set_index+1}
+      home_score={score_for_set(current.match, current.set_index, TEAM.HOME)}
+      home_sets={num_set_wins(current.match, TEAM.HOME)}
+      away_sets={num_set_wins(current.match, TEAM.AWAY)}
+      away_score={score_for_set(current.match, current.set_index, TEAM.AWAY)}
+    />
 
-    {#each [TEAM.HOME, TEAM.AWAY] as t}
-    <Menuitem on:click={()=>on_whistle(t)}>Point for {t} team</Menuitem>
-    {/each}
-    <hr />
-    <Menuitem>Cancel</Menuitem>
-  </Menu>
+    <Textfield
+      outlined
+      style="margin: 0 0 0 1.5rem; padding-right: 0.5rem; align-self: center;"
+      label={TEAM.AWAY}
+      bind:value={team_aliases[TEAM.AWAY]}
+    />
+
+    <Menu origin="bottom right" dy={MENU_DY}>
+      <div slot="activator">
+        <Button icon style="margin-left: 1.5rem; margin-right: 0.5rem; float: right; transform: scale(1.5);" color="rgb(var(--action-error-rgb))">
+          <Icon style="transform: scale(1.25);"><svelte:component this={whistle} /></Icon>
+        </Button>
+      </div>
+
+      {#each [TEAM.HOME, TEAM.AWAY] as t}
+      <Menuitem on:click={()=>on_whistle(t)}>Point for {t} team</Menuitem>
+      {/each}
+      <hr />
+      <Menuitem>Cancel</Menuitem>
+    </Menu>
+  </div>
 </div>
 
 <Transcript set_index={current.set_index} />

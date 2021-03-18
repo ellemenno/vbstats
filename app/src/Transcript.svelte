@@ -116,7 +116,7 @@
   }
 </style>
 
-{#each $stored_match as set, i}
+{#each $stored_match.sets as set, i}
 {#if i <= set_index}
 <div class="{class_for_set(set)} set">
   <Button outlined dense icon color="white" title="Set {i+1}">{i+1}</Button>
