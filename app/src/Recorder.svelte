@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import { Button, ButtonGroup, Datefield, Dialog, Icon, Menu, Menuitem, Textfield } from 'svelte-mui';
+  import { Button, Datefield, Icon, Menu, Menuitem, Textfield } from 'svelte-mui';
 
   import { TEAM, CONTACT, ACTION } from './constants.js';
   import { match as stored_match } from './stores.js';
@@ -9,6 +9,7 @@
   import whistle from './icons/whistle.svg'
   import Court from './Court.svelte';
   import JerseyPicker from './JerseyPicker.svelte';
+  import ServingTeamPicker from './ServingTeamPicker.svelte';
   import Score from './Score.svelte';
   import Transcript from './Transcript.svelte';
 
@@ -720,7 +721,7 @@
       if (match_ends) {
         log.info(`match ends. ${team_aliases[match_winner]} (${match_winner}) team wins.`);
         recording = false;
-        // TODO: signal UI and reactivate New Match button
+        serving_team_picker_visible = true;
       }
       else {
         current.set_index = set_index + 1;
@@ -743,6 +744,19 @@
     // set specifiers appropriate to contact location
     current.specifiers = specifiers[team_from_area(area_id)];
   }
+
+  const start_match = (serving, num_sets=3) => {
+    recording = true;
+
+    reset_match(current.match, num_sets);
+    current.set_index = 0;
+    log.info('starting new match:', current.match);
+    log.info(score_summary(current.match, current.set_index));
+
+    add_new_rally_to_set(serving, current);
+    current.specifiers = specifiers[serving];
+  }
+
 
   const on_specify = (type, value) => {
     specifying = false;
@@ -805,16 +819,10 @@
     $stored_match.date = detail.toISOString(); // trigger store update
   }
 
-  const on_match_start = (serving, num_sets=3) => {
-    recording = true;
-
-    reset_match(current.match, num_sets);
-    current.set_index = 0;
-    log.info('starting new match:', current.match);
-    log.info(score_summary(current.match, current.set_index));
-
-    add_new_rally_to_set(serving, current);
-    current.specifiers = specifiers[serving];
+  const on_serving_team_selected = ({detail}) => {
+    log.debug('on_serving_team_selected:', detail.team);
+    serving_team_picker_visible = false;
+    start_match(detail.team);
   }
 
   let competition_date = new Date();
@@ -845,6 +853,7 @@
 
   let jersey_numbers = [1,2,3,4,5,6,7,8,9,10,11];
   let jersey_picker_visible = false;
+  let serving_team_picker_visible = false;
 
   let current = { match:$stored_match, set_index:0, rally:null, contact:null, specifiers:null };
   let recording = false;
@@ -855,8 +864,7 @@
   }
 
   onMount(async () => {
-    // TODO: move this to a `New Match` button that prompts for serving team
-    on_match_start(TEAM.HOME);
+    serving_team_picker_visible = true;
     on_date_change({detail: competition_date});
   });
 </script>
@@ -970,3 +978,4 @@
 <Transcript set_index={current.set_index} />
 
 <JerseyPicker bind:visible={jersey_picker_visible} bind:jerseys={jersey_numbers} />
+<ServingTeamPicker bind:visible={serving_team_picker_visible} on:team_selected={on_serving_team_selected} />
