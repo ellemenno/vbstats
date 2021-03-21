@@ -31,13 +31,13 @@
       case ACTION.ATTACKING_ERROR:
       case ACTION.BLOCKING_ERROR:
       case ACTION.VIOLATION:
-        return 'rgb(var(--action-error-rgb))'
+        return 'var(--action-error-rgb)'
       break;
 
       case ACTION.ACE:
       case ACTION.BLOCK_KILL:
       case ACTION.KILL:
-        return 'rgb(var(--action-point-rgb))'
+        return 'var(--action-point-rgb)'
       break;
 
       case ACTION.SERVE:
@@ -48,7 +48,7 @@
       case ACTION.BLOCK_OR_ATTACK:
       case ACTION.BLOCK:
       case ACTION.ATTACK:
-        return (contact.team === TEAM.HOME) ? 'rgb(var(--team-home-rgb))' : 'rgb(var(--team-away-rgb))'
+        return (contact.team === TEAM.HOME) ? 'var(--team-home-rgb)' : 'var(--team-away-rgb)'
       break;
 
       default: return '#555';
@@ -98,27 +98,43 @@
     border-style: solid;
     border-width: 1px;
     padding: 0.25em;
+    position: relative;
   }
-  div.current {
-    background-color: rgba(var(--bg-set-bar-rgb), 0.25);
-    border-color: rgb(var(--bg-set-bar-rgb));
+  div.set-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 25%;
+  }
+  div.current.set {
+    border-color: var(--bg-set-bar-rgb);
     border-bottom-style: none;
+  }
+  div.current.set-bg {
+    background-color: var(--bg-set-bar-rgb);
   }
   div.home {
-    background-color: rgba(var(--team-home-rgb), 0.25);
-    border-color: rgb(var(--team-home-rgb));
+    border-color: var(--team-home-rgb);
     border-bottom-style: none;
   }
+  div.home.set-bg {
+    background-color: var(--team-home-rgb);
+  }
   div.away {
-    background-color: rgba(var(--team-away-rgb), 0.25);
-    border-color: rgb(var(--team-away-rgb));
+    border-color: var(--team-away-rgb);
     border-bottom-style: none;
+  }
+  div.away.set-bg {
+    background-color: var(--team-away-rgb);
   }
 </style>
 
 {#each $stored_match.sets as set, i}
 {#if i <= set_index}
 <div class="{class_for_set(set)} set">
+  <div class="{class_for_set(set)} set-bg"></div>
   <Button outlined dense icon color="white" title="Set {i+1}">{i+1}</Button>
   <span>
   {#each set.rallies as rally}

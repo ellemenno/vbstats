@@ -933,7 +933,7 @@
   <div class="control-bar">
     <Button style="align-self: center; width: min-content;" outlined toggle bind:active={recording}>⬤&nbsp;REC</Button>  <!-- black large circle (U+2B24) -->
 
-    <Button icon color="rgb(var(--team-home-rgb))" style="transform: scale(1.5);" on:click={()=>on_jersey()}>
+    <Button icon color="var(--team-home-rgb)" style="transform: scale(1.5);" on:click={()=>on_jersey()}>
       <Icon style="transform: scale(1.25);"><svelte:component this={jersey} /></Icon>
     </Button>
 
@@ -961,7 +961,7 @@
 
     <Menu origin="bottom right" dy={MENU_DY}>
       <div slot="activator">
-        <Button icon style="margin-left: 1.5rem; margin-right: 0.5rem; float: right; transform: scale(1.5);" color="rgb(var(--action-error-rgb))" disabled={!recording}>
+        <Button icon style="margin-left: 1.5rem; margin-right: 0.5rem; float: right; transform: scale(1.5);" color="var(--action-error-rgb)" disabled={!recording}>
           <Icon style="transform: scale(1.25);"><svelte:component this={whistle} /></Icon>
         </Button>
       </div>

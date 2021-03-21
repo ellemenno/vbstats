@@ -37,7 +37,7 @@
     {#each (new Array(10).fill(0)) as _,r }
     <tr>
     {#each (new Array(10).fill(0)) as _,c }
-    <td><Button color="rgb(var(--team-home-rgb))"
+    <td><Button color="var(--alternate)"
                 dense fullWidth toggle
                 active={numbers[r*10+c]}
                 on:click={()=>on_num_clicked(r*10+c)}>{r*10+c}

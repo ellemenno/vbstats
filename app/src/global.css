@@ -9,22 +9,22 @@
   --bg-popover: #fff;
   --bg-panel: #eee;
   --bg-app-bar: #888;
-  --bg-input-filled: rgba(0,0,0, 0.0555);
-  --divider: rgba(0,0,0, 0.1);
-  --label: rgba(0,0,0, 0.3755);
   --border: #dfdfdf;
+  --bg-input-filled: #0000000d; /* 05% */
+  --divider: #00000016;         /* 10% */
+  --label: #00000060;           /* 38% */
 
-  --button-font-family: var(--font-family);
-  --code-font-family: 'Roboto Mono', Menlo, Consolas, monospace;
   --font-family: Roboto, Helvetica, sans-serif;
+  --code-font-family: 'Roboto Mono', Menlo, Consolas, monospace;
+  --button-font-family: var(--font-family);
   --heading-font-family: var(--font-family);
 
   /* vbstats */
-  --action-error-rgb: 216, 0, 115; /* #d80073; */
-  --action-point-rgb: 96, 169, 23; /* #60a917 */
-  --bg-set-bar-rgb: 255, 255, 255; /* #ffffff; */
-  --team-home-rgb: 12, 123, 220; /* #0c7bdc; */
-  --team-away-rgb: 226, 129, 6; /* #e28106; */
+  --action-error-rgb: #d80073;
+  --action-point-rgb: #60a917;
+  --bg-set-bar-rgb: #ffffff;
+  --team-home-rgb: #0c7bdc;
+  --team-away-rgb: #e28106;
 }
 
 * {

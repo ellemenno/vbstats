@@ -11,10 +11,10 @@
 
 <style>
   .home {
-    background-color: rgb(var(--team-home-rgb));
+    background-color: var(--team-home-rgb);
   }
   .away {
-    background-color: rgb(var(--team-away-rgb));
+    background-color: var(--team-away-rgb);
   }
   .score {
     font-size: xx-large;

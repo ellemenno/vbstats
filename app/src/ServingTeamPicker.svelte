@@ -21,7 +21,7 @@
   <div slot="title">Select serving team</div>
 
   <div slot="actions" class="actions center">
-    <Button color="rgb(var(--team-home-rgb))" on:click={emit_home}>Home</Button>
-    <Button color="rgb(var(--team-away-rgb))" on:click={emit_away}>Away</Button>
+    <Button color="var(--team-home-rgb)" on:click={emit_home}>Home</Button>
+    <Button color="var(--team-away-rgb)" on:click={emit_away}>Away</Button>
   </div>
 </Dialog>

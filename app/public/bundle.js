@@ -1598,249 +1598,249 @@ var bundle = (function () {
     			rect12 = svg_element("rect");
     			line16 = svg_element("line");
     			circle2 = svg_element("circle");
-    			attr_dev(rect0, "class", "free svelte-fq3m54");
+    			attr_dev(rect0, "class", "free svelte-1s8f166");
     			attr_dev(rect0, "width", "30");
     			attr_dev(rect0, "height", "15");
     			attr_dev(rect0, "rx", "1");
-    			add_location(rect0, file$3, 95, 2, 2223);
-    			attr_dev(rect1, "class", "court svelte-fq3m54");
+    			add_location(rect0, file$3, 95, 2, 2213);
+    			attr_dev(rect1, "class", "court svelte-1s8f166");
     			attr_dev(rect1, "width", "18");
     			attr_dev(rect1, "height", "9");
     			attr_dev(rect1, "x", "6");
     			attr_dev(rect1, "y", "3");
-    			add_location(rect1, file$3, 96, 2, 2277);
+    			add_location(rect1, file$3, 96, 2, 2267);
     			attr_dev(circle0, "id", "contact");
-    			attr_dev(circle0, "class", "contact svelte-fq3m54");
+    			attr_dev(circle0, "class", "contact svelte-1s8f166");
     			attr_dev(circle0, "cx", "15");
     			attr_dev(circle0, "cy", "7.5");
     			attr_dev(circle0, "r", "0.105");
-    			add_location(circle0, file$3, 98, 2, 2337);
+    			add_location(circle0, file$3, 98, 2, 2327);
     			attr_dev(rect2, "id", "free-home-top-area");
-    			attr_dev(rect2, "class", "area svelte-fq3m54");
+    			attr_dev(rect2, "class", "area svelte-1s8f166");
     			attr_dev(rect2, "width", "15");
     			attr_dev(rect2, "height", "3");
     			attr_dev(rect2, "x", "0");
     			attr_dev(rect2, "y", "0");
-    			add_location(rect2, file$3, 101, 4, 2471);
+    			add_location(rect2, file$3, 101, 4, 2461);
     			attr_dev(line0, "id", "free-home-top-ext");
-    			attr_dev(line0, "class", "boundary extension svelte-fq3m54");
+    			attr_dev(line0, "class", "boundary extension svelte-1s8f166");
     			attr_dev(line0, "x1", "12");
     			attr_dev(line0, "y1", "3");
     			attr_dev(line0, "x2", "12");
     			attr_dev(line0, "y2", "1.25");
-    			add_location(line0, file$3, 102, 4, 2555);
+    			add_location(line0, file$3, 102, 4, 2545);
     			attr_dev(rect3, "id", "free-away-top-area");
-    			attr_dev(rect3, "class", "area svelte-fq3m54");
+    			attr_dev(rect3, "class", "area svelte-1s8f166");
     			attr_dev(rect3, "width", "15");
     			attr_dev(rect3, "height", "3");
     			attr_dev(rect3, "x", "15");
     			attr_dev(rect3, "y", "0");
-    			add_location(rect3, file$3, 103, 4, 2651);
+    			add_location(rect3, file$3, 103, 4, 2641);
     			attr_dev(line1, "id", "free-away-top-ext");
-    			attr_dev(line1, "class", "boundary extension svelte-fq3m54");
+    			attr_dev(line1, "class", "boundary extension svelte-1s8f166");
     			attr_dev(line1, "x1", "18");
     			attr_dev(line1, "y1", "3");
     			attr_dev(line1, "x2", "18");
     			attr_dev(line1, "y2", "1.25");
-    			add_location(line1, file$3, 104, 4, 2736);
-    			attr_dev(g0, "class", "svelte-fq3m54");
-    			add_location(g0, file$3, 100, 2, 2463);
+    			add_location(line1, file$3, 104, 4, 2726);
+    			attr_dev(g0, "class", "svelte-1s8f166");
+    			add_location(g0, file$3, 100, 2, 2453);
     			attr_dev(rect4, "id", "free-home-service-area");
-    			attr_dev(rect4, "class", "area svelte-fq3m54");
+    			attr_dev(rect4, "class", "area svelte-1s8f166");
     			attr_dev(rect4, "width", "6");
     			attr_dev(rect4, "height", "9");
     			attr_dev(rect4, "x", "0");
     			attr_dev(rect4, "y", "3");
-    			add_location(rect4, file$3, 107, 4, 2845);
+    			add_location(rect4, file$3, 107, 4, 2835);
     			attr_dev(line2, "id", "free-home-service-extA");
-    			attr_dev(line2, "class", "boundary extension svelte-fq3m54");
+    			attr_dev(line2, "class", "boundary extension svelte-1s8f166");
     			attr_dev(line2, "x1", "6");
     			attr_dev(line2, "y1", "3");
     			attr_dev(line2, "x2", "4.25");
     			attr_dev(line2, "y2", "3");
-    			add_location(line2, file$3, 108, 4, 2932);
+    			add_location(line2, file$3, 108, 4, 2922);
     			attr_dev(line3, "id", "free-home-service-extB");
-    			attr_dev(line3, "class", "boundary extension svelte-fq3m54");
+    			attr_dev(line3, "class", "boundary extension svelte-1s8f166");
     			attr_dev(line3, "x1", "6");
     			attr_dev(line3, "y1", "12");
     			attr_dev(line3, "x2", "4.25");
     			attr_dev(line3, "y2", "12");
-    			add_location(line3, file$3, 109, 4, 3031);
-    			attr_dev(g1, "class", "svelte-fq3m54");
-    			add_location(g1, file$3, 106, 2, 2837);
+    			add_location(line3, file$3, 109, 4, 3021);
+    			attr_dev(g1, "class", "svelte-1s8f166");
+    			add_location(g1, file$3, 106, 2, 2827);
     			attr_dev(rect5, "id", "court-home-area");
-    			attr_dev(rect5, "class", "area svelte-fq3m54");
+    			attr_dev(rect5, "class", "area svelte-1s8f166");
     			attr_dev(rect5, "width", "7.8");
     			attr_dev(rect5, "height", "9");
     			attr_dev(rect5, "x", "6");
     			attr_dev(rect5, "y", "3");
-    			add_location(rect5, file$3, 112, 4, 3145);
+    			add_location(rect5, file$3, 112, 4, 3135);
     			attr_dev(line4, "id", "court-home-tapeA");
-    			attr_dev(line4, "class", "court boundary svelte-fq3m54");
+    			attr_dev(line4, "class", "court boundary svelte-1s8f166");
     			attr_dev(line4, "x1", "15");
     			attr_dev(line4, "y1", "12");
     			attr_dev(line4, "x2", "6");
     			attr_dev(line4, "y2", "12");
-    			add_location(line4, file$3, 113, 4, 3228);
+    			add_location(line4, file$3, 113, 4, 3218);
     			attr_dev(line5, "id", "court-home-tapeB");
-    			attr_dev(line5, "class", "court boundary svelte-fq3m54");
+    			attr_dev(line5, "class", "court boundary svelte-1s8f166");
     			attr_dev(line5, "x1", "6");
     			attr_dev(line5, "y1", "12");
     			attr_dev(line5, "x2", "6");
     			attr_dev(line5, "y2", "3");
-    			add_location(line5, file$3, 114, 4, 3317);
+    			add_location(line5, file$3, 114, 4, 3307);
     			attr_dev(line6, "id", "court-home-tapeC");
-    			attr_dev(line6, "class", "court boundary svelte-fq3m54");
+    			attr_dev(line6, "class", "court boundary svelte-1s8f166");
     			attr_dev(line6, "x1", "6");
     			attr_dev(line6, "y1", "3");
     			attr_dev(line6, "x2", "15");
     			attr_dev(line6, "y2", "3");
-    			add_location(line6, file$3, 115, 4, 3404);
+    			add_location(line6, file$3, 115, 4, 3394);
     			attr_dev(line7, "id", "court-home-tapeD");
-    			attr_dev(line7, "class", "court boundary svelte-fq3m54");
+    			attr_dev(line7, "class", "court boundary svelte-1s8f166");
     			attr_dev(line7, "x1", "12");
     			attr_dev(line7, "y1", "3");
     			attr_dev(line7, "x2", "12");
     			attr_dev(line7, "y2", "12");
-    			add_location(line7, file$3, 116, 4, 3491);
-    			attr_dev(g2, "class", "svelte-fq3m54");
-    			add_location(g2, file$3, 111, 2, 3137);
+    			add_location(line7, file$3, 116, 4, 3481);
+    			attr_dev(g2, "class", "svelte-1s8f166");
+    			add_location(g2, file$3, 111, 2, 3127);
     			attr_dev(rect6, "id", "block-home-area");
-    			attr_dev(rect6, "class", "block area svelte-fq3m54");
+    			attr_dev(rect6, "class", "block area svelte-1s8f166");
     			attr_dev(rect6, "width", "0.8");
     			attr_dev(rect6, "height", "9");
     			attr_dev(rect6, "x", "13.8");
     			attr_dev(rect6, "y", "3");
-    			add_location(rect6, file$3, 118, 2, 3585);
+    			add_location(rect6, file$3, 118, 2, 3575);
     			attr_dev(rect7, "id", "block-away-area");
-    			attr_dev(rect7, "class", "block area svelte-fq3m54");
+    			attr_dev(rect7, "class", "block area svelte-1s8f166");
     			attr_dev(rect7, "width", "0.8");
     			attr_dev(rect7, "height", "9");
     			attr_dev(rect7, "x", "15.4");
     			attr_dev(rect7, "y", "3");
-    			add_location(rect7, file$3, 119, 2, 3674);
+    			add_location(rect7, file$3, 119, 2, 3664);
     			attr_dev(rect8, "id", "court-away-area");
-    			attr_dev(rect8, "class", "area svelte-fq3m54");
+    			attr_dev(rect8, "class", "area svelte-1s8f166");
     			attr_dev(rect8, "width", "7.8");
     			attr_dev(rect8, "height", "9");
     			attr_dev(rect8, "x", "16.2");
     			attr_dev(rect8, "y", "3");
-    			add_location(rect8, file$3, 121, 4, 3771);
+    			add_location(rect8, file$3, 121, 4, 3761);
     			attr_dev(line8, "id", "court-away-tapeA");
-    			attr_dev(line8, "class", "court boundary svelte-fq3m54");
+    			attr_dev(line8, "class", "court boundary svelte-1s8f166");
     			attr_dev(line8, "x1", "15");
     			attr_dev(line8, "y1", "3");
     			attr_dev(line8, "x2", "24");
     			attr_dev(line8, "y2", "3");
-    			add_location(line8, file$3, 122, 4, 3857);
+    			add_location(line8, file$3, 122, 4, 3847);
     			attr_dev(line9, "id", "court-away-tapeB");
-    			attr_dev(line9, "class", "court boundary svelte-fq3m54");
+    			attr_dev(line9, "class", "court boundary svelte-1s8f166");
     			attr_dev(line9, "x1", "24");
     			attr_dev(line9, "y1", "3");
     			attr_dev(line9, "x2", "24");
     			attr_dev(line9, "y2", "12");
-    			add_location(line9, file$3, 123, 4, 3945);
+    			add_location(line9, file$3, 123, 4, 3935);
     			attr_dev(line10, "id", "court-away-tapeC");
-    			attr_dev(line10, "class", "court boundary svelte-fq3m54");
+    			attr_dev(line10, "class", "court boundary svelte-1s8f166");
     			attr_dev(line10, "x1", "24");
     			attr_dev(line10, "y1", "12");
     			attr_dev(line10, "x2", "15");
     			attr_dev(line10, "y2", "12");
-    			add_location(line10, file$3, 124, 4, 4034);
+    			add_location(line10, file$3, 124, 4, 4024);
     			attr_dev(line11, "id", "court-away-tapeD");
-    			attr_dev(line11, "class", "court boundary svelte-fq3m54");
+    			attr_dev(line11, "class", "court boundary svelte-1s8f166");
     			attr_dev(line11, "x1", "18");
     			attr_dev(line11, "y1", "3");
     			attr_dev(line11, "x2", "18");
     			attr_dev(line11, "y2", "12");
-    			add_location(line11, file$3, 125, 4, 4124);
-    			attr_dev(g3, "class", "svelte-fq3m54");
-    			add_location(g3, file$3, 120, 2, 3763);
+    			add_location(line11, file$3, 125, 4, 4114);
+    			attr_dev(g3, "class", "svelte-1s8f166");
+    			add_location(g3, file$3, 120, 2, 3753);
     			attr_dev(rect9, "id", "free-away-service-area");
-    			attr_dev(rect9, "class", "area svelte-fq3m54");
+    			attr_dev(rect9, "class", "area svelte-1s8f166");
     			attr_dev(rect9, "width", "6");
     			attr_dev(rect9, "height", "9");
     			attr_dev(rect9, "x", "24");
     			attr_dev(rect9, "y", "3");
-    			add_location(rect9, file$3, 128, 4, 4226);
+    			add_location(rect9, file$3, 128, 4, 4216);
     			attr_dev(line12, "id", "free-away-service-extA");
-    			attr_dev(line12, "class", "boundary extension svelte-fq3m54");
+    			attr_dev(line12, "class", "boundary extension svelte-1s8f166");
     			attr_dev(line12, "x1", "24");
     			attr_dev(line12, "y1", "3");
     			attr_dev(line12, "x2", "25.75");
     			attr_dev(line12, "y2", "3");
-    			add_location(line12, file$3, 129, 4, 4314);
+    			add_location(line12, file$3, 129, 4, 4304);
     			attr_dev(line13, "id", "free-away-service-extB");
-    			attr_dev(line13, "class", "boundary extension svelte-fq3m54");
+    			attr_dev(line13, "class", "boundary extension svelte-1s8f166");
     			attr_dev(line13, "x1", "24");
     			attr_dev(line13, "y1", "12");
     			attr_dev(line13, "x2", "25.75");
     			attr_dev(line13, "y2", "12");
-    			add_location(line13, file$3, 130, 4, 4415);
-    			attr_dev(g4, "class", "svelte-fq3m54");
-    			add_location(g4, file$3, 127, 2, 4218);
+    			add_location(line13, file$3, 130, 4, 4405);
+    			attr_dev(g4, "class", "svelte-1s8f166");
+    			add_location(g4, file$3, 127, 2, 4208);
     			attr_dev(rect10, "id", "free-away-bottom-area");
-    			attr_dev(rect10, "class", "area svelte-fq3m54");
+    			attr_dev(rect10, "class", "area svelte-1s8f166");
     			attr_dev(rect10, "width", "15");
     			attr_dev(rect10, "height", "3");
     			attr_dev(rect10, "x", "15");
     			attr_dev(rect10, "y", "12");
-    			add_location(rect10, file$3, 133, 4, 4531);
+    			add_location(rect10, file$3, 133, 4, 4521);
     			attr_dev(line14, "id", "free-away-bottom-ext");
-    			attr_dev(line14, "class", "boundary extension svelte-fq3m54");
+    			attr_dev(line14, "class", "boundary extension svelte-1s8f166");
     			attr_dev(line14, "x1", "12");
     			attr_dev(line14, "y1", "12");
     			attr_dev(line14, "x2", "12");
     			attr_dev(line14, "y2", "13.75");
-    			add_location(line14, file$3, 134, 4, 4620);
+    			add_location(line14, file$3, 134, 4, 4610);
     			attr_dev(rect11, "id", "free-home-bottom-area");
-    			attr_dev(rect11, "class", "area svelte-fq3m54");
+    			attr_dev(rect11, "class", "area svelte-1s8f166");
     			attr_dev(rect11, "width", "15");
     			attr_dev(rect11, "height", "3");
     			attr_dev(rect11, "x", "0");
     			attr_dev(rect11, "y", "12");
-    			add_location(rect11, file$3, 135, 4, 4721);
+    			add_location(rect11, file$3, 135, 4, 4711);
     			attr_dev(line15, "id", "free-home-bottom-ext");
-    			attr_dev(line15, "class", "boundary extension svelte-fq3m54");
+    			attr_dev(line15, "class", "boundary extension svelte-1s8f166");
     			attr_dev(line15, "x1", "18");
     			attr_dev(line15, "y1", "12");
     			attr_dev(line15, "x2", "18");
     			attr_dev(line15, "y2", "13.75");
-    			add_location(line15, file$3, 136, 4, 4809);
-    			attr_dev(g5, "class", "svelte-fq3m54");
-    			add_location(g5, file$3, 132, 2, 4523);
+    			add_location(line15, file$3, 136, 4, 4799);
+    			attr_dev(g5, "class", "svelte-1s8f166");
+    			add_location(g5, file$3, 132, 2, 4513);
     			attr_dev(circle1, "id", "net-post-top");
-    			attr_dev(circle1, "class", "post svelte-fq3m54");
+    			attr_dev(circle1, "class", "post svelte-1s8f166");
     			attr_dev(circle1, "cx", "15");
     			attr_dev(circle1, "cy", "2");
     			attr_dev(circle1, "r", "0.1012");
-    			add_location(circle1, file$3, 140, 4, 4924);
+    			add_location(circle1, file$3, 140, 4, 4914);
     			attr_dev(rect12, "id", "net-area");
-    			attr_dev(rect12, "class", "net area svelte-fq3m54");
+    			attr_dev(rect12, "class", "net area svelte-1s8f166");
     			attr_dev(rect12, "width", "0.8");
     			attr_dev(rect12, "height", "9");
     			attr_dev(rect12, "x", "14.6");
     			attr_dev(rect12, "y", "3");
-    			add_location(rect12, file$3, 141, 4, 5074);
+    			add_location(rect12, file$3, 141, 4, 5064);
     			attr_dev(line16, "id", "net-tape");
-    			attr_dev(line16, "class", "court boundary svelte-fq3m54");
+    			attr_dev(line16, "class", "court boundary svelte-1s8f166");
     			attr_dev(line16, "x1", "15");
     			attr_dev(line16, "y1", "3");
     			attr_dev(line16, "x2", "15");
     			attr_dev(line16, "y2", "12");
-    			add_location(line16, file$3, 142, 4, 5158);
+    			add_location(line16, file$3, 142, 4, 5148);
     			attr_dev(circle2, "id", "net-post-bottom");
-    			attr_dev(circle2, "class", "post svelte-fq3m54");
+    			attr_dev(circle2, "class", "post svelte-1s8f166");
     			attr_dev(circle2, "cx", "15");
     			attr_dev(circle2, "cy", "13");
     			attr_dev(circle2, "r", "0.1012");
-    			add_location(circle2, file$3, 143, 4, 5241);
-    			attr_dev(g6, "class", "svelte-fq3m54");
-    			add_location(g6, file$3, 139, 2, 4916);
+    			add_location(circle2, file$3, 143, 4, 5231);
+    			attr_dev(g6, "class", "svelte-1s8f166");
+    			add_location(g6, file$3, 139, 2, 4906);
     			attr_dev(svg_1, "id", "play-area");
     			attr_dev(svg_1, "viewBox", "3 1.5 24 12");
-    			attr_dev(svg_1, "class", "svelte-fq3m54");
-    			add_location(svg_1, file$3, 94, 0, 2078);
+    			attr_dev(svg_1, "class", "svelte-1s8f166");
+    			add_location(svg_1, file$3, 94, 0, 2068);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2061,7 +2061,7 @@ var bundle = (function () {
     	return block;
     }
 
-    // (40:8) <Button color="rgb(var(--team-home-rgb))"                 dense fullWidth toggle                 active={numbers[r*10+c]}                 on:click={()=>on_num_clicked(r*10+c)}>
+    // (40:8) <Button color="var(--alternate)"                 dense fullWidth toggle                 active={numbers[r*10+c]}                 on:click={()=>on_num_clicked(r*10+c)}>
     function create_default_slot_3(ctx) {
     	let t_value = /*r*/ ctx[12] * 10 + /*c*/ ctx[14] + "";
     	let t;
@@ -2083,7 +2083,7 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_3.name,
     		type: "slot",
-    		source: "(40:8) <Button color=\\\"rgb(var(--team-home-rgb))\\\"                 dense fullWidth toggle                 active={numbers[r*10+c]}                 on:click={()=>on_num_clicked(r*10+c)}>",
+    		source: "(40:8) <Button color=\\\"var(--alternate)\\\"                 dense fullWidth toggle                 active={numbers[r*10+c]}                 on:click={()=>on_num_clicked(r*10+c)}>",
     		ctx
     	});
 
@@ -2102,7 +2102,7 @@ var bundle = (function () {
 
     	button = new ye({
     			props: {
-    				color: "rgb(var(--team-home-rgb))",
+    				color: "var(--alternate)",
     				dense: true,
     				fullWidth: true,
     				toggle: true,
@@ -2357,7 +2357,7 @@ var bundle = (function () {
     			create_component(button1.$$.fragment);
     			attr_dev(div, "slot", "actions");
     			attr_dev(div, "class", "actions center");
-    			add_location(div, file$4, 49, 2, 1220);
+    			add_location(div, file$4, 49, 2, 1211);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -2738,7 +2738,7 @@ var bundle = (function () {
     	return block;
     }
 
-    // (24:4) <Button color="rgb(var(--team-home-rgb))" on:click={emit_home}>
+    // (24:4) <Button color="var(--team-home-rgb)" on:click={emit_home}>
     function create_default_slot_2$1(ctx) {
     	let t;
 
@@ -2758,14 +2758,14 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_2$1.name,
     		type: "slot",
-    		source: "(24:4) <Button color=\\\"rgb(var(--team-home-rgb))\\\" on:click={emit_home}>",
+    		source: "(24:4) <Button color=\\\"var(--team-home-rgb)\\\" on:click={emit_home}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (25:4) <Button color="rgb(var(--team-away-rgb))" on:click={emit_away}>
+    // (25:4) <Button color="var(--team-away-rgb)" on:click={emit_away}>
     function create_default_slot_1$1(ctx) {
     	let t;
 
@@ -2785,7 +2785,7 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_1$1.name,
     		type: "slot",
-    		source: "(25:4) <Button color=\\\"rgb(var(--team-away-rgb))\\\" on:click={emit_away}>",
+    		source: "(25:4) <Button color=\\\"var(--team-away-rgb)\\\" on:click={emit_away}>",
     		ctx
     	});
 
@@ -2802,7 +2802,7 @@ var bundle = (function () {
 
     	button0 = new ye({
     			props: {
-    				color: "rgb(var(--team-home-rgb))",
+    				color: "var(--team-home-rgb)",
     				$$slots: { default: [create_default_slot_2$1] },
     				$$scope: { ctx }
     			},
@@ -2813,7 +2813,7 @@ var bundle = (function () {
 
     	button1 = new ye({
     			props: {
-    				color: "rgb(var(--team-away-rgb))",
+    				color: "var(--team-away-rgb)",
     				$$slots: { default: [create_default_slot_1$1] },
     				$$scope: { ctx }
     			},
@@ -3114,26 +3114,26 @@ var bundle = (function () {
     			div4 = element("div");
     			span3 = element("span");
     			t8 = text(t8_value);
-    			attr_dev(span0, "class", "home score svelte-ck8g7a");
-    			add_location(span0, file$6, 53, 20, 972);
-    			attr_dev(div0, "class", "digits svelte-ck8g7a");
-    			add_location(div0, file$6, 53, 0, 952);
-    			attr_dev(span1, "class", "home sets svelte-ck8g7a");
-    			add_location(span1, file$6, 54, 20, 1070);
-    			attr_dev(div1, "class", "digits svelte-ck8g7a");
-    			add_location(div1, file$6, 54, 0, 1050);
-    			attr_dev(div2, "class", "set svelte-ck8g7a");
-    			add_location(div2, file$6, 55, 0, 1119);
-    			attr_dev(span2, "class", "away sets svelte-ck8g7a");
-    			add_location(span2, file$6, 56, 20, 1176);
-    			attr_dev(div3, "class", "digits svelte-ck8g7a");
-    			add_location(div3, file$6, 56, 0, 1156);
-    			attr_dev(span3, "class", "away score svelte-ck8g7a");
-    			add_location(span3, file$6, 57, 20, 1245);
-    			attr_dev(div4, "class", "digits svelte-ck8g7a");
-    			add_location(div4, file$6, 57, 0, 1225);
-    			attr_dev(div5, "class", "scoreboard svelte-ck8g7a");
-    			add_location(div5, file$6, 52, 0, 927);
+    			attr_dev(span0, "class", "home score svelte-1swy6ho");
+    			add_location(span0, file$6, 53, 20, 962);
+    			attr_dev(div0, "class", "digits svelte-1swy6ho");
+    			add_location(div0, file$6, 53, 0, 942);
+    			attr_dev(span1, "class", "home sets svelte-1swy6ho");
+    			add_location(span1, file$6, 54, 20, 1060);
+    			attr_dev(div1, "class", "digits svelte-1swy6ho");
+    			add_location(div1, file$6, 54, 0, 1040);
+    			attr_dev(div2, "class", "set svelte-1swy6ho");
+    			add_location(div2, file$6, 55, 0, 1109);
+    			attr_dev(span2, "class", "away sets svelte-1swy6ho");
+    			add_location(span2, file$6, 56, 20, 1166);
+    			attr_dev(div3, "class", "digits svelte-1swy6ho");
+    			add_location(div3, file$6, 56, 0, 1146);
+    			attr_dev(span3, "class", "away score svelte-1swy6ho");
+    			add_location(span3, file$6, 57, 20, 1235);
+    			attr_dev(div4, "class", "digits svelte-1swy6ho");
+    			add_location(div4, file$6, 57, 0, 1215);
+    			attr_dev(div5, "class", "scoreboard svelte-1swy6ho");
+    			add_location(div5, file$6, 52, 0, 917);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -3313,14 +3313,17 @@ var bundle = (function () {
     	return child_ctx;
     }
 
-    // (120:0) {#if i <= set_index}
+    // (135:0) {#if i <= set_index}
     function create_if_block(ctx) {
-    	let div;
-    	let button;
+    	let div1;
+    	let div0;
+    	let div0_class_value;
     	let t0;
-    	let span;
+    	let button;
     	let t1;
-    	let div_class_value;
+    	let span;
+    	let t2;
+    	let div1_class_value;
     	let current;
 
     	button = new ye({
@@ -3350,34 +3353,44 @@ var bundle = (function () {
 
     	const block = {
     		c: function create() {
-    			div = element("div");
-    			create_component(button.$$.fragment);
+    			div1 = element("div");
+    			div0 = element("div");
     			t0 = space();
+    			create_component(button.$$.fragment);
+    			t1 = space();
     			span = element("span");
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
-    			t1 = space();
-    			add_location(span, file$7, 122, 2, 3236);
-    			attr_dev(div, "class", div_class_value = "" + (/*class_for_set*/ ctx[2](/*set*/ ctx[8]) + " set" + " svelte-1ymu4a9"));
-    			add_location(div, file$7, 120, 0, 3118);
+    			t2 = space();
+    			attr_dev(div0, "class", div0_class_value = "" + (/*class_for_set*/ ctx[2](/*set*/ ctx[8]) + " set-bg" + " svelte-1n5ex1d"));
+    			add_location(div0, file$7, 136, 2, 3312);
+    			add_location(span, file$7, 138, 2, 3439);
+    			attr_dev(div1, "class", div1_class_value = "" + (/*class_for_set*/ ctx[2](/*set*/ ctx[8]) + " set" + " svelte-1n5ex1d"));
+    			add_location(div1, file$7, 135, 0, 3271);
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, div, anchor);
-    			mount_component(button, div, null);
-    			append_dev(div, t0);
-    			append_dev(div, span);
+    			insert_dev(target, div1, anchor);
+    			append_dev(div1, div0);
+    			append_dev(div1, t0);
+    			mount_component(button, div1, null);
+    			append_dev(div1, t1);
+    			append_dev(div1, span);
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].m(span, null);
     			}
 
-    			append_dev(div, t1);
+    			append_dev(div1, t2);
     			current = true;
     		},
     		p: function update(ctx, dirty) {
+    			if (!current || dirty & /*$stored_match*/ 2 && div0_class_value !== (div0_class_value = "" + (/*class_for_set*/ ctx[2](/*set*/ ctx[8]) + " set-bg" + " svelte-1n5ex1d"))) {
+    				attr_dev(div0, "class", div0_class_value);
+    			}
+
     			const button_changes = {};
 
     			if (dirty & /*$$scope*/ 131072) {
@@ -3414,8 +3427,8 @@ var bundle = (function () {
     				check_outros();
     			}
 
-    			if (!current || dirty & /*$stored_match*/ 2 && div_class_value !== (div_class_value = "" + (/*class_for_set*/ ctx[2](/*set*/ ctx[8]) + " set" + " svelte-1ymu4a9"))) {
-    				attr_dev(div, "class", div_class_value);
+    			if (!current || dirty & /*$stored_match*/ 2 && div1_class_value !== (div1_class_value = "" + (/*class_for_set*/ ctx[2](/*set*/ ctx[8]) + " set" + " svelte-1n5ex1d"))) {
+    				attr_dev(div1, "class", div1_class_value);
     			}
     		},
     		i: function intro(local) {
@@ -3439,7 +3452,7 @@ var bundle = (function () {
     			current = false;
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div);
+    			if (detaching) detach_dev(div1);
     			destroy_component(button);
     			destroy_each(each_blocks, detaching);
     		}
@@ -3449,14 +3462,14 @@ var bundle = (function () {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(120:0) {#if i <= set_index}",
+    		source: "(135:0) {#if i <= set_index}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (122:2) <Button outlined dense icon color="white" title="Set {i+1}">
+    // (138:2) <Button outlined dense icon color="white" title="Set {i+1}">
     function create_default_slot_1$2(ctx) {
     	let t_value = /*i*/ ctx[10] + 1 + "";
     	let t;
@@ -3478,14 +3491,14 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_1$2.name,
     		type: "slot",
-    		source: "(122:2) <Button outlined dense icon color=\\\"white\\\" title=\\\"Set {i+1}\\\">",
+    		source: "(138:2) <Button outlined dense icon color=\\\"white\\\" title=\\\"Set {i+1}\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (126:4) <Button unelevated dense icon             title="{title_for_contact(c)}"             color="{color_for_contact(c)}"             style="{style_for_symbol(c.action)}">
+    // (142:4) <Button unelevated dense icon             title="{title_for_contact(c)}"             color="{color_for_contact(c)}"             style="{style_for_symbol(c.action)}">
     function create_default_slot$2(ctx) {
     	let t0_value = /*symbol_for_action*/ ctx[5](/*c*/ ctx[14].action) + "";
     	let t0;
@@ -3513,14 +3526,14 @@ var bundle = (function () {
     		block,
     		id: create_default_slot$2.name,
     		type: "slot",
-    		source: "(126:4) <Button unelevated dense icon             title=\\\"{title_for_contact(c)}\\\"             color=\\\"{color_for_contact(c)}\\\"             style=\\\"{style_for_symbol(c.action)}\\\">",
+    		source: "(142:4) <Button unelevated dense icon             title=\\\"{title_for_contact(c)}\\\"             color=\\\"{color_for_contact(c)}\\\"             style=\\\"{style_for_symbol(c.action)}\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (125:2) {#each rally.contacts as c}
+    // (141:2) {#each rally.contacts as c}
     function create_each_block_2(ctx) {
     	let button;
     	let current;
@@ -3577,14 +3590,14 @@ var bundle = (function () {
     		block,
     		id: create_each_block_2.name,
     		type: "each",
-    		source: "(125:2) {#each rally.contacts as c}",
+    		source: "(141:2) {#each rally.contacts as c}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (124:2) {#each set.rallies as rally}
+    // (140:2) {#each set.rallies as rally}
     function create_each_block_1$1(ctx) {
     	let each_1_anchor;
     	let current;
@@ -3673,14 +3686,14 @@ var bundle = (function () {
     		block,
     		id: create_each_block_1$1.name,
     		type: "each",
-    		source: "(124:2) {#each set.rallies as rally}",
+    		source: "(140:2) {#each set.rallies as rally}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (119:0) {#each $stored_match.sets as set, i}
+    // (134:0) {#each $stored_match.sets as set, i}
     function create_each_block$1(ctx) {
     	let if_block_anchor;
     	let current;
@@ -3739,7 +3752,7 @@ var bundle = (function () {
     		block,
     		id: create_each_block$1.name,
     		type: "each",
-    		source: "(119:0) {#each $stored_match.sets as set, i}",
+    		source: "(134:0) {#each $stored_match.sets as set, i}",
     		ctx
     	});
 
@@ -3882,11 +3895,11 @@ var bundle = (function () {
     			case ACTION.ATTACKING_ERROR:
     			case ACTION.BLOCKING_ERROR:
     			case ACTION.VIOLATION:
-    				return "rgb(var(--action-error-rgb))";
+    				return "var(--action-error-rgb)";
     			case ACTION.ACE:
     			case ACTION.BLOCK_KILL:
     			case ACTION.KILL:
-    				return "rgb(var(--action-point-rgb))";
+    				return "var(--action-point-rgb)";
     			case ACTION.SERVE:
     			case ACTION.DIG_OR_ATTACK:
     			case ACTION.DIG:
@@ -3896,8 +3909,8 @@ var bundle = (function () {
     			case ACTION.BLOCK:
     			case ACTION.ATTACK:
     				return contact.team === TEAM.HOME
-    				? "rgb(var(--team-home-rgb))"
-    				: "rgb(var(--team-away-rgb))";
+    				? "var(--team-home-rgb)"
+    				: "var(--team-away-rgb)";
     			default:
     				return "#555";
     		}
@@ -4057,7 +4070,7 @@ var bundle = (function () {
     			create_component(court.$$.fragment);
     			attr_dev(div, "slot", "activator");
     			set_style(div, "display", "flex");
-    			add_location(div, file$8, 914, 6, 36267);
+    			add_location(div, file$8, 914, 6, 36252);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -4148,7 +4161,7 @@ var bundle = (function () {
     		c: function create() {
     			td = element("td");
     			create_component(button.$$.fragment);
-    			add_location(td, file$8, 921, 8, 36452);
+    			add_location(td, file$8, 921, 8, 36437);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, td, anchor);
@@ -4215,7 +4228,7 @@ var bundle = (function () {
     				each_blocks[i].c();
     			}
 
-    			add_location(tr, file$8, 919, 6, 36418);
+    			add_location(tr, file$8, 919, 6, 36403);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, tr, anchor);
@@ -4432,7 +4445,7 @@ var bundle = (function () {
     			}
 
     			each1_anchor = empty();
-    			add_location(hr, file$8, 925, 6, 36605);
+    			add_location(hr, file$8, 925, 6, 36590);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, t0, anchor);
@@ -4663,7 +4676,7 @@ var bundle = (function () {
     	return block;
     }
 
-    // (936:4) <Button icon color="rgb(var(--team-home-rgb))" style="transform: scale(1.5);" on:click={()=>on_jersey()}>
+    // (936:4) <Button icon color="var(--team-home-rgb)" style="transform: scale(1.5);" on:click={()=>on_jersey()}>
     function create_default_slot_5(ctx) {
     	let icon;
     	let current;
@@ -4712,7 +4725,7 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_5.name,
     		type: "slot",
-    		source: "(936:4) <Button icon color=\\\"rgb(var(--team-home-rgb))\\\" style=\\\"transform: scale(1.5);\\\" on:click={()=>on_jersey()}>",
+    		source: "(936:4) <Button icon color=\\\"var(--team-home-rgb)\\\" style=\\\"transform: scale(1.5);\\\" on:click={()=>on_jersey()}>",
     		ctx
     	});
 
@@ -4796,7 +4809,7 @@ var bundle = (function () {
     	return block;
     }
 
-    // (964:8) <Button icon style="margin-left: 1.5rem; margin-right: 0.5rem; float: right; transform: scale(1.5);" color="rgb(var(--action-error-rgb))" disabled={!recording}>
+    // (964:8) <Button icon style="margin-left: 1.5rem; margin-right: 0.5rem; float: right; transform: scale(1.5);" color="var(--action-error-rgb)" disabled={!recording}>
     function create_default_slot_3$1(ctx) {
     	let icon;
     	let current;
@@ -4845,7 +4858,7 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_3$1.name,
     		type: "slot",
-    		source: "(964:8) <Button icon style=\\\"margin-left: 1.5rem; margin-right: 0.5rem; float: right; transform: scale(1.5);\\\" color=\\\"rgb(var(--action-error-rgb))\\\" disabled={!recording}>",
+    		source: "(964:8) <Button icon style=\\\"margin-left: 1.5rem; margin-right: 0.5rem; float: right; transform: scale(1.5);\\\" color=\\\"var(--action-error-rgb)\\\" disabled={!recording}>",
     		ctx
     	});
 
@@ -4862,7 +4875,7 @@ var bundle = (function () {
     			props: {
     				icon: true,
     				style: "margin-left: 1.5rem; margin-right: 0.5rem; float: right; transform: scale(1.5);",
-    				color: "rgb(var(--action-error-rgb))",
+    				color: "var(--action-error-rgb)",
     				disabled: !/*recording*/ ctx[10],
     				$$slots: { default: [create_default_slot_3$1] },
     				$$scope: { ctx }
@@ -4875,7 +4888,7 @@ var bundle = (function () {
     			div = element("div");
     			create_component(button.$$.fragment);
     			attr_dev(div, "slot", "activator");
-    			add_location(div, file$8, 962, 6, 37876);
+    			add_location(div, file$8, 962, 6, 37856);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -5084,7 +5097,7 @@ var bundle = (function () {
     			hr = element("hr");
     			t2 = space();
     			create_component(menuitem.$$.fragment);
-    			add_location(hr, file$8, 971, 6, 38328);
+    			add_location(hr, file$8, 971, 6, 38303);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, t0, anchor);
@@ -5280,7 +5293,7 @@ var bundle = (function () {
     	button1 = new ye({
     			props: {
     				icon: true,
-    				color: "rgb(var(--team-home-rgb))",
+    				color: "var(--team-home-rgb)",
     				style: "transform: scale(1.5);",
     				$$slots: { default: [create_default_slot_5] },
     				$$scope: { ctx }
@@ -5430,15 +5443,15 @@ var bundle = (function () {
     			t12 = space();
     			create_component(servingteampicker.$$.fragment);
     			attr_dev(h2, "class", "svelte-bh7bfs");
-    			add_location(h2, file$8, 895, 2, 35830);
+    			add_location(h2, file$8, 895, 2, 35815);
     			attr_dev(div0, "class", "title-bar svelte-bh7bfs");
-    			add_location(div0, file$8, 894, 0, 35804);
+    			add_location(div0, file$8, 894, 0, 35789);
     			attr_dev(div1, "class", "widener svelte-bh7bfs");
     			add_render_callback(() => /*div1_elementresize_handler*/ ctx[25].call(div1));
-    			add_location(div1, file$8, 912, 2, 36128);
+    			add_location(div1, file$8, 912, 2, 36113);
     			attr_dev(div2, "class", "control-bar svelte-bh7bfs");
-    			add_location(div2, file$8, 932, 2, 36765);
-    			add_location(div3, file$8, 911, 0, 36120);
+    			add_location(div2, file$8, 932, 2, 36750);
+    			add_location(div3, file$8, 911, 0, 36105);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -6377,8 +6390,9 @@ var bundle = (function () {
     			if (match_ends) {
     				log.info(`match ends. ${team_aliases[match_winner]} (${match_winner}) team wins.`);
     				$$invalidate(10, recording = false);
+    				$$invalidate(8, serving_team_picker_visible = true);
     			} else {
-    				current.set_index = set_index + 1; // TODO: signal UI and reactivate New Match button
+    				current.set_index = set_index + 1;
     				need_new_rally = true;
     			}
     		} else {
