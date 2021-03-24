@@ -856,7 +856,7 @@
   let serving_team_picker_visible = false;
 
   let current = { match:$stored_match, set_index:0, rally:null, contact:null, specifiers:null };
-  let recording = false;
+  let recording = true; // TODO: do we even need to be able to pause this?
   let specifying = false;
 
   $: {
@@ -875,7 +875,7 @@
     background-color: var(--bg-color);
     column-gap: 0.5em;
     display: grid;
-    grid-template-columns: 1fr 0.3fr 2.6fr 3.4fr 2.6fr 1fr;
+    grid-template-columns: 0.3fr 2.5fr minmax(10em, 2fr) 2.5fr 0.3fr;
     margin: 0.75rem 0 0.75rem 0;
   }
   .control-bar:nth-child(1) { max-width: 8em; justify-self: end; }
@@ -883,7 +883,7 @@
   .title-bar {
     column-gap: 1em;
     display: grid;
-    grid-template-columns: 3fr 1fr 1fr;
+    grid-template-columns: 1.5fr 1fr 1fr;
     margin-bottom: -1rem;
   }
   .title-bar h2 { margin-bottom: 2rem; }
@@ -931,8 +931,6 @@
   </div>
 
   <div class="control-bar">
-    <Button style="align-self: center; width: min-content;" outlined toggle bind:active={recording}>⬤&nbsp;REC</Button>  <!-- black large circle (U+2B24) -->
-
     <Button icon color="var(--team-home-rgb)" style="transform: scale(1.5);" on:click={()=>on_jersey()}>
       <Icon style="transform: scale(1.25);"><svelte:component this={jersey} /></Icon>
     </Button>
@@ -954,7 +952,7 @@
 
     <Textfield
       outlined
-      style="margin: 0 0 0 1.5rem; padding-right: 0.5rem; align-self: center;"
+      style="margin: 0 0 0 1.5rem; align-self: center;"
       label={TEAM.AWAY}
       bind:value={team_aliases[TEAM.AWAY]}
     />

@@ -2012,14 +2012,7 @@ var bundle = (function () {
     	return child_ctx;
     }
 
-    function get_each_context_1(ctx, list, i) {
-    	const child_ctx = ctx.slice();
-    	child_ctx[10] = list[i];
-    	child_ctx[14] = i;
-    	return child_ctx;
-    }
-
-    // (34:2) <div slot="title">
+    // (42:2) <div slot="title">
     function create_title_slot(ctx) {
     	let div;
     	let t0;
@@ -2034,7 +2027,7 @@ var bundle = (function () {
     			t1 = text(t1_value);
     			t2 = text(")");
     			attr_dev(div, "slot", "title");
-    			add_location(div, file$4, 33, 2, 785);
+    			add_location(div, file$4, 41, 2, 948);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -2054,28 +2047,31 @@ var bundle = (function () {
     		block,
     		id: create_title_slot.name,
     		type: "slot",
-    		source: "(34:2) <div slot=\\\"title\\\">",
+    		source: "(42:2) <div slot=\\\"title\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (40:8) <Button color="var(--alternate)"                 dense fullWidth toggle                 active={numbers[r*10+c]}                 on:click={()=>on_num_clicked(r*10+c)}>
+    // (46:8) <Button color="var(--alternate)"                 dense fullWidth toggle                 active={numbers[i]}                 on:click={()=>on_num_clicked(i)}>
     function create_default_slot_3(ctx) {
-    	let t_value = /*r*/ ctx[12] * 10 + /*c*/ ctx[14] + "";
-    	let t;
+    	let t0;
+    	let t1;
 
     	const block = {
     		c: function create() {
-    			t = text(t_value);
+    			t0 = text(/*i*/ ctx[12]);
+    			t1 = space();
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, t, anchor);
+    			insert_dev(target, t0, anchor);
+    			insert_dev(target, t1, anchor);
     		},
     		p: noop,
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(t);
+    			if (detaching) detach_dev(t0);
+    			if (detaching) detach_dev(t1);
     		}
     	};
 
@@ -2083,21 +2079,21 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_3.name,
     		type: "slot",
-    		source: "(40:8) <Button color=\\\"var(--alternate)\\\"                 dense fullWidth toggle                 active={numbers[r*10+c]}                 on:click={()=>on_num_clicked(r*10+c)}>",
+    		source: "(46:8) <Button color=\\\"var(--alternate)\\\"                 dense fullWidth toggle                 active={numbers[i]}                 on:click={()=>on_num_clicked(i)}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (39:4) {#each (new Array(10).fill(0)) as _,c }
-    function create_each_block_1(ctx) {
-    	let td;
+    // (45:4) {#each (new Array(100).fill(0)) as _,i }
+    function create_each_block(ctx) {
+    	let li;
     	let button;
     	let current;
 
     	function click_handler() {
-    		return /*click_handler*/ ctx[5](/*r*/ ctx[12], /*c*/ ctx[14]);
+    		return /*click_handler*/ ctx[5](/*i*/ ctx[12]);
     	}
 
     	button = new ye({
@@ -2106,7 +2102,7 @@ var bundle = (function () {
     				dense: true,
     				fullWidth: true,
     				toggle: true,
-    				active: /*numbers*/ ctx[2][/*r*/ ctx[12] * 10 + /*c*/ ctx[14]],
+    				active: /*numbers*/ ctx[2][/*i*/ ctx[12]],
     				$$slots: { default: [create_default_slot_3] },
     				$$scope: { ctx }
     			},
@@ -2117,21 +2113,21 @@ var bundle = (function () {
 
     	const block = {
     		c: function create() {
-    			td = element("td");
+    			li = element("li");
     			create_component(button.$$.fragment);
-    			add_location(td, file$4, 39, 4, 962);
+    			add_location(li, file$4, 45, 4, 1086);
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, td, anchor);
-    			mount_component(button, td, null);
+    			insert_dev(target, li, anchor);
+    			mount_component(button, li, null);
     			current = true;
     		},
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
     			const button_changes = {};
-    			if (dirty & /*numbers*/ 4) button_changes.active = /*numbers*/ ctx[2][/*r*/ ctx[12] * 10 + /*c*/ ctx[14]];
+    			if (dirty & /*numbers*/ 4) button_changes.active = /*numbers*/ ctx[2][/*i*/ ctx[12]];
 
-    			if (dirty & /*$$scope*/ 32768) {
+    			if (dirty & /*$$scope*/ 8192) {
     				button_changes.$$scope = { dirty, ctx };
     			}
 
@@ -2147,110 +2143,8 @@ var bundle = (function () {
     			current = false;
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(td);
+    			if (detaching) detach_dev(li);
     			destroy_component(button);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_each_block_1.name,
-    		type: "each",
-    		source: "(39:4) {#each (new Array(10).fill(0)) as _,c }",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (37:4) {#each (new Array(10).fill(0)) as _,r }
-    function create_each_block(ctx) {
-    	let tr;
-    	let t;
-    	let current;
-    	let each_value_1 = new Array(10).fill(0);
-    	validate_each_argument(each_value_1);
-    	let each_blocks = [];
-
-    	for (let i = 0; i < each_value_1.length; i += 1) {
-    		each_blocks[i] = create_each_block_1(get_each_context_1(ctx, each_value_1, i));
-    	}
-
-    	const out = i => transition_out(each_blocks[i], 1, 1, () => {
-    		each_blocks[i] = null;
-    	});
-
-    	const block = {
-    		c: function create() {
-    			tr = element("tr");
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].c();
-    			}
-
-    			t = space();
-    			add_location(tr, file$4, 37, 4, 909);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, tr, anchor);
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(tr, null);
-    			}
-
-    			append_dev(tr, t);
-    			current = true;
-    		},
-    		p: function update(ctx, dirty) {
-    			if (dirty & /*numbers, on_num_clicked*/ 20) {
-    				each_value_1 = new Array(10).fill(0);
-    				validate_each_argument(each_value_1);
-    				let i;
-
-    				for (i = 0; i < each_value_1.length; i += 1) {
-    					const child_ctx = get_each_context_1(ctx, each_value_1, i);
-
-    					if (each_blocks[i]) {
-    						each_blocks[i].p(child_ctx, dirty);
-    						transition_in(each_blocks[i], 1);
-    					} else {
-    						each_blocks[i] = create_each_block_1(child_ctx);
-    						each_blocks[i].c();
-    						transition_in(each_blocks[i], 1);
-    						each_blocks[i].m(tr, t);
-    					}
-    				}
-
-    				group_outros();
-
-    				for (i = each_value_1.length; i < each_blocks.length; i += 1) {
-    					out(i);
-    				}
-
-    				check_outros();
-    			}
-    		},
-    		i: function intro(local) {
-    			if (current) return;
-
-    			for (let i = 0; i < each_value_1.length; i += 1) {
-    				transition_in(each_blocks[i]);
-    			}
-
-    			current = true;
-    		},
-    		o: function outro(local) {
-    			each_blocks = each_blocks.filter(Boolean);
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				transition_out(each_blocks[i]);
-    			}
-
-    			current = false;
-    		},
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(tr);
-    			destroy_each(each_blocks, detaching);
     		}
     	};
 
@@ -2258,14 +2152,14 @@ var bundle = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(37:4) {#each (new Array(10).fill(0)) as _,r }",
+    		source: "(45:4) {#each (new Array(100).fill(0)) as _,i }",
     		ctx
     	});
 
     	return block;
     }
 
-    // (51:4) <Button color="primary" on:click={()=>on_clear()}>
+    // (55:4) <Button color="primary" on:click={()=>on_clear()}>
     function create_default_slot_2(ctx) {
     	let t;
 
@@ -2285,14 +2179,14 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_2.name,
     		type: "slot",
-    		source: "(51:4) <Button color=\\\"primary\\\" on:click={()=>on_clear()}>",
+    		source: "(55:4) <Button color=\\\"primary\\\" on:click={()=>on_clear()}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (52:4) <Button color="primary" on:click={()=>visible=false}>
+    // (56:4) <Button color="primary" on:click={()=>visible=false}>
     function create_default_slot_1(ctx) {
     	let t;
 
@@ -2312,14 +2206,14 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_1.name,
     		type: "slot",
-    		source: "(52:4) <Button color=\\\"primary\\\" on:click={()=>visible=false}>",
+    		source: "(56:4) <Button color=\\\"primary\\\" on:click={()=>visible=false}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (50:2) <div slot="actions" class="actions center">
+    // (54:2) <div slot="actions" class="actions center">
     function create_actions_slot(ctx) {
     	let div;
     	let button0;
@@ -2357,7 +2251,7 @@ var bundle = (function () {
     			create_component(button1.$$.fragment);
     			attr_dev(div, "slot", "actions");
     			attr_dev(div, "class", "actions center");
-    			add_location(div, file$4, 49, 2, 1211);
+    			add_location(div, file$4, 53, 2, 1295);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -2369,14 +2263,14 @@ var bundle = (function () {
     		p: function update(ctx, dirty) {
     			const button0_changes = {};
 
-    			if (dirty & /*$$scope*/ 32768) {
+    			if (dirty & /*$$scope*/ 8192) {
     				button0_changes.$$scope = { dirty, ctx };
     			}
 
     			button0.$set(button0_changes);
     			const button1_changes = {};
 
-    			if (dirty & /*$$scope*/ 32768) {
+    			if (dirty & /*$$scope*/ 8192) {
     				button1_changes.$$scope = { dirty, ctx };
     			}
 
@@ -2404,20 +2298,20 @@ var bundle = (function () {
     		block,
     		id: create_actions_slot.name,
     		type: "slot",
-    		source: "(50:2) <div slot=\\\"actions\\\" class=\\\"actions center\\\">",
+    		source: "(54:2) <div slot=\\\"actions\\\" class=\\\"actions center\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (33:0) <Dialog width="auto" bind:visible>
+    // (41:0) <Dialog bind:visible>
     function create_default_slot(ctx) {
     	let t0;
-    	let table;
+    	let ul;
     	let t1;
     	let current;
-    	let each_value = new Array(10).fill(0);
+    	let each_value = new Array(100).fill(0);
     	validate_each_argument(each_value);
     	let each_blocks = [];
 
@@ -2432,29 +2326,30 @@ var bundle = (function () {
     	const block = {
     		c: function create() {
     			t0 = space();
-    			table = element("table");
+    			ul = element("ul");
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
     			t1 = space();
-    			add_location(table, file$4, 35, 2, 853);
+    			attr_dev(ul, "class", "numbers svelte-2i6665");
+    			add_location(ul, file$4, 43, 2, 1016);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, t0, anchor);
-    			insert_dev(target, table, anchor);
+    			insert_dev(target, ul, anchor);
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(table, null);
+    				each_blocks[i].m(ul, null);
     			}
 
     			insert_dev(target, t1, anchor);
     			current = true;
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*Array, numbers, on_num_clicked*/ 20) {
-    				each_value = new Array(10).fill(0);
+    			if (dirty & /*numbers, on_num_clicked*/ 20) {
+    				each_value = new Array(100).fill(0);
     				validate_each_argument(each_value);
     				let i;
 
@@ -2468,7 +2363,7 @@ var bundle = (function () {
     						each_blocks[i] = create_each_block(child_ctx);
     						each_blocks[i].c();
     						transition_in(each_blocks[i], 1);
-    						each_blocks[i].m(table, null);
+    						each_blocks[i].m(ul, null);
     					}
     				}
 
@@ -2501,7 +2396,7 @@ var bundle = (function () {
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(t0);
-    			if (detaching) detach_dev(table);
+    			if (detaching) detach_dev(ul);
     			destroy_each(each_blocks, detaching);
     			if (detaching) detach_dev(t1);
     		}
@@ -2511,7 +2406,7 @@ var bundle = (function () {
     		block,
     		id: create_default_slot.name,
     		type: "slot",
-    		source: "(33:0) <Dialog width=\\\"auto\\\" bind:visible>",
+    		source: "(41:0) <Dialog bind:visible>",
     		ctx
     	});
 
@@ -2528,7 +2423,6 @@ var bundle = (function () {
     	}
 
     	let dialog_props = {
-    		width: "auto",
     		$$slots: {
     			default: [create_default_slot],
     			actions: [create_actions_slot],
@@ -2558,7 +2452,7 @@ var bundle = (function () {
     		p: function update(ctx, [dirty]) {
     			const dialog_changes = {};
 
-    			if (dirty & /*$$scope, visible, numbers, jerseys*/ 32775) {
+    			if (dirty & /*$$scope, visible, numbers, jerseys*/ 8199) {
     				dialog_changes.$$scope = { dirty, ctx };
     			}
 
@@ -2625,7 +2519,7 @@ var bundle = (function () {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<JerseyPicker> was created with unknown prop '${key}'`);
     	});
 
-    	const click_handler = (r, c) => on_num_clicked(r * 10 + c);
+    	const click_handler = i => on_num_clicked(i);
     	const click_handler_1 = () => on_clear();
     	const click_handler_2 = () => $$invalidate(1, visible = false);
 
@@ -3301,7 +3195,7 @@ var bundle = (function () {
     	return child_ctx;
     }
 
-    function get_each_context_1$1(ctx, list, i) {
+    function get_each_context_1(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[11] = list[i];
     	return child_ctx;
@@ -3344,7 +3238,7 @@ var bundle = (function () {
     	let each_blocks = [];
 
     	for (let i = 0; i < each_value_1.length; i += 1) {
-    		each_blocks[i] = create_each_block_1$1(get_each_context_1$1(ctx, each_value_1, i));
+    		each_blocks[i] = create_each_block_1(get_each_context_1(ctx, each_value_1, i));
     	}
 
     	const out = i => transition_out(each_blocks[i], 1, 1, () => {
@@ -3405,13 +3299,13 @@ var bundle = (function () {
     				let i;
 
     				for (i = 0; i < each_value_1.length; i += 1) {
-    					const child_ctx = get_each_context_1$1(ctx, each_value_1, i);
+    					const child_ctx = get_each_context_1(ctx, each_value_1, i);
 
     					if (each_blocks[i]) {
     						each_blocks[i].p(child_ctx, dirty);
     						transition_in(each_blocks[i], 1);
     					} else {
-    						each_blocks[i] = create_each_block_1$1(child_ctx);
+    						each_blocks[i] = create_each_block_1(child_ctx);
     						each_blocks[i].c();
     						transition_in(each_blocks[i], 1);
     						each_blocks[i].m(span, null);
@@ -3598,7 +3492,7 @@ var bundle = (function () {
     }
 
     // (140:2) {#each set.rallies as rally}
-    function create_each_block_1$1(ctx) {
+    function create_each_block_1(ctx) {
     	let each_1_anchor;
     	let current;
     	let each_value_2 = /*rally*/ ctx[11].contacts;
@@ -3684,7 +3578,7 @@ var bundle = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_each_block_1$1.name,
+    		id: create_each_block_1.name,
     		type: "each",
     		source: "(140:2) {#each set.rallies as rally}",
     		ctx
@@ -4034,25 +3928,25 @@ var bundle = (function () {
 
     function get_each_context$2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[66] = list[i];
+    	child_ctx[65] = list[i];
     	return child_ctx;
     }
 
-    function get_each_context_1$2(ctx, list, i) {
+    function get_each_context_1$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[69] = list[i];
+    	child_ctx[68] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_2$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[72] = list[i];
+    	child_ctx[71] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_3(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[69] = list[i];
+    	child_ctx[68] = list[i];
     	return child_ctx;
     }
 
@@ -4070,7 +3964,7 @@ var bundle = (function () {
     			create_component(court.$$.fragment);
     			attr_dev(div, "slot", "activator");
     			set_style(div, "display", "flex");
-    			add_location(div, file$8, 914, 6, 36252);
+    			add_location(div, file$8, 914, 6, 36300);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -4105,8 +3999,8 @@ var bundle = (function () {
     }
 
     // (922:12) <Button fullWidth class="menu-item" on:click={()=>on_specify(s.type, s.value)}>
-    function create_default_slot_10(ctx) {
-    	let t_value = /*s*/ ctx[69].value + "";
+    function create_default_slot_9(ctx) {
+    	let t_value = /*s*/ ctx[68].value + "";
     	let t;
 
     	const block = {
@@ -4117,7 +4011,7 @@ var bundle = (function () {
     			insert_dev(target, t, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*current*/ 512 && t_value !== (t_value = /*s*/ ctx[69].value + "")) set_data_dev(t, t_value);
+    			if (dirty[0] & /*current*/ 512 && t_value !== (t_value = /*s*/ ctx[68].value + "")) set_data_dev(t, t_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(t);
@@ -4126,7 +4020,7 @@ var bundle = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_default_slot_10.name,
+    		id: create_default_slot_9.name,
     		type: "slot",
     		source: "(922:12) <Button fullWidth class=\\\"menu-item\\\" on:click={()=>on_specify(s.type, s.value)}>",
     		ctx
@@ -4142,14 +4036,14 @@ var bundle = (function () {
     	let current;
 
     	function click_handler() {
-    		return /*click_handler*/ ctx[23](/*s*/ ctx[69]);
+    		return /*click_handler*/ ctx[23](/*s*/ ctx[68]);
     	}
 
     	button = new ye({
     			props: {
     				fullWidth: true,
     				class: "menu-item",
-    				$$slots: { default: [create_default_slot_10] },
+    				$$slots: { default: [create_default_slot_9] },
     				$$scope: { ctx }
     			},
     			$$inline: true
@@ -4161,7 +4055,7 @@ var bundle = (function () {
     		c: function create() {
     			td = element("td");
     			create_component(button.$$.fragment);
-    			add_location(td, file$8, 921, 8, 36437);
+    			add_location(td, file$8, 921, 8, 36485);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, td, anchor);
@@ -4172,7 +4066,7 @@ var bundle = (function () {
     			ctx = new_ctx;
     			const button_changes = {};
 
-    			if (dirty[0] & /*current*/ 512 | dirty[2] & /*$$scope*/ 32768) {
+    			if (dirty[0] & /*current*/ 512 | dirty[2] & /*$$scope*/ 16384) {
     				button_changes.$$scope = { dirty, ctx };
     			}
 
@@ -4208,7 +4102,7 @@ var bundle = (function () {
     function create_each_block_2$1(ctx) {
     	let tr;
     	let current;
-    	let each_value_3 = /*g*/ ctx[72];
+    	let each_value_3 = /*g*/ ctx[71];
     	validate_each_argument(each_value_3);
     	let each_blocks = [];
 
@@ -4228,7 +4122,7 @@ var bundle = (function () {
     				each_blocks[i].c();
     			}
 
-    			add_location(tr, file$8, 919, 6, 36403);
+    			add_location(tr, file$8, 919, 6, 36451);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, tr, anchor);
@@ -4241,7 +4135,7 @@ var bundle = (function () {
     		},
     		p: function update(ctx, dirty) {
     			if (dirty[0] & /*on_specify, current*/ 16896) {
-    				each_value_3 = /*g*/ ctx[72];
+    				each_value_3 = /*g*/ ctx[71];
     				validate_each_argument(each_value_3);
     				let i;
 
@@ -4304,8 +4198,8 @@ var bundle = (function () {
     }
 
     // (928:6) <Menuitem on:click={()=>on_specify(s.type, s.value)}>
-    function create_default_slot_9(ctx) {
-    	let t_value = /*s*/ ctx[69].value + "";
+    function create_default_slot_8(ctx) {
+    	let t_value = /*s*/ ctx[68].value + "";
     	let t;
 
     	const block = {
@@ -4316,7 +4210,7 @@ var bundle = (function () {
     			insert_dev(target, t, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*specifiers*/ 32 && t_value !== (t_value = /*s*/ ctx[69].value + "")) set_data_dev(t, t_value);
+    			if (dirty[0] & /*specifiers*/ 32 && t_value !== (t_value = /*s*/ ctx[68].value + "")) set_data_dev(t, t_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(t);
@@ -4325,7 +4219,7 @@ var bundle = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_default_slot_9.name,
+    		id: create_default_slot_8.name,
     		type: "slot",
     		source: "(928:6) <Menuitem on:click={()=>on_specify(s.type, s.value)}>",
     		ctx
@@ -4335,17 +4229,17 @@ var bundle = (function () {
     }
 
     // (927:6) {#each specifiers.both as s}
-    function create_each_block_1$2(ctx) {
+    function create_each_block_1$1(ctx) {
     	let menuitem;
     	let current;
 
     	function click_handler_1() {
-    		return /*click_handler_1*/ ctx[24](/*s*/ ctx[69]);
+    		return /*click_handler_1*/ ctx[24](/*s*/ ctx[68]);
     	}
 
     	menuitem = new Yn({
     			props: {
-    				$$slots: { default: [create_default_slot_9] },
+    				$$slots: { default: [create_default_slot_8] },
     				$$scope: { ctx }
     			},
     			$$inline: true
@@ -4365,7 +4259,7 @@ var bundle = (function () {
     			ctx = new_ctx;
     			const menuitem_changes = {};
 
-    			if (dirty[0] & /*specifiers*/ 32 | dirty[2] & /*$$scope*/ 32768) {
+    			if (dirty[0] & /*specifiers*/ 32 | dirty[2] & /*$$scope*/ 16384) {
     				menuitem_changes.$$scope = { dirty, ctx };
     			}
 
@@ -4387,7 +4281,7 @@ var bundle = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_each_block_1$2.name,
+    		id: create_each_block_1$1.name,
     		type: "each",
     		source: "(927:6) {#each specifiers.both as s}",
     		ctx
@@ -4397,7 +4291,7 @@ var bundle = (function () {
     }
 
     // (914:4) <Menu origin={menu_origin} {...menu_offset}>
-    function create_default_slot_8(ctx) {
+    function create_default_slot_7(ctx) {
     	let t0;
     	let t1;
     	let hr;
@@ -4421,7 +4315,7 @@ var bundle = (function () {
     	let each_blocks = [];
 
     	for (let i = 0; i < each_value_1.length; i += 1) {
-    		each_blocks[i] = create_each_block_1$2(get_each_context_1$2(ctx, each_value_1, i));
+    		each_blocks[i] = create_each_block_1$1(get_each_context_1$1(ctx, each_value_1, i));
     	}
 
     	const out_1 = i => transition_out(each_blocks[i], 1, 1, () => {
@@ -4445,7 +4339,7 @@ var bundle = (function () {
     			}
 
     			each1_anchor = empty();
-    			add_location(hr, file$8, 925, 6, 36590);
+    			add_location(hr, file$8, 925, 6, 36638);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, t0, anchor);
@@ -4500,13 +4394,13 @@ var bundle = (function () {
     				let i;
 
     				for (i = 0; i < each_value_1.length; i += 1) {
-    					const child_ctx = get_each_context_1$2(ctx, each_value_1, i);
+    					const child_ctx = get_each_context_1$1(ctx, each_value_1, i);
 
     					if (each_blocks[i]) {
     						each_blocks[i].p(child_ctx, dirty);
     						transition_in(each_blocks[i], 1);
     					} else {
-    						each_blocks[i] = create_each_block_1$2(child_ctx);
+    						each_blocks[i] = create_each_block_1$1(child_ctx);
     						each_blocks[i].c();
     						transition_in(each_blocks[i], 1);
     						each_blocks[i].m(each1_anchor.parentNode, each1_anchor);
@@ -4563,7 +4457,7 @@ var bundle = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_default_slot_8.name,
+    		id: create_default_slot_7.name,
     		type: "slot",
     		source: "(914:4) <Menu origin={menu_origin} {...menu_offset}>",
     		ctx
@@ -4572,34 +4466,7 @@ var bundle = (function () {
     	return block;
     }
 
-    // (934:4) <Button style="align-self: center; width: min-content;" outlined toggle bind:active={recording}>
-    function create_default_slot_7(ctx) {
-    	let t;
-
-    	const block = {
-    		c: function create() {
-    			t = text("⬤ REC");
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, t, anchor);
-    		},
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(t);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_default_slot_7.name,
-    		type: "slot",
-    		source: "(934:4) <Button style=\\\"align-self: center; width: min-content;\\\" outlined toggle bind:active={recording}>",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (937:6) <Icon style="transform: scale(1.25);">
+    // (935:6) <Icon style="transform: scale(1.25);">
     function create_default_slot_6(ctx) {
     	let switch_instance;
     	let switch_instance_anchor;
@@ -4669,14 +4536,14 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_6.name,
     		type: "slot",
-    		source: "(937:6) <Icon style=\\\"transform: scale(1.25);\\\">",
+    		source: "(935:6) <Icon style=\\\"transform: scale(1.25);\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (936:4) <Button icon color="var(--team-home-rgb)" style="transform: scale(1.5);" on:click={()=>on_jersey()}>
+    // (934:4) <Button icon color="var(--team-home-rgb)" style="transform: scale(1.5);" on:click={()=>on_jersey()}>
     function create_default_slot_5(ctx) {
     	let icon;
     	let current;
@@ -4701,7 +4568,7 @@ var bundle = (function () {
     		p: function update(ctx, dirty) {
     			const icon_changes = {};
 
-    			if (dirty[2] & /*$$scope*/ 32768) {
+    			if (dirty[2] & /*$$scope*/ 16384) {
     				icon_changes.$$scope = { dirty, ctx };
     			}
 
@@ -4725,14 +4592,14 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_5.name,
     		type: "slot",
-    		source: "(936:4) <Button icon color=\\\"var(--team-home-rgb)\\\" style=\\\"transform: scale(1.5);\\\" on:click={()=>on_jersey()}>",
+    		source: "(934:4) <Button icon color=\\\"var(--team-home-rgb)\\\" style=\\\"transform: scale(1.5);\\\" on:click={()=>on_jersey()}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (965:10) <Icon style="transform: scale(1.25);">
+    // (963:10) <Icon style="transform: scale(1.25);">
     function create_default_slot_4(ctx) {
     	let switch_instance;
     	let switch_instance_anchor;
@@ -4802,14 +4669,14 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_4.name,
     		type: "slot",
-    		source: "(965:10) <Icon style=\\\"transform: scale(1.25);\\\">",
+    		source: "(963:10) <Icon style=\\\"transform: scale(1.25);\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (964:8) <Button icon style="margin-left: 1.5rem; margin-right: 0.5rem; float: right; transform: scale(1.5);" color="var(--action-error-rgb)" disabled={!recording}>
+    // (962:8) <Button icon style="margin-left: 1.5rem; margin-right: 0.5rem; float: right; transform: scale(1.5);" color="var(--action-error-rgb)" disabled={!recording}>
     function create_default_slot_3$1(ctx) {
     	let icon;
     	let current;
@@ -4834,7 +4701,7 @@ var bundle = (function () {
     		p: function update(ctx, dirty) {
     			const icon_changes = {};
 
-    			if (dirty[2] & /*$$scope*/ 32768) {
+    			if (dirty[2] & /*$$scope*/ 16384) {
     				icon_changes.$$scope = { dirty, ctx };
     			}
 
@@ -4858,14 +4725,14 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_3$1.name,
     		type: "slot",
-    		source: "(964:8) <Button icon style=\\\"margin-left: 1.5rem; margin-right: 0.5rem; float: right; transform: scale(1.5);\\\" color=\\\"var(--action-error-rgb)\\\" disabled={!recording}>",
+    		source: "(962:8) <Button icon style=\\\"margin-left: 1.5rem; margin-right: 0.5rem; float: right; transform: scale(1.5);\\\" color=\\\"var(--action-error-rgb)\\\" disabled={!recording}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (963:6) <div slot="activator">
+    // (961:6) <div slot="activator">
     function create_activator_slot(ctx) {
     	let div;
     	let button;
@@ -4888,7 +4755,7 @@ var bundle = (function () {
     			div = element("div");
     			create_component(button.$$.fragment);
     			attr_dev(div, "slot", "activator");
-    			add_location(div, file$8, 962, 6, 37856);
+    			add_location(div, file$8, 960, 6, 37722);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -4899,7 +4766,7 @@ var bundle = (function () {
     			const button_changes = {};
     			if (dirty[0] & /*recording*/ 1024) button_changes.disabled = !/*recording*/ ctx[10];
 
-    			if (dirty[2] & /*$$scope*/ 32768) {
+    			if (dirty[2] & /*$$scope*/ 16384) {
     				button_changes.$$scope = { dirty, ctx };
     			}
 
@@ -4924,17 +4791,17 @@ var bundle = (function () {
     		block,
     		id: create_activator_slot.name,
     		type: "slot",
-    		source: "(963:6) <div slot=\\\"activator\\\">",
+    		source: "(961:6) <div slot=\\\"activator\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (970:6) <Menuitem on:click={()=>on_whistle(t)}>
+    // (968:6) <Menuitem on:click={()=>on_whistle(t)}>
     function create_default_slot_2$2(ctx) {
     	let t0;
-    	let t1_value = /*t*/ ctx[66] + "";
+    	let t1_value = /*t*/ ctx[65] + "";
     	let t1;
     	let t2;
 
@@ -4961,20 +4828,20 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_2$2.name,
     		type: "slot",
-    		source: "(970:6) <Menuitem on:click={()=>on_whistle(t)}>",
+    		source: "(968:6) <Menuitem on:click={()=>on_whistle(t)}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (969:6) {#each [TEAM.HOME, TEAM.AWAY] as t}
+    // (967:6) {#each [TEAM.HOME, TEAM.AWAY] as t}
     function create_each_block$2(ctx) {
     	let menuitem;
     	let current;
 
     	function click_handler_3() {
-    		return /*click_handler_3*/ ctx[30](/*t*/ ctx[66]);
+    		return /*click_handler_3*/ ctx[29](/*t*/ ctx[65]);
     	}
 
     	menuitem = new Yn({
@@ -4999,7 +4866,7 @@ var bundle = (function () {
     			ctx = new_ctx;
     			const menuitem_changes = {};
 
-    			if (dirty[2] & /*$$scope*/ 32768) {
+    			if (dirty[2] & /*$$scope*/ 16384) {
     				menuitem_changes.$$scope = { dirty, ctx };
     			}
 
@@ -5023,14 +4890,14 @@ var bundle = (function () {
     		block,
     		id: create_each_block$2.name,
     		type: "each",
-    		source: "(969:6) {#each [TEAM.HOME, TEAM.AWAY] as t}",
+    		source: "(967:6) {#each [TEAM.HOME, TEAM.AWAY] as t}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (973:6) <Menuitem>
+    // (971:6) <Menuitem>
     function create_default_slot_1$3(ctx) {
     	let t;
 
@@ -5050,14 +4917,14 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_1$3.name,
     		type: "slot",
-    		source: "(973:6) <Menuitem>",
+    		source: "(971:6) <Menuitem>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (962:4) <Menu origin="bottom right" dy={MENU_DY}>
+    // (960:4) <Menu origin="bottom right" dy={MENU_DY}>
     function create_default_slot$3(ctx) {
     	let t0;
     	let t1;
@@ -5097,7 +4964,7 @@ var bundle = (function () {
     			hr = element("hr");
     			t2 = space();
     			create_component(menuitem.$$.fragment);
-    			add_location(hr, file$8, 971, 6, 38303);
+    			add_location(hr, file$8, 969, 6, 38169);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, t0, anchor);
@@ -5143,7 +5010,7 @@ var bundle = (function () {
 
     			const menuitem_changes = {};
 
-    			if (dirty[2] & /*$$scope*/ 32768) {
+    			if (dirty[2] & /*$$scope*/ 16384) {
     				menuitem_changes.$$scope = { dirty, ctx };
     			}
 
@@ -5183,7 +5050,7 @@ var bundle = (function () {
     		block,
     		id: create_default_slot$3.name,
     		type: "slot",
-    		source: "(962:4) <Menu origin=\\\"bottom right\\\" dy={MENU_DY}>",
+    		source: "(960:4) <Menu origin=\\\"bottom right\\\" dy={MENU_DY}>",
     		ctx
     	});
 
@@ -5205,27 +5072,24 @@ var bundle = (function () {
     	let div1_resize_listener;
     	let t4;
     	let div2;
-    	let button0;
-    	let updating_active;
+    	let button;
     	let t5;
-    	let button1;
-    	let t6;
     	let textfield1;
     	let updating_value_1;
-    	let t7;
+    	let t6;
     	let score;
-    	let t8;
+    	let t7;
     	let textfield2;
     	let updating_value_2;
-    	let t9;
+    	let t8;
     	let menu1;
-    	let t10;
+    	let t9;
     	let transcript;
-    	let t11;
+    	let t10;
     	let jerseypicker;
     	let updating_visible;
     	let updating_jerseys;
-    	let t12;
+    	let t11;
     	let servingteampicker;
     	let updating_visible_1;
     	let current;
@@ -5259,7 +5123,7 @@ var bundle = (function () {
 
     	let menu0_props = {
     		$$slots: {
-    			default: [create_default_slot_8],
+    			default: [create_default_slot_7],
     			activator: [create_activator_slot_1]
     		},
     		$$scope: { ctx }
@@ -5271,26 +5135,7 @@ var bundle = (function () {
 
     	menu0 = new kn({ props: menu0_props, $$inline: true });
 
-    	function button0_active_binding(value) {
-    		/*button0_active_binding*/ ctx[26](value);
-    	}
-
-    	let button0_props = {
-    		style: "align-self: center; width: min-content;",
-    		outlined: true,
-    		toggle: true,
-    		$$slots: { default: [create_default_slot_7] },
-    		$$scope: { ctx }
-    	};
-
-    	if (/*recording*/ ctx[10] !== void 0) {
-    		button0_props.active = /*recording*/ ctx[10];
-    	}
-
-    	button0 = new ye({ props: button0_props, $$inline: true });
-    	binding_callbacks.push(() => bind(button0, "active", button0_active_binding));
-
-    	button1 = new ye({
+    	button = new ye({
     			props: {
     				icon: true,
     				color: "var(--team-home-rgb)",
@@ -5301,10 +5146,10 @@ var bundle = (function () {
     			$$inline: true
     		});
 
-    	button1.$on("click", /*click_handler_2*/ ctx[27]);
+    	button.$on("click", /*click_handler_2*/ ctx[26]);
 
     	function textfield1_value_binding(value) {
-    		/*textfield1_value_binding*/ ctx[28](value);
+    		/*textfield1_value_binding*/ ctx[27](value);
     	}
 
     	let textfield1_props = {
@@ -5332,12 +5177,12 @@ var bundle = (function () {
     		});
 
     	function textfield2_value_binding(value) {
-    		/*textfield2_value_binding*/ ctx[29](value);
+    		/*textfield2_value_binding*/ ctx[28](value);
     	}
 
     	let textfield2_props = {
     		outlined: true,
-    		style: "margin: 0 0 0 1.5rem; padding-right: 0.5rem; align-self: center;",
+    		style: "margin: 0 0 0 1.5rem; align-self: center;",
     		label: TEAM.AWAY
     	};
 
@@ -5367,11 +5212,11 @@ var bundle = (function () {
     		});
 
     	function jerseypicker_visible_binding(value) {
-    		/*jerseypicker_visible_binding*/ ctx[31](value);
+    		/*jerseypicker_visible_binding*/ ctx[30](value);
     	}
 
     	function jerseypicker_jerseys_binding(value) {
-    		/*jerseypicker_jerseys_binding*/ ctx[32](value);
+    		/*jerseypicker_jerseys_binding*/ ctx[31](value);
     	}
 
     	let jerseypicker_props = {};
@@ -5393,7 +5238,7 @@ var bundle = (function () {
     	binding_callbacks.push(() => bind(jerseypicker, "jerseys", jerseypicker_jerseys_binding));
 
     	function servingteampicker_visible_binding(value) {
-    		/*servingteampicker_visible_binding*/ ctx[33](value);
+    		/*servingteampicker_visible_binding*/ ctx[32](value);
     	}
 
     	let servingteampicker_props = {};
@@ -5425,33 +5270,31 @@ var bundle = (function () {
     			create_component(menu0.$$.fragment);
     			t4 = space();
     			div2 = element("div");
-    			create_component(button0.$$.fragment);
+    			create_component(button.$$.fragment);
     			t5 = space();
-    			create_component(button1.$$.fragment);
-    			t6 = space();
     			create_component(textfield1.$$.fragment);
-    			t7 = space();
+    			t6 = space();
     			create_component(score.$$.fragment);
-    			t8 = space();
+    			t7 = space();
     			create_component(textfield2.$$.fragment);
-    			t9 = space();
+    			t8 = space();
     			create_component(menu1.$$.fragment);
-    			t10 = space();
+    			t9 = space();
     			create_component(transcript.$$.fragment);
-    			t11 = space();
+    			t10 = space();
     			create_component(jerseypicker.$$.fragment);
-    			t12 = space();
+    			t11 = space();
     			create_component(servingteampicker.$$.fragment);
-    			attr_dev(h2, "class", "svelte-bh7bfs");
-    			add_location(h2, file$8, 895, 2, 35815);
-    			attr_dev(div0, "class", "title-bar svelte-bh7bfs");
-    			add_location(div0, file$8, 894, 0, 35789);
-    			attr_dev(div1, "class", "widener svelte-bh7bfs");
+    			attr_dev(h2, "class", "svelte-ioy7w3");
+    			add_location(h2, file$8, 895, 2, 35863);
+    			attr_dev(div0, "class", "title-bar svelte-ioy7w3");
+    			add_location(div0, file$8, 894, 0, 35837);
+    			attr_dev(div1, "class", "widener svelte-ioy7w3");
     			add_render_callback(() => /*div1_elementresize_handler*/ ctx[25].call(div1));
-    			add_location(div1, file$8, 912, 2, 36113);
-    			attr_dev(div2, "class", "control-bar svelte-bh7bfs");
-    			add_location(div2, file$8, 932, 2, 36750);
-    			add_location(div3, file$8, 911, 0, 36105);
+    			add_location(div1, file$8, 912, 2, 36161);
+    			attr_dev(div2, "class", "control-bar svelte-ioy7w3");
+    			add_location(div2, file$8, 932, 2, 36798);
+    			add_location(div3, file$8, 911, 0, 36153);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -5470,22 +5313,20 @@ var bundle = (function () {
     			div1_resize_listener = add_resize_listener(div1, /*div1_elementresize_handler*/ ctx[25].bind(div1));
     			append_dev(div3, t4);
     			append_dev(div3, div2);
-    			mount_component(button0, div2, null);
+    			mount_component(button, div2, null);
     			append_dev(div2, t5);
-    			mount_component(button1, div2, null);
-    			append_dev(div2, t6);
     			mount_component(textfield1, div2, null);
-    			append_dev(div2, t7);
+    			append_dev(div2, t6);
     			mount_component(score, div2, null);
-    			append_dev(div2, t8);
+    			append_dev(div2, t7);
     			mount_component(textfield2, div2, null);
-    			append_dev(div2, t9);
+    			append_dev(div2, t8);
     			mount_component(menu1, div2, null);
-    			insert_dev(target, t10, anchor);
+    			insert_dev(target, t9, anchor);
     			mount_component(transcript, target, anchor);
-    			insert_dev(target, t11, anchor);
+    			insert_dev(target, t10, anchor);
     			mount_component(jerseypicker, target, anchor);
-    			insert_dev(target, t12, anchor);
+    			insert_dev(target, t11, anchor);
     			mount_component(servingteampicker, target, anchor);
     			current = true;
     		},
@@ -5507,31 +5348,18 @@ var bundle = (function () {
     				])
     			: {};
 
-    			if (dirty[0] & /*specifiers, current*/ 544 | dirty[2] & /*$$scope*/ 32768) {
+    			if (dirty[0] & /*specifiers, current*/ 544 | dirty[2] & /*$$scope*/ 16384) {
     				menu0_changes.$$scope = { dirty, ctx };
     			}
 
     			menu0.$set(menu0_changes);
-    			const button0_changes = {};
+    			const button_changes = {};
 
-    			if (dirty[2] & /*$$scope*/ 32768) {
-    				button0_changes.$$scope = { dirty, ctx };
+    			if (dirty[2] & /*$$scope*/ 16384) {
+    				button_changes.$$scope = { dirty, ctx };
     			}
 
-    			if (!updating_active && dirty[0] & /*recording*/ 1024) {
-    				updating_active = true;
-    				button0_changes.active = /*recording*/ ctx[10];
-    				add_flush_callback(() => updating_active = false);
-    			}
-
-    			button0.$set(button0_changes);
-    			const button1_changes = {};
-
-    			if (dirty[2] & /*$$scope*/ 32768) {
-    				button1_changes.$$scope = { dirty, ctx };
-    			}
-
-    			button1.$set(button1_changes);
+    			button.$set(button_changes);
     			const textfield1_changes = {};
 
     			if (!updating_value_1 && dirty[0] & /*team_aliases*/ 64) {
@@ -5559,7 +5387,7 @@ var bundle = (function () {
     			textfield2.$set(textfield2_changes);
     			const menu1_changes = {};
 
-    			if (dirty[0] & /*recording*/ 1024 | dirty[2] & /*$$scope*/ 32768) {
+    			if (dirty[0] & /*recording*/ 1024 | dirty[2] & /*$$scope*/ 16384) {
     				menu1_changes.$$scope = { dirty, ctx };
     			}
 
@@ -5597,8 +5425,7 @@ var bundle = (function () {
     			transition_in(textfield0.$$.fragment, local);
     			transition_in(datefield.$$.fragment, local);
     			transition_in(menu0.$$.fragment, local);
-    			transition_in(button0.$$.fragment, local);
-    			transition_in(button1.$$.fragment, local);
+    			transition_in(button.$$.fragment, local);
     			transition_in(textfield1.$$.fragment, local);
     			transition_in(score.$$.fragment, local);
     			transition_in(textfield2.$$.fragment, local);
@@ -5612,8 +5439,7 @@ var bundle = (function () {
     			transition_out(textfield0.$$.fragment, local);
     			transition_out(datefield.$$.fragment, local);
     			transition_out(menu0.$$.fragment, local);
-    			transition_out(button0.$$.fragment, local);
-    			transition_out(button1.$$.fragment, local);
+    			transition_out(button.$$.fragment, local);
     			transition_out(textfield1.$$.fragment, local);
     			transition_out(score.$$.fragment, local);
     			transition_out(textfield2.$$.fragment, local);
@@ -5631,17 +5457,16 @@ var bundle = (function () {
     			if (detaching) detach_dev(div3);
     			destroy_component(menu0);
     			div1_resize_listener();
-    			destroy_component(button0);
-    			destroy_component(button1);
+    			destroy_component(button);
     			destroy_component(textfield1);
     			destroy_component(score);
     			destroy_component(textfield2);
     			destroy_component(menu1);
-    			if (detaching) detach_dev(t10);
+    			if (detaching) detach_dev(t9);
     			destroy_component(transcript, detaching);
-    			if (detaching) detach_dev(t11);
+    			if (detaching) detach_dev(t10);
     			destroy_component(jerseypicker, detaching);
-    			if (detaching) detach_dev(t12);
+    			if (detaching) detach_dev(t11);
     			destroy_component(servingteampicker, detaching);
     		}
     	};
@@ -6532,7 +6357,7 @@ var bundle = (function () {
     		specifiers: null
     	};
 
-    	let recording = false;
+    	let recording = true; // TODO: do we even need to be able to pause this?
     	let specifying = false;
 
     	onMount(async () => {
@@ -6561,11 +6386,6 @@ var bundle = (function () {
     		menu_height = this.clientHeight;
     		$$invalidate(1, menu_width);
     		$$invalidate(2, menu_height);
-    	}
-
-    	function button0_active_binding(value) {
-    		recording = value;
-    		$$invalidate(10, recording);
     	}
 
     	const click_handler_2 = () => on_jersey();
@@ -6734,7 +6554,6 @@ var bundle = (function () {
     		click_handler,
     		click_handler_1,
     		div1_elementresize_handler,
-    		button0_active_binding,
     		click_handler_2,
     		textfield1_value_binding,
     		textfield2_value_binding,
@@ -7513,7 +7332,7 @@ var bundle = (function () {
     	return child_ctx;
     }
 
-    function get_each_context_1$3(ctx, list, i) {
+    function get_each_context_1$2(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[7] = list[i];
     	return child_ctx;
@@ -7766,7 +7585,7 @@ var bundle = (function () {
     }
 
     // (66:6) {#each Object.values(row) as val}
-    function create_each_block_1$3(ctx) {
+    function create_each_block_1$2(ctx) {
     	let td;
     	let t_value = /*val*/ ctx[7] + "";
     	let t;
@@ -7797,7 +7616,7 @@ var bundle = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_each_block_1$3.name,
+    		id: create_each_block_1$2.name,
     		type: "each",
     		source: "(66:6) {#each Object.values(row) as val}",
     		ctx
@@ -7815,7 +7634,7 @@ var bundle = (function () {
     	let each_blocks = [];
 
     	for (let i = 0; i < each_value_1.length; i += 1) {
-    		each_blocks[i] = create_each_block_1$3(get_each_context_1$3(ctx, each_value_1, i));
+    		each_blocks[i] = create_each_block_1$2(get_each_context_1$2(ctx, each_value_1, i));
     	}
 
     	const block = {
@@ -7845,12 +7664,12 @@ var bundle = (function () {
     				let i;
 
     				for (i = 0; i < each_value_1.length; i += 1) {
-    					const child_ctx = get_each_context_1$3(ctx, each_value_1, i);
+    					const child_ctx = get_each_context_1$2(ctx, each_value_1, i);
 
     					if (each_blocks[i]) {
     						each_blocks[i].p(child_ctx, dirty);
     					} else {
-    						each_blocks[i] = create_each_block_1$3(child_ctx);
+    						each_blocks[i] = create_each_block_1$2(child_ctx);
     						each_blocks[i].c();
     						each_blocks[i].m(tr, t);
     					}
@@ -8209,9 +8028,10 @@ var bundle = (function () {
     			create_component(expansionpanel0.$$.fragment);
     			t2 = space();
     			create_component(expansionpanel1.$$.fragment);
+    			set_style(h2, "max-width", "40%");
     			add_location(h2, file$a, 71, 0, 2012);
     			attr_dev(div, "class", "container svelte-1o5xhww");
-    			add_location(div, file$a, 73, 0, 2038);
+    			add_location(div, file$a, 73, 0, 2061);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -8845,7 +8665,7 @@ var bundle = (function () {
     			set_style(input, "display", "none");
     			attr_dev(input, "type", "file");
     			attr_dev(input, "accept", ".json, .txt");
-    			add_location(input, file$d, 88, 8, 2489);
+    			add_location(input, file$d, 88, 8, 2512);
     		},
     		m: function mount(target, anchor) {
     			mount_component(icon, target, anchor);
@@ -8987,7 +8807,7 @@ var bundle = (function () {
     }
 
     function create_fragment$d(ctx) {
-    	let h1;
+    	let h2;
     	let t1;
     	let div1;
     	let div0;
@@ -9007,32 +8827,33 @@ var bundle = (function () {
 
     	const block = {
     		c: function create() {
-    			h1 = element("h1");
-    			h1.textContent = "import / export";
+    			h2 = element("h2");
+    			h2.textContent = "import / export";
     			t1 = space();
     			div1 = element("div");
     			div0 = element("div");
     			create_component(buttongroup.$$.fragment);
     			t2 = space();
     			textarea = element("textarea");
-    			add_location(h1, file$d, 78, 0, 2000);
+    			set_style(h2, "max-width", "40%");
+    			add_location(h2, file$d, 78, 0, 2000);
     			attr_dev(div0, "class", "toolbar svelte-vm60pp");
-    			add_location(div0, file$d, 81, 2, 2048);
+    			add_location(div0, file$d, 81, 2, 2071);
     			attr_dev(textarea, "autocomplete", "off");
     			attr_dev(textarea, "autocorrect", "off");
     			attr_dev(textarea, "autocapitalize", "off");
     			attr_dev(textarea, "spellcheck", "false");
     			textarea.value = /*match_data*/ ctx[1];
     			attr_dev(textarea, "class", "svelte-vm60pp");
-    			add_location(textarea, file$d, 93, 2, 2645);
+    			add_location(textarea, file$d, 93, 2, 2668);
     			attr_dev(div1, "class", "panel svelte-vm60pp");
-    			add_location(div1, file$d, 80, 0, 2026);
+    			add_location(div1, file$d, 80, 0, 2049);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, h1, anchor);
+    			insert_dev(target, h2, anchor);
     			insert_dev(target, t1, anchor);
     			insert_dev(target, div1, anchor);
     			append_dev(div1, div0);
@@ -9064,7 +8885,7 @@ var bundle = (function () {
     			current = false;
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(h1);
+    			if (detaching) detach_dev(h2);
     			if (detaching) detach_dev(t1);
     			if (detaching) detach_dev(div1);
     			destroy_component(buttongroup);

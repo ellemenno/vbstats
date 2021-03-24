@@ -76,7 +76,7 @@
   }
 </style>
 
-<h1>import / export</h1>
+<h2 style="max-width: 40%">import / export</h2>
 
 <div class="panel">
   <div class="toolbar">

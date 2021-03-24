@@ -28,24 +28,28 @@
 </script>
 
 <style>
+  .numbers {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(2rem, 2rem));
+    grid-gap: 0.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
 </style>
 
-<Dialog width="auto" bind:visible>
+<Dialog bind:visible>
   <div slot="title">Select player jerseys ({jerseys.length})</div>
 
-  <table>
-    {#each (new Array(10).fill(0)) as _,r }
-    <tr>
-    {#each (new Array(10).fill(0)) as _,c }
-    <td><Button color="var(--alternate)"
+  <ul class="numbers">
+    {#each (new Array(100).fill(0)) as _,i }
+    <li><Button color="var(--alternate)"
                 dense fullWidth toggle
-                active={numbers[r*10+c]}
-                on:click={()=>on_num_clicked(r*10+c)}>{r*10+c}
-      </Button></td>
+                active={numbers[i]}
+                on:click={()=>on_num_clicked(i)}>{i}
+      </Button></li>
     {/each}
-    </tr>
-    {/each}
-  </table>
+  </ul>
 
   <div slot="actions" class="actions center">
     <Button color="primary" on:click={()=>on_clear()}>Clear</Button>

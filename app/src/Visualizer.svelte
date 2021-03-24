@@ -69,7 +69,7 @@
   }
 </style>
 
-<h2>visualize stats</h2>
+<h2 style="max-width: 40%">visualize stats</h2>
 
 <div class="container">
   <ExpansionPanel name="contribution" expand dense bind:group on:change={on_panel_change}>
