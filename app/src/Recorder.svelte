@@ -928,6 +928,9 @@
       <Menuitem on:click={()=>on_specify(s.type, s.value)}>{s.value}</Menuitem>
       {/each}
     </Menu>
+    {#if serving_team_picker_visible}
+    <ServingTeamPicker on:team_selected={on_serving_team_selected} />
+    {/if}
   </div>
 
   <div class="control-bar">
@@ -976,4 +979,3 @@
 <Transcript set_index={current.set_index} />
 
 <JerseyPicker bind:visible={jersey_picker_visible} bind:jerseys={jersey_numbers} />
-<ServingTeamPicker bind:visible={serving_team_picker_visible} on:team_selected={on_serving_team_selected} />
