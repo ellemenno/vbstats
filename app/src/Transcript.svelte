@@ -71,7 +71,7 @@
 
       case ACTION.VIOLATION: return 'V';
 
-      case ACTION.ACE:        return '♠'; // U+2660 Black Spade Suit
+      case ACTION.ACE:        return '♠'; // U+2660 Black Spade Suit (can't use U+FE0E in ::before)
       case ACTION.BLOCK:      return 'B';
       case ACTION.BLOCK_KILL: return 'ꓘ'; // U+A4D8 ꓘ LISU LETTER KHA
       case ACTION.KILL:       return 'K';
@@ -86,7 +86,7 @@
 
   const style_for_symbol = (action) => {
     switch (action) {
-      case ACTION.ACE: return 'font-size: x-large; margin-top: -0.15em';
+      case ACTION.ACE: return 'font-size: x-large; margin-top: -0.15em; font-family: monospace';
       default: return '';
     }
   }

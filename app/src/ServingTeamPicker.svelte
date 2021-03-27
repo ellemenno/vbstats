@@ -70,8 +70,8 @@
     <h3 class="title">Select serving team</h3>
 
     <div class="actions center">
-      <Button color="var(--team-home-rgb)" on:click={emit_home}>◀ Home</Button> <!-- U+25C0 -->
-      <Button color="var(--team-away-rgb)" on:click={emit_away}>Away ▶</Button> <!-- U+25B6 -->
+      <Button color="var(--team-home-rgb)" on:click={emit_home}>◀&#xFE0E; Home</Button> <!-- U+25C0 BLACK LEFT-POINTING TRIANGLE  + U+FE0E VARIATION SELECTOR-15 (VS15) -->
+      <Button color="var(--team-away-rgb)" on:click={emit_away}>Away ▶&#xFE0E;</Button> <!-- U+25B6 BLACK RIGHT-POINTING TRIANGLE + U+FE0E VARIATION SELECTOR-15 (VS15) -->
     </div>
   </div>
 </div>
