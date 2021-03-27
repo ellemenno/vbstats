@@ -131,13 +131,13 @@
   }
 </style>
 
-{#each $stored_match.sets as set, i}
-{#if i <= set_index}
-<div class="{class_for_set(set)} set">
-  <div class="{class_for_set(set)} set-bg"></div>
-  <Button outlined dense icon color="white" title="Set {i+1}">{i+1}</Button>
+{#each Array($stored_match.sets.length).fill(0).map((v,i)=>i+1).reverse() as set_n}
+{#if set_n-1 <= set_index && $stored_match.sets[set_n-1]}
+<div class="{class_for_set($stored_match.sets[set_n-1])} set">
+  <div class="{class_for_set($stored_match.sets[set_n-1])} set-bg"></div>
+  <Button outlined dense icon color="white" title="Set {set_n}">{set_n}</Button>
   <span>
-  {#each set.rallies as rally}
+  {#each $stored_match.sets[set_n-1].rallies as rally}
   {#each rally.contacts as c}
     <Button unelevated dense icon
             title="{title_for_contact(c)}"
