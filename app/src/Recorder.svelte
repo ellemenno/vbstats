@@ -9,8 +9,9 @@
   import whistle from './icons/whistle.svg'
   import Court from './Court.svelte';
   import JerseyPicker from './JerseyPicker.svelte';
-  import ServingTeamPicker from './ServingTeamPicker.svelte';
   import Score from './Score.svelte';
+  import ServingTeamPicker from './ServingTeamPicker.svelte';
+  import SpeedCourt from './SpeedCourt.svelte';
   import Transcript from './Transcript.svelte';
 
   const log = logger('recorder: ');
@@ -858,6 +859,7 @@
   let current = { match:$stored_match, set_index:0, rally:null, contact:null, specifiers:null };
   let recording = true; // FIXME: remove?
   let specifying = false;
+  let speed_mode = true; // TODO: expose through UI
 
   $: {
     specifiers['home']['groups'] = array_into_rows(jersey_numbers);
@@ -911,9 +913,12 @@
 
 <div>
   <div class="widener" bind:clientWidth={menu_width} bind:clientHeight={menu_height}>
+    {#if speed_mode}
+    <SpeedCourt serving_team={serving_team(current.rally)} receiving_team={receiving_team(current.rally)} home_jerseys={jersey_numbers} on:contact={on_contact} />
+    {:else}
     <Menu origin={menu_origin} {...menu_offset}>
       <div slot="activator" style="display:flex;">
-        <Court on:contact={on_contact}/>
+        <Court on:contact={on_contact} />
       </div>
 
       {#each current.specifiers.groups as g}
@@ -928,6 +933,7 @@
       <Menuitem on:click={()=>on_specify(s.type, s.value)}>{s.value}</Menuitem>
       {/each}
     </Menu>
+    {/if}
     {#if serving_team_picker_visible}
     <ServingTeamPicker on:team_selected={on_serving_team_selected} />
     {/if}
