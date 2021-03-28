@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import { Dialog, Button, ButtonGroup } from 'svelte-mui';
+  import { Dialog, Button } from 'svelte-mui';
 
   import { logger } from './logger.js';
 

@@ -154,9 +154,9 @@
 
   const other_team = (team) => (team === TEAM.HOME) ? TEAM.AWAY : TEAM.HOME;
 
-  const serving_team = (rally) => rally.serving_team;
+  const serving_team = (rally) => rally && rally.serving_team ? rally.serving_team : '';
 
-  const receiving_team = (rally) => other_team(rally.serving_team);
+  const receiving_team = (rally) => rally && rally.serving_team ? other_team(rally.serving_team) : '';
 
   const process_contact = (current) => {
     const {contact, rally, match} = current;
@@ -856,7 +856,7 @@
   let serving_team_picker_visible = false;
 
   let current = { match:$stored_match, set_index:0, rally:null, contact:null, specifiers:null };
-  let recording = true; // TODO: do we even need to be able to pause this?
+  let recording = true; // FIXME: remove?
   let specifying = false;
 
   $: {
