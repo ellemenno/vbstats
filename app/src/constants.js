@@ -1,7 +1,7 @@
 
 export const TEAM = { HOME:'home', AWAY:'away' };
 
-export const CONTACT = { PLAYER:'player', FLOOR:'floor' };
+export const CONTACT = { PLAYER:'player', FLOOR:'floor', NET:'net' };
 
 export const ACTION = {
   SERVE:'serve', ACE:'ace', SERVICE_ERROR:'service error',

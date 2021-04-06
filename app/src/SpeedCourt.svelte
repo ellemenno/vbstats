@@ -2,9 +2,10 @@
   import { createEventDispatcher } from 'svelte';
   import { Button } from 'svelte-mui';
 
-  import { TEAM } from './constants.js';
+  import { TEAM, CONTACT } from './constants.js';
   import { logger } from './logger.js';
 
+  export let is_serve = false;
   export let serving_team;
   export let receiving_team;
   export let home_jerseys = [];
@@ -19,27 +20,35 @@
     return '';
   }
 
-  const emit_contact = () => {
-    dispatch('contact', {
-      area_id: '',
-      // FIXME: should we go higher level than contact?
-    });
+  const emit_contact = (area_id, type, player=null) => {
+    const contact = {
+      is_speedy: true,
+      area_id: area_id,
+      type: type,
+    }
+    if (player) { contact.player = player; }
+    dispatch('contact', contact);
   }
 
   const on_player = (p) => {
-    log.debug(`player ${p} clicked`);
+    log.debug(`player #${p} contact on home court`);
+    const area_id = is_serve ? 'free-home-service' : 'court-home';
+    emit_contact(area_id, CONTACT.PLAYER, p);
   }
 
   const on_touches = (t) => {
-    log.debug(`touches ${t} clicked`);
+    log.debug(`${t} touches on away court`);
+    for (let i = 0; i < t; i++) { emit_contact('court-away', CONTACT.PLAYER, 'Player'); }
   }
 
-  const on_floor = (f) => {
-    log.debug(`floor ${f} clicked`);
+  const on_floor = (team, type) => {
+    log.debug(`floor contact (${type}) on ${team} side`);
+    emit_contact(`court-${team}`, CONTACT.FLOOR);
   }
 
   const on_net = () => {
-    log.debug(`net clicked`);
+    log.debug(`net contact`);
+    emit_contact('net-area', CONTACT.NET);
   }
 </script>
 
@@ -114,7 +123,7 @@
       {#each floor_contacts as f }
       <li><Button color="var(--alternate)"
               dense fullWidth outlined
-              on:click={()=>on_floor(f)}>{f}
+              on:click={()=>on_floor(TEAM.HOME, f)}>{f}
       </Button></li>
       {/each}
     </ul>
@@ -140,7 +149,7 @@
       {#each floor_contacts as f }
       <li><Button color="var(--alternate)"
               dense fullWidth outlined
-              on:click={()=>on_floor(f)}>{f}
+              on:click={()=>on_floor(TEAM.AWAY, f)}>{f}
       </Button></li>
       {/each}
     </ul>

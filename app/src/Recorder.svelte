@@ -132,6 +132,7 @@
   }
 
   const needs_specifier = (contact, rally) => {
+    if (contact.is_speedy) { return false; }
     if (is_net_area(contact.area_id)) { return false; }
     if (rally.state === RALLY_STATE.SERVING && !is_service_area(contact.area_id, rally.serving_team)) { return false; }
     return true;
@@ -790,7 +791,7 @@
     */
     if (!recording) {
       log.debug('not in recording mode');
-      e.detail.source_event.stopPropagation();
+      e.detail.source_event && e.detail.source_event.stopPropagation();
       return;
     }
     if (specifying) { specifying = false; log.debug('specify cancelled'); return; }
@@ -803,7 +804,8 @@
       set_menu_props(current.contact);
     }
     else {
-      current.contact.source_event.stopPropagation();
+      current.contact.source_event && current.contact.source_event.stopPropagation();
+      if (is_net_area(current.contact.area_id)) { current.contact.type = CONTACT.FLOOR; }
       process_contact(current);
     }
 
@@ -914,7 +916,7 @@
 <div>
   <div class="widener" bind:clientWidth={menu_width} bind:clientHeight={menu_height}>
     {#if speed_mode}
-    <SpeedCourt serving_team={serving_team(current.rally)} receiving_team={receiving_team(current.rally)} home_jerseys={jersey_numbers} on:contact={on_contact} />
+    <SpeedCourt is_serve={current.rally && current.rally.state === RALLY_STATE.SERVING} serving_team={serving_team(current.rally)} receiving_team={receiving_team(current.rally)} home_jerseys={jersey_numbers} on:contact={on_contact} />
     {:else}
     <Menu origin={menu_origin} {...menu_offset}>
       <div slot="activator" style="display:flex;">
