@@ -11,7 +11,7 @@
   export let home_jerseys = [];
 
   const log = logger('speed court: ');
-  const floor_contacts = ['killed', 'blocked', 'dropped', 'out'];
+  const floor_contacts = ['in', 'out'];
   const dispatch = createEventDispatcher();
 
   $: state_for_team = (team) => {
@@ -30,20 +30,25 @@
     dispatch('contact', contact);
   }
 
-  const on_player = (p) => {
-    log.debug(`player #${p} contact on home court`);
-    const area_id = is_serve ? 'free-home-service' : 'court-home';
+  const on_player = (p, at_net=false) => {
+    log.debug(`player #${p} contact on home court${at_net ? ' at net' : ''}`);
+    const area_id = is_serve ? 'free-home-service' : (at_net ? 'block-home' : 'court-home');
     emit_contact(area_id, CONTACT.PLAYER, p);
   }
 
-  const on_touches = (t) => {
-    log.debug(`${t} touches on away court`);
-    for (let i = 0; i < t; i++) { emit_contact('court-away', CONTACT.PLAYER, 'Player'); }
+  const on_touches = (t, at_net=false) => {
+    log.debug(`${t} touches on away court${at_net ? ' at net' : ''}`);
+    if (t === 1 && is_serve) { emit_contact('free-away-service', CONTACT.PLAYER, 'Player'); }
+    else {
+      const area_id = at_net ? 'block-away' : 'court-away';
+      for (let i = 0; i < t; i++) { emit_contact(area_id, CONTACT.PLAYER, 'Player'); }
+    }
   }
 
   const on_floor = (team, type) => {
     log.debug(`floor contact (${type}) on ${team} side`);
-    emit_contact(`court-${team}`, CONTACT.FLOOR);
+    const area_id = (type === 'out') ? `free-${team}` : `court-${team}`;
+    emit_contact(area_id, CONTACT.FLOOR);
   }
 
   const on_net = () => {
@@ -137,6 +142,16 @@
       </Button></li>
       {/each}
     </ul>
+    <br>
+    players at net
+    <ul class="players">
+      {#each home_jerseys as j }
+      <li><Button color="var(--alternate)"
+                  dense fullWidth outlined
+                  on:click={()=>on_player(j, true)}>{j}
+      </Button></li>
+      {/each}
+    </ul>
   </div>
   <div class="net" on:click={()=>on_net()}>
     <span>net</span>
@@ -160,6 +175,16 @@
       <li><Button color="var(--alternate)"
               dense outlined shaped
               on:click={()=>on_touches(t)}>{t}
+      </Button></li>
+      {/each}
+    </ul>
+    <br>
+    touches at net
+    <ul class="touches">
+      {#each [1,2,3,4] as t }
+      <li><Button color="var(--alternate)"
+              dense outlined shaped
+              on:click={()=>on_touches(t, true)}>{t}
       </Button></li>
       {/each}
     </ul>
