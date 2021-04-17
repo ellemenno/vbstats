@@ -101,8 +101,14 @@
     cursor: pointer;
     display: flex;
     flex-direction: column;
+    font-family: var(--button-font-family);
+    font-size: 0.875rem;
+    font-weight: 500;
     justify-content: center;
+    letter-spacing: 0.75px;
     text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
   }
   .floor {
     grid-template-columns: repeat(auto-fit, minmax(6em, 8em));

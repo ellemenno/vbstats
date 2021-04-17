@@ -6,6 +6,7 @@
   import { match as stored_match } from './stores.js';
   import { logger } from './logger.js';
   import jersey from './icons/jersey.svg'
+  import lightning from './icons/lightning.svg'
   import whistle from './icons/whistle.svg'
   import Court from './Court.svelte';
   import JerseyPicker from './JerseyPicker.svelte';
@@ -767,6 +768,8 @@
     process_contact(current);
   }
 
+  const on_speed_toggle = () => { speed_mode = !speed_mode; }
+
   const on_jersey = () => { jersey_picker_visible = true; }
 
   const on_whistle = (possession) => {
@@ -861,7 +864,7 @@
   let current = { match:$stored_match, set_index:0, rally:null, contact:null, specifiers:null };
   let recording = true; // FIXME: remove?
   let specifying = false;
-  let speed_mode = true; // TODO: expose through UI
+  let speed_mode = false;
 
   $: {
     specifiers['home']['groups'] = array_into_rows(jersey_numbers);
@@ -887,7 +890,7 @@
   .title-bar {
     column-gap: 1em;
     display: grid;
-    grid-template-columns: 1.5fr 1fr 1fr;
+    grid-template-columns: 1.5fr 0.2fr 0.9fr 0.9fr;
     margin-bottom: -1rem;
   }
   .title-bar h2 { margin-bottom: 2rem; }
@@ -898,6 +901,9 @@
 
 <div class="title-bar">
   <h2>record a match</h2>
+  <Button style="margin: auto;" outlined icon toggle active={speed_mode} on:click={()=>on_speed_toggle()}>
+    <Icon><svelte:component this={lightning} /></Icon>
+  </Button>
   <Textfield
     autocomplete="off"
     label="venue"
