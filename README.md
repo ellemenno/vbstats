@@ -3,11 +3,12 @@
 fast and simple stat recorder for volleyball games <br>
 https://ellemenno.github.io/vbstats/
 
+
 ## quick overview
 
 volleyball
-- a _match_ is best 2 of 3 sets
-- a _set_ is a series of rallies until a team reaches 25 points and wins by two
+- a _match_ is best 2 of 3 sets (3 of 5 not currently supported)
+- a _set_ is a series of rallies until a team reaches 25 points (or 15 for final set) and wins by two
 - a _rally_ is a sequence of ball contacts
 - when the contact is with a human, the play continues
 - when the contact is with the floor, the net, antenna, or some violation is called, play stops and a point is awarded
@@ -17,42 +18,55 @@ this app lets you record the contacts quickly, and then summarize stats for the 
 
 ## usage
 
-1. click _New Match_ to start
-1. enter date and team names
-  - the first team entered will be considered 'your team', and will have players attributed to contacts; the opposing team will have anonymous contacts
-1. click on the bench to enter player jersey numbers for your team, and also names if desired
-1. click in the service area for the starting team to place the first contact
-  - if the contact is on your team's side, the contact agent menu will open to attribute a player or the floor to the contact
-1. as play continues, click on the court where contact with the ball happens
+1. upon loading the app, you may want to record the venue, date, and team names (this is optional)
+  - the venue text field is at the top, you can enter any text
+  - the date picker is at the top and defaults to the current day, but any day can be selected
+  - team name text field are under the court on opposite sides of the score
+    - the home team (blue) is considered 'your team', and will have player jerseys attributed to contacts
+    - the away team (orange) will have anonymous contacts
+1. click on the jersey icon next to the home team name to select the valid jersey numbers for your team
+1. choose the serving team (home or away) to start recording
+  - see details about recording in full court mode or speed court mode below
+1. rallies and sets will be automatically scored based on the contacts you record
+
+
+### full court mode
+
+by default, the app starts in _full court_ mode, which shows a scale model of the volleyball court and allows you to record specific contact locations.
+this can be useful when recording from video footage, where you have the option to pause and rewind the game, and enables review of player position in addition to stats.
+
+after choosing the serving team,
+- click in the service area for the starting team to place the first contact
+  - if the contact is on your team's side, the contact agent menu will open to attribute a jersey number or the floor to the contact
+- as play continues, click on the court where contact with the ball happens
   - you can click near the net for blocks, on the net or out of the court for errors
-  - to record an ace or kill on the opposing team's side, click and hold when placing the contact to open the agent menu and select floor
-  - to record a violation, click the whistle and attribute a team or player
+  - to record a violation, click the whistle to select which team was awarded a point
+
+### speed court mode
+
+by clicking on the lightning icon toggle, you can switch to speed court mode (or back).
+speed court mode is optimized for recording live play, by providing a simpler interface that requires fewer clicks to record contacts.
+
+after choosing the serving team,
+- if the home team is serving, click the jersey number of the serving player
+- if the away team is serving, click the 1 button under touches (one touch for the serve)
+- as play continues, use the buttons to record ball contacts:
+  - _IN_ or _OUT_ on the appropriate side of the net when the ball touches the floor
+  - _NET_ if the ball contacts the net
+  - for home team contacts, click the jersey number of each player who contacts the ball in the order of touch
+  - for away team contacts, simply click the button representing the total number of touches used to return the ball
+  - use the _touches at net_ buttons to hint to the recorder when a block is possible
+  - to record a violation, click the whistle to select which team was awarded a point
 
 
 ## stats
 
-vbstats reads the transcript of a recorded match and infers statistics based on the rules of the game and the following formulas:
+vbstats reads the transcript of a recorded match and infers statistics based on the rules of the game
 
-Receiving
-- Reception Error - failed pass leading to point for other team (i.e. out, net, antenna, block, violation)
-- Reception Percentage - digs minus reception errors, divided by total passes
-- Assist Percentage - assists minus reception errors, divided by total passes
-Attacking
-- Attack Error - failed attack leading to point for other team (i.e. out, net, antenna, block, violation)
-- Attack Percentage - kills minus attack errors, divided by total attacks (e.g., 10 kills - 2 errors / 16 total attacks = 8/16 = .500
-Blocking
-- Block Error - failed block leading to point for other team (i.e. out, net, re-block, violation)
-- Block Percentage - blocks minus block errors, divided by total block attempts
-Serving
-- Service Error - failed serve leading to point for other team (i.e. out, net, antenna, block, violation)
-- Service Percentage - aces minus service errors, divided by total serves
-
-
-## visualizations
-- shorthand summary: match transcript using color coded jersey numbers for each contact (green=ace/kill, blue=pass, red=error), and R for opposing team volleys
-- counts: Points earned, Points lost, Digs, Assists
-- stacked over/under bar chart: \[(Passes, Digs, Assists) vs (Reception errors)\], \[(Attacks, Kills) vs (Attack errors)\], \[(Block attempts, Blocks) vs (Block errors)\], \[(Serves, Aces) vs (Service errors)\]
-- spiderchart: (Reception percentage, Attack percentage, Block percentage, Service percentage)
+### visualizations
+- **match transcript**: short-hand record of all rallies, using color coded symbols for each contact (green = ace/kill, team color = pass, red = error)
+- **contribution**: points won, lost, and net contribution score by player
+- **actions**: counts of contact types by player
 
 
 ## vocab & rules
@@ -62,13 +76,13 @@ Serving
 
 to keep things simple, vbstats has a relatively small vocabulary and pays attention to a short list of contact types.
 
-Serve - putting the ball into play at the start of a set and after each point
-Receive - attempt to return the ball, using no more than 3 touches
+Serving - putting the ball into play at the start of a set and after each point
+Receiving - attempt to return the ball, using no more than 3 touches
 Ace - untouched or unreturnable serve that lands for a point
-Block - attack stopped and returned at net that lands for a point
 Pass - body-level contact keeping the ball off the floor
 Attack - overhead contact of the ball designed to score
 Kill - unreturnable attack that lands for a point
+Block Kill - attack stopped and returned at net that lands for a point
 Assist - pass to kill
 Dig - first contact with opponent's attack, including off a failed block
 
@@ -81,11 +95,13 @@ Dig - first contact with opponent's attack, including off a failed block
 
 ### effects
 
-- +1 Ace (only from Serves)
-- +1 Block (only from Blocks)
-- +1 Kill (only from Pass, or Attack)
--  0 Volley (from any)
-- -1 Error (from any)
+| pt | team    | description            |
+|----|---------|------------------------|
+| +1 | contact | Ace (only from Serves) |
+| +1 | contact | Block Kill (only from Blocks) |
+| +1 | contact | Kill (only from Pass or Attack) |
+|  0 | n/a     | Pass (from any) |
+| +1 | other   | Error (from any) |
 
 ### contextual effects
 -  0 Dig = first Pass
@@ -94,7 +110,8 @@ Dig - first contact with opponent's attack, including off a failed block
 - -1 Attack Error = Error following Attack
 - -1 Reception Error = Error following Block or Pass
 
-### court
+
+## court specs
 - 18m x 9m + 3m free zone + 6m service area at court ends
 - each side is a 9m x 9m square
 - attack line is 3m from net; remaining 6m is back court
