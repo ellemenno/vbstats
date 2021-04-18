@@ -84,7 +84,7 @@
     color: var(--label);
   }
   .away, .home {
-    padding: 5em 1em 1em 1em;
+    padding: 5em 0.7em 0.7em 0.7em;
     position: relative;
   }
   .away .fill {
@@ -118,7 +118,7 @@
   }
   .floor, .players, .touches {
     display: grid;
-    grid-gap: 0.5rem;
+    grid-gap: 0.25rem;
     list-style: none;
     margin: 0;
     padding: 0;
