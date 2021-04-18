@@ -96,23 +96,23 @@ to keep things simple, vbstats has a relatively small vocabulary and pays attent
 
 ### effects
 
-| pt | team       | effect     | description      |
-|----|------------|------------|------------------|
-| +1 | contacting | Ace        | only from Serves |
-| +1 | contacting | Block Kill | only from Blocks |
-| +1 | contacting | Kill       | only from Pass or Attack |
-|  0 | contacting | Pass       | from any |
-| +1 | opposing   | Error      | from any |
+| effect     | pt | team       | description     |
+|------------|----|------------|-----------------|
+| Ace        |  1 | contacting | kill from Serve |
+| Block Kill |  1 | contacting | kill from Block |
+| Kill       |  1 | contacting | kill from Pass or Attack |
+| Pass       |  0 | contacting | ball transfered between players |
+| Error      |  1 | opposing   | from any contact |
 
 ### contextual effects
 
-| pt | team       | effect          | context    |
-|----|------------|-----------------|------------|
-|  0 | contacting | Dig             | first Pass |
-|  0 | contacting | Assist          | Pass preceding Kill |
-| +1 | opposing   | Service Error   | Error from Serve |
-| +1 | opposing   | Attack Error    | Error from Attack |
-| +1 | opposing   | Reception Error | Error from Block or Pass |
+| effect          | pt | team       | context    |
+|-----------------|----|------------|------------|
+| Dig             |  0 | contacting | first Pass |
+| Assist          |  0 | contacting | Pass preceding Kill |
+| Service Error   |  1 | opposing   | Error from Serve |
+| Attack Error    |  1 | opposing   | Error from Attack |
+| Reception Error |  1 | opposing   | Error from Block or Pass |
 
 
 ## court specs
