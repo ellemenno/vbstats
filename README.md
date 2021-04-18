@@ -19,14 +19,14 @@ this app lets you record the contacts quickly, and then summarize stats for the 
 ## usage
 
 1. upon loading the app, you may want to record the venue, date, and team names (this is optional)
-  - the venue text field is at the top, you can enter any text
-  - the date picker is at the top and defaults to the current day, but any day can be selected
-  - team name text field are under the court on opposite sides of the score
-    - the home team (blue) is considered 'your team', and will have player jerseys attributed to contacts
-    - the away team (orange) will have anonymous contacts
+   - the venue text field is at the top, you can enter any text
+   - the date picker is at the top and defaults to the current day, but any day can be selected
+   - team name text field are under the court on opposite sides of the score
+     - the home team (blue) is considered 'your team', and will have player jerseys attributed to contacts
+     - the away team (orange) will have anonymous contacts
 1. click on the jersey icon next to the home team name to select the valid jersey numbers for your team
 1. choose the serving team (home or away) to start recording
-  - see details about recording in full court mode or speed court mode below
+   - see details about recording in full court mode or speed court mode below
 1. rallies and sets will be automatically scored based on the contacts you record
 
 
@@ -44,8 +44,7 @@ after choosing the serving team,
 
 ### speed court mode
 
-by clicking on the lightning icon toggle, you can switch to speed court mode (or back).
-speed court mode is optimized for recording live play, by providing a simpler interface that requires fewer clicks to record contacts.
+by clicking on the lightning icon toggle, you can toggle to _speed court_ mode, which offers a simpler interface optimized for recording live play.
 
 after choosing the serving team,
 - if the home team is serving, click the jersey number of the serving player
@@ -61,11 +60,11 @@ after choosing the serving team,
 
 ## stats
 
-vbstats reads the transcript of a recorded match and infers statistics based on the rules of the game
+vbstats infers statistics based on the transcript of a recorded match and the rules of the game
 
 ### visualizations
-- **match transcript**: short-hand record of all rallies, using color coded symbols for each contact (green = ace/kill, team color = pass, red = error)
-- **contribution**: points won, lost, and net contribution score by player
+- **match transcript**: short-hand record of all rallies, using color coded symbols for each contact
+- **contribution**: points won, lost, and net contribution to match score by player
 - **actions**: counts of contact types by player
 
 
@@ -76,15 +75,17 @@ vbstats reads the transcript of a recorded match and infers statistics based on 
 
 to keep things simple, vbstats has a relatively small vocabulary and pays attention to a short list of contact types.
 
-Serving - putting the ball into play at the start of a set and after each point
-Receiving - attempt to return the ball, using no more than 3 touches
-Ace - untouched or unreturnable serve that lands for a point
-Pass - body-level contact keeping the ball off the floor
-Attack - overhead contact of the ball designed to score
-Kill - unreturnable attack that lands for a point
-Block Kill - attack stopped and returned at net that lands for a point
-Assist - pass to kill
-Dig - first contact with opponent's attack, including off a failed block
+| term       | definition |
+|------------|------------|
+| Serving    | putting the ball into play at the start of a set and after each point |
+| Receiving  | attempt to return the ball, using no more than 3 touches |
+| Ace        | untouched or unreturnable serve that lands for a point |
+| Pass       | body-level contact keeping the ball off the floor |
+| Attack     | overhead contact of the ball designed to score |
+| Kill       | unreturnable attack that lands for a point |
+| Block Kill | attack stopped and returned at net that lands for a point |
+| Assist     | pass to kill |
+| Dig        | first contact with opponent's attack, including off a failed block |
 
 ### actions
 
@@ -95,20 +96,23 @@ Dig - first contact with opponent's attack, including off a failed block
 
 ### effects
 
-| pt | team    | description            |
-|----|---------|------------------------|
-| +1 | contact | Ace (only from Serves) |
-| +1 | contact | Block Kill (only from Blocks) |
-| +1 | contact | Kill (only from Pass or Attack) |
-|  0 | n/a     | Pass (from any) |
-| +1 | other   | Error (from any) |
+| pt | team       | effect     | description      |
+|----|------------|------------|------------------|
+| +1 | contacting | Ace        | only from Serves |
+| +1 | contacting | Block Kill | only from Blocks |
+| +1 | contacting | Kill       | only from Pass or Attack |
+|  0 | contacting | Pass       | from any |
+| +1 | opposing   | Error      | from any |
 
 ### contextual effects
--  0 Dig = first Pass
--  0 Assist = Pass preceding Kill
-- -1 Service Error = Error following Serve
-- -1 Attack Error = Error following Attack
-- -1 Reception Error = Error following Block or Pass
+
+| pt | team       | effect          | context    |
+|----|------------|-----------------|------------|
+|  0 | contacting | Dig             | first Pass |
+|  0 | contacting | Assist          | Pass preceding Kill |
+| +1 | opposing   | Service Error   | Error from Serve |
+| +1 | opposing   | Attack Error    | Error from Attack |
+| +1 | opposing   | Reception Error | Error from Block or Pass |
 
 
 ## court specs
