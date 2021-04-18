@@ -3204,7 +3204,7 @@ var bundle = (function () {
     		c: function create() {
     			li = element("li");
     			create_component(button.$$.fragment);
-    			add_location(li, file$8, 134, 6, 3429);
+    			add_location(li, file$8, 134, 6, 3436);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -3310,7 +3310,7 @@ var bundle = (function () {
     		c: function create() {
     			li = element("li");
     			create_component(button.$$.fragment);
-    			add_location(li, file$8, 144, 6, 3691);
+    			add_location(li, file$8, 144, 6, 3698);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -3416,7 +3416,7 @@ var bundle = (function () {
     		c: function create() {
     			li = element("li");
     			create_component(button.$$.fragment);
-    			add_location(li, file$8, 154, 6, 3958);
+    			add_location(li, file$8, 154, 6, 3965);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -3520,7 +3520,7 @@ var bundle = (function () {
     		c: function create() {
     			li = element("li");
     			create_component(button.$$.fragment);
-    			add_location(li, file$8, 170, 6, 4493);
+    			add_location(li, file$8, 170, 6, 4500);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -3623,7 +3623,7 @@ var bundle = (function () {
     		c: function create() {
     			li = element("li");
     			create_component(button.$$.fragment);
-    			add_location(li, file$8, 180, 6, 4752);
+    			add_location(li, file$8, 180, 6, 4759);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -3726,7 +3726,7 @@ var bundle = (function () {
     		c: function create() {
     			li = element("li");
     			create_component(button.$$.fragment);
-    			add_location(li, file$8, 190, 6, 5006);
+    			add_location(li, file$8, 190, 6, 5013);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -3950,43 +3950,43 @@ var bundle = (function () {
     				each_blocks[i].c();
     			}
 
-    			attr_dev(div0, "class", "fill svelte-i6ifkw");
-    			add_location(div0, file$8, 129, 4, 3183);
-    			attr_dev(div1, "class", "indicator svelte-i6ifkw");
+    			attr_dev(div0, "class", "fill svelte-1ipo16e");
+    			add_location(div0, file$8, 129, 4, 3190);
+    			attr_dev(div1, "class", "indicator svelte-1ipo16e");
     			toggle_class(div1, "serving", /*serving_team*/ ctx[0] === TEAM.HOME);
     			toggle_class(div1, "receiving", /*receiving_team*/ ctx[1] === TEAM.HOME);
-    			add_location(div1, file$8, 130, 4, 3208);
-    			attr_dev(ul0, "class", "floor svelte-i6ifkw");
-    			add_location(ul0, file$8, 132, 4, 3369);
-    			add_location(br0, file$8, 140, 4, 3610);
-    			attr_dev(ul1, "class", "players svelte-i6ifkw");
-    			add_location(ul1, file$8, 142, 4, 3631);
-    			add_location(br1, file$8, 150, 4, 3870);
-    			attr_dev(ul2, "class", "players svelte-i6ifkw");
-    			add_location(ul2, file$8, 152, 4, 3898);
-    			attr_dev(div2, "class", "home svelte-i6ifkw");
-    			add_location(div2, file$8, 128, 2, 3160);
-    			add_location(span, file$8, 162, 4, 4196);
-    			attr_dev(div3, "class", "net svelte-i6ifkw");
-    			add_location(div3, file$8, 161, 2, 4150);
-    			attr_dev(div4, "class", "fill svelte-i6ifkw");
-    			add_location(div4, file$8, 165, 4, 4247);
-    			attr_dev(div5, "class", "indicator svelte-i6ifkw");
+    			add_location(div1, file$8, 130, 4, 3215);
+    			attr_dev(ul0, "class", "floor svelte-1ipo16e");
+    			add_location(ul0, file$8, 132, 4, 3376);
+    			add_location(br0, file$8, 140, 4, 3617);
+    			attr_dev(ul1, "class", "players svelte-1ipo16e");
+    			add_location(ul1, file$8, 142, 4, 3638);
+    			add_location(br1, file$8, 150, 4, 3877);
+    			attr_dev(ul2, "class", "players svelte-1ipo16e");
+    			add_location(ul2, file$8, 152, 4, 3905);
+    			attr_dev(div2, "class", "home svelte-1ipo16e");
+    			add_location(div2, file$8, 128, 2, 3167);
+    			add_location(span, file$8, 162, 4, 4203);
+    			attr_dev(div3, "class", "net svelte-1ipo16e");
+    			add_location(div3, file$8, 161, 2, 4157);
+    			attr_dev(div4, "class", "fill svelte-1ipo16e");
+    			add_location(div4, file$8, 165, 4, 4254);
+    			attr_dev(div5, "class", "indicator svelte-1ipo16e");
     			toggle_class(div5, "serving", /*serving_team*/ ctx[0] === TEAM.AWAY);
     			toggle_class(div5, "receiving", /*receiving_team*/ ctx[1] === TEAM.AWAY);
-    			add_location(div5, file$8, 166, 4, 4272);
-    			attr_dev(ul3, "class", "floor svelte-i6ifkw");
-    			add_location(ul3, file$8, 168, 4, 4433);
-    			add_location(br2, file$8, 176, 4, 4674);
-    			attr_dev(ul4, "class", "touches svelte-i6ifkw");
-    			add_location(ul4, file$8, 178, 4, 4695);
-    			add_location(br3, file$8, 186, 4, 4921);
-    			attr_dev(ul5, "class", "touches svelte-i6ifkw");
-    			add_location(ul5, file$8, 188, 4, 4949);
-    			attr_dev(div6, "class", "away svelte-i6ifkw");
-    			add_location(div6, file$8, 164, 2, 4224);
-    			attr_dev(div7, "class", "container svelte-i6ifkw");
-    			add_location(div7, file$8, 127, 0, 3134);
+    			add_location(div5, file$8, 166, 4, 4279);
+    			attr_dev(ul3, "class", "floor svelte-1ipo16e");
+    			add_location(ul3, file$8, 168, 4, 4440);
+    			add_location(br2, file$8, 176, 4, 4681);
+    			attr_dev(ul4, "class", "touches svelte-1ipo16e");
+    			add_location(ul4, file$8, 178, 4, 4702);
+    			add_location(br3, file$8, 186, 4, 4928);
+    			attr_dev(ul5, "class", "touches svelte-1ipo16e");
+    			add_location(ul5, file$8, 188, 4, 4956);
+    			attr_dev(div6, "class", "away svelte-1ipo16e");
+    			add_location(div6, file$8, 164, 2, 4231);
+    			attr_dev(div7, "class", "container svelte-1ipo16e");
+    			add_location(div7, file$8, 127, 0, 3141);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -4563,23 +4563,23 @@ var bundle = (function () {
 
     function get_each_context$2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[8] = list[i];
+    	child_ctx[11] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_1$2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[11] = list[i];
+    	child_ctx[14] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_2$2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[14] = list[i];
+    	child_ctx[17] = list[i];
     	return child_ctx;
     }
 
-    // (135:0) {#if set_n-1 <= set_index && $stored_match.sets[set_n-1]}
+    // (154:0) {#if set_n-1 <= set_index && $stored_match.sets[set_n-1]}
     function create_if_block$2(ctx) {
     	let div1;
     	let div0;
@@ -4587,25 +4587,30 @@ var bundle = (function () {
     	let t0;
     	let button;
     	let t1;
-    	let span;
     	let t2;
     	let div1_class_value;
     	let current;
+
+    	function click_handler() {
+    		return /*click_handler*/ ctx[9](/*set_n*/ ctx[11]);
+    	}
 
     	button = new ye({
     			props: {
     				outlined: true,
     				dense: true,
+    				toggle: true,
     				icon: true,
     				color: "white",
-    				title: "Set " + /*set_n*/ ctx[8],
+    				title: "Set " + /*set_n*/ ctx[11],
     				$$slots: { default: [create_default_slot_1$4] },
     				$$scope: { ctx }
     			},
     			$$inline: true
     		});
 
-    	let each_value_1 = /*$stored_match*/ ctx[1].sets[/*set_n*/ ctx[8] - 1].rallies;
+    	button.$on("click", click_handler);
+    	let each_value_1 = /*$stored_match*/ ctx[2].sets[/*set_n*/ ctx[11] - 1].rallies;
     	validate_each_argument(each_value_1);
     	let each_blocks = [];
 
@@ -4624,18 +4629,16 @@ var bundle = (function () {
     			t0 = space();
     			create_component(button.$$.fragment);
     			t1 = space();
-    			span = element("span");
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
     			t2 = space();
-    			attr_dev(div0, "class", div0_class_value = "" + (/*class_for_set*/ ctx[2](/*$stored_match*/ ctx[1].sets[/*set_n*/ ctx[8] - 1]) + " set-bg" + " svelte-1n5ex1d"));
-    			add_location(div0, file$7, 136, 2, 3475);
-    			add_location(span, file$7, 138, 2, 3630);
-    			attr_dev(div1, "class", div1_class_value = "" + (/*class_for_set*/ ctx[2](/*$stored_match*/ ctx[1].sets[/*set_n*/ ctx[8] - 1]) + " set" + " svelte-1n5ex1d"));
-    			add_location(div1, file$7, 135, 0, 3410);
+    			attr_dev(div0, "class", div0_class_value = "" + (/*class_for_set*/ ctx[3](/*$stored_match*/ ctx[2].sets[/*set_n*/ ctx[11] - 1]) + " set-bg" + " svelte-1xcm9xy"));
+    			add_location(div0, file$7, 155, 2, 3904);
+    			attr_dev(div1, "class", div1_class_value = "" + (/*class_for_set*/ ctx[3](/*$stored_match*/ ctx[2].sets[/*set_n*/ ctx[11] - 1]) + " set" + " svelte-1xcm9xy"));
+    			add_location(div1, file$7, 154, 0, 3839);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div1, anchor);
@@ -4643,31 +4646,32 @@ var bundle = (function () {
     			append_dev(div1, t0);
     			mount_component(button, div1, null);
     			append_dev(div1, t1);
-    			append_dev(div1, span);
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(span, null);
+    				each_blocks[i].m(div1, null);
     			}
 
     			append_dev(div1, t2);
     			current = true;
     		},
-    		p: function update(ctx, dirty) {
-    			if (!current || dirty & /*$stored_match*/ 2 && div0_class_value !== (div0_class_value = "" + (/*class_for_set*/ ctx[2](/*$stored_match*/ ctx[1].sets[/*set_n*/ ctx[8] - 1]) + " set-bg" + " svelte-1n5ex1d"))) {
+    		p: function update(new_ctx, dirty) {
+    			ctx = new_ctx;
+
+    			if (!current || dirty & /*$stored_match*/ 4 && div0_class_value !== (div0_class_value = "" + (/*class_for_set*/ ctx[3](/*$stored_match*/ ctx[2].sets[/*set_n*/ ctx[11] - 1]) + " set-bg" + " svelte-1xcm9xy"))) {
     				attr_dev(div0, "class", div0_class_value);
     			}
 
     			const button_changes = {};
-    			if (dirty & /*$stored_match*/ 2) button_changes.title = "Set " + /*set_n*/ ctx[8];
+    			if (dirty & /*$stored_match*/ 4) button_changes.title = "Set " + /*set_n*/ ctx[11];
 
-    			if (dirty & /*$$scope, $stored_match*/ 131074) {
+    			if (dirty & /*$$scope, $stored_match*/ 1048580) {
     				button_changes.$$scope = { dirty, ctx };
     			}
 
     			button.$set(button_changes);
 
-    			if (dirty & /*$stored_match, Array, title_for_contact, color_for_contact, style_for_symbol, symbol_for_action*/ 122) {
-    				each_value_1 = /*$stored_match*/ ctx[1].sets[/*set_n*/ ctx[8] - 1].rallies;
+    			if (dirty & /*is_collapsed, Array, $stored_match, title_for_contact, color_for_contact, style_for_symbol, symbol_for_action*/ 246) {
+    				each_value_1 = /*$stored_match*/ ctx[2].sets[/*set_n*/ ctx[11] - 1].rallies;
     				validate_each_argument(each_value_1);
     				let i;
 
@@ -4681,7 +4685,7 @@ var bundle = (function () {
     						each_blocks[i] = create_each_block_1$2(child_ctx);
     						each_blocks[i].c();
     						transition_in(each_blocks[i], 1);
-    						each_blocks[i].m(span, null);
+    						each_blocks[i].m(div1, t2);
     					}
     				}
 
@@ -4694,7 +4698,7 @@ var bundle = (function () {
     				check_outros();
     			}
 
-    			if (!current || dirty & /*$stored_match*/ 2 && div1_class_value !== (div1_class_value = "" + (/*class_for_set*/ ctx[2](/*$stored_match*/ ctx[1].sets[/*set_n*/ ctx[8] - 1]) + " set" + " svelte-1n5ex1d"))) {
+    			if (!current || dirty & /*$stored_match*/ 4 && div1_class_value !== (div1_class_value = "" + (/*class_for_set*/ ctx[3](/*$stored_match*/ ctx[2].sets[/*set_n*/ ctx[11] - 1]) + " set" + " svelte-1xcm9xy"))) {
     				attr_dev(div1, "class", div1_class_value);
     			}
     		},
@@ -4729,16 +4733,16 @@ var bundle = (function () {
     		block,
     		id: create_if_block$2.name,
     		type: "if",
-    		source: "(135:0) {#if set_n-1 <= set_index && $stored_match.sets[set_n-1]}",
+    		source: "(154:0) {#if set_n-1 <= set_index && $stored_match.sets[set_n-1]}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (138:2) <Button outlined dense icon color="white" title="Set {set_n}">
+    // (157:2) <Button outlined dense toggle icon color="white" title="Set {set_n}" on:click={()=>on_toggle_set(set_n)}>
     function create_default_slot_1$4(ctx) {
-    	let t_value = /*set_n*/ ctx[8] + "";
+    	let t_value = /*set_n*/ ctx[11] + "";
     	let t;
 
     	const block = {
@@ -4749,7 +4753,7 @@ var bundle = (function () {
     			insert_dev(target, t, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*$stored_match*/ 2 && t_value !== (t_value = /*set_n*/ ctx[8] + "")) set_data_dev(t, t_value);
+    			if (dirty & /*$stored_match*/ 4 && t_value !== (t_value = /*set_n*/ ctx[11] + "")) set_data_dev(t, t_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(t);
@@ -4760,34 +4764,30 @@ var bundle = (function () {
     		block,
     		id: create_default_slot_1$4.name,
     		type: "slot",
-    		source: "(138:2) <Button outlined dense icon color=\\\"white\\\" title=\\\"Set {set_n}\\\">",
+    		source: "(157:2) <Button outlined dense toggle icon color=\\\"white\\\" title=\\\"Set {set_n}\\\" on:click={()=>on_toggle_set(set_n)}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (142:4) <Button unelevated dense icon             title="{title_for_contact(c)}"             color="{color_for_contact(c)}"             style="{style_for_symbol(c.action)}">
+    // (161:4) <Button unelevated dense icon             title="{title_for_contact(c)}"             color="{color_for_contact(c)}"             style="{style_for_symbol(c.action)}">
     function create_default_slot$4(ctx) {
-    	let t0_value = /*symbol_for_action*/ ctx[5](/*c*/ ctx[14].action) + "";
-    	let t0;
-    	let t1;
+    	let t_value = /*symbol_for_action*/ ctx[6](/*c*/ ctx[17].action) + "";
+    	let t;
 
     	const block = {
     		c: function create() {
-    			t0 = text(t0_value);
-    			t1 = space();
+    			t = text(t_value);
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, t0, anchor);
-    			insert_dev(target, t1, anchor);
+    			insert_dev(target, t, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*$stored_match*/ 2 && t0_value !== (t0_value = /*symbol_for_action*/ ctx[5](/*c*/ ctx[14].action) + "")) set_data_dev(t0, t0_value);
+    			if (dirty & /*$stored_match*/ 4 && t_value !== (t_value = /*symbol_for_action*/ ctx[6](/*c*/ ctx[17].action) + "")) set_data_dev(t, t_value);
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(t0);
-    			if (detaching) detach_dev(t1);
+    			if (detaching) detach_dev(t);
     		}
     	};
 
@@ -4795,14 +4795,14 @@ var bundle = (function () {
     		block,
     		id: create_default_slot$4.name,
     		type: "slot",
-    		source: "(142:4) <Button unelevated dense icon             title=\\\"{title_for_contact(c)}\\\"             color=\\\"{color_for_contact(c)}\\\"             style=\\\"{style_for_symbol(c.action)}\\\">",
+    		source: "(161:4) <Button unelevated dense icon             title=\\\"{title_for_contact(c)}\\\"             color=\\\"{color_for_contact(c)}\\\"             style=\\\"{style_for_symbol(c.action)}\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (141:2) {#each rally.contacts as c}
+    // (160:2) {#each rally.contacts as c}
     function create_each_block_2$2(ctx) {
     	let button;
     	let current;
@@ -4812,9 +4812,9 @@ var bundle = (function () {
     				unelevated: true,
     				dense: true,
     				icon: true,
-    				title: /*title_for_contact*/ ctx[3](/*c*/ ctx[14]),
-    				color: /*color_for_contact*/ ctx[4](/*c*/ ctx[14]),
-    				style: /*style_for_symbol*/ ctx[6](/*c*/ ctx[14].action),
+    				title: /*title_for_contact*/ ctx[4](/*c*/ ctx[17]),
+    				color: /*color_for_contact*/ ctx[5](/*c*/ ctx[17]),
+    				style: /*style_for_symbol*/ ctx[7](/*c*/ ctx[17].action),
     				$$slots: { default: [create_default_slot$4] },
     				$$scope: { ctx }
     			},
@@ -4831,11 +4831,11 @@ var bundle = (function () {
     		},
     		p: function update(ctx, dirty) {
     			const button_changes = {};
-    			if (dirty & /*$stored_match*/ 2) button_changes.title = /*title_for_contact*/ ctx[3](/*c*/ ctx[14]);
-    			if (dirty & /*$stored_match*/ 2) button_changes.color = /*color_for_contact*/ ctx[4](/*c*/ ctx[14]);
-    			if (dirty & /*$stored_match*/ 2) button_changes.style = /*style_for_symbol*/ ctx[6](/*c*/ ctx[14].action);
+    			if (dirty & /*$stored_match*/ 4) button_changes.title = /*title_for_contact*/ ctx[4](/*c*/ ctx[17]);
+    			if (dirty & /*$stored_match*/ 4) button_changes.color = /*color_for_contact*/ ctx[5](/*c*/ ctx[17]);
+    			if (dirty & /*$stored_match*/ 4) button_changes.style = /*style_for_symbol*/ ctx[7](/*c*/ ctx[17].action);
 
-    			if (dirty & /*$$scope, $stored_match*/ 131074) {
+    			if (dirty & /*$$scope, $stored_match*/ 1048580) {
     				button_changes.$$scope = { dirty, ctx };
     			}
 
@@ -4859,18 +4859,18 @@ var bundle = (function () {
     		block,
     		id: create_each_block_2$2.name,
     		type: "each",
-    		source: "(141:2) {#each rally.contacts as c}",
+    		source: "(160:2) {#each rally.contacts as c}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (140:2) {#each $stored_match.sets[set_n-1].rallies as rally}
+    // (158:2) {#each $stored_match.sets[set_n-1].rallies as rally}
     function create_each_block_1$2(ctx) {
-    	let each_1_anchor;
+    	let span;
     	let current;
-    	let each_value_2 = /*rally*/ ctx[11].contacts;
+    	let each_value_2 = /*rally*/ ctx[14].contacts;
     	validate_each_argument(each_value_2);
     	let each_blocks = [];
 
@@ -4884,23 +4884,28 @@ var bundle = (function () {
 
     	const block = {
     		c: function create() {
+    			span = element("span");
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
-    			each_1_anchor = empty();
+    			attr_dev(span, "class", "rally svelte-1xcm9xy");
+    			toggle_class(span, "collapsed", /*is_collapsed*/ ctx[1][/*set_n*/ ctx[11]]);
+    			add_location(span, file$7, 158, 2, 4157);
     		},
     		m: function mount(target, anchor) {
+    			insert_dev(target, span, anchor);
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(target, anchor);
+    				each_blocks[i].m(span, null);
     			}
 
-    			insert_dev(target, each_1_anchor, anchor);
     			current = true;
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*title_for_contact, $stored_match, Array, color_for_contact, style_for_symbol, symbol_for_action*/ 122) {
-    				each_value_2 = /*rally*/ ctx[11].contacts;
+    			if (dirty & /*title_for_contact, $stored_match, Array, color_for_contact, style_for_symbol, symbol_for_action*/ 244) {
+    				each_value_2 = /*rally*/ ctx[14].contacts;
     				validate_each_argument(each_value_2);
     				let i;
 
@@ -4914,7 +4919,7 @@ var bundle = (function () {
     						each_blocks[i] = create_each_block_2$2(child_ctx);
     						each_blocks[i].c();
     						transition_in(each_blocks[i], 1);
-    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
+    						each_blocks[i].m(span, null);
     					}
     				}
 
@@ -4925,6 +4930,10 @@ var bundle = (function () {
     				}
 
     				check_outros();
+    			}
+
+    			if (dirty & /*is_collapsed, Array, $stored_match*/ 6) {
+    				toggle_class(span, "collapsed", /*is_collapsed*/ ctx[1][/*set_n*/ ctx[11]]);
     			}
     		},
     		i: function intro(local) {
@@ -4946,8 +4955,8 @@ var bundle = (function () {
     			current = false;
     		},
     		d: function destroy(detaching) {
+    			if (detaching) detach_dev(span);
     			destroy_each(each_blocks, detaching);
-    			if (detaching) detach_dev(each_1_anchor);
     		}
     	};
 
@@ -4955,18 +4964,18 @@ var bundle = (function () {
     		block,
     		id: create_each_block_1$2.name,
     		type: "each",
-    		source: "(140:2) {#each $stored_match.sets[set_n-1].rallies as rally}",
+    		source: "(158:2) {#each $stored_match.sets[set_n-1].rallies as rally}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (134:0) {#each Array($stored_match.sets.length).fill(0).map((v,i)=>i+1).reverse() as set_n}
+    // (153:0) {#each Array($stored_match.sets.length).fill(0).map((v,i)=>i+1).reverse() as set_n}
     function create_each_block$2(ctx) {
     	let if_block_anchor;
     	let current;
-    	let if_block = /*set_n*/ ctx[8] - 1 <= /*set_index*/ ctx[0] && /*$stored_match*/ ctx[1].sets[/*set_n*/ ctx[8] - 1] && create_if_block$2(ctx);
+    	let if_block = /*set_n*/ ctx[11] - 1 <= /*set_index*/ ctx[0] && /*$stored_match*/ ctx[2].sets[/*set_n*/ ctx[11] - 1] && create_if_block$2(ctx);
 
     	const block = {
     		c: function create() {
@@ -4979,11 +4988,11 @@ var bundle = (function () {
     			current = true;
     		},
     		p: function update(ctx, dirty) {
-    			if (/*set_n*/ ctx[8] - 1 <= /*set_index*/ ctx[0] && /*$stored_match*/ ctx[1].sets[/*set_n*/ ctx[8] - 1]) {
+    			if (/*set_n*/ ctx[11] - 1 <= /*set_index*/ ctx[0] && /*$stored_match*/ ctx[2].sets[/*set_n*/ ctx[11] - 1]) {
     				if (if_block) {
     					if_block.p(ctx, dirty);
 
-    					if (dirty & /*$stored_match, set_index*/ 3) {
+    					if (dirty & /*$stored_match, set_index*/ 5) {
     						transition_in(if_block, 1);
     					}
     				} else {
@@ -5021,7 +5030,7 @@ var bundle = (function () {
     		block,
     		id: create_each_block$2.name,
     		type: "each",
-    		source: "(134:0) {#each Array($stored_match.sets.length).fill(0).map((v,i)=>i+1).reverse() as set_n}",
+    		source: "(153:0) {#each Array($stored_match.sets.length).fill(0).map((v,i)=>i+1).reverse() as set_n}",
     		ctx
     	});
 
@@ -5031,7 +5040,7 @@ var bundle = (function () {
     function create_fragment$7(ctx) {
     	let each_1_anchor;
     	let current;
-    	let each_value = Array(/*$stored_match*/ ctx[1].sets.length).fill(0).map(func).reverse();
+    	let each_value = Array(/*$stored_match*/ ctx[2].sets.length).fill(0).map(func).reverse();
     	validate_each_argument(each_value);
     	let each_blocks = [];
 
@@ -5063,8 +5072,8 @@ var bundle = (function () {
     			current = true;
     		},
     		p: function update(ctx, [dirty]) {
-    			if (dirty & /*class_for_set, $stored_match, Array, title_for_contact, color_for_contact, style_for_symbol, symbol_for_action, set_index*/ 127) {
-    				each_value = Array(/*$stored_match*/ ctx[1].sets.length).fill(0).map(func).reverse();
+    			if (dirty & /*class_for_set, $stored_match, Array, is_collapsed, title_for_contact, color_for_contact, style_for_symbol, symbol_for_action, on_toggle_set, set_index*/ 511) {
+    				each_value = Array(/*$stored_match*/ ctx[2].sets.length).fill(0).map(func).reverse();
     				validate_each_argument(each_value);
     				let i;
 
@@ -5131,7 +5140,7 @@ var bundle = (function () {
     function instance$7($$self, $$props, $$invalidate) {
     	let $stored_match;
     	validate_store(match, "stored_match");
-    	component_subscribe($$self, match, $$value => $$invalidate(1, $stored_match = $$value));
+    	component_subscribe($$self, match, $$value => $$invalidate(2, $stored_match = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots("Transcript", slots, []);
     	let { set_index = 0 } = $$props;
@@ -5232,11 +5241,19 @@ var bundle = (function () {
     		}
     	};
 
+    	const on_toggle_set = n => {
+    		log.debug(`${is_collapsed[n] ? "open" : "collapse"} set ${n}`);
+    		$$invalidate(1, is_collapsed[n] = !is_collapsed[n], is_collapsed);
+    	};
+
+    	let is_collapsed = {};
     	const writable_props = ["set_index"];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<Transcript> was created with unknown prop '${key}'`);
     	});
+
+    	const click_handler = set_n => on_toggle_set(set_n);
 
     	$$self.$$set = $$props => {
     		if ("set_index" in $$props) $$invalidate(0, set_index = $$props.set_index);
@@ -5256,11 +5273,14 @@ var bundle = (function () {
     		color_for_contact,
     		symbol_for_action,
     		style_for_symbol,
+    		on_toggle_set,
+    		is_collapsed,
     		$stored_match
     	});
 
     	$$self.$inject_state = $$props => {
     		if ("set_index" in $$props) $$invalidate(0, set_index = $$props.set_index);
+    		if ("is_collapsed" in $$props) $$invalidate(1, is_collapsed = $$props.is_collapsed);
     	};
 
     	if ($$props && "$$inject" in $$props) {
@@ -5269,12 +5289,15 @@ var bundle = (function () {
 
     	return [
     		set_index,
+    		is_collapsed,
     		$stored_match,
     		class_for_set,
     		title_for_contact,
     		color_for_contact,
     		symbol_for_action,
-    		style_for_symbol
+    		style_for_symbol,
+    		on_toggle_set,
+    		click_handler
     	];
     }
 
@@ -5641,7 +5664,7 @@ var bundle = (function () {
     		c: function create() {
     			td = element("td");
     			create_component(button.$$.fragment);
-    			add_location(td, file$6, 934, 8, 38300);
+    			add_location(td, file$6, 934, 8, 38282);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, td, anchor);
@@ -5708,7 +5731,7 @@ var bundle = (function () {
     				each_blocks[i].c();
     			}
 
-    			add_location(tr, file$6, 932, 6, 38264);
+    			add_location(tr, file$6, 932, 6, 38246);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, tr, anchor);
@@ -5922,7 +5945,7 @@ var bundle = (function () {
     			}
 
     			each1_anchor = empty();
-    			add_location(hr, file$6, 938, 6, 38457);
+    			add_location(hr, file$6, 938, 6, 38439);
     		},
     		m: function mount(target, anchor) {
     			for (let i = 0; i < each_blocks_1.length; i += 1) {
@@ -6060,7 +6083,7 @@ var bundle = (function () {
     			create_component(court.$$.fragment);
     			attr_dev(div, "slot", "activator");
     			set_style(div, "display", "flex");
-    			add_location(div, file$6, 927, 6, 38107);
+    			add_location(div, file$6, 927, 6, 38089);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -6431,7 +6454,7 @@ var bundle = (function () {
     			hr = element("hr");
     			t1 = space();
     			create_component(menuitem.$$.fragment);
-    			add_location(hr, file$6, 986, 6, 40164);
+    			add_location(hr, file$6, 986, 6, 40146);
     		},
     		m: function mount(target, anchor) {
     			for (let i = 0; i < 2; i += 1) {
@@ -6677,7 +6700,7 @@ var bundle = (function () {
     			div = element("div");
     			create_component(button.$$.fragment);
     			attr_dev(div, "slot", "activator");
-    			add_location(div, file$6, 977, 6, 39708);
+    			add_location(div, file$6, 977, 6, 39690);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -6945,15 +6968,15 @@ var bundle = (function () {
     			t12 = space();
     			create_component(jerseypicker.$$.fragment);
     			attr_dev(h2, "class", "svelte-m2ecub");
-    			add_location(h2, file$6, 902, 2, 37203);
+    			add_location(h2, file$6, 902, 2, 37185);
     			attr_dev(div0, "class", "title-bar svelte-m2ecub");
-    			add_location(div0, file$6, 901, 0, 37176);
+    			add_location(div0, file$6, 901, 0, 37158);
     			attr_dev(div1, "class", "widener svelte-m2ecub");
     			add_render_callback(() => /*div1_elementresize_handler*/ ctx[31].call(div1));
-    			add_location(div1, file$6, 922, 2, 37695);
+    			add_location(div1, file$6, 922, 2, 37677);
     			attr_dev(div2, "class", "control-bar svelte-m2ecub");
-    			add_location(div2, file$6, 949, 2, 38756);
-    			add_location(div3, file$6, 921, 0, 37686);
+    			add_location(div2, file$6, 949, 2, 38738);
+    			add_location(div3, file$6, 921, 0, 37668);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -8071,7 +8094,7 @@ var bundle = (function () {
     		specifiers: null
     	};
 
-    	let recording = true; // FIXME: remove?
+    	let recording = true;
     	let specifying = false;
     	let speed_mode = false;
 

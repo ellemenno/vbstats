@@ -90,6 +90,13 @@
       default: return '';
     }
   }
+
+  const on_toggle_set = (n) => {
+    log.debug(`${is_collapsed[n] ? 'open' : 'collapse'} set ${n}`);
+    is_collapsed[n] = !is_collapsed[n];
+  }
+
+  let is_collapsed = {};
 </script>
 
 <style>
@@ -99,6 +106,7 @@
     border-width: 1px;
     padding: 0.25em;
     position: relative;
+    line-height: 3em;
   }
   div.set-bg {
     position: absolute;
@@ -129,15 +137,26 @@
   div.away.set-bg {
     background-color: var(--team-away-rgb);
   }
+  span.rally {
+    background-color: #ffffff33;
+    border-color: #ffffff33;
+    border-radius: 1rem;
+    margin-inline-start: 0.3rem;
+    padding-bottom: 11px;
+    padding-top: 9px;
+  }
+  span.rally.collapsed {
+    display: none;
+  }
 </style>
 
 {#each Array($stored_match.sets.length).fill(0).map((v,i)=>i+1).reverse() as set_n}
 {#if set_n-1 <= set_index && $stored_match.sets[set_n-1]}
 <div class="{class_for_set($stored_match.sets[set_n-1])} set">
   <div class="{class_for_set($stored_match.sets[set_n-1])} set-bg"></div>
-  <Button outlined dense icon color="white" title="Set {set_n}">{set_n}</Button>
-  <span>
+  <Button outlined dense toggle icon color="white" title="Set {set_n}" on:click={()=>on_toggle_set(set_n)}>{set_n}</Button>
   {#each $stored_match.sets[set_n-1].rallies as rally}
+  <span class="rally" class:collapsed={is_collapsed[set_n]}>
   {#each rally.contacts as c}
     <Button unelevated dense icon
             title="{title_for_contact(c)}"
@@ -146,8 +165,8 @@
       {symbol_for_action(c.action)}
     </Button>
   {/each}
-  {/each}
   </span>
+  {/each}
 </div>
 {/if}
 {/each}
