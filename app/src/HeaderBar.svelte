@@ -18,6 +18,7 @@
     position: fixed;
     right: 0;
     top: 0;
+    user-select: none;
     z-index: 20;
   }
   .title {

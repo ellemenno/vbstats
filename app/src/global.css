@@ -125,6 +125,7 @@ h5,
 h6 {
   font-family: var(--heading-font-family);
   margin-bottom: 1rem;
+  user-select: none;
 }
 h1 {
   font-size: 3.00rem;

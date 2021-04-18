@@ -39,7 +39,7 @@
 </style>
 
 <Dialog bind:visible>
-  <div slot="title">Select player jerseys ({jerseys.length})</div>
+  <div style="user-select: none;" slot="title">Select player jerseys ({jerseys.length})</div>
 
   <ul class="numbers">
     {#each (new Array(100).fill(0)) as _,i }
