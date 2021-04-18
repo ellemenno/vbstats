@@ -862,7 +862,7 @@
   let serving_team_picker_visible = false;
 
   let current = { match:$stored_match, set_index:0, rally:null, contact:null, specifiers:null };
-  let recording = true; // FIXME: remove?
+  let recording = true;
   let specifying = false;
   let speed_mode = false;
 
