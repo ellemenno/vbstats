@@ -2,6 +2,7 @@
   "name": "vbstats",
   "version": "0.0.1",
   "scripts": {
+    "postinstall": "patch-package",
     "build": "rollup --failAfterWarnings --config rollup.config.js",
     "build:dev": "BUILD_FOR_DEV=true npm run build",
     "deploy": "npm run build && npm run publish",
@@ -11,6 +12,7 @@
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^11.2.1",
     "@tidyjs/tidy": "^2.1.0",
+    "patch-package": "^6.4.7",
     "rollup": "^2.45.2",
     "rollup-plugin-css-only": "^3.1.0",
     "rollup-plugin-svelte": "^7.0.0",
